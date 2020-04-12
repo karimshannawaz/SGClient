@@ -9,6 +9,7 @@ import client.network.Session;
 public class Client {
 	
 	// new change
+	// new change from website
 
 	public static Session session;
 	public static ClientFrame clientFrame;
