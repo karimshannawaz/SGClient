@@ -7,6 +7,8 @@ import client.network.ClientChannel;
 import client.network.Session;
 
 public class Client {
+	
+	// new change
 
 	public static Session session;
 	public static ClientFrame clientFrame;
