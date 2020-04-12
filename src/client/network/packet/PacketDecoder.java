@@ -7,6 +7,8 @@ import client.order.Menu;
 
 public final class PacketDecoder extends Decoder {
 	
+	public static int menuRequestFix = 0;
+	
 	private static final byte[] SIZES = new byte[256];
 	
 	static {
@@ -17,6 +19,7 @@ public final class PacketDecoder extends Decoder {
 		for (int id = 0; id < SIZES.length; id++)
 			SIZES[id] = -4;
 		SIZES[1] = 2;
+	
 	}
 
 	public PacketDecoder(Session session) {
@@ -25,6 +28,7 @@ public final class PacketDecoder extends Decoder {
 
 	@Override
 	public void decode(InputStream stream) {
+		
 		while (stream.getRemaining() > 0 && session.getChannel().isConnected()) {
 			int packetId = stream.readUnsignedByte();
 			if (packetId >= SIZES.length) {
@@ -76,27 +80,32 @@ public final class PacketDecoder extends Decoder {
 					
 				// Menu sent from server:
 				case 3:
-					Menu.instance.clear();
-					int size = stream.readUnsignedByte();
-					for(int i = 0; i < size; i++) {
-						String itemToString = stream.readString();
-						System.out.println("CLIENT SIDE ITEM RECEIVED: "+itemToString);
-						String tokens[] = itemToString.split("~");
-						int index = Integer.parseInt(tokens[0]);
-						String name = tokens[1];
-						double price = Double.parseDouble(tokens[2]);
-						String desc = tokens[3];
-						int calories = Integer.parseInt(tokens[4]);
-						String allergens = tokens[5];
-						int type = Integer.parseInt(tokens[6]);
-						String ingredients = tokens[7];
-						MItem item = new MItem(name, price, desc, calories, allergens, type, ingredients);
-						item.setIndex(index);
-						Menu.instance.put(index, item);
-						System.out.println("Menu Item: "+Menu.instance.get(index).toString());
+					if(menuRequestFix == 0) {
+						menuRequestFix = 1;
+					}
+					else if(menuRequestFix == 1) {
+						Menu.instance.clear();
+						int size = stream.readUnsignedByte();
+						for(int i = 0; i < size; i++) {
+							String itemToString = stream.readString();
+							System.out.println("CLIENT SIDE ITEM RECEIVED: "+itemToString);
+							String tokens[] = itemToString.split("~");
+							int index = Integer.parseInt(tokens[0]);
+							String name = tokens[1];
+							double price = Double.parseDouble(tokens[2]);
+							String desc = tokens[3];
+							int calories = Integer.parseInt(tokens[4]);
+							String allergens = tokens[5];
+							int type = Integer.parseInt(tokens[6]);
+							String ingredients = tokens[7];
+							MItem item = new MItem(name, price, desc, calories, allergens, type, ingredients);
+							item.setIndex(index);
+							Menu.instance.put(index, item);
+							System.out.println("Menu Item: "+Menu.instance.get(index).toString());
+							menuRequestFix = 0;
+						}
 					}
 					break;
-					
 				default:
 					break;
 			}
