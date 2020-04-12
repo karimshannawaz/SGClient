@@ -2,26 +2,41 @@
  * Dillon McPherson 
  * 
  * creates the GUI for the order screen
- */
+*/
 
 package client.order;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
 
 import client.Client;
 import client.network.packet.PacketDecoder;
 
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import javax.swing.JTextPane;
+import java.awt.Insets;
+import javax.swing.JTabbedPane;
+import java.awt.GridLayout;
+import javax.swing.JToggleButton;
+import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.UIManager;
+import java.awt.Font;
+import java.awt.SystemColor;
+import javax.swing.JTree;
+import java.awt.Point;
+import java.awt.Component;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+
 public class OrderPanel extends JPanel {
 
 	private static final long serialVersionUID = -1338118268945423515L;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -30,38 +45,42 @@ public class OrderPanel extends JPanel {
 		super();
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
-
+		/*
 		//creates entrees button
-		JToggleButton entree_button = new JToggleButton("Entrees");
-		entree_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		entree_button.setBounds(0, 0, 346, 130);
-		add(entree_button);
-
+		JToggleButton entree_button22 = new JToggleButton("Entrees");
+		entree_button22.setVisible(false);
+		entree_button22.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		entree_button22.setBounds(0, 0, 346, 130);
+		add(entree_button22);
+		
 		//creates sides button
-		JToggleButton side_button = new JToggleButton("Sides");
-		side_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		side_button.setBounds(0, 130, 346, 130);
-		add(side_button);
-
+		JToggleButton side_button22 = new JToggleButton("Sides");
+		side_button22.setVisible(false);
+		side_button22.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		side_button22.setBounds(0, 130, 346, 130);
+		add(side_button22);
+		
 		//creates drinks button
-		JToggleButton drink_button = new JToggleButton("Drinks");
-		drink_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		drink_button.setBounds(0, 260, 346, 130);
-		add(drink_button);
-
+		JToggleButton drink_button22 = new JToggleButton("Drinks");
+		drink_button22.setVisible(false);
+		drink_button22.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		drink_button22.setBounds(0, 260, 346, 130);
+		add(drink_button22);
+		
 		//creates desserts button
-		JToggleButton dessert_button = new JToggleButton("Desserts");
-		dessert_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		dessert_button.setBounds(0, 390, 346, 130);
-		add(dessert_button);
-
+		JToggleButton dessert_button22 = new JToggleButton("Desserts");
+		dessert_button22.setVisible(false);
+		dessert_button22.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		dessert_button22.setBounds(0, 390, 346, 130);
+		add(dessert_button22);
+*/
 		//creates a frame to hold the menu items
 		JPanel MenuListFrame = new JPanel();
 		MenuListFrame.setBorder(null);
 		MenuListFrame.setBounds(347, 0, 347, 522);
 		add(MenuListFrame);
 		MenuListFrame.setLayout(null);
-
+		
 		//creates a menu item button
 		JButton item_1 = new JButton("");
 		item_1.setVisible(false);
@@ -120,25 +139,72 @@ public class OrderPanel extends JPanel {
 		JButton previous_page_button = new JButton("Previous page");
 		previous_page_button.setBounds(0, 490, 173, 32);
 		MenuListFrame.add(previous_page_button);
-
+		
 		//creates a frame to hold the order summary
 		JPanel OrderListFrame = new JPanel();
 		OrderListFrame.setBounds(693, 0, 346, 522);
 		add(OrderListFrame);
 		OrderListFrame.setLayout(null);
-
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 0, 346, 522);
 		OrderListFrame.add(scrollPane);
-
-		// textarea that holds the order summary
+		
+		//textfield that holds the order summary
 		JTextArea order_textfield = new JTextArea();
 		order_textfield.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		order_textfield.setEditable(false);
 		order_textfield.setLineWrap(true);
 		order_textfield.setText("Order: ");
 		scrollPane.setViewportView(order_textfield);
-
+		
+		JPanel OrderDetails = new JPanel();
+		OrderDetails.setVisible(false);
+		OrderDetails.setBounds(0, 0, 1039, 520);
+		add(OrderDetails);
+		OrderDetails.setLayout(null);
+		
+		JPanel PictureFrame = new JPanel();
+		PictureFrame.setBounds(0, 0, 518, 520);
+		OrderDetails.add(PictureFrame);
+		PictureFrame.setLayout(null);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 55));
+		textField.setBounds(137, 132, 207, 131);
+		PictureFrame.add(textField);
+		textField.setColumns(10);
+		
+		JPanel OrderSpecificsFrame = new JPanel();
+		OrderSpecificsFrame.setBounds(519, 0, 518, 520);
+		OrderDetails.add(OrderSpecificsFrame);
+		OrderSpecificsFrame.setLayout(null);
+		
+		JPanel OrderTypeFrame = new JPanel();
+		OrderTypeFrame.setBounds(0, 0, 346, 520);
+		add(OrderTypeFrame);
+		OrderTypeFrame.setLayout(null);
+		
+		JToggleButton dessert_button = new JToggleButton("Desserts");
+		dessert_button.setBounds(0, 390, 346, 130);
+		dessert_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		OrderTypeFrame.add(dessert_button);
+		
+		JToggleButton entree_button = new JToggleButton("Entrees");
+		entree_button.setBounds(0, 0, 346, 130);
+		entree_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		OrderTypeFrame.add(entree_button);
+		
+		JToggleButton side_button = new JToggleButton("Sides");
+		side_button.setBounds(0, 130, 346, 130);
+		side_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		OrderTypeFrame.add(side_button);
+		
+		JToggleButton drink_button = new JToggleButton("Drinks");
+		drink_button.setBounds(0, 260, 346, 130);
+		drink_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		OrderTypeFrame.add(drink_button);
+		
 		//displays first 7 entrees when entree button is clicked
 		entree_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,7 +217,7 @@ public class OrderPanel extends JPanel {
 					item_5.setVisible(false);
 					item_6.setVisible(false);
 					item_7.setVisible(false);
-
+					
 					item_1.setText("Juicy Lucy Burger");
 					item_2.setText("Cheeseburger");
 					item_3.setText("Seven Wonders Burger");
@@ -185,7 +251,7 @@ public class OrderPanel extends JPanel {
 					item_5.setVisible(false);
 					item_6.setVisible(false);
 					item_7.setVisible(false);
-
+					
 					item_1.setText("Salad");
 					item_2.setText("Fries");
 					item_3.setText("Wings");
@@ -203,7 +269,7 @@ public class OrderPanel extends JPanel {
 					item_5.setVisible(false);
 					item_6.setVisible(false);
 					item_7.setVisible(false);
-
+					
 					side_button.setSelected(false);
 				}
 			}
@@ -220,7 +286,7 @@ public class OrderPanel extends JPanel {
 					item_5.setVisible(false);
 					item_6.setVisible(false);
 					item_7.setVisible(false);
-
+					
 					item_1.setText("Coke");
 					entree_button.setSelected(false);
 					side_button.setSelected(false);
@@ -235,7 +301,7 @@ public class OrderPanel extends JPanel {
 					item_5.setVisible(false);
 					item_6.setVisible(false);
 					item_7.setVisible(false);
-
+					
 					drink_button.setSelected(false);
 				}
 			}
@@ -252,7 +318,7 @@ public class OrderPanel extends JPanel {
 					item_5.setVisible(false);
 					item_6.setVisible(false);
 					item_7.setVisible(false);
-
+					
 					item_1.setText("Shake");
 					entree_button.setSelected(false);
 					side_button.setSelected(false);
@@ -274,15 +340,15 @@ public class OrderPanel extends JPanel {
 		//displays next 7 items when next page button is clicked
 		next_page_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//	if (next_page_button.isClicked())
+			//	if (next_page_button.isClicked())
 				//{
-				item_1.setVisible(true);
-				item_2.setVisible(true);
-				item_3.setVisible(true);
-				item_4.setVisible(true);
-				item_5.setVisible(true);
-				item_6.setVisible(true);
-				item_7.setVisible(true);
+					item_1.setVisible(true);
+					item_2.setVisible(true);
+					item_3.setVisible(true);
+					item_4.setVisible(true);
+					item_5.setVisible(true);
+					item_6.setVisible(true);
+					item_7.setVisible(true);
 				//}
 				//else
 				/*{
@@ -299,8 +365,8 @@ public class OrderPanel extends JPanel {
 		//displays previous 7 items when previous page button is clicked
 		previous_page_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//	if (dessert_button.isSelected())
-				/*	{
+			//	if (dessert_button.isSelected())
+			/*	{
 					item_1.setVisible(true);
 					item_2.setVisible(true);
 					item_3.setVisible(true);
@@ -309,23 +375,39 @@ public class OrderPanel extends JPanel {
 					item_6.setVisible(true);
 					item_7.setVisible(true);
 				} */
-				//	else
+			//	else
 				//{
-				item_1.setVisible(false);
-				item_2.setVisible(false);
-				item_3.setVisible(false);
-				item_4.setVisible(false);
-				item_5.setVisible(false);
-				item_6.setVisible(false);
-				item_7.setVisible(false);
-				//	}
+					item_1.setVisible(false);
+					item_2.setVisible(false);
+					item_3.setVisible(false);
+					item_4.setVisible(false);
+					item_5.setVisible(false);
+					item_6.setVisible(false);
+					item_7.setVisible(false);
+			//	}
 			}
 		});	
-
-
+		
+		item_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					String text = order_textfield.getText();			
+					String text2 = item_1.getText();
+					order_textfield.setText(text+"\n\t"+text2);
+			}
+		});	
+		
+		item_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OrderTypeFrame.setVisible(false);
+				OrderListFrame.setVisible(false);
+				MenuListFrame.setVisible(false);
+				OrderDetails.setVisible(true);
+				
+					
+			}
+		});		
 	}
-
-
+	
 	public void getMenuItems() {
 		Client.session.getPacketEncoder().requestMenu();
 		try {
@@ -340,4 +422,3 @@ public class OrderPanel extends JPanel {
 		}
 	}
 }
-
