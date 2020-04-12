@@ -290,6 +290,8 @@ public class CustomerStartPage extends JPanel {
 				break;
 			case "order":
 				this.orderPanel.setVisible(true);
+				this.orderPanel.getMenuItems();
+				
 				break;
 			case "pay":
 				this.payPanel.setVisible(true);
