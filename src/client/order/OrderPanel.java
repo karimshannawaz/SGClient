@@ -131,7 +131,7 @@ public class OrderPanel extends JPanel {
 		scrollPane.setBounds(0, 0, 346, 522);
 		OrderListFrame.add(scrollPane);
 
-		//textfield that holds the order summary
+		// textarea that holds the order summary
 		JTextArea order_textfield = new JTextArea();
 		order_textfield.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		order_textfield.setEditable(false);
