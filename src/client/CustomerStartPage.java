@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import client.games.GamePanel;
 import client.games.GuessTheNumber;
 import client.games.RockPaperScissors;
+import client.order.MItem;
+import client.order.Menu;
 import client.order.MenuPanel;
 import client.order.PayPanel;
 import client.rewards.RewardsPanel;
@@ -291,7 +293,6 @@ public class CustomerStartPage extends JPanel {
 			case "order":
 				this.orderPanel.setVisible(true);
 				this.orderPanel.getMenuItems();
-				
 				break;
 			case "pay":
 				this.payPanel.setVisible(true);
