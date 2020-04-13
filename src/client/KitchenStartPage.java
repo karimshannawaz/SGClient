@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,6 +32,10 @@ import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JList;
 
 
 
@@ -38,6 +44,7 @@ public class KitchenStartPage extends JPanel {
 	private static final long serialVersionUID = -8112480994553957L;
 	
 	public static String currentScreen = "";
+	public JTable table;
 
 	public KitchenStartPage(ClientFrame frame) {
 		super();
@@ -83,10 +90,45 @@ public class KitchenStartPage extends JPanel {
 		lblOrdStatus.setBounds(876, 0, 163, 63);
 		add(lblOrdStatus);
 		
+		JTable table = new JTable();
+		table.setRowSelectionAllowed(false);
+		table.setFillsViewportHeight(true);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		table.setBounds(336, 68, 703, 588);
+		add(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				
+			},
+			new String[] {
+				"Table Number", "Order", "Status"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(163);
+		table.getColumnModel().getColumn(1).setPreferredWidth(377);
+		table.getColumnModel().getColumn(1).setMinWidth(59);
+		table.getColumnModel().getColumn(2).setPreferredWidth(163);
+	
+		
+	}
+	
+	public void updateTable() {
+		//still working on this section
+		DefaultTableModel update = (DefaultTableModel) table.getModel();
+		
+		//List<String> temp = new ArrayList<String>();
+		//temp.add("Jucy Lucy");
 	}
 	
 	public void callWaitstaff() {
-
+		updateTable();
 		
 	};
 	

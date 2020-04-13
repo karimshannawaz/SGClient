@@ -88,7 +88,6 @@ public final class PacketDecoder extends Decoder {
 						int size = stream.readUnsignedByte();
 						for(int i = 0; i < size; i++) {
 							String itemToString = stream.readString();
-							System.out.println("CLIENT SIDE ITEM RECEIVED: "+itemToString);
 							String tokens[] = itemToString.split("~");
 							int index = Integer.parseInt(tokens[0]);
 							String name = tokens[1];
@@ -102,7 +101,6 @@ public final class PacketDecoder extends Decoder {
 							MItem item = new MItem(name, price, desc, calories, allergens, type, menuType, ingredients);
 							item.setIndex(index);
 							Menu.instance.put(index, item);
-							System.out.println("Menu Item: "+Menu.instance.get(index).toString());
 							menuRequestFix = 0;
 						}
 					}
