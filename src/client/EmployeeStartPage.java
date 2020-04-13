@@ -13,21 +13,26 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
-import javax.swing.JButton;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import client.games.GamePanel;
-import client.games.GuessTheNumber;
-import client.games.RockPaperScissors;
-import client.order.MenuPanel;
-import client.order.PayPanel;
-import client.rewards.RewardsPanel;
-import javazoom.jl.player.Player;
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import java.awt.GridLayout;
+import org.jvnet.substance.SubstanceLookAndFeel;
+
+import client.utils.Constants;
 
 
 
@@ -36,10 +41,13 @@ public class EmployeeStartPage extends JPanel {
 	private static final long serialVersionUID = -8112480994553957L;
 
 	private JTextField empID;
-
-	
+	private JPanel LoginBackground;
+	public static EmployeeStartPage instance;
 	public static String currentScreen = "";
 	private JTextField empPass;
+	
+	public WaitstaffStartPage wait;
+	
 	
 
 	public EmployeeStartPage(ClientFrame frame) {
@@ -47,38 +55,43 @@ public class EmployeeStartPage extends JPanel {
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
 		
+		LoginBackground = new JPanel();
+		LoginBackground.setLayout(null);
+		LoginBackground.setBounds(0, 0, 1039, 656);
+		add(LoginBackground);
+		
 		JLabel lblNewLabel = new JLabel("Employee Login");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblNewLabel.setBounds(420, 64, 200, 47);
-		add(lblNewLabel);
+		LoginBackground.add(lblNewLabel);
 		
 		JLabel lblEmployeeID = new JLabel("Employee ID:");
 		lblEmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblEmployeeID.setBounds(187, 153, 143, 47);
-		add(lblEmployeeID);
+		LoginBackground.add(lblEmployeeID);
 		
 		empID = new JTextField();
 		
 		empID.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		empID.setBounds(398, 153, 426, 47);
-		add(empID);
+		LoginBackground.add(empID);
 		empID.setColumns(10);
 		
 		JLabel lblEmpPassword = new JLabel("Password:");
 		lblEmpPassword.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblEmpPassword.setBounds(187, 287, 141, 26);
-		add(lblEmpPassword);
+		LoginBackground.add(lblEmpPassword);
 		
 		empPass = new JTextField();
 		empPass.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		empPass.setBounds(398, 279, 426, 47);
-		add(empPass);
+		LoginBackground.add(empPass);
 		empPass.setColumns(10);
 		
 		JButton sendInfo = new JButton("Enter");
 		sendInfo.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		sendInfo.setBounds(449, 390, 141, 35);
-		add(sendInfo);
+		LoginBackground.add(sendInfo);
 		sendInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				submitEmpInfo();
@@ -86,7 +99,17 @@ public class EmployeeStartPage extends JPanel {
 		});
 	}
 	
-	protected void submitEmpInfo() {
-		
+
+
+protected void submitEmpInfo() {
+	if( empID.getText().compareTo("WAITER")==0) {
+		waiterLandingPage();
 	}
+}
+private void waiterLandingPage() {
+	LoginBackground.setVisible(false);
+	//trying to open the waitstaff page
+}
+
+
 }

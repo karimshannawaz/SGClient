@@ -19,72 +19,129 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import client.games.GamePanel;
-import client.games.GuessTheNumber;
-import client.games.RockPaperScissors;
 import client.order.MenuPanel;
 import client.order.PayPanel;
-import client.rewards.RewardsPanel;
-import javazoom.jl.player.Player;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 
 
-
 public class WaitstaffStartPage extends JPanel {
 
 	private static final long serialVersionUID = -8112480994553957L;
-
-	private JTextField empID;
-
 	
 	public static String currentScreen = "";
-	private JTextField empPass;
+	public JButton OrderBtn;
+	public JButton CompBtn;
+	public JButton backBtn;
+	public JButton PayBtn;
+	public JPanel mainPanel;
+	public JPanel utilityPanel;
+	public PayPanel payPanel;
+	public MenuPanel orderPanel;
 	
 
-	public WaitstaffStartPage(ClientFrame frame) {
+
+	public WaitstaffStartPage(EmployeeStartPage employeeStartPage) {
 		super();
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Employee Login");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		lblNewLabel.setBounds(420, 64, 200, 47);
-		add(lblNewLabel);
+		mainPanel = new JPanel();
+		mainPanel.setBounds(0, 0, 1039, 656);
+		add(mainPanel);
+		mainPanel.setLayout(null);
 		
-		JLabel lblEmployeeID = new JLabel("Employee ID:");
-		lblEmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblEmployeeID.setBounds(187, 153, 143, 47);
-		add(lblEmployeeID);
+		utilityPanel = new JPanel();
+		utilityPanel.setBounds(0, 523, 1039, 133);
+		add(utilityPanel);
+		utilityPanel.setLayout(null);
 		
-		empID = new JTextField();
-		
-		empID.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		empID.setBounds(398, 153, 426, 47);
-		add(empID);
-		empID.setColumns(10);
-		
-		JLabel lblEmpPassword = new JLabel("Password:");
-		lblEmpPassword.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblEmpPassword.setBounds(187, 287, 141, 26);
-		add(lblEmpPassword);
-		
-		empPass = new JTextField();
-		empPass.setBounds(398, 279, 426, 47);
-		add(empPass);
-		empPass.setColumns(10);
-		
-		JButton sendInfo = new JButton("Enter");
-		sendInfo.setBounds(449, 390, 141, 35);
-		add(sendInfo);
-		sendInfo.addActionListener(new ActionListener() {
+		JButton OrderBtn = new JButton("Order");
+		OrderBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		OrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				submitEmpInfo();
+				openScreen("order");
 			}
 		});
+		
+		JButton CompBtn = new JButton("Compensate");
+		CompBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		CompBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		CompBtn.setBounds(0, 394, 374, 262);
+		mainPanel.add(CompBtn);
+		
+		JButton PayBtn = new JButton("Pay");
+		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		PayBtn.setBounds(187, 0, 187, 392);
+		mainPanel.add(PayBtn);
+		OrderBtn.setBounds(0, 0, 187, 392);
+		mainPanel.add(OrderBtn);
+		
+		
+		backBtn = new JButton("Back");
+		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));
+		backBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				back((currentScreen.equals("rps") || currentScreen.equals("gtn")) ? true : false);
+			}
+		});
+		backBtn.setBounds(37, 5, 131, 77);
+		
+		this.orderPanel = new MenuPanel();
+		orderPanel.setVisible(false);
+		add(orderPanel);
+
+
+		this.payPanel = new PayPanel();
+		add(payPanel);
+		payPanel.setVisible(false);
 	}
+
+public void openScreen(String type) {
 	
-	protected void submitEmpInfo() {
+	this.mainPanel.setVisible(false);
+	this.OrderBtn.setVisible(false);
+	this.CompBtn.setVisible(false);
+	this.PayBtn.setVisible(false);
+	this.backBtn.setVisible(true);
+	currentScreen = ""+type;
+	switch(type) {
+		case "order":
+			this.utilityPanel.setVisible(true);
+			this.orderPanel.setVisible(true);
+			this.orderPanel.getMenuItems();
+			
+			break;
+		case "pay":
+			this.utilityPanel.setVisible(true);
+			this.payPanel.setVisible(true);
+			break;
+	}
+}
+
+protected void back(boolean exception) {
+	switch(currentScreen) {
+		case "order":
+			this.orderPanel.setVisible(false);
+			break;
+		case "pay":
+			this.payPanel.setVisible(false);
+			break;
 		
 	}
+	if(!exception) {
+		this.PayBtn.setVisible(true);
+		this.OrderBtn.setVisible(true);
+		this.CompBtn.setVisible(true);
+		this.mainPanel.setVisible(true);
+		this.backBtn.setVisible(false);
+		this.utilityPanel.setVisible(false);
+		currentScreen = "";
+	}
+}
+
 }
