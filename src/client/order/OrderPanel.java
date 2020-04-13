@@ -61,6 +61,7 @@ public class OrderPanel extends JPanel {
 		
 		//creates a menu item button
 		JButton item_1 = new JButton("");
+		item_1.setEnabled(true);
 		item_1.setVisible(false);
 		item_1.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		item_1.setBounds(0, 0, 347, 70);
