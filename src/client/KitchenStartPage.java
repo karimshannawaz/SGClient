@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -113,24 +114,17 @@ public class KitchenStartPage extends JPanel {
 		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(163);
 		table.getColumnModel().getColumn(1).setPreferredWidth(377);
-		table.getColumnModel().getColumn(1).setMinWidth(59);
 		table.getColumnModel().getColumn(2).setPreferredWidth(163);
 	
-		
 	}
 	
 	public void updateTable() {
 		//still working on this section
-		DefaultTableModel update = (DefaultTableModel) table.getModel();
-		
-		//List<String> temp = new ArrayList<String>();
-		//temp.add("Jucy Lucy");
 	}
 	
 	public void callWaitstaff() {
-		updateTable();
 		
-	};
+	}
 	
 	public void callManager() {
 		
