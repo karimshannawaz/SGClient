@@ -28,6 +28,8 @@ import javazoom.jl.player.Player;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
+import javax.swing.JTable;
+import javax.swing.JSplitPane;
 
 
 
@@ -89,5 +91,5 @@ public class KitchenStartPage extends JPanel {
 	
 	public void callManager() {
 		
-	};
+	}
 }

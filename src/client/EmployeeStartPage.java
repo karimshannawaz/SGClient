@@ -49,6 +49,7 @@ public class EmployeeStartPage extends JPanel{
 	private JTextField empPass;
 	
 	public WaitstaffStartPage WaitstaffPage;
+	public KitchenStartPage KitchenPage;
 	
 	JFrame frame = new JFrame();
 
@@ -103,6 +104,10 @@ public class EmployeeStartPage extends JPanel{
 		this.WaitstaffPage = new WaitstaffStartPage(null);
 		WaitstaffPage.setVisible(false);
 		add(WaitstaffPage);
+		
+		this.KitchenPage = new KitchenStartPage(null);
+		KitchenPage.setVisible(false);
+		add(KitchenPage);
 	}
 	
 
@@ -111,10 +116,18 @@ protected void submitEmpInfo() {
 	if( empID.getText().compareTo("WAITER")==0) {
 		waiterLandingPage();
 	}
+	else if(empID.getText().compareTo("KITCHEN")==0) {
+		kitchenLandingPage();
+	}
 }
 private void waiterLandingPage() {
 	LoginBackground.setVisible(false);
 	this.WaitstaffPage.setVisible(true);
+}
+
+private void kitchenLandingPage() {
+	LoginBackground.setVisible(false);
+	this.KitchenPage.setVisible(true);
 }
 
 }
