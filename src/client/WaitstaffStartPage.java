@@ -153,11 +153,13 @@ public void openScreen(String type) {
 	currentScreen = ""+type;
 	switch(type) {
 		case "order":
+			//take table number
 			this.orderPanel.setVisible(true);
 			this.utilityPanel.setVisible(true);
 			this.orderPanel.getMenuItems();
 			break;
 		case "pay":
+			//take table number
 			this.payPanel.setVisible(true);
 			this.utilityPanel.setVisible(true);
 			break;
