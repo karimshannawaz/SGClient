@@ -78,6 +78,8 @@ public class WaitstaffStartPage extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		OrderBtn.setBounds(0, 0, 187, 392);
+		mainPanel.add(OrderBtn);
 		CompBtn.setBounds(0, 394, 374, 262);
 		mainPanel.add(CompBtn);
 		
@@ -85,8 +87,12 @@ public class WaitstaffStartPage extends JPanel {
 		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		PayBtn.setBounds(187, 0, 187, 392);
 		mainPanel.add(PayBtn);
-		OrderBtn.setBounds(0, 0, 187, 392);
-		mainPanel.add(OrderBtn);
+		PayBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				openScreen("pay");
+			}
+		});
+		
 		
 		
 		backBtn = new JButton("Back");
@@ -144,15 +150,17 @@ public void openScreen(String type) {
 	this.CompBtn.setVisible(false);
 	this.PayBtn.setVisible(false);
 	this.backBtn.setVisible(true);
-	this.orderPanel.setVisible(true);
+
 	currentScreen = ""+type;
 	switch(type) {
 		case "order":
+			this.orderPanel.setVisible(true);
 			this.utilityPanel.setVisible(true);
 			this.orderPanel.getMenuItems();
 			break;
 		case "pay":
 			this.payPanel.setVisible(true);
+			this.utilityPanel.setVisible(true);
 			break;
 	}
 }
