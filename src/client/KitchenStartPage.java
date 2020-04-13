@@ -91,7 +91,7 @@ public class KitchenStartPage extends JPanel {
 		lblOrdStatus.setBounds(876, 0, 163, 63);
 		add(lblOrdStatus);
 		
-		JTable table = new JTable();
+		table = new JTable();
 		table.setRowSelectionAllowed(false);
 		table.setFillsViewportHeight(true);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -115,11 +115,15 @@ public class KitchenStartPage extends JPanel {
 		table.getColumnModel().getColumn(0).setPreferredWidth(163);
 		table.getColumnModel().getColumn(1).setPreferredWidth(377);
 		table.getColumnModel().getColumn(2).setPreferredWidth(163);
-	
+		
+		DefaultTableModel update = (DefaultTableModel) table.getModel();
+		update.addRow(new Object[] {new Integer(5),"Juicy Lucy",new Boolean(false)});
+		
 	}
 	
 	public void updateTable() {
 		//still working on this section
+		
 	}
 	
 	public void callWaitstaff() {
