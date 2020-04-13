@@ -70,11 +70,13 @@ public class EmployeeStartPage extends JPanel {
 		add(lblEmpPassword);
 		
 		empPass = new JTextField();
+		empPass.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		empPass.setBounds(398, 279, 426, 47);
 		add(empPass);
 		empPass.setColumns(10);
 		
 		JButton sendInfo = new JButton("Enter");
+		sendInfo.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		sendInfo.setBounds(449, 390, 141, 35);
 		add(sendInfo);
 		sendInfo.addActionListener(new ActionListener() {
