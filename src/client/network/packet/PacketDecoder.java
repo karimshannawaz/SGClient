@@ -97,8 +97,9 @@ public final class PacketDecoder extends Decoder {
 							int calories = Integer.parseInt(tokens[4]);
 							String allergens = tokens[5];
 							int type = Integer.parseInt(tokens[6]);
-							String ingredients = tokens[7];
-							MItem item = new MItem(name, price, desc, calories, allergens, type, ingredients);
+							String menuType = tokens[7];
+							String ingredients = tokens[8];
+							MItem item = new MItem(name, price, desc, calories, allergens, type, menuType, ingredients);
 							item.setIndex(index);
 							Menu.instance.put(index, item);
 							System.out.println("Menu Item: "+Menu.instance.get(index).toString());

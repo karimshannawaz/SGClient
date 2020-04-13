@@ -26,6 +26,7 @@ public class ClientFrame extends JFrame {
 	public static ClientFrame instance;
 	
 	public CustomerStartPage panel;
+	public EmployeeStartPage gates;
 
 	public ClientFrame() {
 		setTitle(Constants.NAME);
@@ -98,7 +99,9 @@ public class ClientFrame extends JFrame {
 	}
 
 	private void employeeLandingPage() {
-		Client.restart();
+		welcomeBackground.setVisible(false);
+		gates = new EmployeeStartPage(this);
+		setContentPane(gates);
 	}
 
 	private void customerLandingPage() {
