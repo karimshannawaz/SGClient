@@ -125,8 +125,6 @@ public class KitchenStartPage extends JPanel {
 		
 		//List<String> temp = new ArrayList<String>();
 		//temp.add("Jucy Lucy");
-		
-		update.addRow(new Object[]{new Integer(5),"jucy lucy","false"});
 	}
 	
 	public void callWaitstaff() {
