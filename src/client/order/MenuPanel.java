@@ -6,35 +6,25 @@
 
 package client.order;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+
 // Test by dillon
 
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 import client.Client;
 import client.network.packet.PacketDecoder;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JTextPane;
-import java.awt.Insets;
-import javax.swing.JTabbedPane;
-import java.awt.GridLayout;
-import javax.swing.JToggleButton;
-import javax.swing.JTextField;
-import java.awt.Color;
-import javax.swing.UIManager;
-import java.awt.Font;
-import java.awt.SystemColor;
-import javax.swing.JTree;
-import java.awt.Point;
-import java.awt.Component;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
 
 public class MenuPanel extends JPanel {
 
@@ -46,6 +36,13 @@ public class MenuPanel extends JPanel {
 	private JTextField ingredient_3;
 	private JTextField ingredient_4;
 	private JTextField ingredien_5;
+	
+	public List<JButton> entreesFM = new ArrayList<JButton>();
+	public List<JButton> sidesFM = new ArrayList<JButton>();
+	public List<JButton> drinksFM = new ArrayList<JButton>();
+	public List<JButton> dessertsFM = new ArrayList<JButton>();
+	
+	public JPanel MenuListFrame;
 
 	/**
 	 * Create the panel.
@@ -58,7 +55,7 @@ public class MenuPanel extends JPanel {
 		MItem item = new MItem();
 		
 		//creates a frame to hold the menu items
-		JPanel MenuListFrame = new JPanel();
+		MenuListFrame = new JPanel();
 		MenuListFrame.setBorder(null);
 		MenuListFrame.setBounds(347, 0, 347, 522);
 		add(MenuListFrame);
@@ -271,8 +268,46 @@ public class MenuPanel extends JPanel {
 		//displays first 7 entrees when entree button is clicked
 		entree_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				if (entree_button.isSelected())
 				{
+					getMenuItems();
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Client.clientFrame.panel.orderPanel.entreesFM.clear();
+					int buttonIndex = 0;
+					for(MItem mItem : Menu.instance.values()) {
+						System.out.println("Mitem is "+mItem.name);
+						if(mItem.menuType.equals("entree")) {
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
+							buttonIndex++;
+							System.out.println("Button worked");
+						}
+					}
+					for(JButton b : entreesFM) {
+						b.setVisible(true);
+					}
+					side_button.setSelected(false);
+					drink_button.setSelected(false);
+					dessert_button.setSelected(false);
+					item_5.setVisible(false);
+					item_6.setVisible(false);
+					item_7.setVisible(false);
+					item_1.setVisible(false);
+					item_2.setVisible(false);
+					item_3.setVisible(false);
+					/*
 					item_1.setVisible(true);
 					item_2.setVisible(true);
 					item_3.setVisible(true);
@@ -288,9 +323,13 @@ public class MenuPanel extends JPanel {
 					side_button.setSelected(false);
 					drink_button.setSelected(false);
 					dessert_button.setSelected(false);
+					*/
 				}
 				else
 				{
+					for(JButton b : entreesFM) {
+						b.setVisible(false);
+					}
 					item_1.setVisible(false);
 					item_2.setVisible(false);
 					item_3.setVisible(false);
@@ -307,6 +346,9 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (side_button.isSelected())
 				{
+					for(JButton b : entreesFM) {
+						b.setVisible(false);
+					}
 					item_1.setVisible(true);
 					item_2.setVisible(true);
 					item_3.setVisible(true);
@@ -325,6 +367,10 @@ public class MenuPanel extends JPanel {
 				}
 				else
 				{
+					for(JButton b : entreesFM) {
+						b.setVisible(false);
+					}
+					
 					item_1.setVisible(false);
 					item_2.setVisible(false);
 					item_3.setVisible(false);
@@ -342,6 +388,9 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (drink_button.isSelected())
 				{
+					for(JButton b : entreesFM) {
+						b.setVisible(false);
+					}
 					item_1.setVisible(true);
 					item_2.setVisible(false);
 					item_3.setVisible(false);
@@ -357,6 +406,9 @@ public class MenuPanel extends JPanel {
 				}
 				else
 				{
+					for(JButton b : entreesFM) {
+						b.setVisible(false);
+					}
 					item_1.setVisible(false);
 					item_2.setVisible(false);
 					item_3.setVisible(false);
@@ -374,6 +426,9 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (dessert_button.isSelected())
 				{
+					for(JButton b : entreesFM) {
+						b.setVisible(false);
+					}
 					item_1.setVisible(true);
 					item_2.setVisible(false);
 					item_3.setVisible(false);
@@ -389,6 +444,9 @@ public class MenuPanel extends JPanel {
 				}
 				else
 				{
+					for(JButton b : entreesFM) {
+						b.setVisible(false);
+					}
 					item_1.setVisible(false);
 					item_2.setVisible(false);
 					item_3.setVisible(false);
@@ -548,6 +606,7 @@ public class MenuPanel extends JPanel {
 			PacketDecoder.menuRequestFix = 0;
 			Thread.sleep(7);
 			Client.session.getPacketEncoder().requestMenu();
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
