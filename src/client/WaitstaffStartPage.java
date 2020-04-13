@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import client.games.GamePanel;
 import client.order.MenuPanel;
 import client.order.PayPanel;
 import javax.swing.JComboBox;
@@ -52,12 +51,20 @@ public class WaitstaffStartPage extends JPanel {
 		add(mainPanel);
 		mainPanel.setLayout(null);
 		
+		this.orderPanel = new MenuPanel();
+		orderPanel.setVisible(false);
+		add(orderPanel);
+
+		this.payPanel = new PayPanel();
+		add(payPanel);
+		payPanel.setVisible(false);
+		
 		utilityPanel = new JPanel();
 		utilityPanel.setBounds(0, 523, 1039, 133);
 		add(utilityPanel);
 		utilityPanel.setLayout(null);
 		
-		JButton OrderBtn = new JButton("Order");
+		OrderBtn = new JButton("Order");
 		OrderBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		OrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -65,7 +72,7 @@ public class WaitstaffStartPage extends JPanel {
 			}
 		});
 		
-		JButton CompBtn = new JButton("Compensate");
+		CompBtn = new JButton("Compensate");
 		CompBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		CompBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,7 +81,7 @@ public class WaitstaffStartPage extends JPanel {
 		CompBtn.setBounds(0, 394, 374, 262);
 		mainPanel.add(CompBtn);
 		
-		JButton PayBtn = new JButton("Pay");
+		PayBtn = new JButton("Pay");
 		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		PayBtn.setBounds(187, 0, 187, 392);
 		mainPanel.add(PayBtn);
@@ -86,21 +93,50 @@ public class WaitstaffStartPage extends JPanel {
 		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));
 		backBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				back((currentScreen.equals("rps") || currentScreen.equals("gtn")) ? true : false);
+				back((true) ? true : false);
 			}
 		});
-		backBtn.setBounds(37, 5, 131, 77);
 		
-		this.orderPanel = new MenuPanel();
-		orderPanel.setVisible(false);
-		add(orderPanel);
-
-
-		this.payPanel = new PayPanel();
-		add(payPanel);
-		payPanel.setVisible(false);
+		backBtn.setBounds(37, 5, 131, 77);
+		utilityPanel.add(backBtn);
+		
+		
 	}
 
+	protected void back(boolean exception) {
+		switch(currentScreen) {
+			case "order":
+				this.orderPanel.setVisible(false);
+				this.PayBtn.setVisible(true);
+				this.OrderBtn.setVisible(true);
+				this.CompBtn.setVisible(true);
+				this.mainPanel.setVisible(true);
+				this.backBtn.setVisible(false);
+				this.utilityPanel.setVisible(false);
+				currentScreen = "";
+				break;
+			case "pay":
+				this.payPanel.setVisible(false);
+				this.PayBtn.setVisible(true);
+				this.OrderBtn.setVisible(true);
+				this.CompBtn.setVisible(true);
+				this.mainPanel.setVisible(true);
+				this.backBtn.setVisible(false);
+				this.utilityPanel.setVisible(false);
+				currentScreen = "";
+				break;
+		}
+		if(!exception) {
+			this.PayBtn.setVisible(true);
+			this.OrderBtn.setVisible(true);
+			this.CompBtn.setVisible(true);
+			this.mainPanel.setVisible(true);
+			this.backBtn.setVisible(false);
+			this.utilityPanel.setVisible(false);
+			currentScreen = "";
+		}
+	}
+	
 public void openScreen(String type) {
 	
 	this.mainPanel.setVisible(false);
@@ -108,39 +144,16 @@ public void openScreen(String type) {
 	this.CompBtn.setVisible(false);
 	this.PayBtn.setVisible(false);
 	this.backBtn.setVisible(true);
+	this.orderPanel.setVisible(true);
 	currentScreen = ""+type;
 	switch(type) {
 		case "order":
 			this.utilityPanel.setVisible(true);
-			this.orderPanel.setVisible(true);
 			this.orderPanel.getMenuItems();
-			
 			break;
 		case "pay":
-			this.utilityPanel.setVisible(true);
 			this.payPanel.setVisible(true);
 			break;
-	}
-}
-
-protected void back(boolean exception) {
-	switch(currentScreen) {
-		case "order":
-			this.orderPanel.setVisible(false);
-			break;
-		case "pay":
-			this.payPanel.setVisible(false);
-			break;
-		
-	}
-	if(!exception) {
-		this.PayBtn.setVisible(true);
-		this.OrderBtn.setVisible(true);
-		this.CompBtn.setVisible(true);
-		this.mainPanel.setVisible(true);
-		this.backBtn.setVisible(false);
-		this.utilityPanel.setVisible(false);
-		currentScreen = "";
 	}
 }
 

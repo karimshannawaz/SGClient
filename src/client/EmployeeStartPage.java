@@ -32,11 +32,13 @@ import javax.swing.JTextField;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
 
+import client.WaitstaffStartPage;
 import client.utils.Constants;
 
 
 
-public class EmployeeStartPage extends JPanel {
+
+public class EmployeeStartPage extends JPanel{
 
 	private static final long serialVersionUID = -8112480994553957L;
 
@@ -46,9 +48,9 @@ public class EmployeeStartPage extends JPanel {
 	public static String currentScreen = "";
 	private JTextField empPass;
 	
-	public WaitstaffStartPage wait;
+	public WaitstaffStartPage WaitstaffPage;
 	
-	
+	JFrame frame = new JFrame();
 
 	public EmployeeStartPage(ClientFrame frame) {
 		super();
@@ -97,6 +99,10 @@ public class EmployeeStartPage extends JPanel {
 				submitEmpInfo();
 			}
 		});
+		
+		this.WaitstaffPage = new WaitstaffStartPage(null);
+		WaitstaffPage.setVisible(false);
+		add(WaitstaffPage);
 	}
 	
 
@@ -108,8 +114,7 @@ protected void submitEmpInfo() {
 }
 private void waiterLandingPage() {
 	LoginBackground.setVisible(false);
-	//trying to open the waitstaff page
+	this.WaitstaffPage.setVisible(true);
 }
-
 
 }
