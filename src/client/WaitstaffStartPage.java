@@ -94,12 +94,11 @@ public class WaitstaffStartPage extends JPanel {
 		});
 		
 		
-		
 		backBtn = new JButton("Back");
 		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));
 		backBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				back((true) ? true : false);
+				back(true);
 			}
 		});
 		
