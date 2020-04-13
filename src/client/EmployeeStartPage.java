@@ -49,33 +49,33 @@ public class EmployeeStartPage extends JPanel {
 		
 		JLabel lblNewLabel = new JLabel("Employee Login");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		lblNewLabel.setBounds(286, 62, 215, 47);
+		lblNewLabel.setBounds(420, 64, 200, 47);
 		add(lblNewLabel);
 		
 		JLabel lblEmployeeID = new JLabel("Employee ID:");
 		lblEmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblEmployeeID.setBounds(82, 153, 143, 47);
+		lblEmployeeID.setBounds(187, 153, 143, 47);
 		add(lblEmployeeID);
 		
 		empID = new JTextField();
 		
 		empID.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		empID.setBounds(299, 153, 426, 47);
+		empID.setBounds(398, 153, 426, 47);
 		add(empID);
 		empID.setColumns(10);
 		
 		JLabel lblEmpPassword = new JLabel("Password:");
 		lblEmpPassword.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblEmpPassword.setBounds(97, 250, 141, 26);
+		lblEmpPassword.setBounds(187, 287, 141, 26);
 		add(lblEmpPassword);
 		
 		empPass = new JTextField();
-		empPass.setBounds(299, 242, 426, 47);
+		empPass.setBounds(398, 279, 426, 47);
 		add(empPass);
 		empPass.setColumns(10);
 		
 		JButton sendInfo = new JButton("Enter");
-		sendInfo.setBounds(320, 330, 141, 35);
+		sendInfo.setBounds(449, 390, 141, 35);
 		add(sendInfo);
 		sendInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
