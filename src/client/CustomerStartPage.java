@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import client.games.GamePanel;
 import client.games.GuessTheNumber;
 import client.games.RockPaperScissors;
-import client.order.OrderPanel;
+import client.order.MenuPanel;
 import client.order.PayPanel;
 import client.rewards.RewardsPanel;
 import javazoom.jl.player.Player;
@@ -50,7 +50,7 @@ public class CustomerStartPage extends JPanel {
 	public JPanel utilityPanel;
 	public JPanel mainPanel;
 	
-	public OrderPanel orderPanel;
+	public MenuPanel orderPanel;
 	public GamePanel gamePanel;
 	public PayPanel payPanel;
 	public RewardsPanel rewardsPanel;
@@ -207,7 +207,7 @@ public class CustomerStartPage extends JPanel {
 		gamesBtn.setBounds(694, 64, 328, 444);
 		mainPanel.add(gamesBtn);
 
-		this.orderPanel = new OrderPanel();
+		this.orderPanel = new MenuPanel();
 		orderPanel.setVisible(false);
 		add(orderPanel);
 

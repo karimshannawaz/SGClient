@@ -36,7 +36,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
-public class OrderPanel extends JPanel {
+public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = -1338118268945423515L;
 	private JTextField textField;
@@ -44,7 +44,7 @@ public class OrderPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public OrderPanel() {
+	public MenuPanel() {
 		super();
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
