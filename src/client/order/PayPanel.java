@@ -71,8 +71,9 @@ public class PayPanel extends JPanel {
 		full_pay_panel.setLayout(null);
 		
 		JTextArea txtrYouPaidFor = new JTextArea();
-		txtrYouPaidFor.setText("YOU paid for the bill in full");
-		txtrYouPaidFor.setBounds(156, 5, 365, 393);
+		txtrYouPaidFor.setFont(new Font("Monospaced", Font.BOLD, 26));
+		txtrYouPaidFor.setText("How would you like to pay the Bill?");
+		txtrYouPaidFor.setBounds(89, 71, 598, 303);
 		full_pay_panel.add(txtrYouPaidFor);
 		
 		FullBtn.addActionListener(new ActionListener()
