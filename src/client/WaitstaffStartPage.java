@@ -56,14 +56,6 @@ public class WaitstaffStartPage extends JPanel {
 		add(mainPanel);
 		mainPanel.setLayout(null);
 		
-		this.orderPanel = new MenuPanel();
-		orderPanel.setVisible(false);
-		add(orderPanel);
-
-		this.payPanel = new PayPanel();
-		add(payPanel);
-		payPanel.setVisible(false);
-		
 		utilityPanel = new JPanel();
 		utilityPanel.setBounds(0, 523, 1039, 133);
 		add(utilityPanel);
@@ -190,14 +182,20 @@ public class WaitstaffStartPage extends JPanel {
 		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));
 		backBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				back(true);
+				back(false);
 			}
 		});
 		
 		backBtn.setBounds(37, 5, 131, 77);
 		utilityPanel.add(backBtn);
 		
+		this.orderPanel = new MenuPanel();
+		orderPanel.setVisible(false);
+		add(orderPanel);
 		
+		this.payPanel = new PayPanel();
+		payPanel.setVisible(false);
+		add(payPanel);
 	}
 
 	protected void back(boolean exception) {
@@ -249,8 +247,9 @@ public void openScreen(String type) {
 		case "order":
 			//take table number
 			this.orderPanel.setVisible(true);
-			this.utilityPanel.setVisible(true);
 			this.orderPanel.getMenuItems();
+			this.utilityPanel.setVisible(true);
+			
 			break;
 		case "pay":
 			//take table number
