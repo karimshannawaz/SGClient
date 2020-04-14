@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import client.order.MenuPanel;
+import client.order.Menu;
+import client.order.MItem;
 import client.order.PayPanel;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
@@ -47,7 +49,7 @@ public class WaitstaffStartPage extends JPanel {
 	
 
 
-	public WaitstaffStartPage(EmployeeStartPage employeeStartPage) {
+	public WaitstaffStartPage(ClientFrame frame){
 		super();
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
@@ -242,21 +244,18 @@ public void openScreen(String type) {
 	this.CompBtn.setVisible(false);
 	this.PayBtn.setVisible(false);
 	this.backBtn.setVisible(true);
-
+	this.utilityPanel.setVisible(true);
 	currentScreen = ""+type;
 	switch(type) {
 		case "order":
 			//take table number
 			this.orderPanel.setVisible(true);
 			this.orderPanel.getMenuItems();
-			this.utilityPanel.setVisible(true);
-			
 			break;
 		case "pay":
 			//take table number
 			this.payPanel.setVisible(true);
-			this.utilityPanel.setVisible(true);
 			break;
+		}
 	}
-}
 }
