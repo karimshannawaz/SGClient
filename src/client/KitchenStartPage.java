@@ -122,10 +122,6 @@ public class KitchenStartPage extends JPanel {
 		
 	}
 	
-	public void updateTable() {
-		//still working on this section
-		
-	}
 	
 	public void callWaitstaff() {
 		

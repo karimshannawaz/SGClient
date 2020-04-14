@@ -38,6 +38,8 @@ public class WaitstaffStartPage extends JPanel {
 	public JPanel utilityPanel;
 	public PayPanel payPanel;
 	public MenuPanel orderPanel;
+	private JPanel panel;
+	private JTextField tableNum;
 	
 
 
@@ -64,13 +66,7 @@ public class WaitstaffStartPage extends JPanel {
 		add(utilityPanel);
 		utilityPanel.setLayout(null);
 		
-		OrderBtn = new JButton("Order");
-		OrderBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		OrderBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				openScreen("order");
-			}
-		});
+		
 		
 		CompBtn = new JButton("Compensate");
 		CompBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -78,8 +74,23 @@ public class WaitstaffStartPage extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		OrderBtn.setBounds(0, 0, 187, 392);
-		mainPanel.add(OrderBtn);
+		
+		panel = new JPanel();
+		panel.setBounds(302, 303, 468, 104);
+		mainPanel.add(panel);
+		panel.setVisible(false);
+		
+		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
+		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		panel.add(lblpromptlabel);
+		
+		tableNum = new JTextField();
+		panel.add(tableNum);
+		tableNum.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Enter");
+		panel.add(btnNewButton);
+		
 		CompBtn.setBounds(0, 394, 374, 262);
 		mainPanel.add(CompBtn);
 		
@@ -87,9 +98,34 @@ public class WaitstaffStartPage extends JPanel {
 		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		PayBtn.setBounds(187, 0, 187, 392);
 		mainPanel.add(PayBtn);
-		PayBtn.addActionListener(new ActionListener() {
+		OrderBtn = new JButton("Order");
+		OrderBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		OrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openScreen("pay");
+				panel.setVisible(true);
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						panel.setVisible(false);
+						openScreen("order");
+					}
+					
+				});
+			}
+		});
+		OrderBtn.setBounds(0, 0, 187, 392);
+		mainPanel.add(OrderBtn);
+		
+		PayBtn.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(true);
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						panel.setVisible(false);
+						openScreen("pay");
+					}
+					
+				});
+					
 			}
 		});
 		
@@ -165,5 +201,4 @@ public void openScreen(String type) {
 			break;
 	}
 }
-
 }
