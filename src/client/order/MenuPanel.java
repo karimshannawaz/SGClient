@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
 // Test by dillon
 
@@ -25,27 +26,31 @@ import javax.swing.JToggleButton;
 
 import client.Client;
 import client.network.packet.PacketDecoder;
+import javax.swing.SwingConstants;
 
 public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = -1338118268945423515L;
 	private int page_number = 0;
+	private MItem item = new MItem();
 
+	
 	private JTextField txtpictureOfHamburger;
 	private JTextField item_name_textfield;
-	private JTextField ingredient_1;
-	private JTextField ingredient_2;
-	private JTextField ingredient_3;
-	private JTextField ingredient_4;
-	private JTextField ingredien_5;
+	private JTextField item_price_textfield;
 	
 	public List<JButton> entreesFM = new ArrayList<JButton>();
 	public List<JButton> sidesFM = new ArrayList<JButton>();
 	public List<JButton> drinksFM = new ArrayList<JButton>();
 	public List<JButton> dessertsFM = new ArrayList<JButton>();
-	
-	public JPanel MenuListFrame;
+	private List<JButton> add = new ArrayList<JButton>();
+	private List<JButton> sub = new ArrayList<JButton>();
+	private List<JTextField> ingredientsFM = new ArrayList<JTextField>();
+	private List<JTextField> ingredientsQuantityFM = new ArrayList<JTextField>();
 
+	public JPanel MenuListFrame;
+	//public JPanel OrderSpecificsFrame;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -53,8 +58,6 @@ public class MenuPanel extends JPanel {
 		super();
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
-
-		MItem item = new MItem();
 		
 		//creates a frame to hold the menu items
 		MenuListFrame = new JPanel();
@@ -112,20 +115,27 @@ public class MenuPanel extends JPanel {
 		txtpictureOfHamburger = new JTextField();
 		txtpictureOfHamburger.setText("*Picture of hamburger*");
 		txtpictureOfHamburger.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtpictureOfHamburger.setBounds(137, 132, 207, 131);
+		txtpictureOfHamburger.setBounds(159, 115, 200, 131);
 		PictureFrame.add(txtpictureOfHamburger);
 		txtpictureOfHamburger.setColumns(10);
 		
 		item_name_textfield = new JTextField();
 		item_name_textfield.setEditable(false);
-		item_name_textfield.setBounds(137, 276, 207, 43);
+		item_name_textfield.setBounds(159, 265, 200, 50);
 		PictureFrame.add(item_name_textfield);
 		item_name_textfield.setColumns(10);
 		
+		item_price_textfield = new JTextField();
+		item_price_textfield.setEditable(false);
+		item_price_textfield.setBounds(100, 265, 50, 50);
+		PictureFrame.add(item_price_textfield);
+		item_price_textfield.setColumns(10);
+		
 		JTextArea item_description_textfield = new JTextArea();
+		item_description_textfield.setWrapStyleWord(true);
+		item_description_textfield.setLineWrap(true);
 		item_description_textfield.setEditable(false);
-		item_description_textfield.setText("It's a hamburger. What did you expect?");
-		item_description_textfield.setBounds(88, 337, 345, 103);
+		item_description_textfield.setBounds(50, 331, 438, 103);
 		PictureFrame.add(item_description_textfield);
 		
 		JPanel OrderSpecificsFrame = new JPanel();
@@ -134,66 +144,23 @@ public class MenuPanel extends JPanel {
 		OrderSpecificsFrame.setLayout(null);
 		
 		JButton cancel_button = new JButton("Cancel");
-		cancel_button.setBounds(50, 350, 125, 125);
+		cancel_button.setBounds(93, 375, 125, 125);
 		OrderSpecificsFrame.add(cancel_button);
 		
 		JButton confirm_button = new JButton("Confirm");
-		confirm_button.setBounds(344, 350, 125, 125);
+		confirm_button.setBounds(218, 375, 125, 125);
 		OrderSpecificsFrame.add(confirm_button);
-		
-		ingredient_1 = new JTextField();
-		ingredient_1.setEnabled(true);
-		ingredient_1.setEditable(false);
-		ingredient_1.setBounds(93, 50, 250, 50);
-		OrderSpecificsFrame.add(ingredient_1);
-		ingredient_1.setColumns(10);
-		
-		ingredient_2 = new JTextField();
-		ingredient_2.setEnabled(true);
-		ingredient_2.setEditable(false);
-		ingredient_2.setColumns(10);
-		ingredient_2.setBounds(93, 105, 250, 50);
-		OrderSpecificsFrame.add(ingredient_2);
-		
-		ingredient_3 = new JTextField();
-		ingredient_3.setEnabled(true);
-		ingredient_3.setEditable(false);
-		ingredient_3.setColumns(10);
-		ingredient_3.setBounds(93, 160, 250, 50);
-		OrderSpecificsFrame.add(ingredient_3);
-		
-		ingredient_4 = new JTextField();
-		ingredient_4.setEnabled(true);
-		ingredient_4.setEditable(false);
-		ingredient_4.setColumns(10);
-		ingredient_4.setBounds(93, 215, 250, 50);
-		OrderSpecificsFrame.add(ingredient_4);
-		
+				
 		JButton next_ingredient_button = new JButton("Next page");
+		next_ingredient_button.setVisible(false);
 		next_ingredient_button.setBounds(218, 325, 125, 25);
 		OrderSpecificsFrame.add(next_ingredient_button);
 		
 		JButton previous_ingredient_ = new JButton("Previous page");
+		previous_ingredient_.setVisible(false);
 		previous_ingredient_.setBounds(93, 325, 125, 25);
 		OrderSpecificsFrame.add(previous_ingredient_);
-		
-		ingredien_5 = new JTextField();
-		ingredien_5.setEnabled(true);
-		ingredien_5.setEditable(false);
-		ingredien_5.setColumns(10);
-		ingredien_5.setBounds(93, 270, 250, 50);
-		OrderSpecificsFrame.add(ingredien_5);
-		
-		JButton add_ing1_button = new JButton("+");
-		add_ing1_button.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		add_ing1_button.setBounds(360, 50, 50, 50);
-		OrderSpecificsFrame.add(add_ing1_button);
-		
-		JButton sub_ing1_button = new JButton("+");
-		sub_ing1_button.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		sub_ing1_button.setBounds(420, 50, 50, 50);
-		OrderSpecificsFrame.add(sub_ing1_button);
-		
+						
 		JPanel OrderTypeFrame = new JPanel();
 		OrderTypeFrame.setBounds(0, 0, 346, 520);
 		add(OrderTypeFrame);
@@ -256,6 +223,22 @@ public class MenuPanel extends JPanel {
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
 							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
+							b.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e)
+								{
+
+									seeMenuDetails(mItem, OrderSpecificsFrame);
+									item_name_textfield.setText(mItem.name);
+									item = mItem;
+									item_description_textfield.setText(mItem.description);
+									item_price_textfield.setText("$"+String.valueOf(mItem.price));
+									MenuListFrame.setVisible(false);
+									OrderListFrame.setVisible(false);
+									OrderTypeFrame.setVisible(false);
+									OrderDetails.setVisible(true);
+								}
+							});
 							buttonIndex++;
 							System.out.println("Button worked");
 						}
@@ -328,6 +311,22 @@ public class MenuPanel extends JPanel {
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
 							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.panel.orderPanel.sidesFM.add(b);
+							b.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e)
+								{
+
+									seeMenuDetails(mItem, OrderSpecificsFrame);
+									item_name_textfield.setText(mItem.name);
+									item = mItem;
+									item_description_textfield.setText(mItem.description);
+									item_price_textfield.setText("$"+String.valueOf(mItem.price));
+									MenuListFrame.setVisible(false);
+									OrderListFrame.setVisible(false);
+									OrderTypeFrame.setVisible(false);
+									OrderDetails.setVisible(true);
+								}
+							});
 							buttonIndex++;
 							System.out.println("Button worked");
 						}
@@ -401,6 +400,22 @@ public class MenuPanel extends JPanel {
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
 							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.panel.orderPanel.drinksFM.add(b);
+							b.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e)
+								{
+
+									seeMenuDetails(mItem, OrderSpecificsFrame);
+									item_name_textfield.setText(mItem.name);
+									item = mItem;
+									item_description_textfield.setText(mItem.description);
+									item_price_textfield.setText("$"+String.valueOf(mItem.price));
+									MenuListFrame.setVisible(false);
+									OrderListFrame.setVisible(false);
+									OrderTypeFrame.setVisible(false);
+									OrderDetails.setVisible(true);
+								}
+							});
 							buttonIndex++;
 							System.out.println("Button worked");
 						}
@@ -474,6 +489,21 @@ public class MenuPanel extends JPanel {
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
 							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.panel.orderPanel.dessertsFM.add(b);
+							b.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e)
+								{
+									seeMenuDetails(mItem, OrderSpecificsFrame);
+									item_name_textfield.setText(mItem.name);
+									item = mItem;
+									item_description_textfield.setText(mItem.description);
+									item_price_textfield.setText("$"+String.valueOf(mItem.price));
+									MenuListFrame.setVisible(false);
+									OrderListFrame.setVisible(false);
+									OrderTypeFrame.setVisible(false);
+									OrderDetails.setVisible(true);
+								}
+							});
 							buttonIndex++;
 							System.out.println("Button worked");
 						}
@@ -784,6 +814,23 @@ public class MenuPanel extends JPanel {
 		
 		cancel_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (JButton b : add)
+					b.setVisible(false);
+				
+				for (JButton b : sub)
+					b.setVisible(false);
+				
+				for (JTextField tf : ingredientsFM)
+					tf.setVisible(false);
+				
+				for (JTextField tf : ingredientsQuantityFM)
+					tf.setVisible(false);
+		
+				add.clear();
+				sub.clear();				
+				ingredientsFM.clear();
+				ingredientsQuantityFM.clear();
+				
 				OrderTypeFrame.setVisible(true);
 				OrderListFrame.setVisible(true);
 				MenuListFrame.setVisible(true);
@@ -793,9 +840,49 @@ public class MenuPanel extends JPanel {
 		
 		confirm_button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					for (JButton b : add)
+						b.setVisible(false);
 					
-					String text = order_textfield.getText();			
-					order_textfield.setText(text+"\n   "+item.price+" - "+item.name);
+					for (JButton b : sub)
+						b.setVisible(false);
+					
+					for (JTextField tf : ingredientsFM)
+						tf.setVisible(false);
+					
+					for (JTextField tf : ingredientsQuantityFM)
+						tf.setVisible(false);
+					
+					String text = order_textfield.getText();
+					order_textfield.setText(text+"\n   "+item_price_textfield.getText()+" - "+item_name_textfield.getText());
+					
+					
+					List<String> ingredientsQ = new ArrayList<String>();
+
+					String[] ings = item.ingredients.replaceAll(",", ":").split(":");
+					int i = 0;
+					
+					for (String ing : ings)
+					{
+						if (i % 2 == 1)
+							ingredientsQ.add(ing);
+
+						i++;
+					}
+
+					for (int j = 0; j < ingredientsQ.size(); j++)
+					{
+						if (!ingredientsQ.get(j).equals(ingredientsQuantityFM.get(j).getText()))
+						{
+							text = order_textfield.getText();
+							order_textfield.setText(text+"\n      "+ingredientsQuantityFM.get(j).getText()+"-"+ingredientsFM.get(j).getText());
+						}
+					}
+					
+					add.clear();
+					sub.clear();				
+					ingredientsFM.clear();
+					ingredientsQuantityFM.clear();
+					
 					OrderTypeFrame.setVisible(true);
 					OrderListFrame.setVisible(true);
 					MenuListFrame.setVisible(true);
@@ -803,7 +890,6 @@ public class MenuPanel extends JPanel {
 				}	
 		});		
 
-	
 	}
 	
 	public void getMenuItems() {
@@ -819,5 +905,121 @@ public class MenuPanel extends JPanel {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void seeMenuDetails(MItem mItem, JPanel OrderSpecificsFrame)
+	{
+		int index = 0;
+		
+		List<String> ingredients = new ArrayList<String>();
+		List<String> ingredient_quantity = new ArrayList<String>();
+
+		String[] ings = mItem.ingredients.replaceAll(",", ":").split(":");
+		int i = 0;
+		
+		for (String ing : ings)
+		{
+			if (i % 2 == 0)
+			{
+				i++;
+				ingredients.add(ing);
+			}
+			else
+			{
+				i++;
+				ingredient_quantity.add(ing);
+			}
+		}
+		
+		for (String ing : ingredients)
+		{
+			JTextField tf1 = new JTextField();
+			
+			tf1.setText(ing);
+			tf1.setEnabled(true);
+			tf1.setVisible(false);
+			tf1.setEditable(false);
+			tf1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			tf1.setBounds(93, (50 * (index + 1)) + (index * 5), 250, 50);
+			
+			OrderSpecificsFrame.add(tf1);
+			ingredientsFM.add(tf1);
+			
+			index++;
+		}
+		
+		index = 0;
+		
+		for (String ing : ingredient_quantity)
+		{					
+			JButton b1 = new JButton();
+			JButton b2 = new JButton();
+			JTextField tf2 = new JTextField();
+			
+			b1.setText("+");
+			b2.setText("-");
+			tf2.setText(ing);
+			
+			b1.setEnabled(true);
+			b2.setEnabled(true);
+			tf2.setEnabled(true);
+			
+			tf2.setEditable(false);
+			
+			b1.setVisible(false);
+			b2.setVisible(false);
+			tf2.setVisible(false);
+			
+			b1.setFont(new Font("Tahoma", Font.PLAIN, 30));
+			b2.setFont(new Font("Tahoma", Font.PLAIN, 30));
+			tf2.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			
+			b1.setBounds(360, (50 * (index + 1)) + (index * 5), 50, 50);
+			b2.setBounds(420, (50 * (index + 1)) + (index * 5), 50, 50);
+			tf2.setBounds(22, (50 * (index + 1)) + (index * 5), 50, 50);
+			
+			b1.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					int text = Integer.valueOf(tf2.getText());
+					tf2.setText(String.valueOf(text + 1));
+				}
+			});	
+			
+			b2.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					int text = Integer.valueOf(tf2.getText());
+				
+					if (text > 0)
+						tf2.setText(String.valueOf(text - 1));
+				}
+			});
+			
+			OrderSpecificsFrame.add(b1);
+			OrderSpecificsFrame.add(b2);
+			OrderSpecificsFrame.add(tf2);
+			
+			add.add(b1);
+			sub.add(b2);
+			ingredientsQuantityFM.add(tf2);
+
+			index++;
+		}
+		
+		for (JButton b1 : add)
+			b1.setVisible(true);
+		
+		for (JButton b2 : sub)
+			b2.setVisible(true);
+		
+		for (JTextField tf1 : ingredientsFM)
+			tf1.setVisible(true);
+		
+		for (JTextField tf2 : ingredientsQuantityFM)
+			tf2.setVisible(true);
+
 	}
 }
