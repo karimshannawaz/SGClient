@@ -66,15 +66,6 @@ public class WaitstaffStartPage extends JPanel {
 		add(utilityPanel);
 		utilityPanel.setLayout(null);
 		
-		
-		
-		CompBtn = new JButton("Compensate");
-		CompBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		CompBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
 		panel = new JPanel();
 		panel.setBounds(302, 303, 468, 104);
 		mainPanel.add(panel);
@@ -90,9 +81,6 @@ public class WaitstaffStartPage extends JPanel {
 		
 		JButton btnNewButton = new JButton("Enter");
 		panel.add(btnNewButton);
-		
-		CompBtn.setBounds(0, 394, 374, 262);
-		mainPanel.add(CompBtn);
 		
 		PayBtn = new JButton("Pay");
 		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -114,6 +102,24 @@ public class WaitstaffStartPage extends JPanel {
 		});
 		OrderBtn.setBounds(0, 0, 187, 392);
 		mainPanel.add(OrderBtn);
+		
+		CompBtn = new JButton("Compensate");
+		CompBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		CompBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(true);
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						panel.setVisible(false);
+						openScreen("compensate");
+					}
+					
+				});
+			}
+		});
+		
+		CompBtn.setBounds(0, 394, 374, 262);
+		mainPanel.add(CompBtn);
 		
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
