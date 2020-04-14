@@ -16,7 +16,7 @@ public class RewardsPanel extends JPanel {
 	private static final long serialVersionUID = -1338118268945423515L;
 	
 	private JTextField rwdsID;
-	private JTextField textField;
+	private JTextField newEmail;
 
 	/**
 	 * Create the panel.
@@ -69,11 +69,11 @@ public class RewardsPanel extends JPanel {
 		txtrnewToRewards.setBounds(136, 212, 695, 101);
 		add(txtrnewToRewards);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		textField.setColumns(10);
-		textField.setBounds(299, 345, 426, 47);
-		add(textField);
+		newEmail = new JTextField();
+		newEmail.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		newEmail.setColumns(10);
+		newEmail.setBounds(299, 345, 426, 47);
+		add(newEmail);
 		
 		JLabel lblNewEmail = new JLabel("New Email:");
 		lblNewEmail.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -81,9 +81,18 @@ public class RewardsPanel extends JPanel {
 		add(lblNewEmail);
 		
 		JButton btnSignUp = new JButton("Sign up!");
+		btnSignUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				signup();
+			}
+		});
 		btnSignUp.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnSignUp.setBounds(795, 345, 132, 47);
 		add(btnSignUp);
+	}
+
+	protected void signup() {
+		String email = newEmail.getText();
 	}
 
 	protected void submitLoginRequest() {
