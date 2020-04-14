@@ -89,18 +89,16 @@ public final class PacketDecoder extends Decoder {
 						for(int i = 0; i < size; i++) {
 							String itemToString = stream.readString();
 							String tokens[] = itemToString.split("~");
-							int index = Integer.parseInt(tokens[0]);
-							String name = tokens[1];
-							double price = Double.parseDouble(tokens[2]);
-							String desc = tokens[3];
-							int calories = Integer.parseInt(tokens[4]);
-							String allergens = tokens[5];
-							int type = Integer.parseInt(tokens[6]);
-							String menuType = tokens[7];
-							String ingredients = tokens[8];
+							String name = tokens[0];
+							double price = Double.parseDouble(tokens[1]);
+							String desc = tokens[2];
+							int calories = Integer.parseInt(tokens[3]);
+							String allergens = tokens[4];
+							String type = tokens[5];
+							String menuType = tokens[6];
+							String ingredients = tokens[7];
 							MItem item = new MItem(name, price, desc, calories, allergens, type, menuType, ingredients);
-							item.setIndex(index);
-							Menu.instance.put(index, item);
+							Menu.instance.add(item);
 							menuRequestFix = 0;
 						}
 					}

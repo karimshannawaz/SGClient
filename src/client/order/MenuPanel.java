@@ -210,7 +210,7 @@ public class MenuPanel extends JPanel {
 					
 					Client.clientFrame.panel.orderPanel.entreesFM.clear();
 					int buttonIndex = 0;
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("entree") && (buttonIndex < 7)))
@@ -298,7 +298,7 @@ public class MenuPanel extends JPanel {
 					
 					Client.clientFrame.panel.orderPanel.sidesFM.clear();
 					int buttonIndex = 0;
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("side") && (buttonIndex < 7)))
@@ -387,7 +387,7 @@ public class MenuPanel extends JPanel {
 					
 					Client.clientFrame.panel.orderPanel.drinksFM.clear();
 					int buttonIndex = 0;
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("drink") && (buttonIndex < 7)))
@@ -476,7 +476,7 @@ public class MenuPanel extends JPanel {
 					
 					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
 					int buttonIndex = 0;
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("dessert") && (buttonIndex < 7)))
@@ -556,7 +556,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.entreesFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("entree") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
@@ -586,7 +586,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.sidesFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("side") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
@@ -616,7 +616,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.drinksFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("drink") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
@@ -646,7 +646,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("dessert") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
@@ -691,7 +691,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.entreesFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("entree") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
@@ -721,7 +721,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.sidesFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("side") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
@@ -751,7 +751,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.drinksFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("drink") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
@@ -781,7 +781,7 @@ public class MenuPanel extends JPanel {
 				
 					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
 
-					for (MItem mItem : Menu.instance.values())
+					for (MItem mItem : Menu.instance)
 					{
 						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("dessert") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))

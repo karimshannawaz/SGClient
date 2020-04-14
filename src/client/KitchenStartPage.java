@@ -106,7 +106,7 @@ public class KitchenStartPage extends JPanel {
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, Boolean.class
+				Integer.class, List.class, Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -116,16 +116,15 @@ public class KitchenStartPage extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(377);
 		table.getColumnModel().getColumn(2).setPreferredWidth(163);
 		
-		//format to update, need to understand how the packages are sent etc to continue
-		//DefaultTableModel update = (DefaultTableModel) table.getModel();
-		//update.addRow(new Object[] {new Integer(5),"Juicy Lucy",new Boolean(false)});
+		//format to update, need to understand how the packages are sent etc to continue - desere
+		List<String> temp = new ArrayList();
+		temp.add("Juicy Lucy");
+		temp.add("Coke");
+		DefaultTableModel update = (DefaultTableModel) table.getModel();
+		update.addRow(new Object[] {new Integer(5),temp,new Boolean(false)});
 		
 	}
 	
-	public void updateTable() {
-		//still working on this section
-		
-	}
 	
 	public void callWaitstaff() {
 		
