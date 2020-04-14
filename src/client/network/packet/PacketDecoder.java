@@ -1,6 +1,7 @@
 package client.network.packet;
 import client.Client;
 import client.ClientFrame;
+import client.ClientSession;
 import client.network.Session;
 import client.order.MItem;
 import client.order.Menu;
@@ -110,10 +111,14 @@ public final class PacketDecoder extends Decoder {
 					switch(code) {
 					
 						case "email_exists":
+							ClientSession.emailExists = true;
 							break;
 							
 						case "email_created":
-							System.out.println("Email has been created!");
+							int paramsLength = stream.readUnsignedByte();
+							String email = stream.readString();
+							String birthdate = stream.readString();
+							
 							break;
 					}
 					break;

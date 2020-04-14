@@ -155,6 +155,10 @@ public class RewardsPanel extends JPanel {
 				(yearCB.getSelectedIndex() + 1920);
 		Client.session.getPacketEncoder().sendCreationRequest(email, birthdate);
 	}
+	
+	protected void finishSignup() {
+		
+	}
 
 	protected void submitLoginRequest() {
 		
