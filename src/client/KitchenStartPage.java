@@ -116,8 +116,9 @@ public class KitchenStartPage extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(377);
 		table.getColumnModel().getColumn(2).setPreferredWidth(163);
 		
-		DefaultTableModel update = (DefaultTableModel) table.getModel();
-		update.addRow(new Object[] {new Integer(5),"Juicy Lucy",new Boolean(false)});
+		//format to update, need to understand how the packages are sent etc to continue
+		//DefaultTableModel update = (DefaultTableModel) table.getModel();
+		//update.addRow(new Object[] {new Integer(5),"Juicy Lucy",new Boolean(false)});
 		
 	}
 	
