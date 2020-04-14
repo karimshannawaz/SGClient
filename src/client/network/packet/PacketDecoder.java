@@ -47,9 +47,10 @@ public final class PacketDecoder extends Decoder {
 				length = stream.readInt();
 			else if (length == -4) {
 				length = stream.getRemaining();
-				if(packetId != 255)
+				if(packetId != 255) {
 				System.out.println("Invalid size for PacketId " + packetId
 						+ ". Size guessed to be " + length);
+				}
 			}
 			if (length > stream.getRemaining()) {
 				length = stream.getRemaining();
