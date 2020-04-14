@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import client.Client;
+
+import javax.swing.JTextArea;
 
 public class PayPanel extends JPanel {
 
@@ -13,6 +18,7 @@ public class PayPanel extends JPanel {
 
 	JButton SplitBtn;
 	JButton FullBtn;
+	private JTextField txtOrder;
 	/**
 	 * Create the panel.
 	 */
@@ -41,6 +47,45 @@ public class PayPanel extends JPanel {
 		});
 		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		
+		JPanel main_panel = new JPanel();
+		main_panel.setBounds(0, 0, 1039, 522);
+		add(main_panel);
+		main_panel.setLayout(null);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setBounds(292, 106, 457, 345);
+		main_panel.add(textArea);
+		
+		txtOrder = new JTextField();
+		txtOrder.setText("Bill:");
+		txtOrder.setBounds(451, 36, 116, 22);
+		main_panel.add(txtOrder);
+		txtOrder.setColumns(10);
+		
+		JPanel full_pay_panel = new JPanel();
+		full_pay_panel.setVisible(false);
+		full_pay_panel.setBounds(0, 0, 1039, 522);
+		add(full_pay_panel);
+		full_pay_panel.setLayout(null);
+		
+		JTextArea txtrYouPaidFor = new JTextArea();
+		txtrYouPaidFor.setText("YOU paid for the bill in full");
+		txtrYouPaidFor.setBounds(156, 5, 365, 393);
+		full_pay_panel.add(txtrYouPaidFor);
+		
+		FullBtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				full_pay_panel.setVisible(true);
+				main_panel.setVisible(false);
+				FullBtn.setVisible(false);
+				SplitBtn.setVisible(false);
+			}
+		});
+		
+		
 	}
-
 }
