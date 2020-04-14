@@ -53,19 +53,18 @@ public class PayPanel extends JPanel {
 		main_panel.setLayout(null);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setBounds(292, 106, 457, 345);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
-		textArea.setBounds(292, 106, 457, 345);
 		main_panel.add(textArea);
 		
 		txtOrder = new JTextField();
-		txtOrder.setText("Bill:");
 		txtOrder.setBounds(451, 36, 116, 22);
+		txtOrder.setText("Bill:");
 		main_panel.add(txtOrder);
 		txtOrder.setColumns(10);
 		
 		JPanel full_pay_panel = new JPanel();
-		full_pay_panel.setVisible(false);
 		full_pay_panel.setBounds(0, 0, 1039, 522);
 		add(full_pay_panel);
 		full_pay_panel.setLayout(null);
@@ -73,8 +72,9 @@ public class PayPanel extends JPanel {
 		JTextArea txtrYouPaidFor = new JTextArea();
 		txtrYouPaidFor.setFont(new Font("Monospaced", Font.BOLD, 26));
 		txtrYouPaidFor.setText("How would you like to pay the Bill?");
-		txtrYouPaidFor.setBounds(89, 71, 598, 303);
+		txtrYouPaidFor.setBounds(113, 71, 712, 244);
 		full_pay_panel.add(txtrYouPaidFor);
+		
 		
 		FullBtn.addActionListener(new ActionListener()
 		{
