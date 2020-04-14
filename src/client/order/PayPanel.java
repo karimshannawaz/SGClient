@@ -11,6 +11,9 @@ import javax.swing.JTextField;
 import client.Client;
 
 import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JCheckBox;
 
 public class PayPanel extends JPanel {
 
