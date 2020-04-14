@@ -103,6 +103,21 @@ public final class PacketDecoder extends Decoder {
 						}
 					}
 					break;
+					
+				// Receiving/sending requests to the server.
+				case 4:
+					String code = stream.readString();
+					switch(code) {
+					
+						case "email_exists":
+							break;
+							
+						case "email_created":
+							System.out.println("Email has been created!");
+							break;
+					}
+					break;
+					
 				default:
 					break;
 			}

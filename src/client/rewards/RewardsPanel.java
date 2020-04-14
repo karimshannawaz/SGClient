@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 
+import client.Client;
 import client.utils.Constants;
 import client.utils.JFrameUtils;
 
@@ -22,6 +23,10 @@ public class RewardsPanel extends JPanel {
 	
 	private JTextField rwdsID;
 	private JTextField newEmail;
+	
+	public JComboBox<String> monthCB;
+	public JComboBox<String> dayCB;
+	public JComboBox<String> yearCB;
 
 	/**
 	 * Create the panel.
@@ -100,15 +105,24 @@ public class RewardsPanel extends JPanel {
 		lblBirthdayfreeEntree.setBounds(67, 435, 329, 47);
 		add(lblBirthdayfreeEntree);
 		
-		JComboBox monthCB = new JComboBox();
+		monthCB = new JComboBox<String>(new String[] {
+			"January", "February", "March", "April", "May", "June", "July",
+			"August", "September", "October", "November", "December"
+		});
 		monthCB.setBounds(409, 437, 106, 47);
 		add(monthCB);
 		
-		JComboBox dayCB = new JComboBox();
+		String[] days = new String[30];
+		for(int i = 0; i < days.length; i++)
+			days[i] = ""+((i + 1) < 10 ? ("0" + (i + 1)) : (i + 1));
+		dayCB = new JComboBox<String>(days);
 		dayCB.setBounds(544, 437, 106, 47);
 		add(dayCB);
 		
-		JComboBox yearCB = new JComboBox();
+		String[] years = new String[101];
+		for(int i = 0; i < years.length; i++)
+			years[i] = ""+(i + 1920);
+		yearCB = new JComboBox<String>(years);
 		yearCB.setBounds(673, 435, 157, 47);
 		add(yearCB);
 		
@@ -134,7 +148,12 @@ public class RewardsPanel extends JPanel {
 			JFrameUtils.showMessage("Rewards", "Invalid email entered for rewards, please try again.");
 			return;
 		}
-		System.out.println("Email: "+email);
+		int month = monthCB.getSelectedIndex();
+		int day = dayCB.getSelectedIndex();
+		String birthdate = ((month + 1) < 10 ? ("0" + (month + 1)) : (month + 1))+"/"+
+			(day + 1 < 10 ? ("0" + (day + 1)) : (day + 1))+"/"+
+				(yearCB.getSelectedIndex() + 1920);
+		Client.session.getPacketEncoder().sendCreationRequest(email, birthdate);
 	}
 
 	protected void submitLoginRequest() {
