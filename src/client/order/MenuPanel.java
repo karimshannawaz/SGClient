@@ -567,6 +567,22 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							b.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e)
+								{
+
+									seeMenuDetails(mItem, OrderSpecificsFrame);
+									item_name_textfield.setText(mItem.name);
+									item = mItem;
+									item_description_textfield.setText(mItem.description);
+									item_price_textfield.setText("$"+String.valueOf(mItem.price));
+									MenuListFrame.setVisible(false);
+									OrderListFrame.setVisible(false);
+									OrderTypeFrame.setVisible(false);
+									OrderDetails.setVisible(true);
+								}
+							});
 							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
 							buttonIndex++;
