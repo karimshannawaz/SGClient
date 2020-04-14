@@ -228,6 +228,8 @@ public class WaitstaffStartPage extends JPanel {
 			this.OrderBtn.setVisible(true);
 			this.CompBtn.setVisible(true);
 			this.mainPanel.setVisible(true);
+			this.orderPanel.setVisible(false);
+			this.payPanel.setVisible(false);
 			this.backBtn.setVisible(false);
 			this.utilityPanel.setVisible(false);
 			currentScreen = "";
