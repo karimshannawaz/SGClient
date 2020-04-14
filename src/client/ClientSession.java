@@ -15,7 +15,7 @@ public class ClientSession {
 	public static boolean rwdsLgn = false;
 	
 	// Represents the email, birthday MM/DD/YYYY (used for rewards) and how many visits
-	// for this customer.
+	// for this customer..
 	public static String email = null;
 	public static String birthday = null;
 	public static int visits = 0;
