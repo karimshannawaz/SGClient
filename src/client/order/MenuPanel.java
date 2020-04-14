@@ -29,6 +29,8 @@ import client.network.packet.PacketDecoder;
 public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = -1338118268945423515L;
+	private int page_number = 0;
+
 	private JTextField txtpictureOfHamburger;
 	private JTextField item_name_textfield;
 	private JTextField ingredient_1;
@@ -60,64 +62,16 @@ public class MenuPanel extends JPanel {
 		MenuListFrame.setBounds(347, 0, 347, 522);
 		add(MenuListFrame);
 		MenuListFrame.setLayout(null);
-		
-		//creates a menu item button
-		JButton item_1 = new JButton("");
-		item_1.setEnabled(true);
-		item_1.setVisible(false);
-		item_1.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		item_1.setBounds(0, 0, 347, 70);
-		MenuListFrame.add(item_1);
-
-		//creates a menu item button
-		JButton item_2 = new JButton("");
-		item_2.setVisible(false);
-		item_2.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		item_2.setBounds(0, 70, 347, 70);
-		MenuListFrame.add(item_2);
-
-		//creates a menu item button
-		JButton item_3 = new JButton("");
-		item_3.setVisible(false);
-		item_3.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		item_3.setBounds(0, 140, 347, 70);
-		MenuListFrame.add(item_3);
-
-		//creates a menu item button
-		JButton item_4 = new JButton("");
-		item_4.setVisible(false);
-		item_4.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		item_4.setBounds(0, 210, 347, 70);
-		MenuListFrame.add(item_4);
-
-		//creates a menu item button
-		JButton item_5 = new JButton("");
-		item_5.setVisible(false);
-		item_5.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		item_5.setBounds(0, 280, 347, 70);
-		MenuListFrame.add(item_5);
-
-		//creates a menu item button
-		JButton item_6 = new JButton("");
-		item_6.setVisible(false);
-		item_6.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		item_6.setBounds(0, 350, 347, 70);
-		MenuListFrame.add(item_6);
-
-		//creates a menu item button
-		JButton item_7 = new JButton("");
-		item_7.setVisible(false);
-		item_7.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		item_7.setBounds(0, 420, 347, 70);
-		MenuListFrame.add(item_7);
 
 		//creates a button to display 7 new menu items
 		JButton next_page_button = new JButton("Next page");
+		next_page_button.setVisible(false);
 		next_page_button.setBounds(174, 490, 173, 32);
 		MenuListFrame.add(next_page_button);
 
 		//creates a button to display 7 previous menu items
 		JButton previous_page_button = new JButton("Previous page");
+		previous_page_button.setVisible(false);
 		previous_page_button.setBounds(0, 490, 173, 32);
 		MenuListFrame.add(previous_page_button);
 		
@@ -265,24 +219,35 @@ public class MenuPanel extends JPanel {
 		drink_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(drink_button);
 		
-		//displays first 7 entrees when entree button is clicked
-		entree_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		// displays first 7 entrees when entree button is clicked
+		entree_button.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				if (entree_button.isSelected())
 				{
 					getMenuItems();
-					try {
+					try
+					{
 						Thread.sleep(50);
-					} catch (InterruptedException e1) {
+					}
+					catch (InterruptedException e1)
+					{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+
+					page_number = 0;
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
+					
 					Client.clientFrame.panel.orderPanel.entreesFM.clear();
 					int buttonIndex = 0;
-					for(MItem mItem : Menu.instance.values()) {
-						System.out.println("Mitem is "+mItem.name);
-						if(mItem.menuType.equals("entree")) {
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("entree") && (buttonIndex < 7)))
+						{
 							JButton b = new JButton();
 							b.setText(mItem.name);
 							b.setEnabled(true);
@@ -294,282 +259,526 @@ public class MenuPanel extends JPanel {
 							buttonIndex++;
 							System.out.println("Button worked");
 						}
+						else if ((mItem.menuType.equals("entree") && (buttonIndex >= 7)))
+						{
+							next_page_button.setVisible(true);
+							break;
+						}						
 					}
-					for(JButton b : entreesFM) {
-						b.setVisible(true);
-					}
-					side_button.setSelected(false);
-					drink_button.setSelected(false);
-					dessert_button.setSelected(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
-					item_1.setVisible(false);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					/*
-					item_1.setVisible(true);
-					item_2.setVisible(true);
-					item_3.setVisible(true);
-					item_4.setVisible(true);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
+					for(JButton b : sidesFM) 
+						b.setVisible(false);
 					
-					item_1.setText("Juicy Lucy Burger");
-					item_2.setText("Cheeseburger");
-					item_3.setText("Seven Wonders Burger");
-					item_4.setText("Kid's burger");
+					for(JButton b : dessertsFM) 
+						b.setVisible(false);
+					
+					for(JButton b : drinksFM) 
+						b.setVisible(false);
+					
+					for (JButton b : entreesFM)
+						b.setVisible(true);
+					
 					side_button.setSelected(false);
 					drink_button.setSelected(false);
 					dessert_button.setSelected(false);
-					*/
 				}
 				else
 				{
-					for(JButton b : entreesFM) {
+					for (JButton b : entreesFM)
 						b.setVisible(false);
-					}
-					item_1.setVisible(false);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
+
 					entree_button.setSelected(false);
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
 				}
 			}
 		});
+		
 		//displays first 7 sides when side button is clicked
 		side_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (side_button.isSelected())
 				{
-					for(JButton b : entreesFM) {
-						b.setVisible(false);
+					getMenuItems();
+					try
+					{
+						Thread.sleep(50);
 					}
-					item_1.setVisible(true);
-					item_2.setVisible(true);
-					item_3.setVisible(true);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
+					catch (InterruptedException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
-					item_1.setText("Salad");
-					item_2.setText("Fries");
-					item_3.setText("Wings");
-
+					page_number = 0;
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
+					
+					Client.clientFrame.panel.orderPanel.sidesFM.clear();
+					int buttonIndex = 0;
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("side") && (buttonIndex < 7)))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.sidesFM.add(b);
+							buttonIndex++;
+							System.out.println("Button worked");
+						}
+						else if ((mItem.menuType.equals("side") && (buttonIndex >= 7)))
+						{
+							next_page_button.setVisible(true);
+							break;
+						}
+					}
+					
+					for(JButton b : sidesFM) 
+						b.setVisible(true);
+					
+					for(JButton b : dessertsFM) 
+						b.setVisible(false);
+					
+					for(JButton b : drinksFM) 
+						b.setVisible(false);
+					
+					for (JButton b : entreesFM)
+						b.setVisible(false);
+					
 					entree_button.setSelected(false);
 					drink_button.setSelected(false);
 					dessert_button.setSelected(false);
 				}
 				else
 				{
-					for(JButton b : entreesFM) {
+					for (JButton b : sidesFM)
 						b.setVisible(false);
-					}
-					
-					item_1.setVisible(false);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
-					
+
 					side_button.setSelected(false);
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
 				}
 			}
 		});
+		
 		//displays first 7 drinks when drink button is clicked
 		drink_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (drink_button.isSelected())
 				{
-					for(JButton b : entreesFM) {
-						b.setVisible(false);
+					getMenuItems();
+					try
+					{
+						Thread.sleep(50);
 					}
-					item_1.setVisible(true);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
+					catch (InterruptedException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					page_number = 0;
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
 					
-					item_1.setText("Coke");
+					Client.clientFrame.panel.orderPanel.drinksFM.clear();
+					int buttonIndex = 0;
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("drink") && (buttonIndex < 7)))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.drinksFM.add(b);
+							buttonIndex++;
+							System.out.println("Button worked");
+						}
+						else if ((mItem.menuType.equals("drink") && (buttonIndex >= 7)))
+						{
+							next_page_button.setVisible(true);
+							break;
+						}
+					}
+					
+					for(JButton b : sidesFM) 
+						b.setVisible(false);
+					
+					for(JButton b : dessertsFM) 
+						b.setVisible(false);
+					
+					for(JButton b : drinksFM) 
+						b.setVisible(true);
+					
+					for (JButton b : entreesFM)
+						b.setVisible(false);
+					
 					entree_button.setSelected(false);
 					side_button.setSelected(false);
 					dessert_button.setSelected(false);
 				}
 				else
 				{
-					for(JButton b : entreesFM) {
+					for (JButton b : drinksFM)
 						b.setVisible(false);
-					}
-					item_1.setVisible(false);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
-					
+
 					drink_button.setSelected(false);
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
 				}
 			}
 		});
+		
 		//displays first 7 desserts when dessert button is clicked
 		dessert_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (dessert_button.isSelected())
 				{
-					for(JButton b : entreesFM) {
-						b.setVisible(false);
+					getMenuItems();
+					try
+					{
+						Thread.sleep(50);
 					}
-					item_1.setVisible(true);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
+					catch (InterruptedException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					page_number = 0;
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
 					
-					item_1.setText("Shake");
+					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
+					int buttonIndex = 0;
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("dessert") && (buttonIndex < 7)))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.dessertsFM.add(b);
+							buttonIndex++;
+							System.out.println("Button worked");
+						}
+						else if ((mItem.menuType.equals("dessert") && (buttonIndex >= 7)))
+						{
+							next_page_button.setVisible(true);
+							break;
+						}
+					}
+					
+					for(JButton b : sidesFM) 
+						b.setVisible(false);
+					
+					for(JButton b : dessertsFM) 
+						b.setVisible(true);
+					
+					for(JButton b : drinksFM) 
+						b.setVisible(false);
+					
+					for (JButton b : entreesFM)
+						b.setVisible(false);
+					
 					entree_button.setSelected(false);
 					side_button.setSelected(false);
 					drink_button.setSelected(false);
 				}
 				else
 				{
-					for(JButton b : entreesFM) {
+					for (JButton b : dessertsFM)
 						b.setVisible(false);
-					}
-					item_1.setVisible(false);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
+
 					dessert_button.setSelected(false);
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
 				}
 			}
-		});	
+		});
+		
 		//displays next 7 items when next page button is clicked
 		next_page_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					item_1.setVisible(true);
-					item_2.setVisible(true);
-					item_3.setVisible(true);
-					item_4.setVisible(true);
-					item_5.setVisible(true);
-					item_6.setVisible(true);
-					item_7.setVisible(true);
+				
+				int buttonIndex = 0;
+				page_number++;
+				
+				if (entree_button.isSelected())
+				{				
+					for (JButton b : entreesFM)
+						b.setVisible(false);
+				
+					Client.clientFrame.panel.orderPanel.entreesFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("entree") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("entree"))
+							buttonIndex++;
+						
+						for (JButton b : entreesFM)
+							b.setVisible(true);
+					}
+				}	
+				else if (side_button.isSelected())
+				{				
+					for (JButton b : sidesFM)
+						b.setVisible(false);
+				
+					Client.clientFrame.panel.orderPanel.sidesFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("side") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.sidesFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("side"))
+							buttonIndex++;
+						
+						for (JButton b : sidesFM)
+							b.setVisible(true);
+					}
 				}
+				else if (drink_button.isSelected())
+				{				
+					for (JButton b : drinksFM)
+						b.setVisible(false);
+				
+					Client.clientFrame.panel.orderPanel.drinksFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("drink") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.drinksFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("drink"))
+							buttonIndex++;
+						
+						for (JButton b : drinksFM)
+							b.setVisible(true);
+					}
+				}
+				else if (dessert_button.isSelected())
+				{				
+					for (JButton b : dessertsFM)
+						b.setVisible(false);
+				
+					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("dessert") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.dessertsFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("dessert"))
+							buttonIndex++;
+						
+						for (JButton b : dessertsFM)
+							b.setVisible(true);
+					}
+				}
+				
+				if (buttonIndex < (7 * (page_number + 1)))
+					next_page_button.setVisible(false);
+				
+				previous_page_button.setVisible(true);
+			}
 		});	
+		
 		//displays previous 7 items when previous page button is clicked
 		previous_page_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-					item_1.setVisible(false);
-					item_2.setVisible(false);
-					item_3.setVisible(false);
-					item_4.setVisible(false);
-					item_5.setVisible(false);
-					item_6.setVisible(false);
-					item_7.setVisible(false);
-			}
-		});	
-		
-		item_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
-				OrderDetails.setVisible(true);
 				
-				item.name = item_1.getText();
-				item_name_textfield.setText(item.name);
-			}
-		});	
-		
-		item_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
-				OrderDetails.setVisible(true);
+				int buttonIndex = 0;
+				page_number--;
 				
-				item.name = item_2.getText();
-				item_name_textfield.setText(item.name);
-					
-			}
-		});		
-	
-		item_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
-				OrderDetails.setVisible(true);
+				if (entree_button.isSelected())
+				{				
+					for (JButton b : entreesFM)
+						b.setVisible(false);
 				
-				item.name = item_3.getText();
-				item_name_textfield.setText(item.name);
-					
-			}
-		});
-		
-		item_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
-				OrderDetails.setVisible(true);
+					Client.clientFrame.panel.orderPanel.entreesFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("entree") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("entree"))
+							buttonIndex++;
+						
+						for (JButton b : entreesFM)
+							b.setVisible(true);
+					}
+				}	
+				else if (side_button.isSelected())
+				{				
+					for (JButton b : sidesFM)
+						b.setVisible(false);
 				
-				item.name = item_4.getText();
-				item_name_textfield.setText(item.name);
-					
-			}
-		});
-		
-		item_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
-				OrderDetails.setVisible(true);
+					Client.clientFrame.panel.orderPanel.sidesFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("side") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.sidesFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("side"))
+							buttonIndex++;
+						
+						for (JButton b : sidesFM)
+							b.setVisible(true);
+					}
+				}
+				else if (drink_button.isSelected())
+				{				
+					for (JButton b : drinksFM)
+						b.setVisible(false);
 				
-				item.name = item_5.getText();
-				item_name_textfield.setText(item.name);
-					
-			}
-		});
-		item_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
-				OrderDetails.setVisible(true);
+					Client.clientFrame.panel.orderPanel.drinksFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("drink") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.drinksFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("drink"))
+							buttonIndex++;
+						
+						for (JButton b : drinksFM)
+							b.setVisible(true);
+					}
+				}
+				else if (dessert_button.isSelected())
+				{				
+					for (JButton b : dessertsFM)
+						b.setVisible(false);
 				
-				item.name = item_6.getText();
-				item_name_textfield.setText(item.name);
-					
-			}
-		});
-		
-		item_7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
-				OrderDetails.setVisible(true);
+					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
+
+					for (MItem mItem : Menu.instance.values())
+					{
+						System.out.println("Mitem is " + mItem.name);
+						if ((mItem.menuType.equals("dessert") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.panel.orderPanel.dessertsFM.add(b);
+							buttonIndex++;
+							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+						}
+						else if (mItem.menuType.equals("dessert"))
+							buttonIndex++;
+						
+						for (JButton b : dessertsFM)
+							b.setVisible(true);
+					}
+				}
 				
-				item.name = item_7.getText();
-				item_name_textfield.setText(item.name);
-					
+				if (page_number < 1)
+					previous_page_button.setVisible(false);
+				
+				next_page_button.setVisible(true);
 			}
 		});
 		
