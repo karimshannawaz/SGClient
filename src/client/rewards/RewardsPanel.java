@@ -4,12 +4,17 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import client.utils.Constants;
+import client.utils.JFrameUtils;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import javax.swing.JComboBox;
 
 public class RewardsPanel extends JPanel {
 
@@ -89,10 +94,47 @@ public class RewardsPanel extends JPanel {
 		btnSignUp.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnSignUp.setBounds(795, 345, 132, 47);
 		add(btnSignUp);
+		
+		JLabel lblBirthdayfreeEntree = new JLabel("Birthday (Free entree every birthday!):");
+		lblBirthdayfreeEntree.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblBirthdayfreeEntree.setBounds(67, 435, 329, 47);
+		add(lblBirthdayfreeEntree);
+		
+		JComboBox monthCB = new JComboBox();
+		monthCB.setBounds(409, 437, 106, 47);
+		add(monthCB);
+		
+		JComboBox dayCB = new JComboBox();
+		dayCB.setBounds(544, 437, 106, 47);
+		add(dayCB);
+		
+		JComboBox yearCB = new JComboBox();
+		yearCB.setBounds(673, 435, 157, 47);
+		add(yearCB);
+		
+		JLabel monthLbl = new JLabel("Month");
+		monthLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		monthLbl.setBounds(432, 408, 65, 27);
+		add(monthLbl);
+		
+		JLabel dayLbl = new JLabel("Day");
+		dayLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		dayLbl.setBounds(571, 405, 65, 27);
+		add(dayLbl);
+		
+		JLabel yearLbl = new JLabel("Year");
+		yearLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		yearLbl.setBounds(719, 405, 65, 27);
+		add(yearLbl);
 	}
 
 	protected void signup() {
 		String email = newEmail.getText();
+		if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
+			JFrameUtils.showMessage("Rewards", "Invalid email entered for rewards, please try again.");
+			return;
+		}
+		System.out.println("Email: "+email);
 	}
 
 	protected void submitLoginRequest() {
