@@ -72,13 +72,32 @@ public class WaitstaffStartPage extends JPanel {
 		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
 		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel.add(lblpromptlabel);
-		
 		tableNum = new JTextField();
 		panel.add(tableNum);
 		tableNum.setColumns(10);
-		
 		JButton btnNewButton = new JButton("Enter");
 		panel.add(btnNewButton);
+		
+		//this takes the table number they are doing these actions for, 
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(false);
+				if(currentScreen == "order")
+				{
+					openScreen("order");
+				}
+				else if(currentScreen == "pay")
+				{
+					openScreen("pay");
+				}
+				else if(currentScreen == "compensate")
+				{
+					openScreen("compensate");
+				}
+			}
+				
+		});
+		
 		
 		PayBtn = new JButton("Pay");
 		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -162,6 +181,7 @@ public class WaitstaffStartPage extends JPanel {
 			}
 		});
 		
+		//this takes the table number they are doing these actions for, 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel.setVisible(false);
