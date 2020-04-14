@@ -26,6 +26,7 @@ import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+//some issue with moving from order to back and then pay, pay will show the order screen
 
 public class WaitstaffStartPage extends JPanel {
 
