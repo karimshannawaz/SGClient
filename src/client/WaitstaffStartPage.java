@@ -23,6 +23,8 @@ import client.order.PayPanel;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 
 public class WaitstaffStartPage extends JPanel {
@@ -40,6 +42,7 @@ public class WaitstaffStartPage extends JPanel {
 	public MenuPanel orderPanel;
 	private JPanel panel;
 	private JTextField tableNum;
+	private JTable table;
 	
 
 
@@ -120,6 +123,53 @@ public class WaitstaffStartPage extends JPanel {
 		
 		CompBtn.setBounds(0, 394, 374, 262);
 		mainPanel.add(CompBtn);
+		
+		JPanel tablePanel = new JPanel();
+		tablePanel.setBounds(374, 44, 665, 604);
+		mainPanel.add(tablePanel);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				
+			},
+			new String[] {
+				"Table Number", "Refil", "Help", "Order"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, Object.class, Object.class, Object.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(166);
+		table.getColumnModel().getColumn(1).setPreferredWidth(166);
+		table.getColumnModel().getColumn(2).setPreferredWidth(166);
+		table.getColumnModel().getColumn(3).setPreferredWidth(166);
+		table.setBounds(0, 0, 1, 1);
+		tablePanel.add(table);
+		
+		JLabel tableLabel = new JLabel("Table Number");
+		tableLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		tableLabel.setBounds(374, 0, 166, 44);
+		mainPanel.add(tableLabel);
+		
+		JLabel refillLabel = new JLabel("Refill");
+		refillLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		refillLabel.setBounds(540, 0, 166, 44);
+		mainPanel.add(refillLabel);
+		
+		JLabel helpLabel = new JLabel("Help");
+		helpLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		helpLabel.setBounds(707, 0, 166, 44);
+		mainPanel.add(helpLabel);
+		
+		JLabel lblNewLabel = new JLabel("Order");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(873, 0, 166, 44);
+		mainPanel.add(lblNewLabel);
 		
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
