@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import client.Client;
 
 import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.DropMode;
 
 public class PayPanel extends JPanel {
 
@@ -69,11 +71,22 @@ public class PayPanel extends JPanel {
 		add(full_pay_panel);
 		full_pay_panel.setLayout(null);
 		
-		JTextArea txtrYouPaidFor = new JTextArea();
-		txtrYouPaidFor.setFont(new Font("Monospaced", Font.BOLD, 26));
-		txtrYouPaidFor.setText("How would you like to pay the Bill?");
-		txtrYouPaidFor.setBounds(113, 71, 712, 244);
-		full_pay_panel.add(txtrYouPaidFor);
+		JTextArea pay_popup_window = new JTextArea();
+		pay_popup_window.setEditable(false);
+		pay_popup_window.setText("\t\r\n      \r\n                     How would you like to pay the bill?");
+		pay_popup_window.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
+		pay_popup_window.setBounds(71, 108, 782, 208);
+		full_pay_panel.add(pay_popup_window);
+		
+		JButton cardbtn = new JButton("Credit/Debit Card");
+		cardbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		cardbtn.setBounds(171, 346, 259, 65);
+		full_pay_panel.add(cardbtn);
+		
+		JButton Cashbtn = new JButton("Cash");
+		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		Cashbtn.setBounds(486, 346, 259, 65);
+		full_pay_panel.add(Cashbtn);
 		
 		
 		FullBtn.addActionListener(new ActionListener()
@@ -84,6 +97,22 @@ public class PayPanel extends JPanel {
 				main_panel.setVisible(false);
 				FullBtn.setVisible(false);
 				SplitBtn.setVisible(false);
+			}
+		});
+		
+		Cashbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				
+			}
+		});
+		
+		cardbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				
 			}
 		});
 		
