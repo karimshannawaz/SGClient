@@ -28,11 +28,11 @@ import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-//some issue with moving from order to back and then pay, pay will show the order screen
+//order doesnt fully function correctly
 
 public class WaitstaffStartPage extends JPanel {
 
-	private static final long serialVersionUID = -8112480994553957L;
+	private static final long serialVersionUID = -811294553957L;
 	
 	public static String currentScreen = "";
 	public JButton OrderBtn;
@@ -72,13 +72,32 @@ public class WaitstaffStartPage extends JPanel {
 		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
 		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel.add(lblpromptlabel);
-		
 		tableNum = new JTextField();
 		panel.add(tableNum);
 		tableNum.setColumns(10);
-		
 		JButton btnNewButton = new JButton("Enter");
 		panel.add(btnNewButton);
+		
+		//this takes the table number they are doing these actions for, 
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(false);
+				if(currentScreen == "order")
+				{
+					openScreen("order");
+				}
+				else if(currentScreen == "pay")
+				{
+					openScreen("pay");
+				}
+				else if(currentScreen == "compensate")
+				{
+					openScreen("compensate");
+				}
+			}
+				
+		});
+		
 		
 		PayBtn = new JButton("Pay");
 		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -88,14 +107,8 @@ public class WaitstaffStartPage extends JPanel {
 		OrderBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		OrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentScreen = "order";
 				panel.setVisible(true);
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panel.setVisible(false);
-						openScreen("order");
-					}
-					
-				});
 			}
 		});
 		OrderBtn.setBounds(0, 0, 187, 392);
@@ -105,14 +118,8 @@ public class WaitstaffStartPage extends JPanel {
 		CompBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		CompBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentScreen = "compensate";
 				panel.setVisible(true);
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panel.setVisible(false);
-						openScreen("compensate");
-					}
-					
-				});
 			}
 		});
 		
@@ -168,24 +175,37 @@ public class WaitstaffStartPage extends JPanel {
 		
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
+				currentScreen = "pay";
 				panel.setVisible(true);
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panel.setVisible(false);
-						openScreen("pay");
-					}
-					
-				});
 					
 			}
 		});
 		
+		//this takes the table number they are doing these actions for, 
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(false);
+				if(currentScreen == "order")
+				{
+					openScreen("order");
+				}
+				else if(currentScreen == "pay")
+				{
+					openScreen("pay");
+				}
+				else if(currentScreen == "compensate")
+				{
+					openScreen("compensate");
+				}
+			}
+			
+		});
 		
 		backBtn = new JButton("Back");
 		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));
 		backBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				back(false);
+				back();
 			}
 		});
 		
@@ -201,7 +221,7 @@ public class WaitstaffStartPage extends JPanel {
 		add(payPanel);
 	}
 
-	protected void back(boolean exception) {
+	protected void back() {
 		switch(currentScreen) {
 			case "order":
 				this.orderPanel.setVisible(false);
@@ -223,17 +243,6 @@ public class WaitstaffStartPage extends JPanel {
 				this.utilityPanel.setVisible(false);
 				currentScreen = "";
 				break;
-		}
-		if(!exception) {
-			this.PayBtn.setVisible(true);
-			this.OrderBtn.setVisible(true);
-			this.CompBtn.setVisible(true);
-			this.mainPanel.setVisible(true);
-			this.orderPanel.setVisible(false);
-			this.payPanel.setVisible(false);
-			this.backBtn.setVisible(false);
-			this.utilityPanel.setVisible(false);
-			currentScreen = "";
 		}
 	}
 	
