@@ -73,20 +73,43 @@ public class PayPanel extends JPanel {
 		
 		JTextArea pay_popup_window = new JTextArea();
 		pay_popup_window.setEditable(false);
-		pay_popup_window.setText("\t\r\n      \r\n                     How would you like to pay the bill?");
+		pay_popup_window.setText("\t\r\n      \r\n                   HOW WOULD YOU LIKE TO PAY THE BILL?");
 		pay_popup_window.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
 		pay_popup_window.setBounds(71, 108, 782, 208);
 		full_pay_panel.add(pay_popup_window);
 		
-		JButton cardbtn = new JButton("Credit/Debit Card");
+		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
 		cardbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		cardbtn.setBounds(171, 346, 259, 65);
 		full_pay_panel.add(cardbtn);
 		
-		JButton Cashbtn = new JButton("Cash");
+		JButton Cashbtn = new JButton("CASH");
 		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		Cashbtn.setBounds(486, 346, 259, 65);
 		full_pay_panel.add(Cashbtn);
+		
+		JPanel screen_for_cash = new JPanel();
+		screen_for_cash.setBounds(0, 0, 1039, 522);
+		add(screen_for_cash);
+		screen_for_cash.setLayout(null);
+		
+		JTextArea assistance_popup = new JTextArea();
+		assistance_popup.setText("\r\n\r\n\r\n       PLEASE WAIT....YOU WILL BE ASSISTED SHORTLY BY OUR WAIT-STAFF");
+		assistance_popup.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
+		assistance_popup.setEditable(false);
+		assistance_popup.setBounds(51, 132, 936, 271);
+		screen_for_cash.add(assistance_popup);
+		
+		JPanel screen_for_card = new JPanel();
+		screen_for_card.setBounds(0, 0, 1039, 522);
+		add(screen_for_card);
+		screen_for_card.setLayout(null);
+		
+		JTextArea steps_popup = new JTextArea();
+		steps_popup.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
+		steps_popup.setText("\r\n\r\n\t\t\r\n\t       SWIPE/INSERT THE CARD");
+		steps_popup.setBounds(130, 128, 791, 294);
+		screen_for_card.add(steps_popup);
 		
 		
 		FullBtn.addActionListener(new ActionListener()
@@ -104,7 +127,8 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				screen_for_cash.setVisible(true);
+				full_pay_panel.setVisible(false);
 			}
 		});
 		
@@ -112,7 +136,8 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				screen_for_card.setVisible(true);
+				full_pay_panel.setVisible(false);
 			}
 		});
 		
