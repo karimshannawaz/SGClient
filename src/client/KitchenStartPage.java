@@ -136,7 +136,7 @@ public class KitchenStartPage extends JPanel {
 		
 	}
 	
-	public void addKitchen() {
+	public void addToTable() {
 		
 	}
 	
