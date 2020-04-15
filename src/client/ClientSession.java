@@ -11,6 +11,9 @@ package client;
  */
 public class ClientSession {
 	
+	// Represents the temporary table ID.
+	public static int tableID = -1;
+	
 	// Indicates whether the user has logged into rewards or not.
 	public static boolean rwdsLoggedIn = false;
 	
@@ -34,5 +37,11 @@ public class ClientSession {
 	public static int id = -1;
 	public static String password = null;
 	
+	
+	// Set to true if the customer is notified that the restaurant is closing soon.
+	public static boolean closingSoonNoti = false;
+	
+	// Set to true if it is past 11:29 PM CST.
+	public static boolean ordersStopped = false;
 
 }

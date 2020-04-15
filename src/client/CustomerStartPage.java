@@ -25,6 +25,7 @@ import client.order.Menu;
 import client.order.MenuPanel;
 import client.order.PayPanel;
 import client.rewards.RewardsPanel;
+import client.utils.JFrameUtils;
 import javazoom.jl.player.Player;
 import javax.swing.JComboBox;
 
@@ -282,6 +283,13 @@ public class CustomerStartPage extends JPanel {
 	}
 
 	public void openScreen(String type) {
+		if(type.equals("order") && ClientSession.ordersStopped) {
+			JFrameUtils.showMessage("Seven Guys General Notification", 
+				"Sorry, but the restaurant is no longer accepting further orders at this time..\n"
+					+ "You can still pay for your current bill if applicable and play\n"
+					+ "the lottery game if you wish to do so.");
+			return;
+		}
 		this.rwdsBtn.setVisible(false);
 		this.rwdsLbl.setVisible(false);
 		this.mainPanel.setVisible(false);

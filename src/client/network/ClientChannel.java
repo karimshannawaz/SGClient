@@ -35,16 +35,6 @@ public class ClientChannel extends SimpleChannelHandler {
 		factory = new NioClientSocketChannelFactory(
 				Executors.newCachedThreadPool(),
 				Executors.newCachedThreadPool());
-
-		/*
-        bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
-            public ChannelPipeline getPipeline() {
-                return Channels.pipeline(
-                    new DelimiterBasedFrameDecoder(500, Delimiters.lineDelimiter()),
-                    new Client4());
-            }
-        });
-		 */
 		
 		bootstrap = new ClientBootstrap(factory);
 		bootstrap.getPipeline().addLast("handler", this);

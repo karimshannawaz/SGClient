@@ -1,5 +1,5 @@
 package client.network.packet;
-import client.Client;
+import client.ClientSession;
 import client.network.Session;
 
 public class PacketEncoder extends Encoder {
@@ -42,7 +42,7 @@ public class PacketEncoder extends Encoder {
 	public void sendHelpRequest() {
 		OutputStream stream = new OutputStream();
 		stream.writePacketVarShort(4);
-		stream.writeByte(Client.tableID);
+		stream.writeByte(ClientSession.tableID);
 		stream.endPacketVarShort();
 		session.write(stream);
 	}

@@ -74,9 +74,9 @@ public final class PacketDecoder extends Decoder {
 					
 				// Customer/table gets assigned a table ID by the server.
 				case 2:
-					Client.tableID = stream.readUnsignedByte();
-					ClientFrame.instance.setTitle("Seven Guys Table "+((Client.tableID) + 1));
-					System.out.println("Assigned table ID "+Client.tableID);
+					ClientSession.tableID = stream.readUnsignedByte();
+					ClientFrame.instance.setTitle("Seven Guys Table "+((ClientSession.tableID) + 1));
+					System.out.println("Assigned table ID "+ClientSession.tableID);
 					
 					break;
 					
