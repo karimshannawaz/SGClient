@@ -149,6 +149,10 @@ public class WaitstaffStartPage extends JPanel {
 		lblNewLabel.setBounds(873, 0, 166, 44);
 		mainPanel.add(lblNewLabel);
 		
+		
+		//for the waiter table, need to find some way that when there is a help or refill request
+		//the waiter can tab the icon and update the table 
+		//refill has to display the drinks requested
 		JPanel tablePanel = new JPanel();
 		tablePanel.setBounds(374, 31, 665, 604);
 		mainPanel.add(tablePanel);
@@ -182,7 +186,7 @@ public class WaitstaffStartPage extends JPanel {
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, Boolean.class, Boolean.class, Boolean.class
+				Integer.class, Boolean.class, Boolean.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
