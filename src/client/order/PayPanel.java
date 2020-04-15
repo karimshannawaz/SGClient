@@ -21,6 +21,7 @@ public class PayPanel extends JPanel {
 	JButton SplitBtn;
 	JButton FullBtn;
 	private JTextField txtOrder;
+	private JTextField email_prompt_box;
 	/**
 	 * Create the panel.
 	 */
@@ -156,22 +157,90 @@ public class PayPanel extends JPanel {
 		steps_popup.setBounds(130, 128, 791, 294);
 		screen_for_card.add(steps_popup);
 		
-		JPanel bill_splitScreen = new JPanel();
-		bill_splitScreen.setBounds(0, 0, 1039, 522);
-		add(bill_splitScreen);
-		bill_splitScreen.setLayout(null);
+		JPanel printbtn_screen = new JPanel();
+		printbtn_screen.setBounds(0, 0, 1039, 522);
+		add(printbtn_screen);
+		printbtn_screen.setLayout(null);
 		
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setEnabled(false);
-		textArea_1.setEditable(false);
-		textArea_1.setBounds(0, 0, 543, 522);
-		bill_splitScreen.add(textArea_1);
+		JLabel screen_receipt = new JLabel("YOUR RECEIPT");
+		screen_receipt.setBounds(99, 87, 824, 429);
+		printbtn_screen.add(screen_receipt);
 		
-		JTextArea textArea_2 = new JTextArea();
-		textArea_2.setEnabled(false);
-		textArea_2.setEditable(false);
-		textArea_2.setBounds(545, 0, 511, 522);
-		bill_splitScreen.add(textArea_2);
+		JPanel emailbtn_screen = new JPanel();
+		emailbtn_screen.setBounds(0, 0, 1039, 522);
+		add(emailbtn_screen);
+		emailbtn_screen.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("EMAIL ID:");
+		lblNewLabel.setBounds(188, 249, 255, 68);
+		emailbtn_screen.add(lblNewLabel);
+		
+		JLabel email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
+		email_prompt.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		email_prompt.setBounds(169, 61, 713, 128);
+		emailbtn_screen.add(email_prompt);
+		
+		email_prompt_box = new JTextField();
+		email_prompt_box.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
+		email_prompt_box.setBounds(448, 249, 470, 68);
+		emailbtn_screen.add(email_prompt_box);
+		email_prompt_box.setColumns(10);
+		
+		JButton submitbtn = new JButton("SUBMIT");
+		submitbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		submitbtn.setBounds(693, 345, 164, 68);
+		emailbtn_screen.add(submitbtn);
+		
+		JPanel bothbtn_screen = new JPanel();
+		bothbtn_screen.setBounds(0, 0, 1039, 522);
+		add(bothbtn_screen);
+		
+		screen_receipt = new JLabel("YOUR RECEIPT");
+		screen_receipt.setBounds(99, 87, 824, 429);
+		bothbtn_screen.add(screen_receipt);
+		
+		lblNewLabel = new JLabel("EMAIL ID:");
+		lblNewLabel.setBounds(188, 249, 255, 68);
+		bothbtn_screen.add(lblNewLabel);
+		
+		email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
+		email_prompt.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		email_prompt.setBounds(169, 61, 713, 128);
+		bothbtn_screen.add(email_prompt);
+		
+		email_prompt_box = new JTextField();
+		email_prompt_box.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
+		email_prompt_box.setBounds(448, 249, 470, 68);
+		bothbtn_screen.add(email_prompt_box);
+		email_prompt_box.setColumns(10);
+		
+		submitbtn = new JButton("SUBMIT");
+		submitbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		submitbtn.setBounds(693, 345, 164, 68);
+		bothbtn_screen.add(submitbtn);
+		
+		JPanel nobtn_screen = new JPanel();
+		nobtn_screen.setBounds(0, 0, 1039, 522);
+		add(nobtn_screen);
+		nobtn_screen.setLayout(null);
+		
+		JTextArea bye_screen = new JTextArea();
+		bye_screen.setEditable(false);
+		bye_screen.setText("\r\n\r\n\t       THANK YOU FOR VISITING!\r\n\t           HAVE A GOOD DAY!");
+		bye_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		bye_screen.setBounds(133, 100, 769, 297);
+		nobtn_screen.add(bye_screen);
+		
+		JPanel conf_screen = new JPanel();
+		conf_screen.setBounds(0, 0, 1039, 522);
+		add(conf_screen);
+		conf_screen.setLayout(null);
+		
+		JTextArea confirmation_screen = new JTextArea();
+		confirmation_screen.setText("A BILLING RECEIPT IS SENT TO THIS EMAIL SUCCESSFULLY\r\n                               THANK YOU FOR VISITING!!\n           \r\n\t\t\t\t    HAVE A GOOD DAY!");
+		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		confirmation_screen.setBounds(169, 97, 662, 179);
+		conf_screen.add(confirmation_screen);
 		
 		
 		FullBtn.addActionListener(new ActionListener()
@@ -223,9 +292,85 @@ public class PayPanel extends JPanel {
 				
 			}
 		});
+		
+		printbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				printbtn_screen.setVisible(true);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				nobtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+			}
+		});
+		
+		
+		emailbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				emailbtn_screen.setVisible(true);
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				nobtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+			}
+		});
+		
+		
+		bothbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				bothbtn_screen.setVisible(true);
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				nobtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+			}
+		});
+		
+		
+		submitbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				conf_screen.setVisible(true);
+				
+			}
+		});
+		
+		Nobtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				nobtn_screen.setVisible(true);
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+			}
+		});
 		receipt_type_popup.setVisible(false);
 		screen_for_cash.setVisible(false);
 		screen_for_card.setVisible(false);
-		
+		nobtn_screen.setVisible(false);
+		printbtn_screen.setVisible(false);
+		bothbtn_screen.setVisible(false);
+		emailbtn_screen.setVisible(false);
+		conf_screen.setVisible(false);
 	}
 }
