@@ -34,7 +34,7 @@ public class ClientSession {
 	public static boolean hasFreeDessert = false;
 	
 	// Represents the id and password for the employee that logs in.
-	public static int id = -1;
+	public static String id = null;
 	public static String password = null;
 	
 	
