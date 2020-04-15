@@ -1,43 +1,21 @@
 
 package client;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import client.order.MenuPanel;
-import client.order.Menu;
-import client.order.MItem;
 import client.order.PayPanel;
 import client.utils.JFrameUtils;
-
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import java.awt.GridLayout;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.JInternalFrame;
-import javax.swing.border.BevelBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.JLayeredPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JDesktopPane;
-import java.awt.BorderLayout;
 
 //order doesnt fully function correctly 
 
