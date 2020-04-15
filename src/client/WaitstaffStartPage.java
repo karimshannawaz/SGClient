@@ -27,12 +27,21 @@ import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.JInternalFrame;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.JLayeredPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JDesktopPane;
+import java.awt.BorderLayout;
 
-//some issue with moving from order to back and then pay, pay will show the order screen
+//order doesnt fully function correctly 
 
 public class WaitstaffStartPage extends JPanel {
 
-	private static final long serialVersionUID = -8112480994553957L;
+	private static final long serialVersionUID = -811294553957L;
 	
 	public static String currentScreen = "";
 	public JButton OrderBtn;
@@ -54,31 +63,57 @@ public class WaitstaffStartPage extends JPanel {
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
 		
+		JPanel tablePanel = new JPanel();
+		tablePanel.setBounds(374, 31, 665, 604);
+		
+		//Panel has some glitches, may need help on
+		panel = new JPanel();
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel.setBounds(179, 332, 492, 96);
+		panel.setVisible(false);
+		
+		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
+		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		panel.add(lblpromptlabel);
+		tableNum = new JTextField();
+		panel.add(tableNum); //user will input the table they wish to do something for
+		tableNum.setColumns(10);
+		JButton btnNewButton = new JButton("Enter");
+		panel.add(btnNewButton);
+		
+		//this takes the table number they are doing these actions for, 
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel.setVisible(false);
+				if(currentScreen == "order")
+				{
+					openScreen("order");
+				}
+				else if(currentScreen == "pay")
+				{
+					openScreen("pay");
+				}
+				else if(currentScreen == "compensate")
+				{
+					openScreen("compensate");
+				}
+			}
+				
+		});
+		
+		
 		mainPanel = new JPanel();
 		mainPanel.setBounds(0, 0, 1039, 656);
 		add(mainPanel);
 		mainPanel.setLayout(null);
+		mainPanel.add(panel);
+		mainPanel.add(tablePanel);
 		
 		utilityPanel = new JPanel();
 		utilityPanel.setBounds(0, 523, 1039, 133);
 		add(utilityPanel);
 		utilityPanel.setLayout(null);
 		
-		panel = new JPanel();
-		panel.setBounds(302, 303, 468, 104);
-		mainPanel.add(panel);
-		panel.setVisible(false);
-		
-		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
-		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		panel.add(lblpromptlabel);
-		
-		tableNum = new JTextField();
-		panel.add(tableNum);
-		tableNum.setColumns(10);
-		
-		JButton btnNewButton = new JButton("Enter");
-		panel.add(btnNewButton);
 		
 		PayBtn = new JButton("Pay");
 		PayBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -88,14 +123,8 @@ public class WaitstaffStartPage extends JPanel {
 		OrderBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		OrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentScreen = "order";
 				panel.setVisible(true);
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panel.setVisible(false);
-						openScreen("order");
-					}
-					
-				});
 			}
 		});
 		OrderBtn.setBounds(0, 0, 187, 392);
@@ -105,46 +134,13 @@ public class WaitstaffStartPage extends JPanel {
 		CompBtn.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		CompBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentScreen = "compensate";
 				panel.setVisible(true);
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panel.setVisible(false);
-						openScreen("compensate");
-					}
-					
-				});
 			}
 		});
 		
 		CompBtn.setBounds(0, 394, 374, 262);
 		mainPanel.add(CompBtn);
-		
-		JPanel tablePanel = new JPanel();
-		tablePanel.setBounds(374, 44, 665, 604);
-		mainPanel.add(tablePanel);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				
-			},
-			new String[] {
-				"Table Number", "Refil", "Help", "Order"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(166);
-		table.getColumnModel().getColumn(1).setPreferredWidth(166);
-		table.getColumnModel().getColumn(2).setPreferredWidth(166);
-		table.getColumnModel().getColumn(3).setPreferredWidth(166);
-		table.setBounds(0, 0, 1, 1);
-		tablePanel.add(table);
 		
 		JLabel tableLabel = new JLabel("Table Number");
 		tableLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -166,26 +162,84 @@ public class WaitstaffStartPage extends JPanel {
 		lblNewLabel.setBounds(873, 0, 166, 44);
 		mainPanel.add(lblNewLabel);
 		
+		
+		//for the waiter table, need to find some way that when there is a help or refill request
+		//the waiter can tab the icon and update the table 
+		//refill has to display the drinks requested
+		
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{new Integer(1), null, null, null},
+				{new Integer(2), null, null, null},
+				{new Integer(3), null, null, null},
+				{new Integer(4), null, null, null},
+				{new Integer(5), null, null, null},
+				{new Integer(6), null, null, null},
+				{new Integer(7), null, null, null},
+				{new Integer(8), null, null, null},
+				{new Integer(9), null, null, null},
+				{new Integer(10), null, null, null},
+				{new Integer(11), null, null, null},
+				{new Integer(12), null, null, null},
+				{new Integer(13), null, null, null},
+				{new Integer(14), null, null, null},
+				{new Integer(15), null, null, null},
+				{new Integer(16), null, null, null},
+				{new Integer(17), null, null, null},
+				{new Integer(18), null, null, null},
+				{new Integer(19), null, null, null},
+				{new Integer(20), null, null, null},
+			},
+			new String[] {
+				"Table Number", "Refill", "Help", "Order"
+			}
+		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			Class[] columnTypes = new Class[] {
+				Integer.class, Boolean.class, Boolean.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(166);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(166);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(166);
+		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(3).setPreferredWidth(166);
+		table.setBounds(0, 0, 1, 1);
+		table.setRowHeight(30);
+		tablePanel.add(table);
+		
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
+				currentScreen = "pay";
 				panel.setVisible(true);
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						panel.setVisible(false);
-						openScreen("pay");
-					}
-					
-				});
 					
 			}
 		});
+		
 		
 		
 		backBtn = new JButton("Back");
 		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));
 		backBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				back(false);
+				back();
 			}
 		});
 		
@@ -199,9 +253,12 @@ public class WaitstaffStartPage extends JPanel {
 		this.payPanel = new PayPanel();
 		payPanel.setVisible(false);
 		add(payPanel);
+		
+		
 	}
-
-	protected void back(boolean exception) {
+	
+	
+	protected void back() {
 		switch(currentScreen) {
 			case "order":
 				this.orderPanel.setVisible(false);
@@ -223,17 +280,6 @@ public class WaitstaffStartPage extends JPanel {
 				this.utilityPanel.setVisible(false);
 				currentScreen = "";
 				break;
-		}
-		if(!exception) {
-			this.PayBtn.setVisible(true);
-			this.OrderBtn.setVisible(true);
-			this.CompBtn.setVisible(true);
-			this.mainPanel.setVisible(true);
-			this.orderPanel.setVisible(false);
-			this.payPanel.setVisible(false);
-			this.backBtn.setVisible(false);
-			this.utilityPanel.setVisible(false);
-			currentScreen = "";
 		}
 	}
 	

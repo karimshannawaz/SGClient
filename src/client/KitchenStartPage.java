@@ -117,6 +117,13 @@ public class KitchenStartPage extends JPanel {
 		table.getColumnModel().getColumn(2).setPreferredWidth(163);
 		
 		//format to update, need to understand how the packages are sent etc to continue - desere
+		//when something is sent about the order, set the first section to the table ID
+		//then read in the order to be stored into the list
+		// the bool will always be set as false to say the order is not ready
+		// then once it is marked as true, will be sent back to the waiter to notify order is ready
+		//row in table will then be removed
+		//simulated like below but haven added the checking if bool is true and the updating the table using a funciton
+		//also need to put this into a function or something, have not been able to so far, may need help
 		List<String> temp = new ArrayList();
 		temp.add("Juicy Lucy");
 		temp.add("Coke");
