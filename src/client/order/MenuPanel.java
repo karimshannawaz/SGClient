@@ -13,8 +13,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 // Test by dillon
 
@@ -125,22 +127,20 @@ public class MenuPanel extends JPanel {
 		OrderDetails.add(PictureFrame);
 		PictureFrame.setLayout(null);
 		
-		txtpictureOfHamburger = new JTextField();
-		txtpictureOfHamburger.setText("*Picture of hamburger*");
-		txtpictureOfHamburger.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		txtpictureOfHamburger.setBounds(159, 115, 200, 131);
-		PictureFrame.add(txtpictureOfHamburger);
-		txtpictureOfHamburger.setColumns(10);
+		JLabel lblNewLabel = new JLabel("No Picture Added");
+		lblNewLabel.setBounds(159, 70, 200, 200);
+		PictureFrame.add(lblNewLabel);
+		
 		
 		item_name_textfield = new JTextField();
 		item_name_textfield.setEditable(false);
-		item_name_textfield.setBounds(159, 265, 200, 50);
+		item_name_textfield.setBounds(159, 10, 200, 50);
 		PictureFrame.add(item_name_textfield);
 		item_name_textfield.setColumns(10);
 		
 		item_price_textfield = new JTextField();
 		item_price_textfield.setEditable(false);
-		item_price_textfield.setBounds(100, 265, 50, 50);
+		item_price_textfield.setBounds(100, 10, 50, 50);
 		PictureFrame.add(item_price_textfield);
 		item_price_textfield.setColumns(10);
 		
@@ -148,13 +148,13 @@ public class MenuPanel extends JPanel {
 		item_description_textfield.setWrapStyleWord(true);
 		item_description_textfield.setLineWrap(true);
 		item_description_textfield.setEditable(false);
-		item_description_textfield.setBounds(50, 331, 438, 103);
+		item_description_textfield.setBounds(50, 280, 438, 100);
 		PictureFrame.add(item_description_textfield);
 		
 		item_allergens_textfield = new JTextField();
 		item_allergens_textfield.setEditable(false);
 		item_allergens_textfield.setText("Contains: ");
-		item_allergens_textfield.setBounds(59, 455, 400, 35);
+		item_allergens_textfield.setBounds(59, 450, 400, 35);
 		PictureFrame.add(item_allergens_textfield);
 		item_allergens_textfield.setColumns(10);
 		
@@ -164,7 +164,7 @@ public class MenuPanel extends JPanel {
 		vegan_textfield.setText("Vegetarian");
 		vegan_textfield.setVisible(false);
 		vegan_textfield.setEditable(false);
-		vegan_textfield.setBounds(184, 54, 150, 50);
+		vegan_textfield.setBounds(184, 390, 150, 50);
 		PictureFrame.add(vegan_textfield);
 		vegan_textfield.setColumns(10);
 		
@@ -172,13 +172,7 @@ public class MenuPanel extends JPanel {
 		OrderSpecificsFrame.setBounds(519, 0, 518, 520);
 		OrderDetails.add(OrderSpecificsFrame);
 		OrderSpecificsFrame.setLayout(null);
-		
-		JPanel editframe = new JPanel();
-		editframe.setBounds(0, 0, 1037, 520);
-		editframe.setVisible(false);
-		add(editframe);
-		editframe.setLayout(null);
-		
+				
 		JButton cancel_button = new JButton("Cancel");
 		cancel_button.setBounds(93, 375, 125, 125);
 		OrderSpecificsFrame.add(cancel_button);
@@ -186,7 +180,7 @@ public class MenuPanel extends JPanel {
 		JButton confirm_button = new JButton("Confirm");
 		confirm_button.setBounds(218, 375, 125, 125);
 		OrderSpecificsFrame.add(confirm_button);
-				
+		
 		//JButton next_ingredient_button = new JButton("Next page");
 		next_ingredient_button.setVisible(false);
 		next_ingredient_button.setBounds(218, 325, 125, 25);
@@ -280,7 +274,12 @@ public class MenuPanel extends JPanel {
 										vegan_textfield.setVisible(true);
 										vegan_textfield.setText("vegan");
 									}
-									
+									String text = "data\\\\menu-images\\\\";
+									text = text.concat(mItem.name);
+									text = text.concat(".jpg");
+									System.out.println(text);
+									lblNewLabel.setIcon(new ImageIcon(text));
+
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
 									item_price_textfield.setText("$"+String.valueOf(mItem.price));
@@ -383,6 +382,11 @@ public class MenuPanel extends JPanel {
 										vegan_textfield.setVisible(true);
 										vegan_textfield.setText("vegan");
 									}
+									String text = "data\\\\menu-images\\\\";
+									text = text.concat(mItem.name);
+									text = text.concat(".jpg");
+									System.out.println(text);
+									lblNewLabel.setIcon(new ImageIcon(text));
 									
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
@@ -488,6 +492,12 @@ public class MenuPanel extends JPanel {
 										vegan_textfield.setText("vegan");
 									}
 									
+									String text = "data\\\\menu-images\\\\";
+									text = text.concat(mItem.name);
+									text = text.concat(".jpg");
+									System.out.println(text);
+									lblNewLabel.setIcon(new ImageIcon(text));
+									
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
 									item_price_textfield.setText("$"+String.valueOf(mItem.price));
@@ -590,6 +600,12 @@ public class MenuPanel extends JPanel {
 										vegan_textfield.setVisible(true);
 										vegan_textfield.setText("vegan");
 									}
+									
+									String text = "data\\\\menu-images\\\\";
+									text = text.concat(mItem.name);
+									text = text.concat(".jpg");
+									System.out.println(text);
+									lblNewLabel.setIcon(new ImageIcon(text));
 									
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
