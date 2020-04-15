@@ -174,7 +174,8 @@ public class PayPanel extends JPanel {
 		
 		JLabel lblNewLabel;
 		email_box = new JLabel("EMAIL ID:");
-		email_box.setBounds(188, 249, 255, 68);
+		email_box.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		email_box.setBounds(188, 249, 228, 68);
 		emailbtn_screen.add(email_box);
 		
 		JLabel email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
@@ -184,7 +185,7 @@ public class PayPanel extends JPanel {
 		
 		email_prompt_box = new JTextField();
 		email_prompt_box.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
-		email_prompt_box.setBounds(448, 249, 470, 68);
+		email_prompt_box.setBounds(312, 249, 486, 68);
 		emailbtn_screen.add(email_prompt_box);
 		email_prompt_box.setColumns(10);
 		
@@ -196,9 +197,10 @@ public class PayPanel extends JPanel {
 		JPanel bothbtn_screen = new JPanel();
 		bothbtn_screen.setBounds(0, 0, 1039, 522);
 		add(bothbtn_screen);
+		bothbtn_screen.setLayout(null);
 		
 		lblNewLabel = new JLabel("EMAIL ID:");
-		lblNewLabel.setBounds(188, 249, 255, 68);
+		lblNewLabel.setBounds(188, 249, 228, 68);
 		bothbtn_screen.add(lblNewLabel);
 		
 		email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
@@ -208,7 +210,7 @@ public class PayPanel extends JPanel {
 		
 		email_prompt_box = new JTextField();
 		email_prompt_box.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
-		email_prompt_box.setBounds(448, 249, 470, 68);
+		email_prompt_box.setBounds(312, 249, 486, 68);
 		bothbtn_screen.add(email_prompt_box);
 		email_prompt_box.setColumns(10);
 		
@@ -344,6 +346,13 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				conf_screen.setVisible(true);
+				nobtn_screen.setVisible(false);
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				emailbtn_screen.setVisible(false);
 				
 			}
 		});
