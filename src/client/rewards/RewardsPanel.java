@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import client.Client;
+import client.ClientSession;
 import client.utils.Constants;
 import client.utils.JFrameUtils;
 
@@ -156,8 +157,11 @@ public class RewardsPanel extends JPanel {
 		Client.session.getPacketEncoder().sendCreationRequest(email, birthdate);
 	}
 	
-	protected void finishSignup() {
-		
+	public void finishSignup() {
+		JFrameUtils.showMessage("Rewards Account", "Success! Your rewards account has been created with the email: "+
+			ClientSession.email+" (Birthday: "+ClientSession.birthday+").\nRemember to visit frequently for "
+					+ "free entrees after your 5th visit, "
+					+ "free entree on your birthday, and\na chance to win a free dessert after every visit!");
 	}
 
 	protected void submitLoginRequest() {

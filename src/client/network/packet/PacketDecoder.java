@@ -119,7 +119,9 @@ public final class PacketDecoder extends Decoder {
 							int paramsLength = stream.readUnsignedByte();
 							String email = stream.readString();
 							String birthdate = stream.readString();
-							
+							ClientSession.email = email;
+							ClientSession.birthday = birthdate;
+							Client.clientFrame.panel.rewardsPanel.finishSignup();
 							break;
 					}
 					break;
