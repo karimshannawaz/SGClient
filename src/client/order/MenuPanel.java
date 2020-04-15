@@ -27,6 +27,8 @@ import javax.swing.JToggleButton;
 
 import client.Client;
 import client.network.packet.PacketDecoder;
+import client.utils.JFrameUtils;
+
 import javax.swing.SwingConstants;
 
 public class MenuPanel extends JPanel {
@@ -106,14 +108,10 @@ public class MenuPanel extends JPanel {
 		order_textfield.setText("Order: ");
 		scrollPane.setViewportView(order_textfield);
 		
-		JButton edit_order_button = new JButton ("Edit Order");
-		edit_order_button.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		edit_order_button.setBounds(0, 440, 173, 82);
-		OrderListFrame.add(edit_order_button);
-		
+
 		JButton place_order_button = new JButton("Place Order");
 		place_order_button.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		place_order_button.setBounds(173, 440, 173, 82);
+		place_order_button.setBounds(0, 440, 346, 82);
 		OrderListFrame.add(place_order_button);
 		
 		JPanel OrderDetails = new JPanel();
@@ -926,16 +924,27 @@ public class MenuPanel extends JPanel {
 			}
 		});
 
-		place_order_button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				editframe.setVisible(true);
-				OrderTypeFrame.setVisible(false);
-				OrderListFrame.setVisible(false);
-				MenuListFrame.setVisible(false);
+		place_order_button.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				boolean confirmOrder = JFrameUtils.confirmDialog("Your Order",
+						"Are you sure you would like to place this order? You cannot make changes"
+								+ " once it has been placed.");
+
+				// Object input = JFrameUtils.inputDialog("Order Price", "Choose what you want to pay for this order:");
+				if (!confirmOrder)
+				{
+					order_textfield.setText("Order:");
+					return;
+				}
+				else
+				{
+					System.out.println("CODE HERE TO AND SEND INFO TO KITCHEN / SERVER ");
+				}
 			}
 		});
-		
+
 		cancel_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (JButton b : add)
