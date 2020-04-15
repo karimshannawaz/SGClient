@@ -113,6 +113,7 @@ public final class PacketDecoder extends Decoder {
 					switch(code) {
 					
 						case "email_exists":
+							System.out.println("Email exists");
 							JFrameUtils.showMessage("Rewards Account", 
 									"Error: This email already exists. Please try using another email address.");
 							break;
