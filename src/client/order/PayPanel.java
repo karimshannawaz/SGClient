@@ -119,7 +119,7 @@ public class PayPanel extends JPanel {
 		receipt_tab1.setBounds(177, 133, 719, 117);
 		receipt_type_popup.add(receipt_tab1);
 		
-		JLabel receipt_tab = new JLabel("              PAYMENT SUCCESSFUL");
+		JLabel receipt_tab = new JLabel("                  PAYMENT SUCCESSFUL");
 		receipt_tab.setFont(new Font("Impact", Font.BOLD, 35));
 		receipt_tab.setBounds(173, 16, 719, 101);
 		receipt_type_popup.add(receipt_tab);
@@ -224,5 +224,8 @@ public class PayPanel extends JPanel {
 			}
 		});
 		receipt_type_popup.setVisible(false);
+		screen_for_cash.setVisible(false);
+		screen_for_card.setVisible(false);
+		
 	}
 }
