@@ -256,6 +256,7 @@ public class CustomerStartPage extends JPanel {
 				this.payPanel.setVisible(false);
 				break;
 			case "rewards":
+				this.rewardsPanel.rewardsPanel.setVisible(false);
 				this.rewardsPanel.setVisible(false);
 				break;
 			case "rps":
@@ -298,8 +299,10 @@ public class CustomerStartPage extends JPanel {
 				this.payPanel.setVisible(true);
 				break;
 			case "rewards":
-				this.rewardsPanel.showLoginInfo(ClientSession.rwdsLgn);
 				this.rewardsPanel.setVisible(true);
+				if(ClientSession.rwdsLoggedIn) {
+					Client.clientFrame.panel.rewardsPanel.loginToRewards(false);
+				}
 				break;
 			case "rps":
 				this.gamePanel.setVisible(false);

@@ -27,6 +27,8 @@ import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JInternalFrame;
+import javax.swing.border.BevelBorder;
 
 //order doesnt fully function correctly
 
@@ -65,6 +67,7 @@ public class WaitstaffStartPage extends JPanel {
 		utilityPanel.setLayout(null);
 		
 		panel = new JPanel();
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.setBounds(302, 303, 468, 104);
 		mainPanel.add(panel);
 		panel.setVisible(false);
@@ -126,33 +129,6 @@ public class WaitstaffStartPage extends JPanel {
 		CompBtn.setBounds(0, 394, 374, 262);
 		mainPanel.add(CompBtn);
 		
-		JPanel tablePanel = new JPanel();
-		tablePanel.setBounds(374, 44, 665, 604);
-		mainPanel.add(tablePanel);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				
-			},
-			new String[] {
-				"Table Number", "Refil", "Help", "Order"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(166);
-		table.getColumnModel().getColumn(1).setPreferredWidth(166);
-		table.getColumnModel().getColumn(2).setPreferredWidth(166);
-		table.getColumnModel().getColumn(3).setPreferredWidth(166);
-		table.setBounds(0, 0, 1, 1);
-		tablePanel.add(table);
-		
 		JLabel tableLabel = new JLabel("Table Number");
 		tableLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		tableLabel.setBounds(374, 0, 166, 44);
@@ -172,6 +148,53 @@ public class WaitstaffStartPage extends JPanel {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(873, 0, 166, 44);
 		mainPanel.add(lblNewLabel);
+		
+		JPanel tablePanel = new JPanel();
+		tablePanel.setBounds(374, 31, 665, 604);
+		mainPanel.add(tablePanel);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{new Integer(1), null, null, null},
+				{new Integer(2), null, null, null},
+				{new Integer(3), null, null, null},
+				{new Integer(4), null, null, null},
+				{new Integer(5), null, null, null},
+				{new Integer(6), null, null, null},
+				{new Integer(7), null, null, null},
+				{new Integer(8), null, null, null},
+				{new Integer(9), null, null, null},
+				{new Integer(10), null, null, null},
+				{new Integer(11), null, null, null},
+				{new Integer(12), null, null, null},
+				{new Integer(13), null, null, null},
+				{new Integer(14), null, null, null},
+				{new Integer(15), null, null, null},
+				{new Integer(16), null, null, null},
+				{new Integer(17), null, null, null},
+				{new Integer(18), null, null, null},
+				{new Integer(19), null, null, null},
+				{new Integer(20), null, null, null},
+			},
+			new String[] {
+				"Table Number", "Refill", "Help", "Order"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, Boolean.class, Boolean.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(166);
+		table.getColumnModel().getColumn(1).setPreferredWidth(166);
+		table.getColumnModel().getColumn(2).setPreferredWidth(166);
+		table.getColumnModel().getColumn(3).setPreferredWidth(166);
+		table.setBounds(0, 0, 1, 1);
+		table.setRowHeight(30);
+		tablePanel.add(table);
 		
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
@@ -200,6 +223,8 @@ public class WaitstaffStartPage extends JPanel {
 			}
 			
 		});
+		
+		
 		
 		backBtn = new JButton("Back");
 		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));

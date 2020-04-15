@@ -5,6 +5,7 @@ import client.ClientSession;
 import client.network.Session;
 import client.order.MItem;
 import client.order.Menu;
+import client.utils.JFrameUtils;
 
 public final class PacketDecoder extends Decoder {
 	
@@ -20,7 +21,6 @@ public final class PacketDecoder extends Decoder {
 		for (int id = 0; id < SIZES.length; id++)
 			SIZES[id] = -4;
 		SIZES[1] = 2;
-	
 	}
 
 	public PacketDecoder(Session session) {
@@ -112,18 +112,38 @@ public final class PacketDecoder extends Decoder {
 					switch(code) {
 					
 						case "email_exists":
-							ClientSession.emailExists = true;
+							JFrameUtils.showMessage("Rewards Account", 
+									"Error: This email already exists. Please try using another email address.");
+							break;
+							
+						case "email_does_not_exist":
+							JFrameUtils.showMessage("Rewards Account", 
+									"Error: This email does not exist. Please try using an existing email address.");
 							break;
 							
 						case "email_created":
 							int paramsLength = stream.readUnsignedByte();
 							String email = stream.readString();
 							String birthdate = stream.readString();
+							String name = stream.readString();
 							ClientSession.email = email;
 							ClientSession.birthday = birthdate;
 							Client.clientFrame.panel.rewardsPanel.finishSignup();
 							break;
 					}
+					break;
+					
+				// Receiving saved user details from server
+				case 5:
+					ClientSession.email = stream.readString();
+					ClientSession.birthday = stream.readString();
+					ClientSession.name = stream.readString();
+					ClientSession.visits = stream.readUnsignedShort();
+					ClientSession.hasFreeSide = stream.readUnsignedByte() == 1;
+					ClientSession.hasBirthdayEntree = stream.readUnsignedByte() == 1;
+					ClientSession.hasFreeDessert = stream.readUnsignedByte() == 1;
+					ClientSession.rwdsLoggedIn = true;
+					Client.clientFrame.panel.rewardsPanel.loginToRewards(true);
 					break;
 					
 				default:

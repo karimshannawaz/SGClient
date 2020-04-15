@@ -65,11 +65,26 @@ public class PacketEncoder extends Encoder {
 	 * @param email
 	 * @param birthdate
 	 */
-	public void sendCreationRequest(String email, String birthdate) {
+	public void sendCreationRequest(String email, String birthdate, String name) {
 		OutputStream stream = new OutputStream();
 		stream.writePacketVarShort(6);
 		stream.writeString(email);
 		stream.writeString(birthdate);
+		stream.writeString(name);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
+
+	/**
+	 * Requests the server to login with the specified email
+	 * and birth-date. If email does not exist, then client is notified.
+	 * 
+	 * @param email
+	 */
+	public void sendLoginRequest(String email) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(7);
+		stream.writeString(email);
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
