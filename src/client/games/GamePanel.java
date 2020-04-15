@@ -31,7 +31,7 @@ public class GamePanel extends JPanel {
 		JButton btnNewButton = new JButton("Game A - Rock-Paper-Scissors-Lizard-Spock");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ClientFrame.instance.panel.openScreen("rps");
+				ClientFrame.instance.customerSP.openScreen("rps");
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 21));
@@ -41,7 +41,7 @@ public class GamePanel extends JPanel {
 		JButton btnNewButton_1 = new JButton("Game B - Guess the number!!");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClientFrame.instance.panel.openScreen("gtn");
+				ClientFrame.instance.customerSP.openScreen("gtn");
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 21));

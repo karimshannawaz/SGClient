@@ -89,4 +89,20 @@ public class PacketEncoder extends Encoder {
 		session.write(stream);
 	}
 	
+	/**
+	 * Requests the server to login with the specified id and password.
+	 * If either user/password is invalid/does not exist, client
+	 * will be notified.
+	 * 
+	 * @param email
+	 */
+	public void sendLoginRequest(String id, String password) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(8);
+		stream.writeString(id);
+		stream.writeString(password);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
+	
 }

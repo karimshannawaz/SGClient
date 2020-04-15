@@ -309,7 +309,7 @@ public class CustomerStartPage extends JPanel {
 			case "rewards":
 				this.rewardsPanel.setVisible(true);
 				if(ClientSession.rwdsLoggedIn) {
-					Client.clientFrame.panel.rewardsPanel.loginToRewards(false);
+					Client.clientFrame.customerSP.rewardsPanel.loginToRewards(false);
 				}
 				break;
 			case "rps":

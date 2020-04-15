@@ -105,6 +105,10 @@ public class KitchenStartPage extends JPanel {
 				"Table Number", "Order", "Status"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 413841898716691914L;
 			Class[] columnTypes = new Class[] {
 				Integer.class, List.class, Boolean.class
 			};
@@ -129,6 +133,10 @@ public class KitchenStartPage extends JPanel {
 		temp.add("Coke");
 		DefaultTableModel update = (DefaultTableModel) table.getModel();
 		update.addRow(new Object[] {new Integer(5),temp,new Boolean(false)});
+		
+	}
+	
+	public void addToTable() {
 		
 	}
 	
