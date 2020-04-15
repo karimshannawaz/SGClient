@@ -22,6 +22,8 @@ import client.order.MenuPanel;
 import client.order.Menu;
 import client.order.MItem;
 import client.order.PayPanel;
+import client.utils.JFrameUtils;
+
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
@@ -52,7 +54,7 @@ public class WaitstaffStartPage extends JPanel {
 	public JPanel utilityPanel;
 	public PayPanel payPanel;
 	public MenuPanel orderPanel;
-	private JPanel panel;
+	//private JPanel panel;
 	private JTextField tableNum;
 	private JTable table;
 	
@@ -63,15 +65,19 @@ public class WaitstaffStartPage extends JPanel {
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
 		
-		JPanel tablePanel = new JPanel();
-		tablePanel.setBounds(374, 31, 665, 604);
+		mainPanel = new JPanel();
+		mainPanel.setBounds(0, 0, 1039, 656);
+		add(mainPanel);
+		mainPanel.setLayout(null);
+
 		
+		/*
 		//Panel has some glitches, may need help on
 		panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.setBounds(179, 332, 492, 96);
 		panel.setVisible(false);
-		
+		mainPanel.add(panel);
 		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
 		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel.add(lblpromptlabel);
@@ -80,33 +86,11 @@ public class WaitstaffStartPage extends JPanel {
 		tableNum.setColumns(10);
 		JButton btnNewButton = new JButton("Enter");
 		panel.add(btnNewButton);
-		
-		//this takes the table number they are doing these actions for, 
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panel.setVisible(false);
-				if(currentScreen == "order")
-				{
-					openScreen("order");
-				}
-				else if(currentScreen == "pay")
-				{
-					openScreen("pay");
-				}
-				else if(currentScreen == "compensate")
-				{
-					openScreen("compensate");
-				}
-			}
-				
-		});
+		*/
 		
 		
-		mainPanel = new JPanel();
-		mainPanel.setBounds(0, 0, 1039, 656);
-		add(mainPanel);
-		mainPanel.setLayout(null);
-		mainPanel.add(panel);
+		JPanel tablePanel = new JPanel();
+		tablePanel.setBounds(374, 31, 665, 604);
 		mainPanel.add(tablePanel);
 		
 		utilityPanel = new JPanel();
@@ -124,7 +108,7 @@ public class WaitstaffStartPage extends JPanel {
 		OrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "order";
-				panel.setVisible(true);
+				showTableOption();
 			}
 		});
 		OrderBtn.setBounds(0, 0, 187, 392);
@@ -135,7 +119,7 @@ public class WaitstaffStartPage extends JPanel {
 		CompBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "compensate";
-				panel.setVisible(true);
+				showTableOption();
 			}
 		});
 		
@@ -228,8 +212,7 @@ public class WaitstaffStartPage extends JPanel {
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "pay";
-				panel.setVisible(true);
-					
+				showTableOption();
 			}
 		});
 		
@@ -253,11 +236,38 @@ public class WaitstaffStartPage extends JPanel {
 		this.payPanel = new PayPanel();
 		payPanel.setVisible(false);
 		add(payPanel);
-		
-		
+
 	}
 	
 	
+	protected void showTableOption() {
+		Object option = JFrameUtils.inputDialog("Table Chooser", "Enter the table number:");
+		int tableNum;
+		try {
+			tableNum = Integer.parseInt((String) option);
+		} catch(NumberFormatException e) {
+			JFrameUtils.showMessage("Table Chooser", "Invalid table entered, please try again.");
+			return;
+		}
+		if(tableNum < 1 || tableNum > 20) {
+			JFrameUtils.showMessage("Table Chooser", "Invalid table entered, please try again.");
+			return;
+		}
+		if(currentScreen == "order")
+		{
+			openScreen("order");
+		}
+		else if(currentScreen == "pay")
+		{
+			openScreen("pay");
+		}
+		else if(currentScreen == "compensate")
+		{
+			openScreen("compensate");
+		}
+	}
+
+
 	protected void back() {
 		switch(currentScreen) {
 			case "order":
