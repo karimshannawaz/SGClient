@@ -133,7 +133,7 @@ public final class PacketDecoder extends Decoder {
 							String name = stream.readString();
 							ClientSession.email = email;
 							ClientSession.birthday = birthdate;
-							Client.clientFrame.panel.rewardsPanel.finishSignup();
+							Client.clientFrame.customerSP.rewardsPanel.finishSignup();
 							break;
 							
 						// Employee client codes:
@@ -161,11 +161,18 @@ public final class PacketDecoder extends Decoder {
 						ClientSession.hasBirthdayEntree = stream.readUnsignedByte() == 1;
 						ClientSession.hasFreeDessert = stream.readUnsignedByte() == 1;
 						ClientSession.rwdsLoggedIn = true;
-						Client.clientFrame.panel.rewardsPanel.loginToRewards(true);
+						Client.clientFrame.customerSP.rewardsPanel.loginToRewards(true);
 					}
 					// Send employee details to client here.
 					else {
-						
+						ClientSession.id = stream.readString();
+						ClientSession.name = stream.readString();
+						ClientSession.role = stream.readString();
+						ClientSession.password = stream.readString();
+						if(ClientSession.role.equals("waitstaff"))
+							Client.clientFrame.employeeSP.waiterLandingPage();
+						else if(ClientSession.role.equals("kitchen"))
+							Client.clientFrame.employeeSP.kitchenLandingPage();
 					}
 					break;
 					

@@ -244,7 +244,7 @@ public class MenuPanel extends JPanel {
 					next_page_button.setVisible(false);
 					previous_page_button.setVisible(false);
 					
-					Client.clientFrame.panel.orderPanel.entreesFM.clear();
+					Client.clientFrame.customerSP.orderPanel.entreesFM.clear();
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
@@ -257,8 +257,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.entreesFM.add(b);
 							b.addActionListener(new ActionListener()
 							{
 								public void actionPerformed(ActionEvent e)
@@ -347,7 +347,7 @@ public class MenuPanel extends JPanel {
 					next_page_button.setVisible(false);
 					previous_page_button.setVisible(false);
 					
-					Client.clientFrame.panel.orderPanel.sidesFM.clear();
+					Client.clientFrame.customerSP.orderPanel.sidesFM.clear();
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
@@ -360,8 +360,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.sidesFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.sidesFM.add(b);
 							b.addActionListener(new ActionListener()
 							{
 								public void actionPerformed(ActionEvent e)
@@ -451,7 +451,7 @@ public class MenuPanel extends JPanel {
 					next_page_button.setVisible(false);
 					previous_page_button.setVisible(false);
 					
-					Client.clientFrame.panel.orderPanel.drinksFM.clear();
+					Client.clientFrame.customerSP.orderPanel.drinksFM.clear();
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
@@ -464,8 +464,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.drinksFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.drinksFM.add(b);
 							b.addActionListener(new ActionListener()
 							{
 								public void actionPerformed(ActionEvent e)
@@ -555,7 +555,7 @@ public class MenuPanel extends JPanel {
 					next_page_button.setVisible(false);
 					previous_page_button.setVisible(false);
 					
-					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
+					Client.clientFrame.customerSP.orderPanel.dessertsFM.clear();
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
@@ -568,8 +568,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * buttonIndex, 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.dessertsFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.dessertsFM.add(b);
 							b.addActionListener(new ActionListener()
 							{
 								public void actionPerformed(ActionEvent e)
@@ -650,7 +650,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : entreesFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.entreesFM.clear();
+					Client.clientFrame.customerSP.orderPanel.entreesFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -679,8 +679,8 @@ public class MenuPanel extends JPanel {
 									OrderDetails.setVisible(true);
 								}
 							});
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.entreesFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
@@ -696,7 +696,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : sidesFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.sidesFM.clear();
+					Client.clientFrame.customerSP.orderPanel.sidesFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -709,8 +709,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.sidesFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.sidesFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
@@ -726,7 +726,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : drinksFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.drinksFM.clear();
+					Client.clientFrame.customerSP.orderPanel.drinksFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -739,8 +739,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.drinksFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.drinksFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
@@ -756,7 +756,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : dessertsFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
+					Client.clientFrame.customerSP.orderPanel.dessertsFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -769,8 +769,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.dessertsFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.dessertsFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
@@ -801,7 +801,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : entreesFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.entreesFM.clear();
+					Client.clientFrame.customerSP.orderPanel.entreesFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -814,8 +814,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.entreesFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.entreesFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
@@ -831,7 +831,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : sidesFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.sidesFM.clear();
+					Client.clientFrame.customerSP.orderPanel.sidesFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -844,8 +844,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.sidesFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.sidesFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
@@ -861,7 +861,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : drinksFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.drinksFM.clear();
+					Client.clientFrame.customerSP.orderPanel.drinksFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -874,8 +874,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.drinksFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.drinksFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
@@ -891,7 +891,7 @@ public class MenuPanel extends JPanel {
 					for (JButton b : dessertsFM)
 						b.setVisible(false);
 				
-					Client.clientFrame.panel.orderPanel.dessertsFM.clear();
+					Client.clientFrame.customerSP.orderPanel.dessertsFM.clear();
 
 					for (MItem mItem : Menu.instance)
 					{
@@ -904,8 +904,8 @@ public class MenuPanel extends JPanel {
 							b.setVisible(false);
 							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
 							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
-							Client.clientFrame.panel.orderPanel.MenuListFrame.add(b);
-							Client.clientFrame.panel.orderPanel.dessertsFM.add(b);
+							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
+							Client.clientFrame.customerSP.orderPanel.dessertsFM.add(b);
 							buttonIndex++;
 							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}

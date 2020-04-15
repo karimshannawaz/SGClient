@@ -59,11 +59,11 @@ public class Client {
 						if(hour >= 11 && hour != 12 && mins >= 29 && !ClientSession.ordersStopped && meridiem.equals("PM")) {
 							ClientSession.ordersStopped = true;
 							if(CustomerStartPage.currentScreen.equals("order")) {
-								clientFrame.panel.orderPanel.setVisible(false);
-								clientFrame.panel.rwdsBtn.setVisible(true);
-								clientFrame.panel.rwdsLbl.setVisible(true);
-								clientFrame.panel.mainPanel.setVisible(true);
-								clientFrame.panel.backBtn.setVisible(false);
+								clientFrame.customerSP.orderPanel.setVisible(false);
+								clientFrame.customerSP.rwdsBtn.setVisible(true);
+								clientFrame.customerSP.rwdsLbl.setVisible(true);
+								clientFrame.customerSP.mainPanel.setVisible(true);
+								clientFrame.customerSP.backBtn.setVisible(false);
 								CustomerStartPage.currentScreen = "";
 							}
 							JFrameUtils.showMessage("Seven Guys General Notification", 

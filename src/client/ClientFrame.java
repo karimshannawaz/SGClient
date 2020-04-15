@@ -17,6 +17,12 @@ import org.jvnet.substance.SubstanceLookAndFeel;
 
 import client.utils.Constants;
 
+/**
+ * CLIENT SIDED
+ * 
+ * @author Karimshan
+ *
+ */
 public class ClientFrame extends JFrame {
 
 	private static final long serialVersionUID = -7181992228161884653L;
@@ -25,8 +31,11 @@ public class ClientFrame extends JFrame {
 	
 	public static ClientFrame instance;
 	
-	public CustomerStartPage panel;
-	public EmployeeStartPage gates;
+	// Customer Start page
+	public CustomerStartPage customerSP;
+	
+	// Employee start page
+	public EmployeeStartPage employeeSP;
 
 	public ClientFrame() {
 		setTitle(Constants.NAME);
@@ -100,14 +109,14 @@ public class ClientFrame extends JFrame {
 
 	private void employeeLandingPage() {
 		welcomeBackground.setVisible(false);
-		gates = new EmployeeStartPage(this);
-		setContentPane(gates);
+		employeeSP = new EmployeeStartPage(this);
+		setContentPane(employeeSP);
 	}
 
 	private void customerLandingPage() {
 		welcomeBackground.setVisible(false);
-		panel = new CustomerStartPage(this);
-		setContentPane(panel);
+		customerSP = new CustomerStartPage(this);
+		setContentPane(customerSP);
 		// This lets the server portion know that a customer has connected to the kiosk and assigns
 		// them a table/kiosk ID.
 		Client.session.getPacketEncoder().sendCustomerConnected();

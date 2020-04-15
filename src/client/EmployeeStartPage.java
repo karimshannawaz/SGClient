@@ -21,13 +21,13 @@ public class EmployeeStartPage extends JPanel{
 	private static final long serialVersionUID = -8112480994553957L;
 
 	private JTextField empID;
-	private JPanel LoginBackground;
+	private JPanel loginBackground;
 	public static EmployeeStartPage instance;
 	public static String currentScreen = "";
 	private JTextField empPass;
 
-	public WaitstaffStartPage WaitstaffPage;
-	public KitchenStartPage KitchenPage;
+	public WaitstaffStartPage waitstaffPage;
+	public KitchenStartPage kitchenPage;
 
 	JFrame frame = new JFrame();
 
@@ -36,56 +36,56 @@ public class EmployeeStartPage extends JPanel{
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
 
-		LoginBackground = new JPanel();
-		LoginBackground.setLayout(null);
-		LoginBackground.setBounds(0, 0, 1039, 656);
-		add(LoginBackground);
+		loginBackground = new JPanel();
+		loginBackground.setLayout(null);
+		loginBackground.setBounds(0, 0, 1039, 656);
+		add(loginBackground);
 
 		JLabel lblNewLabel = new JLabel("Employee Login");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblNewLabel.setBounds(420, 64, 200, 47);
-		LoginBackground.add(lblNewLabel);
+		loginBackground.add(lblNewLabel);
 
 		JLabel lblEmployeeID = new JLabel("Employee ID:");
 		lblEmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblEmployeeID.setBounds(187, 153, 143, 47);
-		LoginBackground.add(lblEmployeeID);
+		loginBackground.add(lblEmployeeID);
 
 		empID = new JTextField();
 
 		empID.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		empID.setBounds(398, 153, 426, 47);
-		LoginBackground.add(empID);
+		loginBackground.add(empID);
 		empID.setColumns(10);
 
 		JLabel lblEmpPassword = new JLabel("Password:");
 		lblEmpPassword.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblEmpPassword.setBounds(187, 287, 141, 26);
-		LoginBackground.add(lblEmpPassword);
+		loginBackground.add(lblEmpPassword);
 
 		empPass = new JTextField();
 		empPass.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		empPass.setBounds(398, 279, 426, 47);
-		LoginBackground.add(empPass);
+		loginBackground.add(empPass);
 		empPass.setColumns(10);
 
 		JButton sendInfo = new JButton("Enter");
 		sendInfo.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		sendInfo.setBounds(449, 390, 141, 35);
-		LoginBackground.add(sendInfo);
+		loginBackground.add(sendInfo);
 		sendInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				submitEmpInfo();
 			}
 		});
 
-		this.WaitstaffPage = new WaitstaffStartPage(null);
-		WaitstaffPage.setVisible(false);
-		add(WaitstaffPage);
+		this.waitstaffPage = new WaitstaffStartPage(null);
+		waitstaffPage.setVisible(false);
+		add(waitstaffPage);
 
-		this.KitchenPage = new KitchenStartPage(null);
-		KitchenPage.setVisible(false);
-		add(KitchenPage);
+		this.kitchenPage = new KitchenStartPage(null);
+		kitchenPage.setVisible(false);
+		add(kitchenPage);
 	}
 
 	protected void submitEmpInfo() {
@@ -113,14 +113,16 @@ public class EmployeeStartPage extends JPanel{
 		Client.session.getPacketEncoder().sendLoginRequest(id, password);
 	}
 	
-	private void waiterLandingPage() {
-		LoginBackground.setVisible(false);
-		this.WaitstaffPage.setVisible(true);
+	public void waiterLandingPage() {
+		JFrameUtils.showMessage("Employee Login", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
+		loginBackground.setVisible(false);
+		this.waitstaffPage.setVisible(true);
 	}
 
-	private void kitchenLandingPage() {
-		LoginBackground.setVisible(false);
-		this.KitchenPage.setVisible(true);
+	public void kitchenLandingPage() {
+		JFrameUtils.showMessage("Employee Login", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
+		loginBackground.setVisible(false);
+		this.kitchenPage.setVisible(true);
 	}
 
 }
