@@ -113,10 +113,10 @@ public class EmployeeStartPage extends JPanel{
 
 
 	protected void submitEmpInfo() {
-		if( empID.getText().compareTo("WAITER")==0) {
+		if( empID.getText().equalsIgnoreCase("WAITER")) {
 			waiterLandingPage();
 		}
-		else if(empID.getText().compareTo("KITCHEN")==0) {
+		else if(empID.getText().equalsIgnoreCase("KITCHEN")) {
 			kitchenLandingPage();
 		}
 	}
