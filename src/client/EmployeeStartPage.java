@@ -1,39 +1,17 @@
 
 package client;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-
-import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.jvnet.substance.SubstanceLookAndFeel;
-
-import client.WaitstaffStartPage;
-import client.utils.Constants;
+import client.utils.JFrameUtils;
 
 
 
@@ -110,16 +88,30 @@ public class EmployeeStartPage extends JPanel{
 		add(KitchenPage);
 	}
 
-
-
 	protected void submitEmpInfo() {
-		if( empID.getText().equalsIgnoreCase("WAITER")) {
+
+		/*
+		 * 
+		if( empID.getText().compareTo("WAITER")==0) {
 			waiterLandingPage();
 		}
 		else if(empID.getText().equalsIgnoreCase("KITCHEN")) {
 			kitchenLandingPage();
 		}
+		*/
+		String id = empID.getText();
+		if(id.equals("") || id.equalsIgnoreCase("null") || id.equals(null)) {
+			JFrameUtils.showMessage("Employee Login", "Invalid employee ID entered, try again.");
+			return;
+		}
+		String password = empPass.getText();
+		if(password.equals("") || password.equals(null)) {
+			JFrameUtils.showMessage("Employee Login", "Invalid password entered, try again.");
+			return;
+		}
+		Client.session.getPacketEncoder().sendLoginRequest(id);
 	}
+	
 	private void waiterLandingPage() {
 		LoginBackground.setVisible(false);
 		this.WaitstaffPage.setVisible(true);

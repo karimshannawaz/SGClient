@@ -36,7 +36,7 @@ public class ClientSession {
 	// Represents the id and password for the employee that logs in.
 	public static String id = null;
 	public static String password = null;
-	
+	public static String role = null;
 	
 	// Set to true if the customer is notified that the restaurant is closing soon.
 	public static boolean closingSoonNoti = false;

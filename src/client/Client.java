@@ -50,13 +50,13 @@ public class Client {
 						String[] timeToks = time.split(":");
 						int hour = Integer.parseInt(timeToks[0]);
 						int mins = Integer.parseInt(timeToks[1]);
-						if(hour >= 11 && !ClientSession.closingSoonNoti && meridiem.equals("PM")) {
+						if(hour >= 11 && hour != 12 && !ClientSession.closingSoonNoti && meridiem.equals("PM")) {
 							ClientSession.closingSoonNoti = true;
 							JFrameUtils.showMessage("Seven Guys General Notification", 
 								"Please be advised that the restaurant closes soon, at midnight.\n"
 								+ "You will not be able to place an order after 11:29 PM. Current time: "+time+" "+meridiem);
 						}
-						if(hour >= 11 && mins >= 29 && !ClientSession.ordersStopped && meridiem.equals("PM")) {
+						if(hour >= 11 && hour != 12 && mins >= 29 && !ClientSession.ordersStopped && meridiem.equals("PM")) {
 							ClientSession.ordersStopped = true;
 							if(CustomerStartPage.currentScreen.equals("order")) {
 								clientFrame.panel.orderPanel.setVisible(false);
