@@ -8,12 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-<<<<<<< HEAD
 import javax.swing.JSplitPane;
 
-=======
 
->>>>>>> branch 'master' of https://github.com/karimshannawaz/SGClient.git
 
 public class PayPanel extends JPanel {
 
