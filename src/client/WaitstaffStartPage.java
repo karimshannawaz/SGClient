@@ -37,7 +37,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JDesktopPane;
 import java.awt.BorderLayout;
 
-//order doesnt fully function correctly
+//order doesnt fully function correctly 
 
 public class WaitstaffStartPage extends JPanel {
 
@@ -76,7 +76,7 @@ public class WaitstaffStartPage extends JPanel {
 		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel.add(lblpromptlabel);
 		tableNum = new JTextField();
-		panel.add(tableNum);
+		panel.add(tableNum); //user will input the table they wish to do something for
 		tableNum.setColumns(10);
 		JButton btnNewButton = new JButton("Enter");
 		panel.add(btnNewButton);
@@ -196,6 +196,10 @@ public class WaitstaffStartPage extends JPanel {
 				"Table Number", "Refill", "Help", "Order"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] {
 				Integer.class, Boolean.class, Boolean.class, String.class
 			};
@@ -224,7 +228,6 @@ public class WaitstaffStartPage extends JPanel {
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "pay";
-				mainPanel.setEnabled(false);
 				panel.setVisible(true);
 					
 			}
