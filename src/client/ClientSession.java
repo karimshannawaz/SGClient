@@ -21,6 +21,11 @@ public class ClientSession {
 	// for this customer..
 	public static String email = null;
 	public static String birthday = null;
+	public static String name = null;
+	public static int visits = -1;
+	public static boolean hasFreeSide = false;
+	public static boolean hasBirthdayEntree = false;
+	public static boolean hasFreeDessert = false;
 	
 	// Represents the id and password for the employee that logs in.
 	public static int id = -1;

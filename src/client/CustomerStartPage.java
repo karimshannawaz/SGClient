@@ -298,7 +298,6 @@ public class CustomerStartPage extends JPanel {
 				this.payPanel.setVisible(true);
 				break;
 			case "rewards":
-				this.rewardsPanel.showLoginInfo(ClientSession.rwdsLgn);
 				this.rewardsPanel.setVisible(true);
 				break;
 			case "rps":

@@ -113,20 +113,37 @@ public final class PacketDecoder extends Decoder {
 					switch(code) {
 					
 						case "email_exists":
-							System.out.println("Email exists");
 							JFrameUtils.showMessage("Rewards Account", 
 									"Error: This email already exists. Please try using another email address.");
+							break;
+							
+						case "email_does_not_exist":
+							JFrameUtils.showMessage("Rewards Account", 
+									"Error: This email does not exist. Please try using an existing email address.");
 							break;
 							
 						case "email_created":
 							int paramsLength = stream.readUnsignedByte();
 							String email = stream.readString();
 							String birthdate = stream.readString();
+							String name = stream.readString();
 							ClientSession.email = email;
 							ClientSession.birthday = birthdate;
 							Client.clientFrame.panel.rewardsPanel.finishSignup();
 							break;
 					}
+					break;
+					
+				// Receiving saved user details from server
+				case 5:
+					ClientSession.email = stream.readString();
+					ClientSession.birthday = stream.readString();
+					ClientSession.name = stream.readString();
+					ClientSession.visits = stream.readUnsignedShort();
+					ClientSession.hasFreeSide = stream.readByte() == 1;
+					ClientSession.hasBirthdayEntree = stream.readByte() == 1;
+					ClientSession.hasFreeDessert = stream.readByte() == 1;
+					Client.clientFrame.panel.rewardsPanel.loginToRewards();
 					break;
 					
 				default:
