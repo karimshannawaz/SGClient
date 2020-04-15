@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JSplitPane;
 
 
 public class PayPanel extends JPanel {
@@ -57,8 +58,9 @@ public class PayPanel extends JPanel {
 		main_panel.add(textArea);
 		
 		txtOrder = new JTextField();
-		txtOrder.setBounds(451, 36, 116, 22);
-		txtOrder.setText("Bill:");
+		txtOrder.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		txtOrder.setBounds(451, 36, 116, 33);
+		txtOrder.setText("     ORDER");
 		main_panel.add(txtOrder);
 		txtOrder.setColumns(10);
 		
@@ -102,10 +104,16 @@ public class PayPanel extends JPanel {
 		screen_for_card.setLayout(null);
 		
 		JTextArea steps_popup = new JTextArea();
+		steps_popup.setEditable(false);
 		steps_popup.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
-		steps_popup.setText("\r\n\r\n\t\t\r\n\t       SWIPE/INSERT THE CARD");
+		steps_popup.setText("\r\n\r\n\t\t\r\n\t       SWIPE/INSERT THE CARD....");
 		steps_popup.setBounds(130, 128, 791, 294);
 		screen_for_card.add(steps_popup);
+		
+		JPanel bill_splitScreen = new JPanel();
+		bill_splitScreen.setBounds(0, 0, 1039, 522);
+		add(bill_splitScreen);
+		bill_splitScreen.setLayout(null);
 		
 		
 		FullBtn.addActionListener(new ActionListener()
@@ -128,14 +136,21 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		
+		//code to make them pay with cash and give bill
+		
 		cardbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				screen_for_card.setVisible(true);
 				full_pay_panel.setVisible(false);
+				screen_for_cash.setVisible(false);
 			}
 		});
+		
+		
+		//code to send card payment verification to server
 		
 		
 	}
