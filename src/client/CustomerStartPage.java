@@ -256,6 +256,7 @@ public class CustomerStartPage extends JPanel {
 				this.payPanel.setVisible(false);
 				break;
 			case "rewards":
+				this.rewardsPanel.rewardsPanel.setVisible(false);
 				this.rewardsPanel.setVisible(false);
 				break;
 			case "rps":

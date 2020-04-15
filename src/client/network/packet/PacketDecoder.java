@@ -21,7 +21,6 @@ public final class PacketDecoder extends Decoder {
 		for (int id = 0; id < SIZES.length; id++)
 			SIZES[id] = -4;
 		SIZES[1] = 2;
-	
 	}
 
 	public PacketDecoder(Session session) {
@@ -140,9 +139,9 @@ public final class PacketDecoder extends Decoder {
 					ClientSession.birthday = stream.readString();
 					ClientSession.name = stream.readString();
 					ClientSession.visits = stream.readUnsignedShort();
-					ClientSession.hasFreeSide = stream.readByte() == 1;
-					ClientSession.hasBirthdayEntree = stream.readByte() == 1;
-					ClientSession.hasFreeDessert = stream.readByte() == 1;
+					ClientSession.hasFreeSide = stream.readUnsignedByte() == 1;
+					ClientSession.hasBirthdayEntree = stream.readUnsignedByte() == 1;
+					ClientSession.hasFreeDessert = stream.readUnsignedByte() == 1;
 					ClientSession.rwdsLoggedIn = true;
 					Client.clientFrame.panel.rewardsPanel.loginToRewards(true);
 					break;

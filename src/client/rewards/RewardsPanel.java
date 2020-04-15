@@ -27,8 +27,8 @@ public class RewardsPanel extends JPanel {
 
 	private static final long serialVersionUID = -1338118268945423515L;
 	
-	private JPanel loginPanel;
-	private JPanel rewardsPanel;
+	public JPanel loginPanel;
+	public JPanel rewardsPanel;
 	
 	// Represents an existing or new email.
 	private JTextField exEmail;
@@ -44,6 +44,8 @@ public class RewardsPanel extends JPanel {
 	
 	private JLabel fELbl;
 	private JLabel fDLbl;
+	
+	private JLabel welcomeLbl;
 	
 	private JLabel visitsUntilEntree;
 	private JLabel freeSignupSide;
@@ -61,7 +63,8 @@ public class RewardsPanel extends JPanel {
 		setLayout(null);
 		
 		showLoginScreen();
-		//showRewardsPanel();
+		showRewardsPanel();
+		this.rewardsPanel.setVisible(false);
 	}
 	
 	private void showRewardsPanel() {
@@ -72,10 +75,10 @@ public class RewardsPanel extends JPanel {
 		rewardsPanel.setBounds(0, 0, 1039, 522);
 		rewardsPanel.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Welcome to Seven Guys Rewards, "+ClientSession.name+"!");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1.setBounds(299, 13, 644, 50);
-		rewardsPanel.add(lblNewLabel_1);
+		welcomeLbl = new JLabel("Welcome to Seven Guys Rewards, "+ClientSession.name+"!");
+		welcomeLbl.setFont(new Font("Tahoma", Font.BOLD, 20));
+		welcomeLbl.setBounds(299, 13, 644, 50);
+		rewardsPanel.add(welcomeLbl);
 		
 		JLabel lblNewLabel_2 = new JLabel("Get a free appetizer/side when you sign up, a free entree every 5th visit and a free entree on your birthday!!");
 		lblNewLabel_2.setFont(new Font("Sitka Subheading", Font.PLAIN, 17));
@@ -277,7 +280,7 @@ public class RewardsPanel extends JPanel {
 	
 	public void finishSignup() {
 		this.loginPanel.setVisible(false);
-		this.showRewardsPanel();
+		this.rewardsPanel.setVisible(true);
 		JFrameUtils.showMessage("Rewards Account", "Success! Your rewards account has been created with the email: "+
 			ClientSession.email+" (Birthday: "+ClientSession.birthday+").\nRemember to visit frequently for "
 					+ "free entrees after your 5th visit, "
@@ -295,7 +298,9 @@ public class RewardsPanel extends JPanel {
 	
 	public void loginToRewards(boolean showLogin) {
 		this.loginPanel.setVisible(false);
-		this.showRewardsPanel();
+		this.rewardsPanel.setVisible(true);
+		
+		welcomeLbl.setText("Welcome to Seven Guys Rewards, "+ClientSession.name+"!");
 		
 		String visitsTxt = ""+(ClientSession.visits == 5 ? "NONE! Claim your free entree!" : (5 - ClientSession.visits));
 		visitsUntilEntree.setText(visitsTxt);
@@ -316,7 +321,5 @@ public class RewardsPanel extends JPanel {
 		
 		if(showLogin)
 			JFrameUtils.showMessage("Rewards Account", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
-		
-		ClientSession.rwdsLoggedIn = true;
 	}
 }
