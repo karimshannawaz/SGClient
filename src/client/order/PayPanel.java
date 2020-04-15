@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JSplitPane;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 
 
 
@@ -99,6 +101,49 @@ public class PayPanel extends JPanel {
 		assistance_popup.setBounds(51, 132, 936, 271);
 		screen_for_cash.add(assistance_popup);
 		
+		JButton Donebtn = new JButton("DONE");
+		Donebtn.setEnabled(true);
+		Donebtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		Donebtn.setBounds(778, 417, 125, 61);
+		screen_for_cash.add(Donebtn);
+		
+		JPanel receipt_type_popup = new JPanel();
+		receipt_type_popup.setBounds(0, 0, 1039, 522);
+		add(receipt_type_popup);
+		receipt_type_popup.setLayout(null);
+		
+		JTextArea receipt_tab1 = new JTextArea();
+		receipt_tab1.setText("\r\n                 HOW WOULD YOU LIKE YOUR RECIEPT?");
+		receipt_tab1.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		receipt_tab1.setEditable(false);
+		receipt_tab1.setBounds(177, 133, 719, 117);
+		receipt_type_popup.add(receipt_tab1);
+		
+		JLabel receipt_tab = new JLabel("              PAYMENT SUCCESSFUL");
+		receipt_tab.setFont(new Font("Impact", Font.BOLD, 35));
+		receipt_tab.setBounds(173, 16, 719, 101);
+		receipt_type_popup.add(receipt_tab);
+		
+		JButton Nobtn = new JButton("NO RECEIPT");
+		Nobtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		Nobtn.setBounds(379, 471, 295, 51);
+		receipt_type_popup.add(Nobtn);
+		
+		JButton bothbtn = new JButton("BOTH");
+		bothbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		bothbtn.setBounds(378, 410, 295, 51);
+		receipt_type_popup.add(bothbtn);
+		
+		JButton emailbtn = new JButton("EMAIL RECEIPT");
+		emailbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		emailbtn.setBounds(379, 345, 288, 51);
+		receipt_type_popup.add(emailbtn);
+		
+		JButton printbtn = new JButton("PRINT RECEIPT");
+		printbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		printbtn.setBounds(378, 278, 291, 51);
+		receipt_type_popup.add(printbtn);
+		
 		JPanel screen_for_card = new JPanel();
 		screen_for_card.setBounds(0, 0, 1039, 522);
 		add(screen_for_card);
@@ -116,6 +161,18 @@ public class PayPanel extends JPanel {
 		add(bill_splitScreen);
 		bill_splitScreen.setLayout(null);
 		
+		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setEnabled(false);
+		textArea_1.setEditable(false);
+		textArea_1.setBounds(0, 0, 543, 522);
+		bill_splitScreen.add(textArea_1);
+		
+		JTextArea textArea_2 = new JTextArea();
+		textArea_2.setEnabled(false);
+		textArea_2.setEditable(false);
+		textArea_2.setBounds(545, 0, 511, 522);
+		bill_splitScreen.add(textArea_2);
+		
 		
 		FullBtn.addActionListener(new ActionListener()
 		{
@@ -123,6 +180,7 @@ public class PayPanel extends JPanel {
 			{
 				full_pay_panel.setVisible(true);
 				main_panel.setVisible(false);
+				receipt_type_popup.setVisible(false);
 				FullBtn.setVisible(false);
 				SplitBtn.setVisible(false);
 			}
@@ -134,6 +192,7 @@ public class PayPanel extends JPanel {
 			{
 				screen_for_cash.setVisible(true);
 				full_pay_panel.setVisible(false);
+				receipt_type_popup.setVisible(false);
 			}
 		});
 		
@@ -147,12 +206,23 @@ public class PayPanel extends JPanel {
 				screen_for_card.setVisible(true);
 				full_pay_panel.setVisible(false);
 				screen_for_cash.setVisible(false);
+				receipt_type_popup.setVisible(false);
 			}
 		});
 		
 		
 		//code to send card payment verification to server
 		
-		
+		Donebtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				receipt_type_popup.setVisible(true);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				
+			}
+		});
+		receipt_type_popup.setVisible(false);
 	}
 }
