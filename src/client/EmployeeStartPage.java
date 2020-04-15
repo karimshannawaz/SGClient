@@ -109,7 +109,8 @@ public class EmployeeStartPage extends JPanel{
 			JFrameUtils.showMessage("Employee Login", "Invalid password entered, try again.");
 			return;
 		}
-		Client.session.getPacketEncoder().sendLoginRequest(id,password);
+
+		Client.session.getPacketEncoder().sendLoginRequest(id, password);
 	}
 	
 	private void waiterLandingPage() {
