@@ -42,7 +42,6 @@ public class MenuPanel extends JPanel {
 	private MItem item = new MItem();
 
 	
-	private JTextField txtpictureOfHamburger;
 	private JTextField item_name_textfield;
 	private JTextField item_price_textfield;
 	
@@ -128,13 +127,13 @@ public class MenuPanel extends JPanel {
 		PictureFrame.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("No Picture Added");
-		lblNewLabel.setBounds(159, 70, 200, 200);
+		lblNewLabel.setBounds(160, 70, 200, 200);
 		PictureFrame.add(lblNewLabel);
 		
 		
 		item_name_textfield = new JTextField();
 		item_name_textfield.setEditable(false);
-		item_name_textfield.setBounds(159, 10, 200, 50);
+		item_name_textfield.setBounds(160, 10, 200, 50);
 		PictureFrame.add(item_name_textfield);
 		item_name_textfield.setColumns(10);
 		
@@ -143,6 +142,12 @@ public class MenuPanel extends JPanel {
 		item_price_textfield.setBounds(100, 10, 50, 50);
 		PictureFrame.add(item_price_textfield);
 		item_price_textfield.setColumns(10);
+		
+		JTextField item_calories_textfield = new JTextField();
+		item_calories_textfield.setEditable(false);
+		item_calories_textfield.setBounds(370, 10, 125, 50);
+		PictureFrame.add(item_calories_textfield);
+		item_calories_textfield.setColumns(10);
 		
 		JTextArea item_description_textfield = new JTextArea();
 		item_description_textfield.setWrapStyleWord(true);
@@ -280,6 +285,10 @@ public class MenuPanel extends JPanel {
 									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
 
+									text = "Calories: ";
+									text = text.concat(String.valueOf(mItem.calories));
+									item_calories_textfield.setText(text);
+									
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
 									item_price_textfield.setText("$"+String.valueOf(mItem.price));
@@ -387,6 +396,10 @@ public class MenuPanel extends JPanel {
 									text = text.concat(".jpg");
 									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
+									
+									text = "Calories: ";
+									text = text.concat(String.valueOf(mItem.calories));
+									item_calories_textfield.setText(text);
 									
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
@@ -498,6 +511,10 @@ public class MenuPanel extends JPanel {
 									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
 									
+									text = "Calories: ";
+									text = text.concat(String.valueOf(mItem.calories));
+									item_calories_textfield.setText(text);
+									
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
 									item_price_textfield.setText("$"+String.valueOf(mItem.price));
@@ -606,6 +623,10 @@ public class MenuPanel extends JPanel {
 									text = text.concat(".jpg");
 									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
+									
+									text = "Calories: ";
+									text = text.concat(String.valueOf(mItem.calories));
+									item_calories_textfield.setText(text);
 									
 									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
 									item_description_textfield.setText(mItem.description);
