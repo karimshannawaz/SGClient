@@ -54,7 +54,6 @@ public class WaitstaffStartPage extends JPanel {
 	public JPanel utilityPanel;
 	public PayPanel payPanel;
 	public MenuPanel orderPanel;
-	//private JPanel panel;
 	private JTextField tableNum;
 	private JTable table;
 	
@@ -69,25 +68,6 @@ public class WaitstaffStartPage extends JPanel {
 		mainPanel.setBounds(0, 0, 1039, 656);
 		add(mainPanel);
 		mainPanel.setLayout(null);
-
-		
-		/*
-		//Panel has some glitches, may need help on
-		panel = new JPanel();
-		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBounds(179, 332, 492, 96);
-		panel.setVisible(false);
-		mainPanel.add(panel);
-		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
-		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		panel.add(lblpromptlabel);
-		tableNum = new JTextField();
-		panel.add(tableNum); //user will input the table they wish to do something for
-		tableNum.setColumns(10);
-		JButton btnNewButton = new JButton("Enter");
-		panel.add(btnNewButton);
-		*/
-		
 		
 		JPanel tablePanel = new JPanel();
 		tablePanel.setBounds(374, 31, 665, 604);
