@@ -11,6 +11,9 @@ package client;
  */
 public class ClientSession {
 	
+	// Indicates whether the user has logged into rewards or not.
+	public static boolean rwdsLoggedIn = false;
+	
 	// Represents if the email the customer is trying to register with already exists or not.
 	public static boolean emailExists = false;
 	

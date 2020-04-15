@@ -143,7 +143,8 @@ public final class PacketDecoder extends Decoder {
 					ClientSession.hasFreeSide = stream.readByte() == 1;
 					ClientSession.hasBirthdayEntree = stream.readByte() == 1;
 					ClientSession.hasFreeDessert = stream.readByte() == 1;
-					Client.clientFrame.panel.rewardsPanel.loginToRewards();
+					ClientSession.rwdsLoggedIn = true;
+					Client.clientFrame.panel.rewardsPanel.loginToRewards(true);
 					break;
 					
 				default:

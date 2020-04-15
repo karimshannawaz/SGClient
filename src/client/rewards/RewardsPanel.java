@@ -1,5 +1,6 @@
 package client.rewards;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,11 +42,14 @@ public class RewardsPanel extends JPanel {
 	public JComboBox yearCB;
 	private JTextField name;
 	
+	private JLabel fELbl;
+	private JLabel fDLbl;
 	
 	private JLabel visitsUntilEntree;
 	private JLabel freeSignupSide;
 	private JLabel freeBirthdayEntree;
 	private JLabel freeLotteryDessert;
+	private JLabel bdayTxtEntree;
 	
 
 	/**
@@ -90,7 +94,7 @@ public class RewardsPanel extends JPanel {
 		
 		freeSignupSide = new JLabel("ACTIVE");
 		freeSignupSide.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		freeSignupSide.setBounds(560, 213, 105, 42);
+		freeSignupSide.setBounds(560, 213, 446, 42);
 		rewardsPanel.add(freeSignupSide);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("*** To claim a reward, simply go to checkout on the pay screen, click "
@@ -99,34 +103,34 @@ public class RewardsPanel extends JPanel {
 		lblNewLabel_2_1_1.setFont(new Font("Sitka Subheading", Font.PLAIN, 17));
 		rewardsPanel.add(lblNewLabel_2_1_1);
 			
-		JLabel lblNewLabel_3_2 = new JLabel("Your free birthday () Entree:");
-		lblNewLabel_3_2.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		lblNewLabel_3_2.setBounds(199, 268, 335, 42);
-		rewardsPanel.add(lblNewLabel_3_2);
+		bdayTxtEntree = new JLabel("Free birthday () Entree:");
+		bdayTxtEntree.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		bdayTxtEntree.setBounds(199, 268, 335, 42);
+		rewardsPanel.add(bdayTxtEntree);
 		
 		freeBirthdayEntree = new JLabel("INACTIVE (30 days left)");
 		freeBirthdayEntree.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		freeBirthdayEntree.setBounds(560, 268, 335, 42);
+		freeBirthdayEntree.setBounds(560, 268, 446, 42);
 		rewardsPanel.add(freeBirthdayEntree);
 		
-		JLabel lblNewLabel_3_2_2 = new JLabel("Visits until free Entree:");
-		lblNewLabel_3_2_2.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		lblNewLabel_3_2_2.setBounds(199, 329, 335, 42);
-		rewardsPanel.add(lblNewLabel_3_2_2);
+		fELbl = new JLabel("Visits until free Entree:");
+		fELbl.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		fELbl.setBounds(199, 329, 335, 42);
+		rewardsPanel.add(fELbl);
 		
 		visitsUntilEntree = new JLabel("5");
 		visitsUntilEntree.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		visitsUntilEntree.setBounds(560, 329, 335, 42);
+		visitsUntilEntree.setBounds(560, 329, 429, 42);
 		rewardsPanel.add(visitsUntilEntree);
 		
-		JLabel lblNewLabel_3_2_2_1 = new JLabel("Free dessert from lottery game:");
-		lblNewLabel_3_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		lblNewLabel_3_2_2_1.setBounds(199, 384, 335, 42);
-		rewardsPanel.add(lblNewLabel_3_2_2_1);
+		fDLbl = new JLabel("Free dessert from lottery game:");
+		fDLbl.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		fDLbl.setBounds(199, 384, 335, 42);
+		rewardsPanel.add(fDLbl);
 		
 		freeLotteryDessert = new JLabel("INACTIVE");
 		freeLotteryDessert.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		freeLotteryDessert.setBounds(560, 384, 129, 32);
+		freeLotteryDessert.setBounds(560, 384, 446, 32);
 		rewardsPanel.add(freeLotteryDessert);
 		
 	}	
@@ -289,9 +293,30 @@ public class RewardsPanel extends JPanel {
 		Client.session.getPacketEncoder().sendLoginRequest(email);
 	}
 	
-	public void loginToRewards() {
+	public void loginToRewards(boolean showLogin) {
 		this.loginPanel.setVisible(false);
 		this.showRewardsPanel();
-		JFrameUtils.showMessage("Rewards Account", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
+		
+		String visitsTxt = ""+(ClientSession.visits == 5 ? "NONE! Claim your free entree!" : (5 - ClientSession.visits));
+		visitsUntilEntree.setText(visitsTxt);
+		visitsUntilEntree.setForeground((visitsTxt.startsWith("NONE") ? Color.GREEN : Color.RED));
+		
+		String signupTxt = ""+(ClientSession.hasFreeSide ? "ACTIVE! Claim your free side!" : "INACTIVE");
+		this.freeSignupSide.setText(signupTxt);
+		freeSignupSide.setForeground((signupTxt.startsWith("ACTIVE") ? Color.GREEN : Color.RED));
+		
+		String birthdayTxt = ""+(ClientSession.hasBirthdayEntree ? "ACTIVE! Claim your free entree!" : "INACTIVE");
+		this.bdayTxtEntree.setText("Free birthday ("+ClientSession.birthday+") Entree:");
+		this.freeBirthdayEntree.setText(birthdayTxt);
+		freeBirthdayEntree.setForeground((birthdayTxt.startsWith("ACTIVE") ? Color.GREEN : Color.RED));
+		
+		String lotteryTxt = ""+(ClientSession.hasFreeDessert ? "ACTIVE! Claim your free dessert!" : "INACTIVE");
+		this.freeLotteryDessert.setText(lotteryTxt);
+		freeLotteryDessert.setForeground((lotteryTxt.startsWith("ACTIVE") ? Color.GREEN : Color.RED));
+		
+		if(showLogin)
+			JFrameUtils.showMessage("Rewards Account", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
+		
+		ClientSession.rwdsLoggedIn = true;
 	}
 }

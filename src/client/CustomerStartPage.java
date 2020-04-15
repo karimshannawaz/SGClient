@@ -299,6 +299,9 @@ public class CustomerStartPage extends JPanel {
 				break;
 			case "rewards":
 				this.rewardsPanel.setVisible(true);
+				if(ClientSession.rwdsLoggedIn) {
+					Client.clientFrame.panel.rewardsPanel.loginToRewards(false);
+				}
 				break;
 			case "rps":
 				this.gamePanel.setVisible(false);
