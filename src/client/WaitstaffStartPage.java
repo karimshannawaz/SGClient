@@ -39,7 +39,7 @@ import java.awt.BorderLayout;
 
 //order doesnt fully function correctly
 
-public class WaitstaffStartPage extends JPanel implements TableModelListener {
+public class WaitstaffStartPage extends JPanel {
 
 	private static final long serialVersionUID = -811294553957L;
 	
