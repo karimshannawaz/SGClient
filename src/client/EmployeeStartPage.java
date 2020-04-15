@@ -114,15 +114,15 @@ public class EmployeeStartPage extends JPanel{
 	}
 	
 	public void waiterLandingPage() {
-		JFrameUtils.showMessage("Employee Login", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
 		loginBackground.setVisible(false);
 		this.waitstaffPage.setVisible(true);
+		JFrameUtils.showMessage("Employee Login", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
 	}
 
 	public void kitchenLandingPage() {
-		JFrameUtils.showMessage("Employee Login", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
 		loginBackground.setVisible(false);
 		this.kitchenPage.setVisible(true);
+		JFrameUtils.showMessage("Employee Login", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
 	}
 
 }
