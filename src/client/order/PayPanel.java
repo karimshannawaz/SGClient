@@ -11,8 +11,14 @@ import javax.swing.JTextField;
 import client.Client;
 
 import javax.swing.JTextArea;
+<<<<<<< HEAD
 import javax.swing.JLabel;
 import javax.swing.DropMode;
+=======
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.JCheckBox;
+>>>>>>> branch 'master' of https://github.com/karimshannawaz/SGClient.git
 
 public class PayPanel extends JPanel {
 

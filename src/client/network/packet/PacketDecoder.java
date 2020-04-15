@@ -1,6 +1,7 @@
 package client.network.packet;
 import client.Client;
 import client.ClientFrame;
+import client.ClientSession;
 import client.network.Session;
 import client.order.MItem;
 import client.order.Menu;
@@ -46,9 +47,10 @@ public final class PacketDecoder extends Decoder {
 				length = stream.readInt();
 			else if (length == -4) {
 				length = stream.getRemaining();
-				if(packetId != 255)
+				if(packetId != 255) {
 				System.out.println("Invalid size for PacketId " + packetId
 						+ ". Size guessed to be " + length);
+				}
 			}
 			if (length > stream.getRemaining()) {
 				length = stream.getRemaining();
@@ -103,6 +105,27 @@ public final class PacketDecoder extends Decoder {
 						}
 					}
 					break;
+					
+				// Receiving/sending requests to the server.
+				case 4:
+					String code = stream.readString();
+					switch(code) {
+					
+						case "email_exists":
+							ClientSession.emailExists = true;
+							break;
+							
+						case "email_created":
+							int paramsLength = stream.readUnsignedByte();
+							String email = stream.readString();
+							String birthdate = stream.readString();
+							ClientSession.email = email;
+							ClientSession.birthday = birthdate;
+							Client.clientFrame.panel.rewardsPanel.finishSignup();
+							break;
+					}
+					break;
+					
 				default:
 					break;
 			}

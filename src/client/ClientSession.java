@@ -11,7 +11,20 @@ package client;
  */
 public class ClientSession {
 	
+	// Represents if the email the customer is trying to register with already exists or not.
+	public static boolean emailExists = false;
+	
 	// Set to true if the customer has logged in with their rewards or not.
 	public static boolean rwdsLgn = false;
+	
+	// Represents the email, birthday MM/DD/YYYY (used for rewards) and how many visits
+	// for this customer..
+	public static String email = null;
+	public static String birthday = null;
+	
+	// Represents the id and password for the employee that logs in.
+	public static int id = -1;
+	public static String password = null;
+	
 
 }

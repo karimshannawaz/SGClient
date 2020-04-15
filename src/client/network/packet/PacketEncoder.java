@@ -56,5 +56,22 @@ public class PacketEncoder extends Encoder {
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
+
+	/**
+	 * Requests the server to create a new user with the specified email
+	 * and birth-date. If email exists, then client is told that 
+	 * this email is already taken.
+	 * 
+	 * @param email
+	 * @param birthdate
+	 */
+	public void sendCreationRequest(String email, String birthdate) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(6);
+		stream.writeString(email);
+		stream.writeString(birthdate);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }
