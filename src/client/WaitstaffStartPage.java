@@ -27,8 +27,11 @@ import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JInternalFrame;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.JLayeredPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JDesktopPane;
@@ -36,7 +39,7 @@ import java.awt.BorderLayout;
 
 //order doesnt fully function correctly
 
-public class WaitstaffStartPage extends JPanel {
+public class WaitstaffStartPage extends JPanel implements TableModelListener {
 
 	private static final long serialVersionUID = -811294553957L;
 	
@@ -247,8 +250,11 @@ public class WaitstaffStartPage extends JPanel {
 		this.payPanel = new PayPanel();
 		payPanel.setVisible(false);
 		add(payPanel);
+		
+		
 	}
-
+	
+	
 	protected void back() {
 		switch(currentScreen) {
 			case "order":
