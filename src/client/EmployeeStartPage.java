@@ -109,7 +109,11 @@ public class EmployeeStartPage extends JPanel{
 			JFrameUtils.showMessage("Employee Login", "Invalid password entered, try again.");
 			return;
 		}
+<<<<<<< Upstream, based on branch 'master' of https://github.com/karimshannawaz/SGClient.git
 		Client.session.getPacketEncoder().sendLoginRequest(id,password);
+=======
+		Client.session.getPacketEncoder().sendLoginRequest(id, password);
+>>>>>>> 23c7885 startpage
 	}
 	
 	private void waiterLandingPage() {
