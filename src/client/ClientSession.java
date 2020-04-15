@@ -6,7 +6,7 @@ package client;
  * discarded after the customer pays and is ready to leave, similar to how it would be
  * in an actual restaurant.
  * 
- * @author karim
+ * @author Karimshan
  *
  */
 public class ClientSession {
