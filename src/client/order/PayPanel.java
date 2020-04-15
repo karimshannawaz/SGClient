@@ -22,6 +22,7 @@ public class PayPanel extends JPanel {
 	JButton FullBtn;
 	private JTextField txtOrder;
 	private JTextField email_prompt_box;
+	private JLabel email_box;
 	/**
 	 * Create the panel.
 	 */
@@ -171,9 +172,10 @@ public class PayPanel extends JPanel {
 		add(emailbtn_screen);
 		emailbtn_screen.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("EMAIL ID:");
-		lblNewLabel.setBounds(188, 249, 255, 68);
-		emailbtn_screen.add(lblNewLabel);
+		JLabel lblNewLabel;
+		email_box = new JLabel("EMAIL ID:");
+		email_box.setBounds(188, 249, 255, 68);
+		emailbtn_screen.add(email_box);
 		
 		JLabel email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
 		email_prompt.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
@@ -194,10 +196,6 @@ public class PayPanel extends JPanel {
 		JPanel bothbtn_screen = new JPanel();
 		bothbtn_screen.setBounds(0, 0, 1039, 522);
 		add(bothbtn_screen);
-		
-		screen_receipt = new JLabel("YOUR RECEIPT");
-		screen_receipt.setBounds(99, 87, 824, 429);
-		bothbtn_screen.add(screen_receipt);
 		
 		lblNewLabel = new JLabel("EMAIL ID:");
 		lblNewLabel.setBounds(188, 249, 255, 68);
