@@ -5,6 +5,7 @@ import client.ClientSession;
 import client.network.Session;
 import client.order.MItem;
 import client.order.Menu;
+import client.utils.JFrameUtils;
 
 public final class PacketDecoder extends Decoder {
 	
@@ -112,7 +113,8 @@ public final class PacketDecoder extends Decoder {
 					switch(code) {
 					
 						case "email_exists":
-							ClientSession.emailExists = true;
+							JFrameUtils.showMessage("Rewards Account", 
+									"Error: This email already exists. Please try using another email address.");
 							break;
 							
 						case "email_created":
