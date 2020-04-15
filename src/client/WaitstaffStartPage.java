@@ -178,20 +178,14 @@ public class WaitstaffStartPage extends JPanel {
 				{new Integer(20), null, null, null},
 			},
 			new String[] {
-				"Table Number", "Refil", "Help", "Order"
+				"Table Number", "Refill", "Help", "Order"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class, Object.class
+				Integer.class, Boolean.class, Boolean.class, Boolean.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				false, true, true, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
 			}
 		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(166);
