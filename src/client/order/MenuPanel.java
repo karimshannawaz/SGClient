@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 
@@ -63,6 +64,9 @@ public class MenuPanel extends JPanel {
 	private JButton next_ingredient_button = new JButton("Next page");
 	private JButton previous_ingredient_button = new JButton("previous page");
 
+	// Shan changes
+	public JTextArea specialReqs;
+	public JComboBox qtyCBox;
 	
 	/**
 	 * Create the panel.
@@ -172,11 +176,46 @@ public class MenuPanel extends JPanel {
 		vegan_textfield.setBounds(184, 390, 150, 50);
 		PictureFrame.add(vegan_textfield);
 		vegan_textfield.setColumns(10);
+
+		
 		
 		JPanel OrderSpecificsFrame = new JPanel();
 		OrderSpecificsFrame.setBounds(519, 0, 518, 520);
 		OrderDetails.add(OrderSpecificsFrame);
 		OrderSpecificsFrame.setLayout(null);
+		
+
+		// Shan - add special requests
+		JLabel specialReqLabel = new JLabel("Special Requests?");
+		specialReqLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		specialReqLabel.setBounds(0, 360, 120, 30);
+		specialReqLabel.setVisible(true);
+		OrderSpecificsFrame.add(specialReqLabel);
+		
+		// special req text area
+		specialReqs = new JTextArea();
+		specialReqs.setFont(new Font("Monospaced", Font.PLAIN, 13));
+		specialReqs.setBounds(0, 395, 220, 110);
+		specialReqs.setLineWrap(true);
+		specialReqs.setText("none");
+		OrderSpecificsFrame.add(specialReqs);
+		
+		// Shan - quantity button
+		JLabel qtyLbl = new JLabel("QUANTITY:");
+		qtyLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		qtyLbl.setBounds(270, 370, 120, 30);
+		qtyLbl.setVisible(true);
+		OrderSpecificsFrame.add(qtyLbl);
+		
+		// Shan - qty combobox
+		qtyCBox = new JComboBox( new Integer[] {
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+		});
+
+		qtyCBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		qtyCBox.setBounds(370, 370, 100, 30);
+		qtyCBox.setVisible(true);
+		OrderSpecificsFrame.add(qtyCBox);
 				
 		JButton cancel_button = new JButton("Cancel");
 		cancel_button.setBounds(305, 430, 90, 90);
