@@ -1312,7 +1312,7 @@ public class MenuPanel extends JPanel {
 						b1.setFont(new Font("Tahoma", Font.PLAIN, 30));
 						b2.setFont(new Font("Tahoma", Font.PLAIN, 30));
 						tf2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-					
+											
 						b1.setBounds(360, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
 						b2.setBounds(420, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
 						tf2.setBounds(22, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
@@ -1488,7 +1488,7 @@ public class MenuPanel extends JPanel {
 			}
 			index++;
 		}
-		
+			
 		if (index >= (5 * (ing_page_number + 1)))
 			next_ingredient_button.setVisible(true);
 		
@@ -1500,7 +1500,7 @@ public class MenuPanel extends JPanel {
 		
 		index = 0;
 		index2 = 0;
-		
+
 		for (String ing : ingredient_quantity)
 		{		
 			totalIngredientsQuantityFM.add(ing);
@@ -1539,7 +1539,7 @@ public class MenuPanel extends JPanel {
 					{
 						int text = Integer.valueOf(tf2.getText());
 						tf2.setText(String.valueOf(text + 1));
-						
+						System.out.println("index Y: " + index2);
 						if (b1.getY() == 50)
 							totalIngredientsQuantityFM.set((ing_page_number * 5) + 0, tf2.getText());
 						else if (b1.getY() == 105)

@@ -163,7 +163,7 @@ public class PayPanel extends JPanel {
 		steps_popup.setBounds(51, 80, 936, 271);
 		screen_for_card.add(steps_popup);
 		
-		JButton Donebtn2 = new JButton("Done");
+		JButton Donebtn2 = new JButton("DONE");
 		Donebtn2.setBounds(445, 372, 150, 150);
 		screen_for_card.add(Donebtn2);
 		
@@ -304,6 +304,17 @@ public class PayPanel extends JPanel {
 		//code to send card payment verification to server
 		
 		Donebtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				receipt_type_popup.setVisible(true);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				
+			}
+		});
+		
+		Donebtn2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
