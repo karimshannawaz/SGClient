@@ -220,7 +220,7 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			        	//show the waiter the refill request
 			        	//store into object
 			        	//refReq = "Coke, Lemonade";
-			        	boolean confirm = JFrameUtils.confirmDialog("Table Help", "Notifying customer ");
+			        	boolean confirm = JFrameUtils.confirmDialog("Table Help", "Notifying customer... ");
 			        	if(!confirm) {
 			        		model.setValueAt(Boolean.TRUE, row, column);
 			        	}
