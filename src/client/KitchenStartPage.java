@@ -5,10 +5,12 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -16,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import client.order.MItem;
-import client.order.Menu;
 import client.order.OrderQueue;
 
 /**
@@ -95,11 +96,14 @@ public class KitchenStartPage extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				if(table.getSelectedColumn() == 1)
-				System.out.println("Order details for table: "+(int) table.getModel().getValueAt(table.getSelectedRow(), 0));
+				int row = table.getSelectedRow();
+				int column = table.getSelectedColumn();
+				if(column == 1) {
+					int tableID = (int) table.getModel().getValueAt(row, 0);
+					table.getModel().getValueAt(row, 0);
+					viewOrderDetails(tableID, row);
+				}
 			}
-
-
 		});
 
 		// Adds a listener to see when the table has been changed (Clicked)
@@ -110,10 +114,6 @@ public class KitchenStartPage extends JPanel {
 				// TODO Auto-generated method stub
 				int row = e.getFirstRow();
 				int column = e.getColumn();
-				if(column == 1) {
-					viewOrderDetails(row);
-					System.out.println("Order details for table: "+table.getModel().getValueAt(row, 0));
-				}
 				if (column == 2) {
 					TableModel model = (TableModel) e.getSource();
 					DefaultTableModel tab = (DefaultTableModel)table.getModel();
@@ -129,25 +129,59 @@ public class KitchenStartPage extends JPanel {
 			}
 		});
 
-		String temp = "View order details";
+		//String temp = "View order details";
 
+		/*
 		DefaultTableModel update = (DefaultTableModel) table.getModel();
 		//update.addRow(new Object[] {new Integer(5),"See Order Details",new Boolean(false)});
 		((DefaultTableModel) table.getModel()).addRow(new Object[] {new Integer(5),temp,new Boolean(false)});
-
+		*/
 	}
-
+	
 	/**
 	 * Displays the order details for this order.
 	 * 
 	 * @param row
 	 */
-	public void viewOrderDetails(int row) {
-
+	public void viewOrderDetails(int tableID, int row) {
+		JFrame frame = new JFrame();
+		frame.setBounds(Client.clientFrame.getBounds());
+		frame.setBounds(frame.getX() + 260, frame.getY() + 40, 0, 0);
+		frame.setSize(500, 560);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle("Order details for table: "+tableID);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 500, 560);
+		panel.setLayout(null);
+		frame.add(panel);
+		
+		// Create our scroll pane
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 500, 560);
+		panel.add(scrollPane);
+		
+		JTextArea orderSummary = new JTextArea();
+		orderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		orderSummary.setEditable(false);
+		orderSummary.setLineWrap(true);
+		orderSummary.setText(getOrderToString(row));
+		scrollPane.setViewportView(orderSummary);
 	}
 
-	public void addToTable() {
-
+	/**
+	 * Adds a new order to the table.
+	 * @param tableID 
+	 */
+	public void addToTable(int tableID) {
+		((DefaultTableModel) table.getModel()).addRow(
+			new Object[] {
+				new Integer(tableID),
+				new String("Tap to view order details"),
+				new Boolean(false)
+			}
+		);
 	}
 
 	public String getOrderToString(int tableIndex) {
@@ -157,23 +191,13 @@ public class KitchenStartPage extends JPanel {
 		for(MItem i : OrderQueue.orders.get(tableIndex).items) {
 			s.append("x"+i.qty+" "+i.name+"\n");
 
-			// Current Menu Item
-			MItem prev = Menu.getItem(i.name);
-			String[] oldIngTok = prev.ingredients.split(",");
-
 			// Order Menu Item
 			String[] newIngTok = i.ingredients.split(",");
 
 			for(int index = 0; index < newIngTok.length; index++) {
-				String[] oldIng = oldIngTok[index].split(":");
 				String[] newIng = newIngTok[index].split(":");
-				// Substituted ingredient
-				if(!oldIng[0].equals(newIng[0])) {
-					s.append("    - "+oldIng[0]+" sub for "+newIng[0]+"\n");
-				}
-				if(!oldIng[1].equals(newIng[1])) {
-					s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
-				}
+				// ingredients
+				s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
 			}
 			if(!(i.specialReqs.equalsIgnoreCase("none")) 
 					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {

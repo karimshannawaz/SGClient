@@ -198,6 +198,7 @@ public final class PacketDecoder extends Decoder {
 					order.setTableID(tableID);
 					OrderQueue.orders.add(order);
 					if(ClientSession.isKitchen()) {
+						Client.clientFrame.employeeSP.kitchenPage.addToTable(tableID);
 						JFrameUtils.showMessage("Order Update", "You have a new order to fulfill for table: "+tableID);
 					}
 					break;
