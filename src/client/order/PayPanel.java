@@ -20,7 +20,6 @@ public class PayPanel extends JPanel {
 
 	JButton SplitBtn;
 	JButton FullBtn;
-	private JTextField txtOrder;
 	private JTextField email_prompt_box;
 	private JLabel email_box;
 	/**
@@ -31,9 +30,20 @@ public class PayPanel extends JPanel {
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
 		
+		JPanel main_panel = new JPanel();
+		main_panel.setBounds(0, 0, 1039, 522);
+		add(main_panel);
+		main_panel.setLayout(null);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(270, 0, 500, 450);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		main_panel.add(textArea);
+		
 		SplitBtn = new JButton("Split Bill");
-		SplitBtn.setBounds(412, 475, 120, 47);
-		add(SplitBtn);
+		SplitBtn.setBounds(270, 451, 250, 71);
+		main_panel.add(SplitBtn);
 		SplitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -42,8 +52,8 @@ public class PayPanel extends JPanel {
 		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		
 		FullBtn = new JButton("Full Bill");
-		FullBtn.setBounds(553, 475, 120, 47);
-		add(FullBtn);
+		FullBtn.setBounds(520, 451, 250, 71);
+		main_panel.add(FullBtn);
 		FullBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -51,23 +61,7 @@ public class PayPanel extends JPanel {
 		});
 		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		
-		JPanel main_panel = new JPanel();
-		main_panel.setBounds(0, 0, 1039, 522);
-		add(main_panel);
-		main_panel.setLayout(null);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(292, 106, 457, 345);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		main_panel.add(textArea);
-		
-		txtOrder = new JTextField();
-		txtOrder.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		txtOrder.setBounds(451, 36, 116, 33);
-		txtOrder.setText("     ORDER");
-		main_panel.add(txtOrder);
-		txtOrder.setColumns(10);
 		
 		JPanel full_pay_panel = new JPanel();
 		full_pay_panel.setBounds(0, 0, 1039, 522);
@@ -242,7 +236,6 @@ public class PayPanel extends JPanel {
 		confirmation_screen.setBounds(169, 97, 662, 179);
 		conf_screen.add(confirmation_screen);
 		
-		
 		FullBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -254,7 +247,7 @@ public class PayPanel extends JPanel {
 				SplitBtn.setVisible(false);
 			}
 		});
-		
+
 		Cashbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
