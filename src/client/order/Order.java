@@ -26,6 +26,10 @@ public class Order {
 		items.add(item);
 	}
 	
+	public static void addItem(MItem item) {
+		items.add(item);
+	}
+	
 	public static void clear() {
 		items.clear();
 	}

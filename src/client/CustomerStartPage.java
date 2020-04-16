@@ -186,6 +186,9 @@ public class CustomerStartPage extends JPanel {
 		orderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openScreen("order");
+				if(!ClientSession.receivedSpecialNoti) {
+					ClientSession.checkSpecialsDay();
+				}
 			}
 		});
 		orderBtn.setFont(new Font("Haettenschweiler", Font.PLAIN, 89));
