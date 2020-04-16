@@ -486,6 +486,13 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				String email = email_prompt_box.getText();
+				if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
+					JFrameUtils.showMessage("Error", "Invalid email entered, please try again.");
+					return;
+				}
+				else
+				{
 				conf_screen.setVisible(true);
 				nobtn_screen.setVisible(false);
 				printbtn_screen.setVisible(false);
@@ -494,14 +501,24 @@ public class PayPanel extends JPanel {
 				receipt_type_popup.setVisible(false);
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
+				}
 				
 			}
 		});
 		
+		//submit button after entering email for both types of receipt
 		submitbtn1.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				String email = email_prompt_box.getText();
+				if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
+					JFrameUtils.showMessage("Error", "Invalid email entered, please try again.");
+					return;
+				}
+				else
+				{
+				
 				conf_screen.setVisible(true);
 				nobtn_screen.setVisible(false);
 				printbtn_screen.setVisible(false);
@@ -510,6 +527,7 @@ public class PayPanel extends JPanel {
 				receipt_type_popup.setVisible(false);
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
+				}
 				
 			}
 		});
@@ -534,5 +552,11 @@ public class PayPanel extends JPanel {
 		
 		
 	}	
-	
+	/*protected void bill_email() {
+		String email = email_prompt_box.getText();
+		if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
+			JFrameUtils.showMessage("Error", "Invalid email entered, please try again.");
+			return;
+		}
+	}*/
 }
