@@ -242,25 +242,29 @@ public class PayPanel extends JPanel {
 		bothbtn_screen.setLayout(null);
 		
 		lblNewLabel = new JLabel("EMAIL ID:");
-		lblNewLabel.setBounds(188, 249, 228, 68);
+		lblNewLabel.setBounds(491, 249, 197, 68);
 		bothbtn_screen.add(lblNewLabel);
 		
 		email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
 		email_prompt.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		email_prompt.setBounds(169, 61, 713, 128);
+		email_prompt.setBounds(591, 61, 340, 128);
 		bothbtn_screen.add(email_prompt);
 		
 		email_prompt_box = new JTextField();
 		email_prompt_box.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
-		email_prompt_box.setBounds(312, 249, 486, 68);
+		email_prompt_box.setBounds(640, 249, 348, 68);
 		bothbtn_screen.add(email_prompt_box);
 		email_prompt_box.setColumns(10);
 		
 		
 		JButton submitbtn1 = new JButton("SUBMIT");
 		submitbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		submitbtn1.setBounds(693, 345, 164, 68);
+		submitbtn1.setBounds(794, 322, 149, 57);
 		bothbtn_screen.add(submitbtn1);
+		
+		JLabel lblNewLabel_1 = new JLabel("  YOUR RECEIPT");
+		lblNewLabel_1.setBounds(0, 0, 521, 522);
+		bothbtn_screen.add(lblNewLabel_1);
 		
 		JPanel nobtn_screen = new JPanel();
 		nobtn_screen.setVisible(false);
