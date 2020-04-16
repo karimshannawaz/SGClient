@@ -7,7 +7,6 @@
 package client.order;
 
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,23 +14,23 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 
 // Test by dillon
 
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 
 import client.Client;
 import client.network.packet.PacketDecoder;
 import client.utils.JFrameUtils;
-
-import javax.swing.SwingConstants;
 
 public class MenuPanel extends JPanel {
 
@@ -51,6 +50,7 @@ public class MenuPanel extends JPanel {
 	public List<JButton> dessertsFM = new ArrayList<JButton>();
 	private List<JButton> add = new ArrayList<JButton>();
 	private List<JButton> sub = new ArrayList<JButton>();
+	private List<JButton> ingredientSubButton = new ArrayList<JButton>();
 	private List<JTextField> ingredientsFM = new ArrayList<JTextField>();
 	private List<JTextField> ingredientsQuantityFM = new ArrayList<JTextField>();
 	private List<String> totalIngredientsFM = new ArrayList<String>();
@@ -247,7 +247,7 @@ public class MenuPanel extends JPanel {
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
+						
 						if ((mItem.menuType.equals("entree") && (buttonIndex < 7)))
 						{
 							JButton b = new JButton();
@@ -282,7 +282,6 @@ public class MenuPanel extends JPanel {
 									String text = "data\\\\menu-images\\\\";
 									text = text.concat(mItem.name);
 									text = text.concat(".jpg");
-									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
 
 									text = "Calories: ";
@@ -299,8 +298,7 @@ public class MenuPanel extends JPanel {
 								}
 							});
 							buttonIndex++;
-							System.out.println("Button worked");
-						}
+							}
 						else if ((mItem.menuType.equals("entree") && (buttonIndex >= 7)))
 						{
 							next_page_button.setVisible(true);
@@ -359,7 +357,6 @@ public class MenuPanel extends JPanel {
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("side") && (buttonIndex < 7)))
 						{
 							JButton b = new JButton();
@@ -394,7 +391,6 @@ public class MenuPanel extends JPanel {
 									String text = "data\\\\menu-images\\\\";
 									text = text.concat(mItem.name);
 									text = text.concat(".jpg");
-									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
 									
 									text = "Calories: ";
@@ -411,7 +407,6 @@ public class MenuPanel extends JPanel {
 								}
 							});
 							buttonIndex++;
-							System.out.println("Button worked");
 						}
 						else if ((mItem.menuType.equals("side") && (buttonIndex >= 7)))
 						{
@@ -472,7 +467,6 @@ public class MenuPanel extends JPanel {
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("drink") && (buttonIndex < 7)))
 						{
 							JButton b = new JButton();
@@ -508,7 +502,6 @@ public class MenuPanel extends JPanel {
 									String text = "data\\\\menu-images\\\\";
 									text = text.concat(mItem.name);
 									text = text.concat(".jpg");
-									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
 									
 									text = "Calories: ";
@@ -525,7 +518,6 @@ public class MenuPanel extends JPanel {
 								}
 							});
 							buttonIndex++;
-							System.out.println("Button worked");
 						}
 						else if ((mItem.menuType.equals("drink") && (buttonIndex >= 7)))
 						{
@@ -586,7 +578,6 @@ public class MenuPanel extends JPanel {
 					int buttonIndex = 0;
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("dessert") && (buttonIndex < 7)))
 						{
 							JButton b = new JButton();
@@ -621,7 +612,6 @@ public class MenuPanel extends JPanel {
 									String text = "data\\\\menu-images\\\\";
 									text = text.concat(mItem.name);
 									text = text.concat(".jpg");
-									System.out.println(text);
 									lblNewLabel.setIcon(new ImageIcon(text));
 									
 									text = "Calories: ";
@@ -638,7 +628,6 @@ public class MenuPanel extends JPanel {
 								}
 							});
 							buttonIndex++;
-							System.out.println("Button worked");
 						}
 						else if ((mItem.menuType.equals("dessert") && (buttonIndex >= 7)))
 						{
@@ -691,7 +680,6 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("entree") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
@@ -719,7 +707,6 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.entreesFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
 						else if (mItem.menuType.equals("entree"))
 							buttonIndex++;
@@ -737,8 +724,7 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
-						if ((mItem.menuType.equals("side") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+					if ((mItem.menuType.equals("side") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
 							b.setText(mItem.name);
@@ -749,8 +735,7 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.sidesFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
-						}
+							}
 						else if (mItem.menuType.equals("side"))
 							buttonIndex++;
 						
@@ -767,7 +752,6 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("drink") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
@@ -779,7 +763,6 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.drinksFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
 						else if (mItem.menuType.equals("drink"))
 							buttonIndex++;
@@ -797,7 +780,6 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("dessert") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
@@ -809,8 +791,7 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.dessertsFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
-						}
+								}
 						else if (mItem.menuType.equals("dessert"))
 							buttonIndex++;
 						
@@ -842,7 +823,6 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("entree") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
@@ -854,7 +834,6 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.entreesFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
 						else if (mItem.menuType.equals("entree"))
 							buttonIndex++;
@@ -872,7 +851,6 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("side") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
@@ -884,7 +862,6 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.sidesFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
 						else if (mItem.menuType.equals("side"))
 							buttonIndex++;
@@ -902,7 +879,6 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
 						if ((mItem.menuType.equals("drink") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
@@ -914,7 +890,6 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.drinksFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
 						}
 						else if (mItem.menuType.equals("drink"))
 							buttonIndex++;
@@ -932,7 +907,7 @@ public class MenuPanel extends JPanel {
 
 					for (MItem mItem : Menu.instance)
 					{
-						System.out.println("Mitem is " + mItem.name);
+						
 						if ((mItem.menuType.equals("dessert") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
 						{
 							JButton b = new JButton();
@@ -944,7 +919,7 @@ public class MenuPanel extends JPanel {
 							Client.clientFrame.customerSP.orderPanel.MenuListFrame.add(b);
 							Client.clientFrame.customerSP.orderPanel.dessertsFM.add(b);
 							buttonIndex++;
-							System.out.println("Added"+mItem.name+" ID is: "+buttonIndex);
+							
 						}
 						else if (mItem.menuType.equals("dessert"))
 							buttonIndex++;
@@ -1038,16 +1013,14 @@ public class MenuPanel extends JPanel {
 					
 					for (String ing : ings)
 					{
-						if (i % 2 == 1)
+						if (i % 4 == 1)
 							ingredientsQ.add(ing);
 
 						i++;
 					}
 
-					System.out.println("first: " + ingredientsQ.size() + "\nSecond: " + totalIngredientsQuantityFM.size()+"\nthird: " + totalIngredientsFM.size());
 					for (int j = 0; j < ingredientsQ.size(); j++)
 					{
-						System.out.println(ingredientsQ.get(j)+" vs "+totalIngredientsQuantityFM.get(j));
 						if (!ingredientsQ.get(j).equals(totalIngredientsQuantityFM.get(j)))
 						{
 							text = order_textfield.getText();
@@ -1338,7 +1311,7 @@ public class MenuPanel extends JPanel {
 						b1.setFont(new Font("Tahoma", Font.PLAIN, 30));
 						b2.setFont(new Font("Tahoma", Font.PLAIN, 30));
 						tf2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-					
+											
 						b1.setBounds(360, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
 						b2.setBounds(420, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
 						tf2.setBounds(22, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
@@ -1413,8 +1386,6 @@ public class MenuPanel extends JPanel {
 				for (JTextField tf2 : ingredientsQuantityFM)
 					tf2.setVisible(true);
 
-				
-				previous_ingredient_button.setVisible(true);
 			}
 		});
 
@@ -1445,6 +1416,9 @@ public class MenuPanel extends JPanel {
 		for (JButton b : sub)
 			b.setVisible(false);
 		
+		for (JButton b : ingredientSubButton)
+			b.setVisible(false);
+		
 		for (JTextField tf : ingredientsFM)
 			tf.setVisible(false);
 		
@@ -1453,6 +1427,7 @@ public class MenuPanel extends JPanel {
 		
 		add.clear();
 		sub.clear();
+		ingredientSubButton.clear();
 		ingredientsFM.clear();
 		totalIngredientsFM.clear();
 		ingredientsQuantityFM.clear();
@@ -1460,23 +1435,45 @@ public class MenuPanel extends JPanel {
 	
 		List<String> ingredients = new ArrayList<String>();
 		List<String> ingredient_quantity = new ArrayList<String>();
-
+		List<String> editable = new ArrayList<String>();
+		List<String> replaceables = new ArrayList<String>();
+		
 		String[] ings = mItem.ingredients.replaceAll(",", ":").split(":");
+		
+		mItem.ingredients = mItem.ingredients.replace("]", "").replace("[", "");
+		String[] ingTok = mItem.ingredients.split(",");
+		List<String> indIngs = new ArrayList<String>();
+		for(String ing : ingTok) {
+			indIngs.add(ing);
+		}
+		
 		int i = 0;
 		
 		for (String ing : ings)
 		{
-			if (i % 2 == 0)
+			if (i % 4 == 0)
 			{
 				i++;
 				ingredients.add(ing);
 			}
-			else
+			else if (i % 4 == 1)
 			{
 				i++;
 				ingredient_quantity.add(ing);
 			}
+			else if (i % 4 == 2)
+			{
+				i++;
+				editable.add(ing);
+			}
+			else
+			{
+				i++;
+				replaceables.add(ing);
+			}		
 		}
+		
+		ingredients.set(0, (ingredients.get(0).substring(1, ingredients.get(0).length())));
 		
 		index = 0;
 						
@@ -1484,7 +1481,7 @@ public class MenuPanel extends JPanel {
 		{
 			totalIngredientsFM.add(ing);
 			
-			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))))
+			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))) && (editable.get(index).equals("t")))
 			{
 				JTextField tf1 = new JTextField();
 			
@@ -1501,7 +1498,7 @@ public class MenuPanel extends JPanel {
 			}
 			index++;
 		}
-		
+			
 		if (index >= (5 * (ing_page_number + 1)))
 			next_ingredient_button.setVisible(true);
 		
@@ -1513,16 +1510,24 @@ public class MenuPanel extends JPanel {
 		
 		index = 0;
 		index2 = 0;
-		
+
 		for (String ing : ingredient_quantity)
 		{		
 			totalIngredientsQuantityFM.add(ing);
 			
-			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))))
+			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))) && (editable.get(index).equals("t")))
 			{
 				JButton b1 = new JButton();
 				JButton b2 = new JButton();
 				JTextField tf2 = new JTextField();
+				
+				JButton subB = new JButton();
+				
+				String[] splitToks = indIngs.get(index).split(":");
+				String ingName = splitToks[0];
+				int qty = Integer.parseInt(splitToks[1]);
+				boolean ingEditable = splitToks[2].equals("t");
+				String ingSub = splitToks[3];
 			
 				b1.setText("+");
 				b2.setText("-");
@@ -1541,10 +1546,26 @@ public class MenuPanel extends JPanel {
 				b1.setFont(new Font("Tahoma", Font.PLAIN, 30));
 				b2.setFont(new Font("Tahoma", Font.PLAIN, 30));
 				tf2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			
+				
+				// Adds a substitution button
+				subB.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				subB.setText("Sub");
+				subB.setBounds(43, (50 * (index2 + 1)) + (index2 * 5), 40, 50);
+				subB.setVisible(false);
+				ingredientSubButton.add(subB);
+				
+				if(!ingSub.equals("n")) {
+					subB.setVisible(true);
+				}
+				else {
+					subB.setVisible(false);
+				}
+				
+				
 				b1.setBounds(360, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
 				b2.setBounds(420, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
-				tf2.setBounds(22, (50 * (index2 + 1)) + (index2 * 5), 50, 50);
+				tf2.setBounds(0, (50 * (index2 + 1)) + (index2 * 5), 40, 50);
+			
 			
 				b1.addActionListener(new ActionListener()
 				{
@@ -1552,7 +1573,6 @@ public class MenuPanel extends JPanel {
 					{
 						int text = Integer.valueOf(tf2.getText());
 						tf2.setText(String.valueOf(text + 1));
-						
 						if (b1.getY() == 50)
 							totalIngredientsQuantityFM.set((ing_page_number * 5) + 0, tf2.getText());
 						else if (b1.getY() == 105)
@@ -1589,10 +1609,37 @@ public class MenuPanel extends JPanel {
 						}
 					}	
 				});	
+
+				final int ind22 = index2;
+				subB.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JPopupMenu menu = new JPopupMenu();
+						JMenuItem[] options = { 
+								new JMenuItem(ingName), 
+								new JMenuItem(ingSub)
+						};
+						for (JMenuItem i : options)
+							menu.add(i);
+						options[0].addActionListener(actionEvent -> {
+							ingredientsFM.get(ind22).setText(options[0].getText());
+						});
+						options[1].addActionListener(actionEvent -> {
+							ingredientsFM.get(ind22).setText(options[1].getText());
+						});
+						menu.show(ingredientSubButton.get(ind22), 
+							ingredientSubButton.get(ind22).getX() - 40, subB.getY() + 
+							(ind22 > 0 ? (subB.getHeight() * -1) * ind22 : 0));
+					}
+				});
 			
 				OrderSpecificsFrame.add(b1);
 				OrderSpecificsFrame.add(b2);
 				OrderSpecificsFrame.add(tf2);
+				
+				// adds sub button
+				OrderSpecificsFrame.add(subB);
 			
 				add.add(b1);
 				sub.add(b2);

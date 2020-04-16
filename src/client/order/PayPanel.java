@@ -35,12 +35,12 @@ public class PayPanel extends JPanel {
 		add(main_panel);
 		main_panel.setLayout(null);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setBounds(270, 0, 500, 450);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		main_panel.add(textArea);
+		JTextArea order_textfield = new JTextArea();
+		order_textfield.setEditable(false);
+		order_textfield.setBounds(270, 0, 500, 450);
+		order_textfield.setLineWrap(true);
+		order_textfield.setWrapStyleWord(true);
+		main_panel.add(order_textfield);
 		
 		SplitBtn = new JButton("Split Bill");
 		SplitBtn.setBounds(270, 451, 250, 71);
@@ -70,25 +70,29 @@ public class PayPanel extends JPanel {
 		full_pay_panel.setLayout(null);
 		
 		JTextArea pay_popup_window = new JTextArea();
+		pay_popup_window.setWrapStyleWord(true);
+		pay_popup_window.setLineWrap(true);
 		pay_popup_window.setEditable(false);
 		pay_popup_window.setText("Order: ");
-		pay_popup_window.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
+		pay_popup_window.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		pay_popup_window.setBounds(270, 0, 500, 450);
 		full_pay_panel.add(pay_popup_window);
 		
 		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
 		cardbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		cardbtn.setBounds(171, 346, 259, 65);
+		cardbtn.setBounds(270, 451, 250, 71);
 		full_pay_panel.add(cardbtn);
 		
 		JButton Cashbtn = new JButton("CASH");
 		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		Cashbtn.setBounds(486, 346, 259, 65);
+		Cashbtn.setBounds(520, 451, 250, 71);
 		full_pay_panel.add(Cashbtn);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(0, 400, 159, 122);
-		full_pay_panel.add(btnNewButton);
+		JButton backbtn = new JButton("Back");
+		
+		backbtn.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		backbtn.setBounds(0, 400, 159, 122);
+		full_pay_panel.add(backbtn);
 		
 		JPanel screen_for_cash = new JPanel();
 		screen_for_cash.setBounds(0, 0, 1039, 522);
@@ -99,16 +103,17 @@ public class PayPanel extends JPanel {
 		assistance_popup.setText("\r\n\r\n\r\n       PLEASE WAIT....YOU WILL BE ASSISTED SHORTLY BY OUR WAIT-STAFF");
 		assistance_popup.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
 		assistance_popup.setEditable(false);
-		assistance_popup.setBounds(51, 132, 936, 271);
+		assistance_popup.setBounds(51, 80, 936, 271);
 		screen_for_cash.add(assistance_popup);
 		
 		JButton Donebtn = new JButton("DONE");
 		Donebtn.setEnabled(true);
 		Donebtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		Donebtn.setBounds(778, 417, 125, 61);
+		Donebtn.setBounds(445, 372, 150, 150);
 		screen_for_cash.add(Donebtn);
 		
 		JPanel receipt_type_popup = new JPanel();
+		receipt_type_popup.setVisible(false);
 		receipt_type_popup.setBounds(0, 0, 1039, 522);
 		add(receipt_type_popup);
 		receipt_type_popup.setLayout(null);
@@ -146,6 +151,7 @@ public class PayPanel extends JPanel {
 		receipt_type_popup.add(printbtn);
 		
 		JPanel screen_for_card = new JPanel();
+		screen_for_card.setVisible(false);
 		screen_for_card.setBounds(0, 0, 1039, 522);
 		add(screen_for_card);
 		screen_for_card.setLayout(null);
@@ -154,10 +160,15 @@ public class PayPanel extends JPanel {
 		steps_popup.setEditable(false);
 		steps_popup.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
 		steps_popup.setText("\r\n\r\n\t\t\r\n\t       SWIPE/INSERT THE CARD....");
-		steps_popup.setBounds(130, 128, 791, 294);
+		steps_popup.setBounds(51, 80, 936, 271);
 		screen_for_card.add(steps_popup);
 		
+		JButton Donebtn2 = new JButton("DONE");
+		Donebtn2.setBounds(445, 372, 150, 150);
+		screen_for_card.add(Donebtn2);
+		
 		JPanel printbtn_screen = new JPanel();
+		printbtn_screen.setVisible(false);
 		printbtn_screen.setBounds(0, 0, 1039, 522);
 		add(printbtn_screen);
 		printbtn_screen.setLayout(null);
@@ -167,6 +178,7 @@ public class PayPanel extends JPanel {
 		printbtn_screen.add(screen_receipt);
 		
 		JPanel emailbtn_screen = new JPanel();
+		emailbtn_screen.setVisible(false);
 		emailbtn_screen.setBounds(0, 0, 1039, 522);
 		add(emailbtn_screen);
 		emailbtn_screen.setLayout(null);
@@ -194,6 +206,7 @@ public class PayPanel extends JPanel {
 		emailbtn_screen.add(submitbtn);
 		
 		JPanel bothbtn_screen = new JPanel();
+		bothbtn_screen.setVisible(false);
 		bothbtn_screen.setBounds(0, 0, 1039, 522);
 		add(bothbtn_screen);
 		bothbtn_screen.setLayout(null);
@@ -219,6 +232,7 @@ public class PayPanel extends JPanel {
 		bothbtn_screen.add(submitbtn);
 		
 		JPanel nobtn_screen = new JPanel();
+		nobtn_screen.setVisible(false);
 		nobtn_screen.setBounds(0, 0, 1039, 522);
 		add(nobtn_screen);
 		nobtn_screen.setLayout(null);
@@ -231,6 +245,7 @@ public class PayPanel extends JPanel {
 		nobtn_screen.add(bye_screen);
 		
 		JPanel conf_screen = new JPanel();
+		conf_screen.setVisible(false);
 		conf_screen.setBounds(0, 0, 1039, 522);
 		add(conf_screen);
 		conf_screen.setLayout(null);
@@ -241,6 +256,15 @@ public class PayPanel extends JPanel {
 		confirmation_screen.setBounds(169, 97, 662, 179);
 		conf_screen.add(confirmation_screen);
 		
+		backbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				full_pay_panel.setVisible(false);
+				main_panel.setVisible(true);
+				receipt_type_popup.setVisible(false);
+				
+			}
+		});
+		
 		FullBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -248,8 +272,6 @@ public class PayPanel extends JPanel {
 				full_pay_panel.setVisible(true);
 				main_panel.setVisible(false);
 				receipt_type_popup.setVisible(false);
-				FullBtn.setVisible(false);
-				SplitBtn.setVisible(false);
 			}
 		});
 
@@ -259,7 +281,8 @@ public class PayPanel extends JPanel {
 			{
 				screen_for_cash.setVisible(true);
 				full_pay_panel.setVisible(false);
-				receipt_type_popup.setVisible(false);
+				receipt_type_popup.setVisible(false);				
+				Donebtn.setVisible(true);
 			}
 		});
 		
@@ -281,6 +304,17 @@ public class PayPanel extends JPanel {
 		//code to send card payment verification to server
 		
 		Donebtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				receipt_type_popup.setVisible(true);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				
+			}
+		});
+		
+		Donebtn2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -369,13 +403,6 @@ public class PayPanel extends JPanel {
 				conf_screen.setVisible(false);
 			}
 		});
-		receipt_type_popup.setVisible(false);
 		screen_for_cash.setVisible(false);
-		screen_for_card.setVisible(false);
-		nobtn_screen.setVisible(false);
-		printbtn_screen.setVisible(false);
-		bothbtn_screen.setVisible(false);
-		emailbtn_screen.setVisible(false);
-		conf_screen.setVisible(false);
 	}
 }
