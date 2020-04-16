@@ -13,6 +13,10 @@ import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import client.Client;
+import client.utils.Constants;
+import client.utils.JFrameUtils;
+
 
 
 public class PayPanel extends JPanel {
@@ -223,6 +227,7 @@ public class PayPanel extends JPanel {
 		email_prompt_box.setBounds(312, 249, 486, 68);
 		emailbtn_screen.add(email_prompt_box);
 		email_prompt_box.setColumns(10);
+		
 		
 		JButton submitbtn;
 		submitbtn = new JButton("SUBMIT");
@@ -499,5 +504,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		screen_for_cash.setVisible(false);
-	}
+		
+	}	
+	
 }
