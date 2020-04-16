@@ -20,6 +20,7 @@ public class PayPanel extends JPanel {
 	private static final long serialVersionUID = -1338118268945423515L;
 	private JTextField email_prompt_box;
 	private JLabel email_box;
+	private JButton submitbtn1;
 	/**
 	 * Create the panel.
 	 */
@@ -223,7 +224,8 @@ public class PayPanel extends JPanel {
 		emailbtn_screen.add(email_prompt_box);
 		email_prompt_box.setColumns(10);
 		
-		JButton submitbtn = new JButton("SUBMIT");
+		JButton submitbtn;
+		submitbtn = new JButton("SUBMIT");
 		submitbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		submitbtn.setBounds(693, 345, 164, 68);
 		emailbtn_screen.add(submitbtn);
@@ -249,10 +251,11 @@ public class PayPanel extends JPanel {
 		bothbtn_screen.add(email_prompt_box);
 		email_prompt_box.setColumns(10);
 		
-		submitbtn = new JButton("SUBMIT");
-		submitbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		submitbtn.setBounds(693, 345, 164, 68);
-		bothbtn_screen.add(submitbtn);
+		
+		JButton submitbtn1 = new JButton("SUBMIT");
+		submitbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		submitbtn1.setBounds(693, 345, 164, 68);
+		bothbtn_screen.add(submitbtn1);
 		
 		JPanel nobtn_screen = new JPanel();
 		nobtn_screen.setVisible(false);
@@ -274,7 +277,8 @@ public class PayPanel extends JPanel {
 		conf_screen.setLayout(null);
 		
 		JTextArea confirmation_screen = new JTextArea();
-		confirmation_screen.setText("A BILLING RECEIPT IS SENT TO THIS EMAIL SUCCESSFULLY\r\n                               THANK YOU FOR VISITING!!\n           \r\n\t\t\t\t    HAVE A GOOD DAY!");
+		confirmation_screen.setEditable(false);
+		confirmation_screen.setText("\n  A BILLING RECEIPT IS SENT TO THIS EMAIL SUCCESSFULLY\r\n                           THANK YOU FOR VISITING!!\n           \r\t         HAVE A GOOD DAY!");
 		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
 		confirmation_screen.setBounds(169, 97, 662, 179);
 		conf_screen.add(confirmation_screen);
@@ -358,7 +362,7 @@ public class PayPanel extends JPanel {
 		});
 		
 		
-		//code to make them pay with cash and give bill
+		//code here goes to make them pay with cash and give bill
 		
 		cardbtn1.addActionListener(new ActionListener()
 		{
@@ -371,8 +375,10 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
-		//code to send card payment verification to server
 		
+		//code here goes for server approval before proceeding to receipt type
+		
+		//done button for cash payment
 		Donebtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -384,6 +390,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//done button for card payment
 		Donebtn2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -395,6 +402,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//when user selects print for receipt type
 		printbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -410,7 +418,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
-		
+		//when user selects email for receipt type
 		emailbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -426,7 +434,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
-		
+		//when user selects both for receipt type
 		bothbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -442,7 +450,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
-		
+		//when user clicks submit for entering email id
 		submitbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -459,6 +467,23 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		submitbtn1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				conf_screen.setVisible(true);
+				nobtn_screen.setVisible(false);
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				
+			}
+		});
+		
+		//when user clicks no receipt
 		Nobtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
