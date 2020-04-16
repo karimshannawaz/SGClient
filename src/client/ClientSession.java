@@ -100,4 +100,8 @@ public class ClientSession {
 		return -1;
 	}
 
+	public static boolean isKitchen() {
+		return role != null && role.toLowerCase().contains("kitchen");
+	}
+
 }

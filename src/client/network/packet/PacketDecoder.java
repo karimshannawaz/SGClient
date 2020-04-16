@@ -3,8 +3,10 @@ import client.Client;
 import client.ClientFrame;
 import client.ClientSession;
 import client.network.Session;
+import client.order.KOrder;
 import client.order.MItem;
 import client.order.Menu;
+import client.order.OrderQueue;
 import client.utils.JFrameUtils;
 
 public final class PacketDecoder extends Decoder {
@@ -173,6 +175,30 @@ public final class PacketDecoder extends Decoder {
 							Client.clientFrame.employeeSP.waiterLandingPage();
 						else if(ClientSession.role.equals("kitchen"))
 							Client.clientFrame.employeeSP.kitchenLandingPage();
+					}
+					break;
+					
+				// Kitchen Staff receives customer order from server.
+				case 6:
+					int tableID = stream.readUnsignedByte();
+					double subtotal = Double.parseDouble(stream.readString());
+					int orderSize = stream.readUnsignedByte();
+					KOrder order = new KOrder();
+					for(int i = 0; i < orderSize; i++) {
+						String mItem = stream.readString();
+						String[] tok = mItem.split("~");
+						String mItemName = tok[0];
+						double price = Double.parseDouble(tok[1]);
+						int qty = Integer.parseInt(tok[2]);
+						String specReq = tok[3];
+						String ing = tok[4];
+						order.addItem(mItemName, price, qty, specReq, ing);
+					}
+					order.subtotal = subtotal;
+					order.setTableID(tableID);
+					OrderQueue.orders.add(order);
+					if(ClientSession.isKitchen()) {
+						JFrameUtils.showMessage("Order Update", "You have a new order to fulfill for table: "+tableID);
 					}
 					break;
 					

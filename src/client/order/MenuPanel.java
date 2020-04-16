@@ -1010,7 +1010,7 @@ public class MenuPanel extends JPanel {
 					return;
 				} 
 				else {
-					Order.clear();
+					CustomerOrder.clear();
 					subtotal = 0;
 					refreshOrderTxtArea();
 					if(ClientSession.receivedSpecialNoti) {
@@ -1031,7 +1031,7 @@ public class MenuPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if(Order.items.isEmpty()) {
+				if(CustomerOrder.items.isEmpty()) {
 					JFrameUtils.showMessage("Placing an Order", 
 						"Your order is currently empty! Try adding some items to the cart.");
 					return;
@@ -1106,7 +1106,6 @@ public class MenuPanel extends JPanel {
 				double price = Menu.getItem(itemName).price;
 				int qty = (int) qtyCBox.getSelectedItem();
 				String specialReq = specialReqs.getText();
-				System.out.println("-"+specialReq+"-");
 				specialReq = specialReq.replaceAll("~", "");
 				String modifiedIngs = "";
 				
@@ -1115,10 +1114,8 @@ public class MenuPanel extends JPanel {
 				String[] oldIngTok = oldItem.ingredients.split(",");
 				
 				int index = 0;
-				System.out.println(oldIngTok.length);
 				for(int i = 0; i < oldIngTok.length; i++) {
 					String[] splTok = oldIngTok[i].split(":");
-					System.out.println(Arrays.toString(splTok));
 					if(splTok[2].equals("f")) {
 						modifiedIngs += ""+splTok[0]+":"+
 							splTok[1];
@@ -1141,7 +1138,7 @@ public class MenuPanel extends JPanel {
 				orderItem.ingredients = modifiedIngs;
 				orderItem.menuType = oldItem.menuType;
 			
-				Order.addItem(orderItem);
+				CustomerOrder.addItem(orderItem);
 				refreshOrderTxtArea();
 
 				add.clear();
@@ -1794,26 +1791,26 @@ public class MenuPanel extends JPanel {
 		
 		// Checks for weekly specials, free beverage or kids eat free.
 		if(ClientSession.freeDrinkWPur) {
-			for(int i = 0; i < Order.items.size(); i++) {
+			for(int i = 0; i < CustomerOrder.items.size(); i++) {
 				if(ClientSession.receivedSpecialNoti && 
-					Order.items.get(i).menuType.equals("drink") && Order.items.size() > 1) {
-					Order.items.get(i).price = 0;
+					CustomerOrder.items.get(i).menuType.equals("drink") && CustomerOrder.items.size() > 1) {
+					CustomerOrder.items.get(i).price = 0;
 					ClientSession.freeDrinkWPur = false;
 				}
 			}
 		}
 		else if(ClientSession.kidsEatFree) {
-				for(int i = 0; i < Order.items.size(); i++) {
+				for(int i = 0; i < CustomerOrder.items.size(); i++) {
 					if(ClientSession.receivedSpecialNoti && 
-						Order.items.get(i).name.toLowerCase().contains("kid") && Order.items.size() > 1) {
-						Order.items.get(i).price = 0;
+						CustomerOrder.items.get(i).name.toLowerCase().contains("kid") && CustomerOrder.items.size() > 1) {
+						CustomerOrder.items.get(i).price = 0;
 						ClientSession.kidsEatFree = false;
 					}
 				}
 			}
 		
 		subtotal = 0;
-		for(MItem i : Order.items) {
+		for(MItem i : CustomerOrder.items) {
 			s.append("x"+i.qty+" "+i.name+" - "+
 				(decimalF(i.price * i.qty))+"\n");
 			

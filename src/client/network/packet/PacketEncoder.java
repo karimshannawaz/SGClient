@@ -1,7 +1,7 @@
 package client.network.packet;
 import client.ClientSession;
 import client.network.Session;
-import client.order.Order;
+import client.order.CustomerOrder;
 
 public class PacketEncoder extends Encoder {
 	
@@ -114,9 +114,9 @@ public class PacketEncoder extends Encoder {
 		stream.writePacketVarShort(9);
 		stream.writeByte(ClientSession.tableID);
 		stream.writeString(""+subtotal);
-		stream.writeByte(Order.items.size());
-		for(int i = 0; i < Order.items.size(); i++) {
-			stream.writeString(Order.items.get(i).asOrder());
+		stream.writeByte(CustomerOrder.items.size());
+		for(int i = 0; i < CustomerOrder.items.size(); i++) {
+			stream.writeString(CustomerOrder.items.get(i).asOrder());
 		}
 		stream.endPacketVarShort();
 		session.write(stream);
