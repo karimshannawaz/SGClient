@@ -27,20 +27,25 @@ import client.games.RockPaperScissors;
 import client.order.MenuPanel;
 import client.order.PayPanel;
 import client.rewards.RewardsPanel;
+import client.utils.JFrameUtils;
 import javazoom.jl.player.Player;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
 import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JList;
 
 
 
-public class KitchenStartPage extends JPanel {
+public class KitchenStartPage extends JPanel implements TableModelListener{
 
 	private static final long serialVersionUID = -8112480994553957L;
 	
@@ -120,6 +125,26 @@ public class KitchenStartPage extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(377);
 		table.getColumnModel().getColumn(2).setPreferredWidth(163);
 		
+		table.getModel().addTableModelListener(new TableModelListener(){
+			
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				int row = e.getFirstRow();
+			    int column = e.getColumn();
+			    if (column == 2) {
+			        TableModel model = (TableModel) e.getSource();
+			        DefaultTableModel tab = (DefaultTableModel)table.getModel();
+			        Boolean checked1 = (Boolean) model.getValueAt(row, column);
+			        if (checked1) {
+			        	//send information to the waiter that table order is done with table number
+			        	int tableNum = (int) table.getValueAt(row, 0);
+			        	System.out.println("Table order done for table "+tableNum);
+			        	tab.removeRow(row);
+			        } 
+			    }
+			    
+			}
+		});
 		//format to update, need to understand how the packages are sent etc to continue - desere
 		//when something is sent about the order, set the first section to the table ID
 		//then read in the order to be stored into the list
@@ -147,5 +172,21 @@ public class KitchenStartPage extends JPanel {
 	
 	public void callManager() {
 		
+	}
+
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		// TODO Auto-generated method stub
+		int row = e.getFirstRow();
+	    int column = e.getColumn();
+	    if (column == 3) {
+	        TableModel model = (TableModel) e.getSource();
+	        String columnName = model.getColumnName(column);
+	        Boolean checked1 = (Boolean) model.getValueAt(row, column);
+	        if (checked1) {
+	        	//send information to the waiter that table order is done
+	        	
+	        } 
+	    }
 	}
 }
