@@ -306,6 +306,7 @@ public class PayPanel extends JPanel {
 				main_panel.setVisible(false);
 				full_pay_panel.setVisible(false);
 				receipt_type_popup.setVisible(false);
+				
 			}
 		});
 		
@@ -352,7 +353,7 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm Payment Method", "Once proceeded you can't change payment type");
 				if(!confirmPayment) {
 					return;
 				}
