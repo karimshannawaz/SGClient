@@ -131,26 +131,11 @@ public class KitchenStartPage extends JPanel {
 
 		//String temp = "View order details";
 
-<<<<<<< HEAD
 		/*
 		DefaultTableModel update = (DefaultTableModel) table.getModel();
 		//update.addRow(new Object[] {new Integer(5),"See Order Details",new Boolean(false)});
 		((DefaultTableModel) table.getModel()).addRow(new Object[] {new Integer(5),temp,new Boolean(false)});
 		*/
-=======
-		DefaultTableModel update = (DefaultTableModel) table.getModel();
-		update.addRow(new Object[] {new Integer(5),temp,new Boolean(false)});
-		
-	}
-	
-	public void callWaitstaff() {
-		//implement a section 
-	}
-	
-	public void callManager() {
-		//implement a section
-
->>>>>>> refs/remotes/origin/master
 	}
 	
 	/**
