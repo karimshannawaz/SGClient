@@ -4,6 +4,9 @@ package client;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -173,6 +176,8 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 		table.setRowHeight(30);
 		tablePanel.add(table);
 		
+		List<Object> refill = new ArrayList<Object>(20);
+		
 		table.getModel().addTableModelListener(new TableModelListener(){
 			
 			public void tableChanged(TableModelEvent e) {
@@ -185,15 +190,29 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			        String columnName = model.getColumnName(column);
 			        Boolean checked = (Boolean) model.getValueAt(row, column);
 			        if (checked) {
+			        	refReq="Coke, Lemonade";
+			        	JFrameUtils.showMessage("Refills", "You have a new refill request: "+refReq+ " "+(row+1));
 			        	//read in the customer data about refill
-			        	
+			        	refill.add(row,refReq);
 			        } else {
 			        	//show the waiter the refill request
 			        	//store into object
-			        	refReq = "Coke, Lemonade";
-			        	JFrameUtils.confirmDialog("Table Refill", refReq);
-			            System.out.println(columnName + ": " + false);
+			        	//refReq = "Coke, Lemonade";
+			        	boolean confirm = JFrameUtils.confirmDialog("Table Refill", refill.get(row));
+			        	if(!confirm) {
+			        		model.setValueAt(Boolean.TRUE, row, column);
+			        	}
+			        	else
+			        	{
+			        		refill.add(row,null);
+			        	}
+			        	
 			        }
+			    }
+			    else if(column == 2)
+			    {
+			    	
+			    	//send the customer a notification that help is 
 			    }
 			}
 		});
