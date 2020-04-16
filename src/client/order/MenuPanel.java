@@ -33,6 +33,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
 import client.Client;
+import client.ClientSession;
 import client.network.packet.PacketDecoder;
 import client.utils.JFrameUtils;
 
@@ -1012,6 +1013,15 @@ public class MenuPanel extends JPanel {
 					Order.clear();
 					subtotal = 0;
 					refreshOrderTxtArea();
+					if(ClientSession.receivedSpecialNoti) {
+						int result = ClientSession.checkSpecialsDay();
+						if(result == 1) {
+							ClientSession.kidsEatFree = true;
+						}
+						else if(result == 2) {
+							ClientSession.freeDrinkWPur = true;
+						}
+					}
 				}
 			}
 		});
@@ -1100,7 +1110,9 @@ public class MenuPanel extends JPanel {
 				specialReq = specialReq.replaceAll("~", "");
 				String modifiedIngs = "";
 				
-				String[] oldIngTok = Menu.getItem(itemName).ingredients.split(",");
+				MItem oldItem = Menu.getItem(itemName);
+				
+				String[] oldIngTok = oldItem.ingredients.split(",");
 				
 				int index = 0;
 				System.out.println(oldIngTok.length);
@@ -1120,37 +1132,17 @@ public class MenuPanel extends JPanel {
 						modifiedIngs += ",";
 					index++;
 				}
-			
-				Order.addItem(itemName, price, qty, specialReq, modifiedIngs);
-				refreshOrderTxtArea();
 				
-				/*
-				String text = order_textfield.getText();
-				order_textfield.setText(text+"\n   "+item_price_textfield.getText()+" - "+item_name_textfield.getText());
-
-
-				List<String> ingredientsQ = new ArrayList<String>();
-
-				String[] ings = item.ingredients.replaceAll(",", ":").split(":");
-				int i = 0;
-
-				for (String ing : ings)
-				{
-					if (i % 4 == 1)
-						ingredientsQ.add(ing);
-
-					i++;
-				}
-
-				for (int j = 0; j < ingredientsQ.size(); j++)
-				{
-					if (!ingredientsQ.get(j).equals(totalIngredientsQuantityFM.get(j)))
-					{
-						text = order_textfield.getText();
-						order_textfield.setText(text+"\n      "+totalIngredientsQuantityFM.get(j)+"-"+totalIngredientsFM.get(j));
-					}
-				}
-				*/
+				MItem orderItem = new MItem();
+				orderItem.name = itemName;
+				orderItem.price = price;
+				orderItem.qty = qty;
+				orderItem.specialReqs = specialReq;
+				orderItem.ingredients = modifiedIngs;
+				orderItem.menuType = oldItem.menuType;
+			
+				Order.addItem(orderItem);
+				refreshOrderTxtArea();
 
 				add.clear();
 				sub.clear();				
@@ -1799,6 +1791,27 @@ public class MenuPanel extends JPanel {
 	public void refreshOrderTxtArea() {
 		StringBuilder s = new StringBuilder();
 		s.append("Order:\n\n");
+		
+		// Checks for weekly specials, free beverage or kids eat free.
+		if(ClientSession.freeDrinkWPur) {
+			for(int i = 0; i < Order.items.size(); i++) {
+				if(ClientSession.receivedSpecialNoti && 
+					Order.items.get(i).menuType.equals("drink") && Order.items.size() > 1) {
+					Order.items.get(i).price = 0;
+					ClientSession.freeDrinkWPur = false;
+				}
+			}
+		}
+		else if(ClientSession.kidsEatFree) {
+				for(int i = 0; i < Order.items.size(); i++) {
+					if(ClientSession.receivedSpecialNoti && 
+						Order.items.get(i).name.toLowerCase().contains("kid") && Order.items.size() > 1) {
+						Order.items.get(i).price = 0;
+						ClientSession.kidsEatFree = false;
+					}
+				}
+			}
+		
 		subtotal = 0;
 		for(MItem i : Order.items) {
 			s.append("x"+i.qty+" "+i.name+" - "+
