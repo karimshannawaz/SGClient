@@ -132,12 +132,7 @@ public class KitchenStartPage extends JPanel {
 		String temp = "View order details";
 
 		DefaultTableModel update = (DefaultTableModel) table.getModel();
-<<<<<<< HEAD
 		update.addRow(new Object[] {new Integer(5),temp,new Boolean(false)});
-		
-	}
-	
-	public void addToTable() {
 		
 	}
 	
@@ -147,11 +142,7 @@ public class KitchenStartPage extends JPanel {
 	
 	public void callManager() {
 		//implement a section
-=======
-		//update.addRow(new Object[] {new Integer(5),"See Order Details",new Boolean(false)});
-		((DefaultTableModel) table.getModel()).addRow(new Object[] {new Integer(5),temp,new Boolean(false)});
 
->>>>>>> refs/remotes/origin/master
 	}
 
 	/**
