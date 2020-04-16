@@ -179,11 +179,11 @@ public class MenuPanel extends JPanel {
 		OrderSpecificsFrame.setLayout(null);
 				
 		JButton cancel_button = new JButton("Cancel");
-		cancel_button.setBounds(93, 375, 125, 125);
+		cancel_button.setBounds(305, 430, 90, 90);
 		OrderSpecificsFrame.add(cancel_button);
 		
 		JButton confirm_button = new JButton("Confirm");
-		confirm_button.setBounds(218, 375, 125, 125);
+		confirm_button.setBounds(400, 430, 90, 90);
 		OrderSpecificsFrame.add(confirm_button);
 		
 		//JButton next_ingredient_button = new JButton("Next page");
@@ -1100,6 +1100,7 @@ public class MenuPanel extends JPanel {
 					index++;
 				}
 				
+				// COME BACK HERE
 				if (index >= (5 * (ing_page_number + 1)))
 					next_ingredient_button.setVisible(true);
 				
@@ -1610,7 +1611,7 @@ public class MenuPanel extends JPanel {
 					}	
 				});	
 
-				final int ind22 = index2;
+				final int fInd2 = index2;
 				subB.addActionListener(new ActionListener() {
 
 					@Override
@@ -1623,14 +1624,14 @@ public class MenuPanel extends JPanel {
 						for (JMenuItem i : options)
 							menu.add(i);
 						options[0].addActionListener(actionEvent -> {
-							ingredientsFM.get(ind22).setText(options[0].getText());
+							ingredientsFM.get(fInd2).setText(options[0].getText());
 						});
 						options[1].addActionListener(actionEvent -> {
-							ingredientsFM.get(ind22).setText(options[1].getText());
+							ingredientsFM.get(fInd2).setText(options[1].getText());
 						});
-						menu.show(ingredientSubButton.get(ind22), 
-							ingredientSubButton.get(ind22).getX() - 40, subB.getY() + 
-							(ind22 > 0 ? (subB.getHeight() * -1) * ind22 : 0));
+						menu.show(ingredientSubButton.get(fInd2), 
+							ingredientSubButton.get(fInd2).getX() - 40, subB.getY() + 
+							(fInd2 > 0 ? ((subB.getHeight() * -1) * fInd2) - (5 * fInd2) : 0));
 					}
 				});
 			
