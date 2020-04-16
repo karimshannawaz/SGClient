@@ -331,11 +331,18 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+				if(!confirmPayment) {
+					return;
+				}
+				else {
 				screen_for_cash.setVisible(true);
 				full_pay_panel.setVisible(false);
 				receipt_type_popup.setVisible(false);				
 				Donebtn.setVisible(true);
+				}
 			}
+				
 		});
 		
 		
@@ -345,10 +352,16 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+				if(!confirmPayment) {
+					return;
+				}
+				else {
 				screen_for_card.setVisible(true);
 				full_pay_panel.setVisible(false);
 				screen_for_cash.setVisible(false);
 				receipt_type_popup.setVisible(false);
+				}
 			}
 		});
 		
@@ -359,10 +372,16 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+				if(!confirmPayment) {
+					return;
+				}
+				else {
 				screen_for_cash.setVisible(true);
 				split_pay_panel.setVisible(false);
 				receipt_type_popup.setVisible(false);				
 				Donebtn.setVisible(true);
+				}
 			}
 		});
 		
@@ -373,10 +392,16 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+				if(!confirmPayment) {
+					return;
+				}
+				else {
 				screen_for_card.setVisible(true);
 				split_pay_panel.setVisible(false);
 				screen_for_cash.setVisible(false);
 				receipt_type_popup.setVisible(false);
+				}
 			}
 		});
 		
@@ -504,6 +529,8 @@ public class PayPanel extends JPanel {
 			}
 		});
 		screen_for_cash.setVisible(false);
+		split_pay_panel.setVisible(false);
+		
 		
 	}	
 	
