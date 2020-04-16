@@ -158,6 +158,7 @@ public class CustomerStartPage extends JPanel {
 		});
 		backBtn.setBounds(37, 5, 131, 77);
 		utilityPanel.add(backBtn);
+		backBtn.setVisible(false);
 
 		btnStopMusic = new JButton();
 		btnStopMusic.addActionListener(new ActionListener() {
