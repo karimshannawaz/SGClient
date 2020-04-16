@@ -1019,7 +1019,6 @@ public class MenuPanel extends JPanel {
 						i++;
 					}
 
-					//System.out.println("first: " + ingredientsQ.size() + "\nSecond: " + totalIngredientsQuantityFM.size()+"\nthird: " + totalIngredientsFM.size());
 					for (int j = 0; j < ingredientsQ.size(); j++)
 					{
 						if (!ingredientsQ.get(j).equals(totalIngredientsQuantityFM.get(j)))
@@ -1539,7 +1538,6 @@ public class MenuPanel extends JPanel {
 					{
 						int text = Integer.valueOf(tf2.getText());
 						tf2.setText(String.valueOf(text + 1));
-						System.out.println("index Y: " + index2);
 						if (b1.getY() == 50)
 							totalIngredientsQuantityFM.set((ing_page_number * 5) + 0, tf2.getText());
 						else if (b1.getY() == 105)
