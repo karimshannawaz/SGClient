@@ -2,11 +2,16 @@ package client.games;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import client.ClientFrame;
@@ -47,6 +52,23 @@ public class GamePanel extends JPanel {
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		btnNewButton_1.setBounds(513, 0, 526, 522);
 		add(btnNewButton_1);
-	}
 
+		
+		
+		// Button for rockpaperscissors game
+		GameAButton = new JLabel();
+		GameAButton.setLayout(null);
+		GameAButton.setBounds(0, 0, 511, 522);
+		GameAButton.setIcon(new ImageIcon(
+				new ImageIcon("./src/client/Rockpaperscissors.png").getImage();
+				getScaledInstance(GameAButton.getWidth(), GameAButton.getHeight(), Image.SCALE_DEFAULT)));
+		this.setContentPane(GameAButton);
+		GameAButton.addMouseListener(new MouseListener() {
+			// Minimized for simplicity sake
+			@Override public void mouseClicked(MouseEvent arg0) { }
+			@Override public void mouseEntered(MouseEvent arg0) { }
+			@Override public void mouseExited(MouseEvent arg0) { }
+			@Override public void mousePressed(MouseEvent arg0) { }
+		}
+	}
 }
