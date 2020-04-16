@@ -36,6 +36,7 @@ public class PayPanel extends JPanel {
 		main_panel.setLayout(null);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
 		textArea.setBounds(270, 0, 500, 450);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
@@ -70,9 +71,9 @@ public class PayPanel extends JPanel {
 		
 		JTextArea pay_popup_window = new JTextArea();
 		pay_popup_window.setEditable(false);
-		pay_popup_window.setText("\t\r\n      \r\n                   HOW WOULD YOU LIKE TO PAY THE BILL?");
+		pay_popup_window.setText("Order: ");
 		pay_popup_window.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
-		pay_popup_window.setBounds(71, 108, 782, 208);
+		pay_popup_window.setBounds(270, 0, 500, 450);
 		full_pay_panel.add(pay_popup_window);
 		
 		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
@@ -84,6 +85,10 @@ public class PayPanel extends JPanel {
 		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		Cashbtn.setBounds(486, 346, 259, 65);
 		full_pay_panel.add(Cashbtn);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(0, 400, 159, 122);
+		full_pay_panel.add(btnNewButton);
 		
 		JPanel screen_for_cash = new JPanel();
 		screen_for_cash.setBounds(0, 0, 1039, 522);
