@@ -165,11 +165,11 @@ public class KitchenStartPage extends JPanel implements TableModelListener{
 	}
 	
 	public void callWaitstaff() {
-		
+		//implement a section 
 	}
 	
 	public void callManager() {
-		
+		//implement a section
 	}
 
 	@Override
