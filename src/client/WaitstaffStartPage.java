@@ -267,10 +267,14 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 	
 	
 	protected void showTableOption() {
-		Object option = JFrameUtils.inputDialog("Table Chooser", "Enter the table number:");
+		String option = (String) JFrameUtils.inputDialog("Table Chooser", "Enter the table number:");
+		if(option == null || option.equals("null"))
+			return;
+		if(option.equals(""))
+			return;
 		int tableNum;
 		try {
-			tableNum = Integer.parseInt((String) option);
+			tableNum = Integer.parseInt(option);
 		} catch(NumberFormatException e) {
 			JFrameUtils.showMessage("Table Chooser", "Invalid table entered, please try again.");
 			return;

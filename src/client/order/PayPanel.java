@@ -20,7 +20,6 @@ public class PayPanel extends JPanel {
 
 	JButton SplitBtn;
 	JButton FullBtn;
-	private JTextField txtOrder;
 	private JTextField email_prompt_box;
 	private JLabel email_box;
 	/**
@@ -31,9 +30,21 @@ public class PayPanel extends JPanel {
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
 		
+		JPanel main_panel = new JPanel();
+		main_panel.setBounds(0, 0, 1039, 522);
+		add(main_panel);
+		main_panel.setLayout(null);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setBounds(270, 0, 500, 450);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		main_panel.add(textArea);
+		
 		SplitBtn = new JButton("Split Bill");
-		SplitBtn.setBounds(412, 475, 120, 47);
-		add(SplitBtn);
+		SplitBtn.setBounds(270, 451, 250, 71);
+		main_panel.add(SplitBtn);
 		SplitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -42,8 +53,8 @@ public class PayPanel extends JPanel {
 		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		
 		FullBtn = new JButton("Full Bill");
-		FullBtn.setBounds(553, 475, 120, 47);
-		add(FullBtn);
+		FullBtn.setBounds(520, 451, 250, 71);
+		main_panel.add(FullBtn);
 		FullBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -51,23 +62,7 @@ public class PayPanel extends JPanel {
 		});
 		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		
-		JPanel main_panel = new JPanel();
-		main_panel.setBounds(0, 0, 1039, 522);
-		add(main_panel);
-		main_panel.setLayout(null);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(292, 106, 457, 345);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		main_panel.add(textArea);
-		
-		txtOrder = new JTextField();
-		txtOrder.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		txtOrder.setBounds(451, 36, 116, 33);
-		txtOrder.setText("     ORDER");
-		main_panel.add(txtOrder);
-		txtOrder.setColumns(10);
 		
 		JPanel full_pay_panel = new JPanel();
 		full_pay_panel.setBounds(0, 0, 1039, 522);
@@ -76,9 +71,9 @@ public class PayPanel extends JPanel {
 		
 		JTextArea pay_popup_window = new JTextArea();
 		pay_popup_window.setEditable(false);
-		pay_popup_window.setText("\t\r\n      \r\n                   HOW WOULD YOU LIKE TO PAY THE BILL?");
+		pay_popup_window.setText("Order: ");
 		pay_popup_window.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
-		pay_popup_window.setBounds(71, 108, 782, 208);
+		pay_popup_window.setBounds(270, 0, 500, 450);
 		full_pay_panel.add(pay_popup_window);
 		
 		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
@@ -90,6 +85,10 @@ public class PayPanel extends JPanel {
 		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		Cashbtn.setBounds(486, 346, 259, 65);
 		full_pay_panel.add(Cashbtn);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(0, 400, 159, 122);
+		full_pay_panel.add(btnNewButton);
 		
 		JPanel screen_for_cash = new JPanel();
 		screen_for_cash.setBounds(0, 0, 1039, 522);
@@ -242,7 +241,6 @@ public class PayPanel extends JPanel {
 		confirmation_screen.setBounds(169, 97, 662, 179);
 		conf_screen.add(confirmation_screen);
 		
-		
 		FullBtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -254,7 +252,7 @@ public class PayPanel extends JPanel {
 				SplitBtn.setVisible(false);
 			}
 		});
-		
+
 		Cashbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
