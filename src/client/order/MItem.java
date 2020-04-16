@@ -17,6 +17,8 @@ public class MItem {
 	public String type; // indicates if the menu item is vegan, vegetarian or neither (default).
 	public String menuType; // indicates if the item is an entree, drink, dessert or side.
 	public String ingredients;
+	
+	public String sub;
 
 	public MItem(String name, double price, String description, int calories, String allergens,
 			String type, String menuType, String ingredients) {
@@ -28,6 +30,7 @@ public class MItem {
 		this.type = type;
 		this.menuType = menuType;
 		this.ingredients = ingredients;
+		this.sub = "n";
 	}
 
 	public MItem() {
@@ -39,6 +42,11 @@ public class MItem {
 		this.type = "default";
 		this.menuType = "entree";
 		this.ingredients = null;
+		this.sub = "n";
+	}
+	
+	public boolean hasSub() {
+		return !sub.equals("n");
 	}
 
 	@Override
