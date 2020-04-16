@@ -153,7 +153,7 @@ public class CustomerStartPage extends JPanel {
 		backBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 24));
 		backBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				back((currentScreen.equals("rps") || currentScreen.equals("gtn")) ? false : false);
+				back((currentScreen.equals("rps") || currentScreen.equals("gtn")) ? true : false);
 			}
 		});
 		backBtn.setBounds(37, 5, 131, 77);
