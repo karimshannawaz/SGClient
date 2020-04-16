@@ -5,13 +5,18 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import client.order.MenuPanel;
 import client.order.PayPanel;
@@ -19,7 +24,7 @@ import client.utils.JFrameUtils;
 
 //order doesnt fully function correctly 
 
-public class WaitstaffStartPage extends JPanel {
+public class WaitstaffStartPage extends JPanel implements TableModelListener{
 
 	private static final long serialVersionUID = -811294553957L;
 	
@@ -33,7 +38,7 @@ public class WaitstaffStartPage extends JPanel {
 	public PayPanel payPanel;
 	public MenuPanel orderPanel;
 	private JTextField tableNum;
-	private JTable table;
+	public JTable table;
 	
 
 
@@ -154,6 +159,7 @@ public class WaitstaffStartPage extends JPanel {
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
+			
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(166);
@@ -166,6 +172,31 @@ public class WaitstaffStartPage extends JPanel {
 		table.setBounds(0, 0, 1, 1);
 		table.setRowHeight(30);
 		tablePanel.add(table);
+		
+		table.getModel().addTableModelListener(new TableModelListener(){
+			
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				int row = e.getFirstRow();
+			    int column = e.getColumn();
+			    Object refReq = null;
+			    if (column == 1) {
+			        TableModel model = (TableModel) e.getSource();
+			        String columnName = model.getColumnName(column);
+			        Boolean checked = (Boolean) model.getValueAt(row, column);
+			        if (checked) {
+			        	//read in the customer data about refill
+			        	
+			        } else {
+			        	//show the waiter the refill request
+			        	//store into object
+			        	refReq = "Coke, Lemonade";
+			        	JFrameUtils.confirmDialog("Table Refill", refReq);
+			            System.out.println(columnName + ": " + false);
+			        }
+			    }
+			}
+		});
 		
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
@@ -183,6 +214,7 @@ public class WaitstaffStartPage extends JPanel {
 				back();
 			}
 		});
+		
 		
 		backBtn.setBounds(37, 5, 131, 77);
 		utilityPanel.add(backBtn);
@@ -279,6 +311,32 @@ public void openScreen(String type) {
 			//take table number
 			this.payPanel.setVisible(true);
 			break;
+		case "compensate":
+			break;
 		}
 	}
+
+
+@Override
+public void tableChanged(TableModelEvent e) {
+	// TODO Auto-generated method stub
+	int row = e.getFirstRow();
+    int column = e.getColumn();
+    if (column == 1) {
+        TableModel model = (TableModel) e.getSource();
+        String columnName = model.getColumnName(column);
+        Boolean checked = (Boolean) model.getValueAt(row, column);
+        if (checked) {
+        	//read in the customer data about refill
+            System.out.println(columnName + ": " + true);
+        } else {
+        	//show the waiter the refill request
+        	JFrameUtils.confirmDialog("Table Refill", "Enter the table number:");
+            System.out.println(columnName + ": " + false);
+        }
+    }
+
+}
+
+
 }
