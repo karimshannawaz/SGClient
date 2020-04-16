@@ -188,8 +188,8 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			    if (column == 1) {
 			        TableModel model = (TableModel) e.getSource();
 			        String columnName = model.getColumnName(column);
-			        Boolean checked = (Boolean) model.getValueAt(row, column);
-			        if (checked) {
+			        Boolean checked1 = (Boolean) model.getValueAt(row, column);
+			        if (checked1) {
 			        	refReq="Coke, Lemonade";
 			        	JFrameUtils.showMessage("Refills", "You have a new refill request: "+refReq+ " "+(row+1));
 			        	//read in the customer data about refill
@@ -211,8 +211,25 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			    }
 			    else if(column == 2)
 			    {
-			    	
-			    	//send the customer a notification that help is 
+			    	TableModel model = (TableModel) e.getSource();
+			    	String columnName = model.getColumnName(column);
+			    	Boolean checked2= (Boolean) model.getValueAt(row, column);
+			    	if (checked2) {
+			        	JFrameUtils.showMessage("Help", "You have a new help request: at Table "+(row+1));
+			        } else {
+			        	//show the waiter the refill request
+			        	//store into object
+			        	//refReq = "Coke, Lemonade";
+			        	boolean confirm = JFrameUtils.confirmDialog("Table Help", "Notifying customer ");
+			        	if(!confirm) {
+			        		model.setValueAt(Boolean.TRUE, row, column);
+			        	}
+			        	else
+			        	{
+			        		//send to customer that waiter is coming
+			        	}
+			        	
+			        }
 			    }
 			}
 		});
