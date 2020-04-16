@@ -16,4 +16,16 @@ public class Menu {
 	// from the client kiosk's point of view.
 	public static List<MItem> instance = new ArrayList<MItem>();
 
+	/**
+	 * Returns the menu item with the specified name
+	 * @param itemName
+	 * @return
+	 */
+	public static MItem getItem(String itemName) {
+		for(MItem i : instance)
+			if(i.name.equals(itemName))
+				return i;
+		return null;
+	}
+
 }

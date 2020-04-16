@@ -8,7 +8,7 @@ package client.order;
  *
  */
 public class MItem {
-
+	
 	public String name;
 	public double price;
 	public String description;
@@ -18,7 +18,10 @@ public class MItem {
 	public String menuType; // indicates if the item is an entree, drink, dessert or side.
 	public String ingredients;
 	
+	// This helps with order totals.
+	public int qty;
 	public String sub;
+	public String specialReqs;
 
 	public MItem(String name, double price, String description, int calories, String allergens,
 			String type, String menuType, String ingredients) {
@@ -52,6 +55,14 @@ public class MItem {
 	@Override
 	public String toString() {
 		return name+"~"+price+"~"+description+"~"+calories+"~"+allergens+"~"+type+"~"+menuType+"~"+ingredients;
+	}
+	
+	/**
+	 * Returns this menu item as an order string.
+	 * @return
+	 */
+	public String asOrder() {
+		return name+"~"+price+"~"+qty+"~"+specialReqs+"~"+ingredients;
 	}
 
 
