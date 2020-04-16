@@ -187,7 +187,6 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			    Object refReq = null;
 			    if (column == 1) {
 			        TableModel model = (TableModel) e.getSource();
-			        String columnName = model.getColumnName(column);
 			        Boolean checked1 = (Boolean) model.getValueAt(row, column);
 			        if (checked1) {
 			        	refReq="Coke, Lemonade";

@@ -9,15 +9,19 @@ package client.order;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 
 // Test by dillon
+// Shan
 
 
 import javax.swing.JPanel;
@@ -63,6 +67,13 @@ public class MenuPanel extends JPanel {
 	private JButton next_ingredient_button = new JButton("Next page");
 	private JButton previous_ingredient_button = new JButton("previous page");
 
+	// Shan changes
+	public JTextArea specialReqs;
+	public JComboBox qtyCBox;
+	public JTextArea orderSummary;
+	public JTextArea orderTotal;
+	public double subtotal;
+	public double tax = 0.0825; // State of TX tax
 	
 	/**
 	 * Create the panel.
@@ -98,21 +109,35 @@ public class MenuPanel extends JPanel {
 		OrderListFrame.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 346, 441);
+		scrollPane.setBounds(0, 0, 346, 370);
 		OrderListFrame.add(scrollPane);
 		
-		//textfield that holds the order summary
-		JTextArea order_textfield = new JTextArea();
-		order_textfield.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		order_textfield.setEditable(false);
-		order_textfield.setLineWrap(true);
-		order_textfield.setText("Order: ");
-		scrollPane.setViewportView(order_textfield);
+		// Shan - Text Area that holds the order summary
+		orderSummary = new JTextArea();
+		orderSummary.setFont(new Font("Monospaced", Font.PLAIN, 13));
+		orderSummary.setEditable(false);
+		orderSummary.setLineWrap(true);
+		orderSummary.setText("Order: ");
+		scrollPane.setViewportView(orderSummary);
 		
+		// Shan - Text Area that holds order total;
+		orderTotal = new JTextArea();
+		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		orderTotal.setEditable(false);
+		orderTotal.setLineWrap(true);
+		orderTotal.setBounds(0, 370, 346, 71);
+		orderTotal.setText("Subtotal: $"+(subtotal)+"\nTax:\nTotal:");
+		OrderListFrame.add(orderTotal);
+		
+		// Shan - Added Clear button
+		JButton clearOBtn = new JButton("Clear Order");
+		clearOBtn.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		clearOBtn.setBounds(0, 440, 173, 82);
+		OrderListFrame.add(clearOBtn);
 
 		JButton place_order_button = new JButton("Place Order");
-		place_order_button.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		place_order_button.setBounds(0, 440, 346, 82);
+		place_order_button.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		place_order_button.setBounds(173, 440, 173, 82);
 		OrderListFrame.add(place_order_button);
 		
 		JPanel OrderDetails = new JPanel();
@@ -172,18 +197,53 @@ public class MenuPanel extends JPanel {
 		vegan_textfield.setBounds(184, 390, 150, 50);
 		PictureFrame.add(vegan_textfield);
 		vegan_textfield.setColumns(10);
+
+		
 		
 		JPanel OrderSpecificsFrame = new JPanel();
 		OrderSpecificsFrame.setBounds(519, 0, 518, 520);
 		OrderDetails.add(OrderSpecificsFrame);
 		OrderSpecificsFrame.setLayout(null);
+		
+
+		// Shan - add special requests
+		JLabel specialReqLabel = new JLabel("Special Requests?");
+		specialReqLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		specialReqLabel.setBounds(0, 360, 120, 30);
+		specialReqLabel.setVisible(true);
+		OrderSpecificsFrame.add(specialReqLabel);
+		
+		// special req text area
+		specialReqs = new JTextArea();
+		specialReqs.setFont(new Font("Monospaced", Font.PLAIN, 13));
+		specialReqs.setBounds(0, 395, 220, 110);
+		specialReqs.setLineWrap(true);
+		specialReqs.setText("none");
+		OrderSpecificsFrame.add(specialReqs);
+		
+		// Shan - quantity button
+		JLabel qtyLbl = new JLabel("QUANTITY:");
+		qtyLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
+		qtyLbl.setBounds(270, 370, 120, 30);
+		qtyLbl.setVisible(true);
+		OrderSpecificsFrame.add(qtyLbl);
+		
+		// Shan - qty combobox
+		qtyCBox = new JComboBox( new Integer[] {
+			1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+		});
+
+		qtyCBox.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		qtyCBox.setBounds(370, 370, 100, 30);
+		qtyCBox.setVisible(true);
+		OrderSpecificsFrame.add(qtyCBox);
 				
 		JButton cancel_button = new JButton("Cancel");
-		cancel_button.setBounds(93, 375, 125, 125);
+		cancel_button.setBounds(305, 430, 90, 90);
 		OrderSpecificsFrame.add(cancel_button);
 		
 		JButton confirm_button = new JButton("Confirm");
-		confirm_button.setBounds(218, 375, 125, 125);
+		confirm_button.setBounds(400, 430, 90, 90);
 		OrderSpecificsFrame.add(confirm_button);
 		
 		//JButton next_ingredient_button = new JButton("Next page");
@@ -935,11 +995,37 @@ public class MenuPanel extends JPanel {
 				next_page_button.setVisible(true);
 			}
 		});
+		
+		
+		// Shan - Added clear order button
+		clearOBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boolean confirmOrder = JFrameUtils.confirmDialog("Your Order",
+					"Are you sure you would like to clear your existing order? This action cannot"
+					+ " be undone.");
+				if (!confirmOrder) {
+					return;
+				} 
+				else {
+					Order.clear();
+					subtotal = 0;
+					refreshOrderTxtArea();
+				}
+			}
+		});
+		
 
 		place_order_button.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				if(Order.items.isEmpty()) {
+					JFrameUtils.showMessage("Placing an Order", 
+						"Your order is currently empty! Try adding some items to the cart.");
+					return;
+				}
 				boolean confirmOrder = JFrameUtils.confirmDialog("Your Order",
 						"Are you sure you would like to place this order? You cannot make changes"
 								+ " once it has been placed.");
@@ -947,12 +1033,14 @@ public class MenuPanel extends JPanel {
 				// Object input = JFrameUtils.inputDialog("Order Price", "Choose what you want to pay for this order:");
 				if (!confirmOrder)
 				{
-					order_textfield.setText("Order:");
 					return;
 				}
 				else
 				{
 					System.out.println("CODE HERE TO AND SEND INFO TO KITCHEN / SERVER ");
+					JFrameUtils.showMessage("Placing an Order", 
+						"Please wait, attempting to communicate with the restaurant\n and send the order...");
+					Client.session.getPacketEncoder().sendOrder(subtotal);
 				}
 			}
 		});
@@ -989,58 +1077,96 @@ public class MenuPanel extends JPanel {
 		});		
 		
 		confirm_button.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					for (JButton b : add)
-						b.setVisible(false);
-					
-					for (JButton b : sub)
-						b.setVisible(false);
-					
-					for (JTextField tf : ingredientsFM)
-						tf.setVisible(false);
-					
-					for (JTextField tf : ingredientsQuantityFM)
-						tf.setVisible(false);
-					
-					String text = order_textfield.getText();
-					order_textfield.setText(text+"\n   "+item_price_textfield.getText()+" - "+item_name_textfield.getText());
-					
-					
-					List<String> ingredientsQ = new ArrayList<String>();
 
-					String[] ings = item.ingredients.replaceAll(",", ":").split(":");
-					int i = 0;
-					
-					for (String ing : ings)
-					{
-						if (i % 4 == 1)
-							ingredientsQ.add(ing);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (JButton b : add)
+					b.setVisible(false);
 
-						i++;
+				for (JButton b : sub)
+					b.setVisible(false);
+
+				for (JTextField tf : ingredientsFM)
+					tf.setVisible(false);
+
+				for (JTextField tf : ingredientsQuantityFM)
+					tf.setVisible(false);
+				
+				String itemName = item_name_textfield.getText();
+				double price = Menu.getItem(itemName).price;
+				int qty = (int) qtyCBox.getSelectedItem();
+				String specialReq = specialReqs.getText();
+				System.out.println("-"+specialReq+"-");
+				specialReq = specialReq.replaceAll("~", "");
+				String modifiedIngs = "";
+				
+				String[] oldIngTok = Menu.getItem(itemName).ingredients.split(",");
+				
+				int index = 0;
+				System.out.println(oldIngTok.length);
+				for(int i = 0; i < oldIngTok.length; i++) {
+					String[] splTok = oldIngTok[i].split(":");
+					System.out.println(Arrays.toString(splTok));
+					if(splTok[2].equals("f")) {
+						modifiedIngs += ""+splTok[0]+":"+
+							splTok[1];
+						if(i < oldIngTok.length - 1)
+							modifiedIngs += ",";
+						continue;
 					}
+					modifiedIngs += ""+ingredientsFM.get(index).getText()+":"+
+						ingredientsQuantityFM.get(index).getText();
+					if(index < ingredientsFM.size() - 1)
+						modifiedIngs += ",";
+					index++;
+				}
+			
+				Order.addItem(itemName, price, qty, specialReq, modifiedIngs);
+				refreshOrderTxtArea();
+				
+				/*
+				String text = order_textfield.getText();
+				order_textfield.setText(text+"\n   "+item_price_textfield.getText()+" - "+item_name_textfield.getText());
 
-					for (int j = 0; j < ingredientsQ.size(); j++)
+
+				List<String> ingredientsQ = new ArrayList<String>();
+
+				String[] ings = item.ingredients.replaceAll(",", ":").split(":");
+				int i = 0;
+
+				for (String ing : ings)
+				{
+					if (i % 4 == 1)
+						ingredientsQ.add(ing);
+
+					i++;
+				}
+
+				for (int j = 0; j < ingredientsQ.size(); j++)
+				{
+					if (!ingredientsQ.get(j).equals(totalIngredientsQuantityFM.get(j)))
 					{
-						if (!ingredientsQ.get(j).equals(totalIngredientsQuantityFM.get(j)))
-						{
-							text = order_textfield.getText();
-							order_textfield.setText(text+"\n      "+totalIngredientsQuantityFM.get(j)+"-"+totalIngredientsFM.get(j));
-						}
+						text = order_textfield.getText();
+						order_textfield.setText(text+"\n      "+totalIngredientsQuantityFM.get(j)+"-"+totalIngredientsFM.get(j));
 					}
-					
-					add.clear();
-					sub.clear();				
-					ingredientsFM.clear();
-					totalIngredientsFM.clear();
-					ingredientsQuantityFM.clear();
-					totalIngredientsQuantityFM.clear();
-					
-					OrderTypeFrame.setVisible(true);
-					OrderListFrame.setVisible(true);
-					MenuListFrame.setVisible(true);
-					OrderDetails.setVisible(false);
-					ing_page_number = 0;
-				}	
+				}
+				*/
+
+				add.clear();
+				sub.clear();				
+				ingredientsFM.clear();
+				totalIngredientsFM.clear();
+				ingredientsQuantityFM.clear();
+				totalIngredientsQuantityFM.clear();
+				specialReqs.setText("none");
+				qtyCBox.setSelectedIndex(0);
+
+				OrderTypeFrame.setVisible(true);
+				OrderListFrame.setVisible(true);
+				MenuListFrame.setVisible(true);
+				OrderDetails.setVisible(false);
+				ing_page_number = 0;
+			}	
 		});		
 		
 		next_ingredient_button.addActionListener(new ActionListener() {
@@ -1100,6 +1226,7 @@ public class MenuPanel extends JPanel {
 					index++;
 				}
 				
+				// COME BACK HERE
 				if (index >= (5 * (ing_page_number + 1)))
 					next_ingredient_button.setVisible(true);
 				
@@ -1390,7 +1517,7 @@ public class MenuPanel extends JPanel {
 		});
 
 	}
-	
+
 	public void getMenuItems() {
 		Client.session.getPacketEncoder().requestMenu();
 		try {
@@ -1473,7 +1600,7 @@ public class MenuPanel extends JPanel {
 			}		
 		}
 		
-		ingredients.set(0, (ingredients.get(0).substring(1, ingredients.get(0).length())));
+		//ingredients.set(0, (ingredients.get(0).substring(1, ingredients.get(0).length())));
 		
 		index = 0;
 						
@@ -1610,7 +1737,7 @@ public class MenuPanel extends JPanel {
 					}	
 				});	
 
-				final int ind22 = index2;
+				final int fInd2 = index2;
 				subB.addActionListener(new ActionListener() {
 
 					@Override
@@ -1623,14 +1750,14 @@ public class MenuPanel extends JPanel {
 						for (JMenuItem i : options)
 							menu.add(i);
 						options[0].addActionListener(actionEvent -> {
-							ingredientsFM.get(ind22).setText(options[0].getText());
+							ingredientsFM.get(fInd2).setText(options[0].getText());
 						});
 						options[1].addActionListener(actionEvent -> {
-							ingredientsFM.get(ind22).setText(options[1].getText());
+							ingredientsFM.get(fInd2).setText(options[1].getText());
 						});
-						menu.show(ingredientSubButton.get(ind22), 
-							ingredientSubButton.get(ind22).getX() - 40, subB.getY() + 
-							(ind22 > 0 ? (subB.getHeight() * -1) * ind22 : 0));
+						menu.show(ingredientSubButton.get(fInd2), 
+							ingredientSubButton.get(fInd2).getX() - 40, subB.getY() + 
+							(fInd2 > 0 ? ((subB.getHeight() * -1) * fInd2) - (5 * fInd2) : 0));
 					}
 				});
 			
@@ -1664,4 +1791,56 @@ public class MenuPanel extends JPanel {
 			tf2.setVisible(true);
 
 	}
+	
+	
+	/**
+	 * Shan - Refreshes order txt area.
+	 */
+	public void refreshOrderTxtArea() {
+		StringBuilder s = new StringBuilder();
+		s.append("Order:\n\n");
+		subtotal = 0;
+		for(MItem i : Order.items) {
+			s.append("x"+i.qty+" "+i.name+" - "+
+				(decimalF(i.price * i.qty))+"\n");
+			
+			// Current Menu Item
+			MItem prev = Menu.getItem(i.name);
+			String[] oldIngTok = prev.ingredients.split(",");
+			
+			// Order Menu Item
+			String[] newIngTok = i.ingredients.split(",");
+			
+			for(int index = 0; index < newIngTok.length; index++) {
+				String[] oldIng = oldIngTok[index].split(":");
+				String[] newIng = newIngTok[index].split(":");
+				// Substituted ingredient
+				if(!oldIng[0].equals(newIng[0])) {
+					s.append("    - "+oldIng[0]+" sub for "+newIng[0]+"\n");
+				}
+				if(!oldIng[1].equals(newIng[1])) {
+					s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
+				}
+			}
+			if(!(i.specialReqs.equalsIgnoreCase("none")) 
+				&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
+				s.append("    - "+i.specialReqs+"\n");
+			}
+			
+			subtotal += (i.price * i.qty);
+		}
+		orderSummary.setText(s.toString());
+		orderTotal.setText("Subtotal: "+decimalF(subtotal)+"\nTax: "+
+			decimalF(tax * subtotal)+"\nTotal: "+decimalF(subtotal + (subtotal * tax)));
+	}
+	
+	/**
+	 * Formats a decimal to be displayed as currency.
+	 * @param num
+	 * @return
+	 */
+	public String decimalF(double num) {
+		return DecimalFormat.getCurrencyInstance().format(num);
+	}
+	
 }
