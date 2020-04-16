@@ -1038,7 +1038,7 @@ public class MenuPanel extends JPanel {
 					
 					for (String ing : ings)
 					{
-						if (i % 2 == 1)
+						if (i % 4 == 1)
 							ingredientsQ.add(ing);
 
 						i++;
@@ -1413,8 +1413,6 @@ public class MenuPanel extends JPanel {
 				for (JTextField tf2 : ingredientsQuantityFM)
 					tf2.setVisible(true);
 
-				
-				previous_ingredient_button.setVisible(true);
 			}
 		});
 
@@ -1460,23 +1458,38 @@ public class MenuPanel extends JPanel {
 	
 		List<String> ingredients = new ArrayList<String>();
 		List<String> ingredient_quantity = new ArrayList<String>();
-
+		List<String> editable = new ArrayList<String>();
+		List<String> replaceables = new ArrayList<String>();
+		
 		String[] ings = mItem.ingredients.replaceAll(",", ":").split(":");
+		
 		int i = 0;
 		
 		for (String ing : ings)
 		{
-			if (i % 2 == 0)
+			if (i % 4 == 0)
 			{
 				i++;
 				ingredients.add(ing);
 			}
-			else
+			else if (i % 4 == 1)
 			{
 				i++;
 				ingredient_quantity.add(ing);
 			}
+			else if (i % 4 == 2)
+			{
+				i++;
+				editable.add(ing);
+			}
+			else
+			{
+				i++;
+				replaceables.add(ing);
+			}		
 		}
+		
+		ingredients.set(0, (ingredients.get(0).substring(1, ingredients.get(0).length())));
 		
 		index = 0;
 						
@@ -1484,7 +1497,7 @@ public class MenuPanel extends JPanel {
 		{
 			totalIngredientsFM.add(ing);
 			
-			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))))
+			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))) && (editable.get(index).equals("t")))
 			{
 				JTextField tf1 = new JTextField();
 			
@@ -1518,7 +1531,7 @@ public class MenuPanel extends JPanel {
 		{		
 			totalIngredientsQuantityFM.add(ing);
 			
-			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))))
+			if ((index < (5 * (ing_page_number + 1)) && (index >= (5 * ing_page_number))) && (editable.get(index).equals("t")))
 			{
 				JButton b1 = new JButton();
 				JButton b2 = new JButton();
