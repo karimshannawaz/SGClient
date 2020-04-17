@@ -108,14 +108,14 @@ public class PayPanel extends JPanel {
 		SplitBtn = new JButton("Split Bill");
 		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		SplitBtn.setBounds(270, 451, 250, 71);
-		SplitBtn.setVisible(false);
+		SplitBtn.setVisible(true);
 		main_panel.add(SplitBtn);
 		
 		//button if customer is paying full bill
 		FullBtn = new JButton("Full Bill");
 		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		FullBtn.setBounds(520, 451, 250, 71);
-		FullBtn.setVisible(false);
+		FullBtn.setVisible(true);
 		main_panel.add(FullBtn);
 		
 		//a new panel pops up asking for payment type
@@ -631,7 +631,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				receipt_type_popup.setVisible(true);
-				tip_panel.setVisible(true);
+				tip_panel.setVisible(false);
 			}
 		});
 		
@@ -642,7 +642,7 @@ public class PayPanel extends JPanel {
 			{
 				//functionality to add custom amount to total 
 				receipt_type_popup.setVisible(true);
-				tip_panel.setVisible(true);
+				tip_panel.setVisible(false);
 			}
 		});
 		
