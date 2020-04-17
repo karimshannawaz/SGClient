@@ -6,18 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import client.ClientFrame;
-import client.order.PayPanel;
-
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import javax.swing.JTextPane;
 
 //The conf_screen will not open, some kind of error. same in paypanel and guessNumber Lottery
@@ -82,10 +73,11 @@ public class LotteryPanel extends JPanel {
 		gtnPanel.randomNum = GuessTheNumberLottery.generateNumber(1, 5);
 		
 		JPanel conf_screen = new JPanel();
-		conf_screen.setVisible(false);
+		conf_screen.setLayout(null);
 		conf_screen.setBounds(0, 0, 1039, 522);
 		add(conf_screen);
-		conf_screen.setLayout(null);
+		conf_screen.setVisible(false);
+		
 		
 		JTextArea confirmation_screen = new JTextArea();
 		confirmation_screen.setEditable(false);
@@ -93,7 +85,6 @@ public class LotteryPanel extends JPanel {
 		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
 		confirmation_screen.setBounds(169, 173, 662, 136);
 		conf_screen.add(confirmation_screen);
-		conf_screen.setVisible(false);
 		
 	}
 	
@@ -105,7 +96,7 @@ public class LotteryPanel extends JPanel {
 			this.gtnPanel.setVisible(true);
 			break;
 		case "cancel":
-			conf_screen.setVisible(true);
+			this.conf_screen.setVisible(true);
 			break;
 			
 		}

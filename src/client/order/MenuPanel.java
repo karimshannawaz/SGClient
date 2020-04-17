@@ -36,6 +36,7 @@ import client.Client;
 import client.ClientSession;
 import client.network.packet.PacketDecoder;
 import client.utils.JFrameUtils;
+import javax.swing.JTextPane;
 
 public class MenuPanel extends JPanel {
 
@@ -77,20 +78,19 @@ public class MenuPanel extends JPanel {
 	public JComboBox qtyCBox;
 	public JTextArea orderSummary;
 	public JTextArea orderTotal;
+	
 	public double subtotal;
 	public double tax = 0.0825; // State of TX tax
 
 	private JButton next_page_button;
-
 	private JButton previous_page_button;
-
 	private JToggleButton dessert_button;
-
 	private JToggleButton entree_button;
-
 	private JToggleButton side_button;
-
 	private JToggleButton drink_button;
+	
+	public JTextArea orderSummaryPostOrder;
+	public JLabel orderMsgLbl;
 
 	/**
 	 * Create the panel.
@@ -108,17 +108,82 @@ public class MenuPanel extends JPanel {
 
 	}
 	
+	public void updateMessage(String msg) {
+		orderMsgLbl.setText(msg);
+	}
+	
 	private void addPostOrderPanel() {
 		postOrder = new JPanel();
 		postOrder.setBounds(0, 0, 1039, 522);
 		postOrder.setLayout(null);
 		add(postOrder);
+		
+		JLabel placeOrderLbl = new JLabel("Thanks for placing your order at Seven Guys!");
+		placeOrderLbl.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		placeOrderLbl.setBounds(291, 0, 470, 59);
+		postOrder.add(placeOrderLbl);
+		
+		JLabel lblYouCanPay = new JLabel("You can pay for your meal using the pay button after tapping on \"back\"");
+		lblYouCanPay.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblYouCanPay.setBounds(174, 38, 803, 59);
+		postOrder.add(lblYouCanPay);
+		
+		JLabel lblNewLabel_1 = new JLabel("Your order:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(174, 92, 116, 25);
+		postOrder.add(lblNewLabel_1);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 125, 431, 384);
+		postOrder.add(scrollPane);
+		
+		orderSummaryPostOrder = new JTextArea();
+		orderSummaryPostOrder.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		scrollPane.setViewportView(orderSummaryPostOrder);
+		
+		orderMsgLbl = new JLabel("Order Details");
+		orderMsgLbl.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		orderMsgLbl.setBounds(510, 236, 490, 73);
+		postOrder.add(orderMsgLbl);
+		
 		postOrder.setVisible(false);
 	}
 	
-	public void doPostOrder(String message) {
+	public void doPostOrder() {
 		this.mainPanel.setVisible(false);
 		this.postOrder.setVisible(true);
+		StringBuilder s = new StringBuilder();
+		s.append("Order:\n\n");
+
+		for(MItem i : CustomerOrder.items) {
+			s.append("x"+i.qty+" "+i.name+" - "+
+					(decimalF(i.price * i.qty))+"\n");
+
+			// Current Menu Item
+			MItem prev = Menu.getItem(i.name);
+			String[] oldIngTok = prev.ingredients.split(",");
+
+			// Order Menu Item
+			String[] newIngTok = i.ingredients.split(",");
+
+			for(int index = 0; index < newIngTok.length; index++) {
+				String[] oldIng = oldIngTok[index].split(":");
+				String[] newIng = newIngTok[index].split(":");
+				// Substituted ingredient
+				if(!oldIng[0].equals(newIng[0])) {
+					s.append("    - "+oldIng[0]+" sub for "+newIng[0]+"\n");
+				}
+				if(!oldIng[1].equals(newIng[1])) {
+					s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
+				}
+			}
+			if(!(i.specialReqs.equalsIgnoreCase("none")) 
+					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
+				s.append("    - "+i.specialReqs+"\n");
+			}
+		}
+		
+		orderSummaryPostOrder.setText(s.toString());
 	}
 
 	private void addMainPanel() {

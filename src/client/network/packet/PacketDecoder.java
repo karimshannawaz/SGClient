@@ -1,4 +1,6 @@
 package client.network.packet;
+import javax.swing.table.DefaultTableModel;
+
 import client.Client;
 import client.ClientFrame;
 import client.ClientSession;
@@ -119,6 +121,13 @@ public final class PacketDecoder extends Decoder {
 							String message = stream.readString();
 							JFrameUtils.showMessage("Order Update", message);
 							// Do extra stuff here
+							Client.clientFrame.customerSP.orderPanel.updateMessage(message);
+							break;
+							
+						case "order_submitted":
+							// Do extra stuff here
+							Client.clientFrame.customerSP.orderPanel.doPostOrder();
+							Client.clientFrame.customerSP.orderPanel.updateMessage("Your order is in the works!");
 							break;
 							
 						case "out_of_stock":
@@ -183,7 +192,12 @@ public final class PacketDecoder extends Decoder {
 							paramsLength = stream.readUnsignedByte();
 							int tableID = stream.readUnsignedByte();
 							int orderIndex = stream.readUnsignedByte();
-							Client.clientFrame.employeeSP.kitchenPage.table.remove(orderIndex);
+							
+							OrderQueue.unfulfilledOrders.remove(orderIndex);
+							
+							DefaultTableModel tab = (DefaultTableModel) 
+								Client.clientFrame.employeeSP.kitchenPage.table.getModel();
+							tab.removeRow(orderIndex);
 							break;
 					}
 					break;
@@ -244,10 +258,6 @@ public final class PacketDecoder extends Decoder {
 				case 7:
 					tableID = stream.readUnsignedByte();
 					int orderIndex = stream.readUnsignedByte();
-					
-					KOrder currOrder = OrderQueue.unfulfilledOrders.get(orderIndex);
-					OrderQueue.unpaidOrders.add(currOrder);
-					OrderQueue.unfulfilledOrders.remove(orderIndex);
 			
 					JFrameUtils.showMessage("Order Update", "You have a new order to take to table "+
 					(tableID + 1)+".\nPlease mark it as delivered to the table once you've delivered it.");
