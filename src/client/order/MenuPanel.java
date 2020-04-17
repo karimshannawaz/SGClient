@@ -138,6 +138,7 @@ public class MenuPanel extends JPanel {
 		postOrder.add(scrollPane);
 		
 		orderSummaryPostOrder = new JTextArea();
+		orderSummaryPostOrder.setEditable(false);
 		orderSummaryPostOrder.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		scrollPane.setViewportView(orderSummaryPostOrder);
 		
