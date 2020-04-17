@@ -25,6 +25,7 @@ public class PayPanel extends JPanel {
 
 	private static final long serialVersionUID = -1338118268945423515L;
 	private JTextField email_prompt_box;
+	private JTextField email_prompt_box1;
 	private JLabel email_box;
 	private JButton submitbtn1;
 	public LotteryPanel lottery;
@@ -261,11 +262,11 @@ public class PayPanel extends JPanel {
 		email_prompt.setBounds(591, 61, 340, 128);
 		bothbtn_screen.add(email_prompt);
 		
-		email_prompt_box = new JTextField();
-		email_prompt_box.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
-		email_prompt_box.setBounds(640, 249, 348, 68);
-		bothbtn_screen.add(email_prompt_box);
-		email_prompt_box.setColumns(10);
+		email_prompt_box1 = new JTextField();
+		email_prompt_box1.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
+		email_prompt_box1.setBounds(640, 249, 348, 68);
+		bothbtn_screen.add(email_prompt_box1);
+		email_prompt_box1.setColumns(10);
 		
 		
 		JButton submitbtn1 = new JButton("SUBMIT");
@@ -528,7 +529,7 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				String email = email_prompt_box.getText();
+				String email = email_prompt_box1.getText();
 				if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
 					JFrameUtils.showMessage("Error", "Invalid email entered, please try again.");
 					return;
