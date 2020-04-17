@@ -32,6 +32,10 @@ public class ClientSession {
 	// Set to true if the customer is able to pay yet or not.
 	public static boolean canPay = false;
 	
+	// Set to true if the customer is able to pay yet or not.
+	public static boolean requestedHelp = false;
+	public static boolean requestedRefill = false;
+	
 	// Represents the email, birthday MM/DD/YYYY (used for rewards) and how many visits
 	// for this customer.
 	public static String email = null;
@@ -41,7 +45,6 @@ public class ClientSession {
 	public static boolean hasFreeSide = false;
 	public static boolean hasBirthdayEntree = false;
 	public static boolean hasFreeDessert = false;
-	
 	
 	// Represents the id and password for the employee that logs in.
 	public static String id = null;
