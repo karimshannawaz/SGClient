@@ -116,9 +116,40 @@ public final class PacketDecoder extends Decoder {
 					String code = stream.readString();
 					switch(code) {
 					
-						case "waitstaff_not_available_for_request":
-							int paramsLength = stream.readUnsignedByte();
+						case "waitstaff_on_way_with_request":
+							stream.readUnsignedByte();
 							String type = stream.readString();
+							if(type.equals("help")) {
+								ClientSession.requestedHelp = false;
+								JFrameUtils.showMessage("Help Request", 
+									"We appreciate your patience!\n"
+									+ "A manager or member of our waitstaff is on their way to your table!");
+							}
+							else if(type.equals("refill")) {
+								ClientSession.requestedRefill = false;
+								JFrameUtils.showMessage("Help Request", 
+									"We appreciate your patience!\n"
+									+ "A manager or member of our waitstaff is on their way with your refill to your table!");
+							}
+							break;
+					
+						case "waitstaff_received_request":
+							int paramsLength = stream.readUnsignedByte();
+							type = stream.readString();
+							if(type.equals("help")) {
+								JFrameUtils.showMessage("Help Request", 
+									"A manager or member of our waitstaff will arrive to your table shortly!");
+							}
+							else if(type.equals("refill")) {
+								JFrameUtils.showMessage("Refill Request", 
+									"A manager or member of our waitstaff will arrive to your table\n"
+									+ "shortly with the refill that you requested!");
+							}
+							break;
+					
+						case "waitstaff_not_available_for_request":
+							paramsLength = stream.readUnsignedByte();
+							type = stream.readString();
 							if(type.equals("help")) {
 								ClientSession.requestedHelp = false;
 								JFrameUtils.showMessage("Help Request", 
@@ -290,6 +321,20 @@ public final class PacketDecoder extends Decoder {
 					
 				// Wait Staff gets customer help or refill request
 				case 8:
+					boolean refill = stream.readUnsignedByte() == 1;
+					int tableIDFServer = stream.readUnsignedByte();
+					
+					if(refill) {
+						Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
+						setValueAt("O", tableIDFServer, 1);
+						JFrameUtils.showMessage("Refill Update", "You have a new refill to take to table "+
+							(tableIDFServer + 1)+".\nPlease tap on it when you are on your way to the table with the refill.");
+					} else {
+						Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
+						setValueAt("O", tableIDFServer, 2);
+						JFrameUtils.showMessage("Help Update", "You have a new help request from table "+
+							(tableIDFServer + 1)+".\nPlease tap on it when you are on your way to the table.");
+					}
 					break;
 					
 				default:

@@ -163,5 +163,20 @@ public class PacketEncoder extends Encoder {
 		ClientSession.requestedRefill = true;
 		session.write(stream);
 	}
+
+	/**
+	 * Lets the customer know that the waiter is on the way to help
+	 * or with their refill.
+	 * @param row
+	 * @param string
+	 */
+	public void sendRequestComplete(int tableID, boolean refill) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(13);
+		stream.writeByte(refill ? 1 : 0);
+		stream.writeByte(tableID);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }
