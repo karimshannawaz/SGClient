@@ -113,6 +113,11 @@ public final class PacketDecoder extends Decoder {
 					String code = stream.readString();
 					switch(code) {
 					
+						case "cannot_process_order":
+							JFrameUtils.showMessage("Order Request", 
+									"Error: We couldn't process your order. Please try again or call for help.");
+							break;
+					
 						case "nulled_account":
 							JFrameUtils.showMessage("Seven Guys Account", 
 								"Error: This account is nulled, please try to authenticate again or ask a manager for help.");
