@@ -90,7 +90,7 @@ public class GuessTheNumberLottery extends JPanel {
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have seven tries, good luck!\n");
+		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5!\n");
 		textArea.setText(output.toString());
 		textArea.setBounds(81, 32, 707, 278);
 		scrollPane.setViewportView(textArea);

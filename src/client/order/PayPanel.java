@@ -800,7 +800,7 @@ public class PayPanel extends JPanel {
 				s.append("    - "+i.specialReqs+"\n");
 			}
 		}
-		s.append("Total: $" + df2.format(CustomerOrder.subtotal +(CustomerOrder.subtotal + tax)));
+		s.append("Total: $" + df2.format(CustomerOrder.subtotal +(CustomerOrder.subtotal * tax)));
 		return s.toString();
 	}
 
