@@ -678,7 +678,7 @@ public class PayPanel extends JPanel {
 		//s.append("Order:\n\n");
 
 		for(MItem i : CustomerOrder.items) {
-			s.append("x"+i.qty+" "+i.name+"\n");
+			s.append("x"+i.qty+" "+i.name+" "+i.price+"\n");
 
 			// Order Menu Item
 			String[] newIngTok = i.ingredients.split(",");
