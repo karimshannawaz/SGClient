@@ -1895,7 +1895,7 @@ public class MenuPanel extends JPanel {
 
 	/**
 	 * Returns the customer to the front page
-	 * Used for if the menu needs to be updated again
+	 * Used for if the menu needs to be updated again..
 	 */
 	public void goToFront() {
 		for(JButton b : sidesFM) 
