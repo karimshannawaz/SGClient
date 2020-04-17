@@ -116,43 +116,28 @@ public class PayPanel extends JPanel {
 		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		FullBtn.setBounds(520, 451, 250, 71);
 		FullBtn.setVisible(true);
-		main_panel.add(FullBtn);
+		main_panel.add(FullBtn);		
 		
-		//a new panel pops up asking for payment type
-		JPanel full_pay_panel = new JPanel();
-		full_pay_panel.setBounds(0, 0, 1039, 522);
-		add(full_pay_panel);
-		full_pay_panel.setLayout(null);
+		//if customer, paying fully, wants to pay with card
+		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
+		cardbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		cardbtn.setBounds(270, 451, 250, 71);
+		cardbtn.setVisible(false);
+		main_panel.add(cardbtn);
+		
+		//if customer, paying fully, wants to pay with cash
+		JButton Cashbtn = new JButton("CASH");
+		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		Cashbtn.setBounds(520, 451, 250, 71);
+		Cashbtn.setVisible(false);
+		main_panel.add(Cashbtn);
 		
 		//panel asking for payment when bill is split
 		JPanel split_pay_panel = new JPanel();
 		split_pay_panel.setBounds(0, 0, 988, 522);
 		add(split_pay_panel);
 		split_pay_panel.setLayout(null);
-		
-		
-		//shows the order bill
-		JTextArea pay_popup_window = new JTextArea();
-		pay_popup_window.setWrapStyleWord(true);
-		pay_popup_window.setLineWrap(true);
-		pay_popup_window.setEditable(false);
-		pay_popup_window.setText("Order: ");//+ getOrderToString());
-		pay_popup_window.setFont(new Font("Monospaced", Font.PLAIN, 13));
-		pay_popup_window.setBounds(270, 0, 500, 450);
-		full_pay_panel.add(pay_popup_window);
-		
-		//if customer, paying fully, wants to pay with card
-		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
-		cardbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		cardbtn.setBounds(270, 451, 250, 71);
-		full_pay_panel.add(cardbtn);
-		
-		//if customer, paying fully, wants to pay with cash
-		JButton Cashbtn = new JButton("CASH");
-		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		Cashbtn.setBounds(520, 451, 250, 71);
-		full_pay_panel.add(Cashbtn);
-		
+				
 		//if customer, paying with split, wants to pay with card
 		JButton cardbtn1 = new JButton("CREDIT/DEBIT CARD");
 		cardbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
@@ -165,19 +150,15 @@ public class PayPanel extends JPanel {
 		Cashbtn1.setBounds(520, 451, 372, 71);
 		split_pay_panel.add(Cashbtn1);
 		
-		//back button if on full pay screen if customer chooses to split the bill
-		JButton backbtn = new JButton("BACK");
-		backbtn.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		backbtn.setBounds(0, 400, 159, 122);
-		full_pay_panel.add(backbtn);
-		
 		//back button if on split pay screen if customer chooses to pay full bill
+		//want to rework
 		JButton backbtn1 = new JButton("BACK");
 		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 35));
 		backbtn1.setBounds(0, 400, 159, 122);
 		split_pay_panel.add(backbtn1);
 		
 		//screen to select items which customer wants to pay for
+		//add a table that will hold the items to select
 		JTextArea split_selection_panel = new JTextArea();
 		split_selection_panel.setText("Select Items:");
 		split_selection_panel.setFont(new Font("Monospaced", Font.BOLD, 13));
@@ -185,7 +166,8 @@ public class PayPanel extends JPanel {
 		split_selection_panel.setBounds(174, 0, 345, 450);
 		split_pay_panel.add(split_selection_panel);
 		
-		//screen showing bill for selceted items
+		//screen showing bill for selected items
+		//hold a table that will populate items selected
 		JTextArea splititems_bill_panel = new JTextArea();
 		splititems_bill_panel.setText("Your Bill:");
 		splititems_bill_panel.setEditable(false);
@@ -411,7 +393,7 @@ public class PayPanel extends JPanel {
 		tipbtn_1.setBounds(676, 153, 301, 207);
 		tip_panel.add(tipbtn_1);
 		
-		//if customer wants to enter custome amount
+		//if customer wants to enter custom amount
 		JLabel custom_tip = new JLabel("CUSTOM TIP:");
 		custom_tip.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		custom_tip.setBounds(51, 370, 272, 71);
@@ -439,8 +421,11 @@ public class PayPanel extends JPanel {
 		//when customer clicks full pay button, a panel to pay full bill pops up 
 		FullBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				full_pay_panel.setVisible(true);
-				main_panel.setVisible(false);
+				//full_pay_panel.setVisible(true);
+				SplitBtn.setVisible(false);
+				FullBtn.setVisible(false);
+				cardbtn.setVisible(true);
+				Cashbtn.setVisible(true);
 				receipt_type_popup.setVisible(false);
 				split_pay_panel.setVisible(false);
 			}
@@ -451,21 +436,11 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				split_pay_panel.setVisible(true);
 				main_panel.setVisible(false);
-				full_pay_panel.setVisible(false);
 				receipt_type_popup.setVisible(false);
 				
 			}
 		});
 		
-		//back button for full pay screen
-		backbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				full_pay_panel.setVisible(false);
-				main_panel.setVisible(true);
-				receipt_type_popup.setVisible(false);
-				
-			}
-		});
 		
 		//back button for split bill screen
 		backbtn1.addActionListener(new ActionListener() {
@@ -488,10 +463,10 @@ public class PayPanel extends JPanel {
 					return;
 				}
 				else {
-				screen_for_cash.setVisible(true);
-				full_pay_panel.setVisible(false);
-				receipt_type_popup.setVisible(false);				
-				Donebtn.setVisible(true);
+					main_panel.setVisible(false);
+					screen_for_cash.setVisible(true);
+					receipt_type_popup.setVisible(false);				
+					Donebtn.setVisible(true);
 				}
 			}
 				
@@ -510,8 +485,8 @@ public class PayPanel extends JPanel {
 					return;
 				}
 				else {
+					main_panel.setVisible(false);
 				screen_for_card.setVisible(true);
-				full_pay_panel.setVisible(false);
 				screen_for_cash.setVisible(false);
 				receipt_type_popup.setVisible(false);
 				}
