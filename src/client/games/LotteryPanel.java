@@ -76,6 +76,7 @@ public class LotteryPanel extends JPanel {
 		conf_screen.setLayout(null);
 		conf_screen.setBounds(0, 0, 1039, 522);
 		add(conf_screen);
+		conf_screen.setVisible(false);
 		
 		
 		JTextArea confirmation_screen = new JTextArea();
@@ -84,11 +85,10 @@ public class LotteryPanel extends JPanel {
 		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
 		confirmation_screen.setBounds(169, 173, 662, 136);
 		conf_screen.add(confirmation_screen);
-		conf_screen.setVisible(false);
 		
 	}
 	
-	protected void openScreen(String type)
+	public void openScreen(String type)
 	{
 		//this.mainPanel.setVisible(false);
 		switch(type) {

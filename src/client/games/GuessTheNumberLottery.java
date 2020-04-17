@@ -143,7 +143,7 @@ public class GuessTheNumberLottery extends JPanel {
 		
 	}
 
-	private void printCoupon() {
+	public void printCoupon() {
 		//print the coupon
 		JPanel coupon = new JPanel();
 		
