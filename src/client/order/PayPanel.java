@@ -623,14 +623,5 @@ public class PayPanel extends JPanel {
 			
 	}
 	
-<<<<<<< HEAD
-=======
-	/*protected void bill_email() {
-		String email = email_prompt_box.getText();
-		if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
-			JFrameUtils.showMessage("Error", "Invalid email entered, please try again.");
-			return;
-		}
-	}*/
->>>>>>> branch 'master' of https://github.com/karimshannawaz/SGClient.git
+
 }
