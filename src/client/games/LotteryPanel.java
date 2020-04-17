@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import client.ClientFrame;
+import client.order.PayPanel;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.text.SimpleAttributeSet;
@@ -27,6 +29,7 @@ public class LotteryPanel extends JPanel {
 
 	public GuessTheNumberLottery gtnPanel;
 	public JPanel mainPanel;
+	public JPanel conf_screen;
 
 	/**
 	 * Create the panel.
@@ -36,10 +39,25 @@ public class LotteryPanel extends JPanel {
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
 		
+		JPanel conf_screen = new JPanel();
+		conf_screen.setVisible(false);
+		conf_screen.setBounds(0, 0, 1039, 522);
+		add(conf_screen);
+		conf_screen.setLayout(null);
+		
+		JTextArea confirmation_screen = new JTextArea();
+		confirmation_screen.setEditable(false);
+		confirmation_screen.setText("\r\r\n                           THANK YOU FOR VISITING!!\r\n           \r\t         HAVE A GOOD DAY!");
+		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		confirmation_screen.setBounds(169, 173, 662, 136);
+		conf_screen.add(confirmation_screen);
+		conf_screen.setVisible(false);
+		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(null);
 		mainPanel.setBounds(0, 0, 1039, 522);
 		add(mainPanel);
+		
 		mainPanel.setVisible(true);
 		JButton btnNewButton_1 = new JButton("Guess The Number");
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -69,13 +87,13 @@ public class LotteryPanel extends JPanel {
 	
 	public void openScreen(String type)
 	{
-			
+		//this.mainPanel.setVisible(false);
 		switch(type) {
 		case "gtn":
 			this.gtnPanel.setVisible(true);
 			break;
 		case "cancel":
-			//prompt to clear the sysytem
+			this.conf_screen.setVisible(true);
 			break;
 			
 		}

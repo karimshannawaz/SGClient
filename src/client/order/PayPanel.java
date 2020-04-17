@@ -578,13 +578,14 @@ public class PayPanel extends JPanel {
 			//kinda buggy
 			boolean confirm = JFrameUtils.confirmDialog("LOTTERY CHANCE", "Would you like to play a game for a chance to win a free desert?");
         	if(!confirm) {
-        		conf_screen.setVisible(true);
+        		this.conf_screen.setVisible(true);
         	}
         	else {
         		this.lottery.setVisible(true);
         	}
 			
 	}
+	
 	/*protected void bill_email() {
 		String email = email_prompt_box.getText();
 		if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
