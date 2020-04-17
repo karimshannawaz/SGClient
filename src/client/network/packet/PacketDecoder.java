@@ -111,6 +111,11 @@ public final class PacketDecoder extends Decoder {
 					String code = stream.readString();
 					switch(code) {
 					
+						case "nulled_account":
+							JFrameUtils.showMessage("Seven Guys Account", 
+								"Error: This account is nulled, please try to authenticate again or ask a manager for help.");
+							break;
+					
 						case "email_exists":
 							JFrameUtils.showMessage("Rewards Account", 
 									"Error: This email already exists. Please try using another email address.");
@@ -128,22 +133,47 @@ public final class PacketDecoder extends Decoder {
 							String name = stream.readString();
 							ClientSession.email = email;
 							ClientSession.birthday = birthdate;
-							Client.clientFrame.panel.rewardsPanel.finishSignup();
+							Client.clientFrame.customerSP.rewardsPanel.finishSignup();
+							break;
+							
+						// Employee client codes:
+						case "incorrect_password":
+							JFrameUtils.showMessage("Employee Login", 
+								"Error: Incorrect password, please try again.");
+							break;
+							
+						case "employee_id_does_not_exist":
+							JFrameUtils.showMessage("Employee Login", 
+								"Error: Invalid employee ID entered, please try again.");
 							break;
 					}
 					break;
 					
 				// Receiving saved user details from server
 				case 5:
-					ClientSession.email = stream.readString();
-					ClientSession.birthday = stream.readString();
-					ClientSession.name = stream.readString();
-					ClientSession.visits = stream.readUnsignedShort();
-					ClientSession.hasFreeSide = stream.readUnsignedByte() == 1;
-					ClientSession.hasBirthdayEntree = stream.readUnsignedByte() == 1;
-					ClientSession.hasFreeDessert = stream.readUnsignedByte() == 1;
-					ClientSession.rwdsLoggedIn = true;
-					Client.clientFrame.panel.rewardsPanel.loginToRewards(true);
+					boolean employee = stream.readUnsignedByte() == 1;
+					if(!employee) {
+						ClientSession.email = stream.readString();
+						ClientSession.birthday = stream.readString();
+						ClientSession.name = stream.readString();
+						ClientSession.visits = stream.readUnsignedShort();
+						ClientSession.hasFreeSide = stream.readUnsignedByte() == 1;
+						ClientSession.hasBirthdayEntree = stream.readUnsignedByte() == 1;
+						ClientSession.hasFreeDessert = stream.readUnsignedByte() == 1;
+						ClientSession.rwdsLoggedIn = true;
+						Client.clientFrame.customerSP.rewardsPanel.loginToRewards(true);
+					}
+					// Send employee details to client here.
+					else {
+						ClientSession.id = stream.readString();
+						ClientSession.name = stream.readString();
+						ClientSession.role = stream.readString();
+						ClientSession.password = stream.readString();
+						if(ClientSession.role.equals("waitstaff"))
+							Client.clientFrame.employeeSP.waiterLandingPage();
+						else if(ClientSession.role.equals("kitchen"))
+							Client.clientFrame.employeeSP.kitchenLandingPage();
+					}
 					break;
 					
 				default:

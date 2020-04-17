@@ -1,45 +1,33 @@
 
 package client;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import client.order.MenuPanel;
-import client.order.Menu;
-import client.order.MItem;
-import client.order.PayPanel;
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import java.awt.GridLayout;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.JInternalFrame;
-import javax.swing.border.BevelBorder;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.JLayeredPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JDesktopPane;
-import java.awt.BorderLayout;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import client.order.MenuPanel;
+import client.order.PayPanel;
+import client.utils.JFrameUtils;
 
 //order doesnt fully function correctly 
 
-public class WaitstaffStartPage extends JPanel {
+public class WaitstaffStartPage extends JPanel implements TableModelListener{
 
 	private static final long serialVersionUID = -811294553957L;
 	
@@ -52,9 +40,8 @@ public class WaitstaffStartPage extends JPanel {
 	public JPanel utilityPanel;
 	public PayPanel payPanel;
 	public MenuPanel orderPanel;
-	private JPanel panel;
 	private JTextField tableNum;
-	private JTable table;
+	public JTable table;
 	
 
 
@@ -63,50 +50,13 @@ public class WaitstaffStartPage extends JPanel {
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
 		
-		JPanel tablePanel = new JPanel();
-		tablePanel.setBounds(374, 31, 665, 604);
-		
-		//Panel has some glitches, may need help on
-		panel = new JPanel();
-		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBounds(179, 332, 492, 96);
-		panel.setVisible(false);
-		
-		JLabel lblpromptlabel = new JLabel("Enter the number of the table to continue:");
-		lblpromptlabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		panel.add(lblpromptlabel);
-		tableNum = new JTextField();
-		panel.add(tableNum); //user will input the table they wish to do something for
-		tableNum.setColumns(10);
-		JButton btnNewButton = new JButton("Enter");
-		panel.add(btnNewButton);
-		
-		//this takes the table number they are doing these actions for, 
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panel.setVisible(false);
-				if(currentScreen == "order")
-				{
-					openScreen("order");
-				}
-				else if(currentScreen == "pay")
-				{
-					openScreen("pay");
-				}
-				else if(currentScreen == "compensate")
-				{
-					openScreen("compensate");
-				}
-			}
-				
-		});
-		
-		
 		mainPanel = new JPanel();
 		mainPanel.setBounds(0, 0, 1039, 656);
 		add(mainPanel);
 		mainPanel.setLayout(null);
-		mainPanel.add(panel);
+		
+		JPanel tablePanel = new JPanel();
+		tablePanel.setBounds(374, 31, 665, 604);
 		mainPanel.add(tablePanel);
 		
 		utilityPanel = new JPanel();
@@ -124,7 +74,7 @@ public class WaitstaffStartPage extends JPanel {
 		OrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "order";
-				panel.setVisible(true);
+				showTableOption();
 			}
 		});
 		OrderBtn.setBounds(0, 0, 187, 392);
@@ -135,7 +85,7 @@ public class WaitstaffStartPage extends JPanel {
 		CompBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "compensate";
-				panel.setVisible(true);
+				showTableOption();
 			}
 		});
 		
@@ -212,6 +162,7 @@ public class WaitstaffStartPage extends JPanel {
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
+			
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(166);
@@ -225,11 +176,67 @@ public class WaitstaffStartPage extends JPanel {
 		table.setRowHeight(30);
 		tablePanel.add(table);
 		
+		List<Object> refill = new ArrayList<Object>(20);
+		
+		table.getModel().addTableModelListener(new TableModelListener(){
+			
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				int row = e.getFirstRow();
+			    int column = e.getColumn();
+			    Object refReq = null;
+			    if (column == 1) {
+			        TableModel model = (TableModel) e.getSource();
+			        Boolean checked1 = (Boolean) model.getValueAt(row, column);
+			        if (checked1) {
+			        	refReq="Coke, Lemonade";
+			        	JFrameUtils.showMessage("Refills", "You have a new refill request: "+refReq+ " "+(row+1));
+			        	//read in the customer data about refill
+			        	refill.add(row,refReq);
+			        } else {
+			        	//show the waiter the refill request
+			        	//store into object
+			        	//refReq = "Coke, Lemonade";
+			        	boolean confirm = JFrameUtils.confirmDialog("Table Refill", refill.get(row));
+			        	if(!confirm) {
+			        		model.setValueAt(Boolean.TRUE, row, column);
+			        	}
+			        	else
+			        	{
+			        		refill.add(row,null);
+			        	}
+			        	
+			        }
+			    }
+			    else if(column == 2)
+			    {
+			    	TableModel model = (TableModel) e.getSource();
+			    	String columnName = model.getColumnName(column);
+			    	Boolean checked2= (Boolean) model.getValueAt(row, column);
+			    	if (checked2) {
+			        	JFrameUtils.showMessage("Help", "You have a new help request: at Table "+(row+1));
+			        } else {
+			        	//show the waiter the refill request
+			        	//store into object
+			        	//refReq = "Coke, Lemonade";
+			        	boolean confirm = JFrameUtils.confirmDialog("Table Help", "Notifying customer... ");
+			        	if(!confirm) {
+			        		model.setValueAt(Boolean.TRUE, row, column);
+			        	}
+			        	else
+			        	{
+			        		//send to customer that waiter is coming
+			        	}
+			        	
+			        }
+			    }
+			}
+		});
+		
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "pay";
-				panel.setVisible(true);
-					
+				showTableOption();
 			}
 		});
 		
@@ -243,6 +250,7 @@ public class WaitstaffStartPage extends JPanel {
 			}
 		});
 		
+		
 		backBtn.setBounds(37, 5, 131, 77);
 		utilityPanel.add(backBtn);
 		
@@ -253,11 +261,42 @@ public class WaitstaffStartPage extends JPanel {
 		this.payPanel = new PayPanel();
 		payPanel.setVisible(false);
 		add(payPanel);
-		
-		
+
 	}
 	
 	
+	protected void showTableOption() {
+		String option = (String) JFrameUtils.inputDialog("Table Chooser", "Enter the table number:");
+		if(option == null || option.equals("null"))
+			return;
+		if(option.equals(""))
+			return;
+		int tableNum;
+		try {
+			tableNum = Integer.parseInt(option);
+		} catch(NumberFormatException e) {
+			JFrameUtils.showMessage("Table Chooser", "Invalid table entered, please try again.");
+			return;
+		}
+		if(tableNum < 1 || tableNum > 20) {
+			JFrameUtils.showMessage("Table Chooser", "Invalid table entered, please try again.");
+			return;
+		}
+		if(currentScreen == "order")
+		{
+			openScreen("order");
+		}
+		else if(currentScreen == "pay")
+		{
+			openScreen("pay");
+		}
+		else if(currentScreen == "compensate")
+		{
+			openScreen("compensate");
+		}
+	}
+
+
 	protected void back() {
 		switch(currentScreen) {
 			case "order":
@@ -280,6 +319,15 @@ public class WaitstaffStartPage extends JPanel {
 				this.utilityPanel.setVisible(false);
 				currentScreen = "";
 				break;
+			case "compensate":
+				this.PayBtn.setVisible(true);
+				this.OrderBtn.setVisible(true);
+				this.CompBtn.setVisible(true);
+				this.mainPanel.setVisible(true);
+				this.backBtn.setVisible(false);
+				this.utilityPanel.setVisible(false);
+				break;
+				
 		}
 	}
 	
@@ -302,6 +350,32 @@ public void openScreen(String type) {
 			//take table number
 			this.payPanel.setVisible(true);
 			break;
+		case "compensate":
+			break;
 		}
 	}
+
+
+@Override
+public void tableChanged(TableModelEvent e) {
+	// TODO Auto-generated method stub
+	int row = e.getFirstRow();
+    int column = e.getColumn();
+    if (column == 1) {
+        TableModel model = (TableModel) e.getSource();
+        String columnName = model.getColumnName(column);
+        Boolean checked = (Boolean) model.getValueAt(row, column);
+        if (checked) {
+        	//read in the customer data about refill
+            System.out.println(columnName + ": " + true);
+        } else {
+        	//show the waiter the refill request
+        	JFrameUtils.confirmDialog("Table Refill", "Enter the table number:");
+            System.out.println(columnName + ": " + false);
+        }
+    }
+
+}
+
+
 }

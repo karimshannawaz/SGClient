@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 
 import client.network.ClientChannel;
 import client.network.Session;
+import client.utils.Constants;
 import client.utils.JFrameUtils;
 import client.utils.PersistentTimer;
 import client.utils.Timers;
@@ -50,26 +51,28 @@ public class Client {
 						String[] timeToks = time.split(":");
 						int hour = Integer.parseInt(timeToks[0]);
 						int mins = Integer.parseInt(timeToks[1]);
-						if(hour >= 11 && !ClientSession.closingSoonNoti && meridiem.equals("PM")) {
-							ClientSession.closingSoonNoti = true;
-							JFrameUtils.showMessage("Seven Guys General Notification", 
-								"Please be advised that the restaurant closes soon, at midnight.\n"
-								+ "You will not be able to place an order after 11:29 PM. Current time: "+time+" "+meridiem);
-						}
-						if(hour >= 11 && mins >= 29 && !ClientSession.ordersStopped && meridiem.equals("PM")) {
-							ClientSession.ordersStopped = true;
-							if(CustomerStartPage.currentScreen.equals("order")) {
-								clientFrame.panel.orderPanel.setVisible(false);
-								clientFrame.panel.rwdsBtn.setVisible(true);
-								clientFrame.panel.rwdsLbl.setVisible(true);
-								clientFrame.panel.mainPanel.setVisible(true);
-								clientFrame.panel.backBtn.setVisible(false);
-								CustomerStartPage.currentScreen = "";
+						if(!Constants.DEV_MODE) {
+							if(hour >= 11 && hour != 12 && !ClientSession.closingSoonNoti && meridiem.equals("PM")) {
+								ClientSession.closingSoonNoti = true;
+								JFrameUtils.showMessage("Seven Guys General Notification", 
+									"Please be advised that the restaurant closes soon, at midnight.\n"
+									+ "You will not be able to place an order after 11:29 PM. Current time: "+time+" "+meridiem);
 							}
-							JFrameUtils.showMessage("Seven Guys General Notification", 
-								"Sorry, but the restaurant is no longer accepting further orders at this time..\n"
-								+ "You can still pay for your current bill if applicable and play\n"
-								+ "the lottery game if you wish to do so. Current time: "+time+" "+meridiem);
+							if(hour >= 11 && hour != 12 && mins >= 29 && !ClientSession.ordersStopped && meridiem.equals("PM")) {
+								ClientSession.ordersStopped = true;
+								if(CustomerStartPage.currentScreen.equals("order")) {
+									clientFrame.customerSP.orderPanel.setVisible(false);
+									clientFrame.customerSP.rwdsBtn.setVisible(true);
+									clientFrame.customerSP.rwdsLbl.setVisible(true);
+									clientFrame.customerSP.mainPanel.setVisible(true);
+									clientFrame.customerSP.backBtn.setVisible(false);
+									CustomerStartPage.currentScreen = "";
+								}
+								JFrameUtils.showMessage("Seven Guys General Notification", 
+									"Sorry, but the restaurant is no longer accepting further orders at this time..\n"
+									+ "You can still pay for your current bill if applicable and play\n"
+									+ "the lottery game if you wish to do so. Current time: "+time+" "+meridiem);
+							}
 						}
 						clientFrame.setTitle((ClientSession.tableID > -1 ? ("Seven Guys Table "+
 							(ClientSession.tableID + 1)) : "Seven Guys")+" - "+format);

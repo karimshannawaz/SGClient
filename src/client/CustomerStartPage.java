@@ -170,10 +170,12 @@ public class CustomerStartPage extends JPanel {
 		btnStopMusic.setBounds(894, 5, 120, 74);
 		utilityPanel.add(btnStopMusic);
 		
+		/*
 		JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(770, 92, 120, 28);
 		utilityPanel.add(comboBox);
 		backBtn.setVisible(false);
+		*/
 
 		JLabel lblNewLabel_1 = new JLabel("Welcome to Seven Guys! Click one of the options below to get started.");
 		lblNewLabel_1.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
@@ -184,6 +186,9 @@ public class CustomerStartPage extends JPanel {
 		orderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				openScreen("order");
+				if(!ClientSession.receivedSpecialNoti) {
+					ClientSession.checkSpecialsDay();
+				}
 			}
 		});
 		orderBtn.setFont(new Font("Haettenschweiler", Font.PLAIN, 89));
@@ -309,7 +314,7 @@ public class CustomerStartPage extends JPanel {
 			case "rewards":
 				this.rewardsPanel.setVisible(true);
 				if(ClientSession.rwdsLoggedIn) {
-					Client.clientFrame.panel.rewardsPanel.loginToRewards(false);
+					Client.clientFrame.customerSP.rewardsPanel.loginToRewards(false);
 				}
 				break;
 			case "rps":
