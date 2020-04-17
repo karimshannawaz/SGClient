@@ -116,7 +116,7 @@ public final class PacketDecoder extends Decoder {
 						case "on_the_way":
 							String message = stream.readString();
 							JFrameUtils.showMessage("Order Update", message);
-							// Do extra stuff here.
+							// Do extra stuff here
 							break;
 					
 						case "cannot_process_order":
