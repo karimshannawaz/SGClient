@@ -568,6 +568,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 20% of the tip to total
+				
 				receipt_type_popup.setVisible(true);
 			}
 		});
@@ -742,6 +743,7 @@ public class PayPanel extends JPanel {
         	}
 			
 	}
+	
 	public void prevOption(String type)
 	{
 		switch(type) {
