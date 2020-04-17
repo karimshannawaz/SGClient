@@ -33,6 +33,7 @@ public class PayPanel extends JPanel {
 	public JPanel nobtn_screen;
 	public JPanel printbtn_screen;
 	public JPanel conf_screen;
+	public static String prevScreen="";
 	/**
 	 * Create the panel.
 	 */
@@ -492,6 +493,7 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				prevScreen="printbtn_screen";
 				//printbtn_screen.setVisible(true);
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
@@ -549,6 +551,7 @@ public class PayPanel extends JPanel {
 				}
 				else
 				{
+				prevScreen="conf_screen";
 				//conf_screen.setVisible(true);
 				nobtn_screen.setVisible(false);
 				printbtn_screen.setVisible(false);
@@ -575,7 +578,7 @@ public class PayPanel extends JPanel {
 				}
 				else
 				{
-				
+				prevScreen="conf_screen";
 				//conf_screen.setVisible(true);
 				nobtn_screen.setVisible(false);
 				printbtn_screen.setVisible(false);
@@ -596,6 +599,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//nobtn_screen.setVisible(true);
+				prevScreen="nobtn_screen";
 				printbtn_screen.setVisible(false);
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
@@ -612,14 +616,31 @@ public class PayPanel extends JPanel {
 	
 	public void LotteryChoice()
 	{
-			//kinda buggy
+			//still working on getting conf_screen to open
 			boolean confirm = JFrameUtils.confirmDialog("LOTTERY CHANCE", "Would you like to play a game for a chance to win a free desert?");
         	if(!confirm) {
-        		this.conf_screen.setVisible(true);
+        		prevOption(prevScreen);
         	}
         	else {
         		this.lottery.setVisible(true);
         	}
+			
+	}
+	public void prevOption(String type)
+	{
+		switch(type) {
+			case "conf_screen":
+				conf_screen.setVisible(true);
+				break;
+			case "printbtn_screen":
+				printbtn_screen.setVisible(true);
+				break;
+			case "nobtn_screen":
+				nobtn_screen.setVisible(true);
+				break;
+			
+		}
+		
 			
 	}
 	
