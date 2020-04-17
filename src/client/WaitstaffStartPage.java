@@ -66,15 +66,43 @@ public class WaitstaffStartPage extends JPanel {
 				if(val.equals("X"))
 					return;
 				else {
-					boolean choice = JFrameUtils.confirmDialog("Order Completion Confirmation", 
-						"Are you sure you want to mark this order for table "+(row + 1)+" as delivered?"
-							+ "\nThis action cannot be undone.");
-					if(!choice) {
-						return;
+					
+					// Refill
+					if(col == 1) {
+						boolean choice = JFrameUtils.confirmDialog("Refill On The Way", 
+							"Are you sure you want to let table "+(row + 1)+" know that you're on your way\n"
+							+ "with the refill that they requested?"
+							+ " This action cannot be undone.");
+						if(!choice) {
+							return;
+						}
+						table.getModel().setValueAt("X", row, col);
+						Client.session.getPacketEncoder().sendRequestComplete(row, true);
 					}
-					table.getModel().setValueAt("X", row, col);
-					Client.session.getPacketEncoder().sendOrderDelivered(row, orderIndex);
-					orderIndex = -1;
+					// Help
+					else if(col == 2) {
+						boolean choice = JFrameUtils.confirmDialog("Help On The Way", 
+							"Are you sure you want to let table "+(row + 1)+" know that you're on your way\n"
+							+ "to help them with their request?"
+							+ " This action cannot be undone.");
+						if(!choice) {
+							return;
+						}
+						table.getModel().setValueAt("X", row, col);
+						Client.session.getPacketEncoder().sendRequestComplete(row, false);
+					}
+					// Confirming table got order
+					else if(col == 3) {
+						boolean choice = JFrameUtils.confirmDialog("Order Completion Confirmation", 
+							"Are you sure you want to mark this order for table "+(row + 1)+" as delivered?"
+								+ "\nThis action cannot be undone.");
+						if(!choice) {
+							return;
+						}
+						table.getModel().setValueAt("X", row, col);
+						Client.session.getPacketEncoder().sendOrderDelivered(row, orderIndex);
+						orderIndex = -1;
+					}
 				}
 			}
 
