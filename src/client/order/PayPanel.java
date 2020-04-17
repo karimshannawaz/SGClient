@@ -411,7 +411,7 @@ public class PayPanel extends JPanel {
 		tipbtn_1.setBounds(676, 153, 301, 207);
 		tip_panel.add(tipbtn_1);
 		
-		//if customer wants to enter custome amount
+		//if customer wants to enter custom amount
 		JLabel custom_tip = new JLabel("CUSTOM TIP:");
 		custom_tip.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		custom_tip.setBounds(51, 370, 272, 71);
@@ -587,7 +587,6 @@ public class PayPanel extends JPanel {
 				
 			}
 		});
-		
 
 		//when user selects 25% tip
 		tipbtn_1.addActionListener(new ActionListener()
@@ -598,6 +597,7 @@ public class PayPanel extends JPanel {
 				tip=CustomerOrder.subtotal * (0.25);
 				tip_box.setText(Double.toString(tip));
 				//receipt_type_popup.setVisible(true);
+
 			}
 		});
 		
@@ -607,9 +607,11 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 20% of the tip to total
+
 				tip=CustomerOrder.subtotal * (0.20);
 				tip_box.setText(Double.toString(tip));
 				//receipt_type_popup.setVisible(true);
+
 			}
 		});
 		
@@ -621,7 +623,7 @@ public class PayPanel extends JPanel {
 				//functionality to add 15% of the tip to total
 				tip=CustomerOrder.subtotal * (0.25);
 				tip_box.setText(Double.toString(tip));
-				//receipt_type_popup.setVisible(true);
+				
 			}
 		});
 		
@@ -630,8 +632,10 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				
 				receipt_type_popup.setVisible(true);
-				tip_panel.setVisible(true);
+				tip_panel.setVisible(false);
+				
 			}
 		});
 		
@@ -641,8 +645,10 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add custom amount to total 
+				
 				receipt_type_popup.setVisible(true);
-				tip_panel.setVisible(true);
+				tip_panel.setVisible(false);
+				
 			}
 		});
 		
