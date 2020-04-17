@@ -52,6 +52,9 @@ public class KitchenStartPage extends JPanel {
 		table.setRowHeight(40);
 		
 		scrollPane.setViewportView(table);
+		
+		TableModel model = table.getModel();
+		DefaultTableModel tab = (DefaultTableModel) table.getModel();
 
 		/**
 		 * Sets the model for this table.
