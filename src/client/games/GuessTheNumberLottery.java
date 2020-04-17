@@ -37,6 +37,7 @@ public class GuessTheNumberLottery extends JPanel {
 	private JLabel triesLbl;
 	private JTextArea textArea;
 	public PayPanel payPanel;
+	public JPanel conf_screen;
 
 	public int randomNum = -1;
 	public int tries = 1;
@@ -51,6 +52,20 @@ public class GuessTheNumberLottery extends JPanel {
 
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
+		
+		JPanel conf_screen = new JPanel();
+		conf_screen.setVisible(false);
+		conf_screen.setBounds(0, 0, 1039, 522);
+		add(conf_screen);
+		conf_screen.setLayout(null);
+		
+		JTextArea confirmation_screen = new JTextArea();
+		confirmation_screen.setEditable(false);
+		confirmation_screen.setText("\r\r\n                           THANK YOU FOR VISITING!!\r\n           \r\t         HAVE A GOOD DAY!");
+		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		confirmation_screen.setBounds(169, 173, 662, 136);
+		conf_screen.add(confirmation_screen);
+		conf_screen.setVisible(false);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 11, 707, 278);
@@ -93,7 +108,7 @@ public class GuessTheNumberLottery extends JPanel {
 		try {
 			num = Integer.parseInt(guess.getText());
 		} catch(NumberFormatException e) {
-			Client.sendMessage("Error, number was empty, please enter a valid number between 0 and 100");
+			Client.sendMessage("Error, number was empty, please enter a valid number between 1 and 5");
 			return;
 		}
 		if(guess.getText().equals("") || guess.getText().equals(null) || num > 5 || num < 1) {
@@ -104,9 +119,9 @@ public class GuessTheNumberLottery extends JPanel {
 			if(tries == 1) {
 				tries--;
 				triesLbl.setText("Tries left: "+tries);
-				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
+				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+".");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
-				
+				resetGame();
 				//this.payPanel.conf_screen.setVisible(true);
 				return;
 			}
@@ -115,7 +130,7 @@ public class GuessTheNumberLottery extends JPanel {
 			if(tries == 1) {
 				tries--;
 				triesLbl.setText("Tries left: "+tries);
-				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
+				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+".");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
 				resetGame();
 				return;
@@ -130,11 +145,15 @@ public class GuessTheNumberLottery extends JPanel {
 
 	private void printCoupon() {
 		//print the coupon
+		JPanel coupon = new JPanel();
+		
 		resetGame();
 		
 	}
-	private void resetGame() {
-		//speak about the 
+	public void resetGame() {
+		
+		conf_screen.setVisible(true);
+		//restart the session
 	}
 
 
