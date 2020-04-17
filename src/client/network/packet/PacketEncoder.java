@@ -45,6 +45,7 @@ public class PacketEncoder extends Encoder {
 		stream.writePacketVarShort(4);
 		stream.writeByte(ClientSession.tableID);
 		stream.endPacketVarShort();
+		ClientSession.requestedHelp = true;
 		session.write(stream);
 	}
 	
@@ -159,6 +160,7 @@ public class PacketEncoder extends Encoder {
 		stream.writePacketVarShort(12);
 		stream.writeByte(ClientSession.tableID);
 		stream.endPacketVarShort();
+		ClientSession.requestedRefill = true;
 		session.write(stream);
 	}
 	

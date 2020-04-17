@@ -116,8 +116,23 @@ public final class PacketDecoder extends Decoder {
 					String code = stream.readString();
 					switch(code) {
 					
-						case "on_the_way":
+						case "waitstaff_not_available_for_request":
 							int paramsLength = stream.readUnsignedByte();
+							String type = stream.readString();
+							if(type.equals("help")) {
+								ClientSession.requestedHelp = false;
+								JFrameUtils.showMessage("Help Request", 
+									"Error: We apologize, but there isn't anyone who can fulfill your help request at this time.");
+							}
+							else if(type.equals("refill")) {
+								ClientSession.requestedRefill = false;
+								JFrameUtils.showMessage("Refill Request", 
+									"Error: We apologize, but there isn't anyone who can fulfill your refill request at this time.");
+							}
+							break;
+					
+						case "on_the_way":
+							paramsLength = stream.readUnsignedByte();
 							String message = stream.readString();
 							JFrameUtils.showMessage("Order Update", message);
 							// Do extra stuff here
