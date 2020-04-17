@@ -653,7 +653,6 @@ public class PayPanel extends JPanel {
 			{
 				prevScreen="printbtn_screen";
 				printbtn_screen.setVisible(true);
-				viewOrderDetails();
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
 				receipt_type_popup.setVisible(false);
@@ -687,7 +686,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				bothbtn_screen.setVisible(true);
-				viewOrderDetails();
+
 				printbtn_screen.setVisible(false);
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
@@ -796,7 +795,6 @@ public class PayPanel extends JPanel {
 				break;
 			case "printbtn_screen":
 				printbtn_screen.setVisible(true);
-				viewOrderDetails();
 				break;
 			case "nobtn_screen":
 				nobtn_screen.setVisible(true);
@@ -804,52 +802,9 @@ public class PayPanel extends JPanel {
 			
 		}	
 	}
-	
-	public void viewOrderDetails() {
-		/*
-		JPanel panel = new JPanel();
-		panel.setBounds(200, 100, 500, 400);
-		panel.setLayout(null);
-		add(panel);
-		
-		// Create our scroll pane
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 500, 560);
-		panel.add(scrollPane);
-		
-		JTextArea orderSummary = new JTextArea();
-		orderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		orderSummary.setEditable(false);
-		orderSummary.setLineWrap(true);
-		orderSummary.setText(getOrderToString());
-		scrollPane.setViewportView(orderSummary);
-		*/
-	}
-	
+
 	public void refreshTxtAreas() {
-		/*
-		DecimalFormat df2 = new DecimalFormat("#.##");
-		StringBuilder s = new StringBuilder();
-		//s.append("Order:\n\n");
-
-		for(MItem i : CustomerOrder.items) {
-			s.append("x"+i.qty+" "+i.name+" - "+i.price+"\n");
-
-			// Order Menu Item
-			String[] newIngTok = i.ingredients.split(",");
-
-			for(int index = 0; index < newIngTok.length; index++) {
-				String[] newIng = newIngTok[index].split(":");
-				// ingredients
-				s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
-			}
-			if(!(i.specialReqs.equalsIgnoreCase("none")) 
-					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
-				s.append("    - "+i.specialReqs+"\n");
-			}
-		}
-		s.append("Total: $" + df2.format(CustomerOrder.subtotal +(CustomerOrder.subtotal * tax)));
-		return s.toString();*/
+		
 		StringBuilder s = new StringBuilder();
 		s.append("Order:\n\n");
 
