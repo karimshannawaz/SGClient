@@ -85,9 +85,6 @@ public class GuessTheNumberLottery extends JPanel {
 		triesLbl.setBounds(698, 323, 90, 27);
 		add(triesLbl);
 		
-		this.payPanel = new PayPanel();
-		add(payPanel);
-		payPanel.setVisible(false);
 		
 	}
 
@@ -105,51 +102,34 @@ public class GuessTheNumberLottery extends JPanel {
 			return;
 		}
 		if(num > randomNum) {
-			Client.sendMessage("Your guess was too high, try again!");
-			output.append("Your guess "+num+" was too high, try again.\n");
-			textArea.setText(output.toString());
 			if(tries == 1) {
 				tries--;
 				triesLbl.setText("Tries left: "+tries);
 				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
 				
-				this.payPanel.conf_screen.setVisible(true);
+				//this.payPanel.conf_screen.setVisible(true);
 				return;
 			}
-			tries--;
-			triesLbl.setText("Tries left: "+tries);
-			return;
 		}
 		else if(num < randomNum) {
-			Client.sendMessage("Your guess was too low, try again!");
-			output.append("Your guess "+num+" was too low, try again.\n");
-			textArea.setText(output.toString());
 			if(tries == 1) {
 				tries--;
 				triesLbl.setText("Tries left: "+tries);
 				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
-				resetGame();
 				return;
 			}
-			tries--;
-			triesLbl.setText("Tries left: "+tries);
-			return;
 		}
 		tries--;
 		Client.sendMessage("Congratulations, you've guessed the number right! It was "+num+". ");
 		output.append("Congratulations, you've guessed the number right! It was "+num+".\n\n\n");
-		resetGame();
+		
 	}
 
 	private void resetGame() {
 		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have one try, good luck!\n");
-		textArea.setText(output.toString());
-		tries = 1;
-		guess.setText("");
-		triesLbl.setText("Tries left: "+tries);
-		randomNum = generateNumber(1, 5);
+		//speak about the 
 	}
 
 
