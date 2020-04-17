@@ -93,7 +93,7 @@ public class GuessTheNumberLottery extends JPanel {
 		try {
 			num = Integer.parseInt(guess.getText());
 		} catch(NumberFormatException e) {
-			Client.sendMessage("Error, number was empty, please enter a valid number between 0 and 100");
+			Client.sendMessage("Error, number was empty, please enter a valid number between 1 and 5");
 			return;
 		}
 		if(guess.getText().equals("") || guess.getText().equals(null) || num > 5 || num < 1) {
