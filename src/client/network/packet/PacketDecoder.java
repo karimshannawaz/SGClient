@@ -124,6 +124,11 @@ public final class PacketDecoder extends Decoder {
 							Client.clientFrame.customerSP.orderPanel.updateMessage(message);
 							break;
 							
+						case "waiter_delivered":
+							Client.clientFrame.customerSP.orderPanel.updateMessage(
+								"We hope you enjoy your meal, thank you!!");
+							break;
+							
 						case "order_submitted":
 							// Do extra stuff here
 							Client.clientFrame.customerSP.orderPanel.doPostOrder();
@@ -256,11 +261,14 @@ public final class PacketDecoder extends Decoder {
 					
 				// Wait Staff gets customer order and walks over to it
 				case 7:
-					tableID = stream.readUnsignedByte();
+					int tableIDFK = stream.readUnsignedByte();
 					int orderIndex = stream.readUnsignedByte();
+					Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
+					setValueAt("O", tableIDFK, 3);
+					Client.clientFrame.employeeSP.waitstaffPage.orderIndex = orderIndex;
 			
 					JFrameUtils.showMessage("Order Update", "You have a new order to take to table "+
-					(tableID + 1)+".\nPlease mark it as delivered to the table once you've delivered it.");
+					(tableIDFK + 1)+".\nPlease mark it as delivered to the table once you've delivered it.");
 					break;
 					
 				default:

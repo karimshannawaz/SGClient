@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -36,7 +35,6 @@ import client.Client;
 import client.ClientSession;
 import client.network.packet.PacketDecoder;
 import client.utils.JFrameUtils;
-import javax.swing.JTextPane;
 
 public class MenuPanel extends JPanel {
 
@@ -143,7 +141,7 @@ public class MenuPanel extends JPanel {
 		scrollPane.setViewportView(orderSummaryPostOrder);
 		
 		orderMsgLbl = new JLabel("Order Details");
-		orderMsgLbl.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		orderMsgLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		orderMsgLbl.setBounds(510, 236, 490, 73);
 		postOrder.add(orderMsgLbl);
 		

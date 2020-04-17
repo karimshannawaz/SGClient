@@ -33,7 +33,7 @@ public class EmployeeStartPage extends JPanel{
 
 	JFrame frame = new JFrame();
 
-	public EmployeeStartPage(ClientFrame frame) {
+	public EmployeeStartPage() {
 		super();
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
@@ -94,7 +94,7 @@ public class EmployeeStartPage extends JPanel{
 			}
 		});
 
-		this.waitstaffPage = new WaitstaffStartPage(null);
+		this.waitstaffPage = new WaitstaffStartPage();
 		waitstaffPage.setVisible(false);
 		add(waitstaffPage);
 

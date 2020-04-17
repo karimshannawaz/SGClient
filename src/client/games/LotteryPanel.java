@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 //The conf_screen will not open, some kind of error. same in paypanel and guessNumber Lottery
-
+//Desere Crawford
 public class LotteryPanel extends JPanel {
 
 	/**
