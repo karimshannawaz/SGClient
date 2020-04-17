@@ -19,6 +19,7 @@ import javax.swing.table.TableModel;
 
 import client.order.MItem;
 import client.order.OrderQueue;
+import client.utils.JFrameUtils;
 
 /**
  * Holds the information for the kitchen start page
@@ -99,8 +100,7 @@ public class KitchenStartPage extends JPanel {
 				int row = table.getSelectedRow();
 				int column = table.getSelectedColumn();
 				if(column == 1) {
-					int tableID = (int) table.getModel().getValueAt(row, 0);
-					table.getModel().getValueAt(row, 0);
+					int tableID = (int) table.getModel().getValueAt(row, 0) - 1;
 					viewOrderDetails(tableID, row);
 				}
 			}
@@ -117,14 +117,20 @@ public class KitchenStartPage extends JPanel {
 				if (column == 2) {
 					TableModel model = (TableModel) e.getSource();
 					DefaultTableModel tab = (DefaultTableModel) table.getModel();
-					Boolean checked1 = (Boolean) model.getValueAt(row, column);
-					if (checked1) {
-						//send information to the waiter that table order is done with table number
-						int tableNum = (int) table.getValueAt(row, 0);
+					//send information to the waiter that table order is done with table number
+					boolean checked = (boolean) tab.getValueAt(row, 2);
+					int tableNum = (int) table.getValueAt(row, 0) - 1;
+					if(checked) {
+						boolean choice = JFrameUtils.confirmDialog("Order Completion Confirmation", 
+							"Are you sure you want to mark this order for table "+(tableNum + 1)+" as fulfilled?"
+									+ "\nThis action cannot be undone and the wait staff will be notified.");
+						if(!choice) {
+							tab.setValueAt(Boolean.FALSE, row, column);
+							return;
+						}
+						tab.setValueAt(Boolean.FALSE, row, column);
 						Client.session.getPacketEncoder().sendOrderCompleted(tableNum, row);
-						//System.out.println("Table order done for table "+(tableNum + 1));
-						tab.removeRow(row);
-					} 
+					}
 				}
 
 			}
