@@ -96,7 +96,7 @@ public class LotteryPanel extends JPanel {
 			this.gtnPanel.setVisible(true);
 			break;
 		case "cancel":
-			this.conf_screen.setVisible(true);
+			conf_screen.setVisible(true);
 			break;
 			
 		}
