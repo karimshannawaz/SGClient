@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import client.Client;
+import client.order.PayPanel;
 import client.utils.Constants;
 
 /**
@@ -36,6 +37,7 @@ public class GuessTheNumberLottery extends JPanel {
 	private JTextField guess;
 	private JLabel triesLbl;
 	private JTextArea textArea;
+	public PayPanel payPanel;
 
 	public int randomNum = -1;
 	public int tries = 1;
@@ -50,7 +52,7 @@ public class GuessTheNumberLottery extends JPanel {
 
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
-
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 11, 707, 278);
 		add(scrollPane);
@@ -74,7 +76,7 @@ public class GuessTheNumberLottery extends JPanel {
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		output.append("Welcome! Type in your guess to get started. It is a number from 0 to 100. You have seven tries, good luck!\n");
+		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have seven tries, good luck!\n");
 		textArea.setText(output.toString());
 		textArea.setBounds(81, 32, 707, 278);
 		scrollPane.setViewportView(textArea);
@@ -82,6 +84,11 @@ public class GuessTheNumberLottery extends JPanel {
 		triesLbl = new JLabel("Tries Left: "+tries);
 		triesLbl.setBounds(698, 323, 90, 27);
 		add(triesLbl);
+		
+		this.payPanel = new PayPanel();
+		add(payPanel);
+		payPanel.setVisible(false);
+		
 	}
 
 
@@ -106,7 +113,8 @@ public class GuessTheNumberLottery extends JPanel {
 				triesLbl.setText("Tries left: "+tries);
 				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
-				resetGame();
+				
+				this.payPanel.conf_screen.setVisible(true);
 				return;
 			}
 			tries--;

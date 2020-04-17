@@ -44,6 +44,7 @@ public class LotteryPanel extends JPanel {
 		JButton btnNewButton_1 = new JButton("Guess The Number");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mainPanel.setVisible(false);
 				openScreen("gtn");
 			}
 		});
@@ -68,10 +69,9 @@ public class LotteryPanel extends JPanel {
 	
 	public void openScreen(String type)
 	{
-		
+			
 		switch(type) {
 		case "gtn":
-			mainPanel.setVisible(false);
 			this.gtnPanel.setVisible(true);
 			break;
 		case "cancel":

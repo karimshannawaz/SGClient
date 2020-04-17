@@ -509,7 +509,7 @@ public class PayPanel extends JPanel {
 				}
 				else
 				{
-				conf_screen.setVisible(true);
+				//conf_screen.setVisible(true);
 				nobtn_screen.setVisible(false);
 				printbtn_screen.setVisible(false);
 				screen_for_cash.setVisible(false);
@@ -536,7 +536,7 @@ public class PayPanel extends JPanel {
 				else
 				{
 				
-				conf_screen.setVisible(true);
+				//conf_screen.setVisible(true);
 				nobtn_screen.setVisible(false);
 				printbtn_screen.setVisible(false);
 				screen_for_cash.setVisible(false);
@@ -555,7 +555,7 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				nobtn_screen.setVisible(true);
+				//nobtn_screen.setVisible(true);
 				printbtn_screen.setVisible(false);
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
@@ -575,7 +575,7 @@ public class PayPanel extends JPanel {
 			//kinda buggy
 			boolean confirm = JFrameUtils.confirmDialog("LOTTERY CHANCE", "Would you like to play a game for a chance to win a free desert?");
         	if(!confirm) {
-        		
+        		conf_screen.setVisible(true);
         	}
         	else {
         		this.lottery.setVisible(true);
