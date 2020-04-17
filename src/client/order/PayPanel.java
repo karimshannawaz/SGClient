@@ -453,7 +453,7 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				printbtn_screen.setVisible(true);
+				//printbtn_screen.setVisible(true);
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
 				receipt_type_popup.setVisible(false);
@@ -461,6 +461,7 @@ public class PayPanel extends JPanel {
 				bothbtn_screen.setVisible(false);
 				nobtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
+				LotteryChoice();
 			}
 		});
 		
