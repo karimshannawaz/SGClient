@@ -119,7 +119,7 @@ public class GuessTheNumberLottery extends JPanel {
 			if(tries == 1) {
 				tries--;
 				triesLbl.setText("Tries left: "+tries);
-				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
+				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+".");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
 				resetGame();
 				//this.payPanel.conf_screen.setVisible(true);
@@ -130,7 +130,7 @@ public class GuessTheNumberLottery extends JPanel {
 			if(tries == 1) {
 				tries--;
 				triesLbl.setText("Tries left: "+tries);
-				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
+				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+".");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
 				resetGame();
 				return;

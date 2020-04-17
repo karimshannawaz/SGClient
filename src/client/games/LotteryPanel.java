@@ -20,6 +20,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import javax.swing.JTextPane;
 
+//The conf_screen will not open, some kind of error. same in paypanel and guessNumber Lottery
+
 public class LotteryPanel extends JPanel {
 
 	/**
@@ -38,20 +40,6 @@ public class LotteryPanel extends JPanel {
 		super();
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
-		
-		JPanel conf_screen = new JPanel();
-		conf_screen.setVisible(false);
-		conf_screen.setBounds(0, 0, 1039, 522);
-		add(conf_screen);
-		conf_screen.setLayout(null);
-		
-		JTextArea confirmation_screen = new JTextArea();
-		confirmation_screen.setEditable(false);
-		confirmation_screen.setText("\r\r\n                           THANK YOU FOR VISITING!!\r\n           \r\t         HAVE A GOOD DAY!");
-		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
-		confirmation_screen.setBounds(169, 173, 662, 136);
-		conf_screen.add(confirmation_screen);
-		conf_screen.setVisible(false);
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(null);
@@ -78,10 +66,34 @@ public class LotteryPanel extends JPanel {
 		GamePrompt.setBounds(50, 90, 933, 118);
 		mainPanel.add(GamePrompt);
 		
+		JButton CancelButton = new JButton("Cancel");
+		CancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.setVisible(false);
+				openScreen("cancel");
+			}
+		});
+		CancelButton.setBounds(455, 466, 141, 35);
+		mainPanel.add(CancelButton);
+		
 		this.gtnPanel = new GuessTheNumberLottery();
 		add(gtnPanel);
 		gtnPanel.setVisible(false);
 		gtnPanel.randomNum = GuessTheNumberLottery.generateNumber(1, 5);
+		
+		JPanel conf_screen_1 = new JPanel();
+		conf_screen_1.setVisible(false);
+		conf_screen_1.setBounds(0, 0, 1039, 522);
+		add(conf_screen_1);
+		conf_screen_1.setLayout(null);
+		
+		JTextArea confirmation_screen = new JTextArea();
+		confirmation_screen.setEditable(false);
+		confirmation_screen.setText("\r\r\n                           THANK YOU FOR VISITING!!\r\n           \r\t         HAVE A GOOD DAY!");
+		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		confirmation_screen.setBounds(169, 173, 662, 136);
+		conf_screen_1.add(confirmation_screen);
+		conf_screen_1.setVisible(false);
 		
 	}
 	
@@ -93,7 +105,7 @@ public class LotteryPanel extends JPanel {
 			this.gtnPanel.setVisible(true);
 			break;
 		case "cancel":
-			this.conf_screen.setVisible(true);
+			conf_screen.setVisible(true);
 			break;
 			
 		}
