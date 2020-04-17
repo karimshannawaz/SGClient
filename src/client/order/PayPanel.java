@@ -65,7 +65,7 @@ public class PayPanel extends JPanel {
 		order_textfield.setLineWrap(true);
 		order_textfield.setEditable(false);
 		order_textfield.setBounds(270, 0, 500, 450);
-		order_textfield.setText(getOrderToString());
+		order_textfield.setText("Order: "+ getOrderToString());
 		main_panel.add(order_textfield);
 		
 		//split button if customer wants to split the bill
@@ -348,46 +348,46 @@ public class PayPanel extends JPanel {
 		add(tip_panel);
 		tip_panel.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("                                            ADD A TIP");
+		JLabel lblNewLabel_2 = new JLabel("ADD A TIP");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
-		lblNewLabel_2.setBounds(51, 28, 932, 118);
+		lblNewLabel_2.setBounds(51, 16, 936, 105);
 		tip_panel.add(lblNewLabel_2);
 		
-		JButton tipbtn_1 = new JButton("25%");
-		tipbtn_1.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
-		tipbtn_1.setBounds(680, 142, 303, 202);
-		tip_panel.add(tipbtn_1);
-		
-		JButton tipbtn_2 = new JButton("20%");
-		tipbtn_2.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
-		tipbtn_2.setBounds(369, 142, 303, 202);
-		tip_panel.add(tipbtn_2);
-		
 		JButton tipbtn_3 = new JButton("15%");
-		tipbtn_3.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
-		tipbtn_3.setBounds(51, 142, 303, 202);
+		tipbtn_3.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		tipbtn_3.setBounds(50, 153, 301, 202);
 		tip_panel.add(tipbtn_3);
 		
-		JLabel custom_tip = new JLabel("Custom Tip:");
+		JButton tipbtn_2 = new JButton("20%");
+		tipbtn_2.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		tipbtn_2.setBounds(362, 153, 301, 202);
+		tip_panel.add(tipbtn_2);
+		
+		JButton tipbtn_1 = new JButton("25%");
+		tipbtn_1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		tipbtn_1.setBounds(676, 153, 301, 207);
+		tip_panel.add(tipbtn_1);
+		
+		JLabel custom_tip = new JLabel("CUSTOM TIP:");
 		custom_tip.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		custom_tip.setBounds(102, 372, 252, 68);
+		custom_tip.setBounds(51, 370, 272, 71);
 		tip_panel.add(custom_tip);
 		
 		tip_box = new JTextField();
-		tip_box.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		tip_box.setBounds(369, 370, 203, 69);
+		tip_box.setBounds(223, 373, 301, 68);
 		tip_panel.add(tip_box);
 		tip_box.setColumns(10);
 		
-		JButton no_tipbtn = new JButton("NO TIP");
-		no_tipbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		no_tipbtn.setBounds(102, 456, 252, 50);
-		tip_panel.add(no_tipbtn);
-		
 		JButton tip_donebtn = new JButton("DONE");
 		tip_donebtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		tip_donebtn.setBounds(602, 372, 158, 68);
+		tip_donebtn.setBounds(622, 371, 164, 68);
 		tip_panel.add(tip_donebtn);
+		
+		JButton no_tipbtn = new JButton("NO TIP");
+		no_tipbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		no_tipbtn.setBounds(57, 451, 235, 55);
+		tip_panel.add(no_tipbtn);
 		
 		
 		
@@ -543,6 +543,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+
 		//when user selects 25% tip
 		tipbtn_1.addActionListener(new ActionListener()
 		{
@@ -593,7 +594,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
-		//when user selects print for receipt type
+
 		printbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -750,7 +751,6 @@ public class PayPanel extends JPanel {
 			
 		}	
 	}
-
 	
 	public void viewOrderDetails() {
 		
@@ -796,6 +796,5 @@ public class PayPanel extends JPanel {
 		s.append("Total: $" + df2.format(CustomerOrder.subtotal));
 		return s.toString();
 	}
-
 
 }
