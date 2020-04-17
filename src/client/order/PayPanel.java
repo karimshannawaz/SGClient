@@ -3,13 +3,16 @@ package client.order;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JSplitPane;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -20,6 +23,8 @@ import client.utils.Constants;
 import client.utils.JFrameUtils;
 
 //Manasa Nimmagadda
+
+
 
 public class PayPanel extends JPanel {
 
@@ -33,6 +38,7 @@ public class PayPanel extends JPanel {
 	public JPanel nobtn_screen;
 	public JPanel printbtn_screen;
 	public JPanel conf_screen;
+	public static DecimalFormat df2 = new DecimalFormat("#.##");
 	public static String prevScreen="";
 	/**
 	 * Create the panel.
@@ -58,6 +64,7 @@ public class PayPanel extends JPanel {
 		order_textfield.setLineWrap(true);
 		order_textfield.setEditable(false);
 		order_textfield.setBounds(270, 0, 500, 450);
+		order_textfield.setText(getOrderToString());
 		main_panel.add(order_textfield);
 		
 		//split button if customer wants to split the bill
@@ -90,7 +97,7 @@ public class PayPanel extends JPanel {
 		pay_popup_window.setWrapStyleWord(true);
 		pay_popup_window.setLineWrap(true);
 		pay_popup_window.setEditable(false);
-		pay_popup_window.setText("Order: ");
+		pay_popup_window.setText("Order: "+ getOrderToString());
 		pay_popup_window.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		pay_popup_window.setBounds(270, 0, 500, 450);
 		full_pay_panel.add(pay_popup_window);
@@ -494,7 +501,8 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				prevScreen="printbtn_screen";
-				//printbtn_screen.setVisible(true);
+				printbtn_screen.setVisible(true);
+				viewOrderDetails();
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
 				receipt_type_popup.setVisible(false);
@@ -502,7 +510,7 @@ public class PayPanel extends JPanel {
 				bothbtn_screen.setVisible(false);
 				nobtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
-				LotteryChoice();
+				//LotteryChoice();
 			}
 		});
 		
@@ -528,6 +536,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				bothbtn_screen.setVisible(true);
+				viewOrderDetails();
 				printbtn_screen.setVisible(false);
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
@@ -634,15 +643,58 @@ public class PayPanel extends JPanel {
 				break;
 			case "printbtn_screen":
 				printbtn_screen.setVisible(true);
+				viewOrderDetails();
 				break;
 			case "nobtn_screen":
 				nobtn_screen.setVisible(true);
 				break;
 			
-		}
-		
-			
+		}	
 	}
 	
+	public void viewOrderDetails() {
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(200, 100, 500, 400);
+		panel.setLayout(null);
+		add(panel);
+		
+		// Create our scroll pane
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 500, 560);
+		panel.add(scrollPane);
+		
+		JTextArea orderSummary = new JTextArea();
+		orderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		orderSummary.setEditable(false);
+		orderSummary.setLineWrap(true);
+		orderSummary.setText(getOrderToString());
+		scrollPane.setViewportView(orderSummary);
+	}
+	
+	public String getOrderToString() {
+		DecimalFormat df2 = new DecimalFormat("#.##");
+		StringBuilder s = new StringBuilder();
+		//s.append("Order:\n\n");
+
+		for(MItem i : CustomerOrder.items) {
+			s.append("x"+i.qty+" "+i.name+"\n");
+
+			// Order Menu Item
+			String[] newIngTok = i.ingredients.split(",");
+
+			for(int index = 0; index < newIngTok.length; index++) {
+				String[] newIng = newIngTok[index].split(":");
+				// ingredients
+				s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
+			}
+			if(!(i.specialReqs.equalsIgnoreCase("none")) 
+					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
+				s.append("    - "+i.specialReqs+"\n");
+			}
+		}
+		s.append("Total: $" + df2.format(CustomerOrder.subtotal));
+		return s.toString();
+	}
 
 }
