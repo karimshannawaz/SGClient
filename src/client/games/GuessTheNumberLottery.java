@@ -30,7 +30,6 @@ import client.utils.Constants;
  */ 
 public class GuessTheNumberLottery extends JPanel {
 
-
 	private static final long serialVersionUID = 153913217794518944L;
 
 	private StringBuilder output;

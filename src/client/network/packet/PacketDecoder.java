@@ -113,6 +113,12 @@ public final class PacketDecoder extends Decoder {
 					String code = stream.readString();
 					switch(code) {
 					
+						case "on_the_way":
+							String message = stream.readString();
+							JFrameUtils.showMessage("Order Update", message);
+							// Do extra stuff here.
+							break;
+					
 						case "cannot_process_order":
 							JFrameUtils.showMessage("Order Request", 
 									"Error: We couldn't process your order. Please try again or call for help.");
@@ -152,6 +158,12 @@ public final class PacketDecoder extends Decoder {
 						case "employee_id_does_not_exist":
 							JFrameUtils.showMessage("Employee Login", 
 								"Error: Invalid employee ID entered, please try again.");
+							break;
+							
+						case "no_waitstaff_available":
+							JFrameUtils.showMessage("Order Completion", 
+								"Error: There is no waitstaff available to grab the order; please try again or\n"
+								+ "ask a manager for assistance on how to proceed.");
 							break;
 					}
 					break;
@@ -201,11 +213,26 @@ public final class PacketDecoder extends Decoder {
 					}
 					order.subtotal = subtotal;
 					order.setTableID(tableID);
-					OrderQueue.orders.add(order);
+					OrderQueue.unfulfilledOrders.add(order);
+					if(ClientSession.isKitchen()) {
+						Client.clientFrame.employeeSP.kitchenPage.addToTable(tableID);
+						JFrameUtils.showMessage("Order Update", "You have a new order to fulfill for table: "+(tableID + 1));
+					}
+					break;
+					
+				// Wait Staff gets customer order and walks over to it
+				case 7:
+					tableID = stream.readUnsignedByte();
+					int orderIndex = stream.readUnsignedByte();
+					
+					/*
+					OrderQueue.unfulfilledOrders.add(order);
 					if(ClientSession.isKitchen()) {
 						Client.clientFrame.employeeSP.kitchenPage.addToTable(tableID);
 						JFrameUtils.showMessage("Order Update", "You have a new order to fulfill for table: "+tableID);
-					}
+					}*/
+					JFrameUtils.showMessage("Order Update", "You have a new order to take to table "+
+					(tableID + 1)+".\nPlease mark it as delivered to the table once you've delivered it.");
 					break;
 					
 				default:

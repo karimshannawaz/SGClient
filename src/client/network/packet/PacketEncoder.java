@@ -121,5 +121,19 @@ public class PacketEncoder extends Encoder {
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
+
+	/**
+	 * The kitchen requests for a waiter to come and get the order.
+	 * @param tableNum
+	 * @param row
+	 */
+	public void sendOrderCompleted(int tableNum, int orderIndex) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(10);
+		stream.writeByte(tableNum);
+		stream.writeByte(orderIndex);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }

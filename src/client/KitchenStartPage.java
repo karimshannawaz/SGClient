@@ -116,12 +116,13 @@ public class KitchenStartPage extends JPanel {
 				int column = e.getColumn();
 				if (column == 2) {
 					TableModel model = (TableModel) e.getSource();
-					DefaultTableModel tab = (DefaultTableModel)table.getModel();
+					DefaultTableModel tab = (DefaultTableModel) table.getModel();
 					Boolean checked1 = (Boolean) model.getValueAt(row, column);
 					if (checked1) {
 						//send information to the waiter that table order is done with table number
 						int tableNum = (int) table.getValueAt(row, 0);
-						System.out.println("Table order done for table "+tableNum);
+						Client.session.getPacketEncoder().sendOrderCompleted(tableNum, row);
+						//System.out.println("Table order done for table "+(tableNum + 1));
 						tab.removeRow(row);
 					} 
 				}
@@ -150,7 +151,7 @@ public class KitchenStartPage extends JPanel {
 		frame.setSize(500, 560);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setTitle("Order details for table: "+tableID);
+		frame.setTitle("Order details for table: "+(tableID + 1));
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 500, 560);
@@ -177,7 +178,7 @@ public class KitchenStartPage extends JPanel {
 	public void addToTable(int tableID) {
 		((DefaultTableModel) table.getModel()).addRow(
 			new Object[] {
-				new Integer(tableID),
+				new Integer((tableID + 1)),
 				new String("Tap to view order details"),
 				new Boolean(false)
 			}
@@ -188,7 +189,7 @@ public class KitchenStartPage extends JPanel {
 		StringBuilder s = new StringBuilder();
 		//s.append("Order:\n\n");
 
-		for(MItem i : OrderQueue.orders.get(tableIndex).items) {
+		for(MItem i : OrderQueue.unfulfilledOrders.get(tableIndex).items) {
 			s.append("x"+i.qty+" "+i.name+"\n");
 
 			// Order Menu Item
