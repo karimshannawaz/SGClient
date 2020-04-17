@@ -550,7 +550,6 @@ public class PayPanel extends JPanel {
 				
 			}
 		});
-	
 
 		//when user selects 25% tip
 		tipbtn_1.addActionListener(new ActionListener()
@@ -569,6 +568,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 20% of the tip to total
+				
 				receipt_type_popup.setVisible(true);
 				tip_panel.setVisible(false);
 			}
@@ -747,6 +747,7 @@ public class PayPanel extends JPanel {
         	}
 			
 	}
+	
 	public void prevOption(String type)
 	{
 		switch(type) {
@@ -805,7 +806,7 @@ public class PayPanel extends JPanel {
 				s.append("    - "+i.specialReqs+"\n");
 			}
 		}
-		s.append("Total: $" + df2.format(CustomerOrder.subtotal +(CustomerOrder.subtotal + tax)));
+		s.append("Total: $" + df2.format(CustomerOrder.subtotal +(CustomerOrder.subtotal * tax)));
 		return s.toString();
 	}
 
