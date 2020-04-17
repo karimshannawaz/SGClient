@@ -40,11 +40,11 @@ public class LotteryPanel extends JPanel {
 		mainPanel.setLayout(null);
 		mainPanel.setBounds(0, 0, 1039, 522);
 		add(mainPanel);
-		
+		mainPanel.setVisible(true);
 		JButton btnNewButton_1 = new JButton("Guess The Number");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClientFrame.instance.customerSP.openScreen("gtn");
+				openScreen("gtn");
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 21));
@@ -62,16 +62,16 @@ public class LotteryPanel extends JPanel {
 		this.gtnPanel = new GuessTheNumberLottery();
 		add(gtnPanel);
 		gtnPanel.setVisible(false);
-		gtnPanel.randomNum = GuessTheNumber.generateNumber(1, 5);
+		gtnPanel.randomNum = GuessTheNumberLottery.generateNumber(1, 5);
 		
 	}
 	
 	public void openScreen(String type)
 	{
-		mainPanel.setVisible(false);
 		
 		switch(type) {
 		case "gtn":
+			mainPanel.setVisible(false);
 			this.gtnPanel.setVisible(true);
 			break;
 		case "cancel":

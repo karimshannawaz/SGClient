@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import client.Client;
+import client.games.GuessTheNumber;
+import client.games.LotteryPanel;
 import client.utils.Constants;
 import client.utils.JFrameUtils;
 
@@ -25,6 +27,11 @@ public class PayPanel extends JPanel {
 	private JTextField email_prompt_box;
 	private JLabel email_box;
 	private JButton submitbtn1;
+	public LotteryPanel lottery;
+	public JPanel bothbtn_screen;
+	public JPanel nobtn_screen;
+	public JPanel printbtn_screen;
+	public JPanel conf_screen;
 	/**
 	 * Create the panel.
 	 */
@@ -32,6 +39,10 @@ public class PayPanel extends JPanel {
 		super();
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
+		
+		this.lottery = new LotteryPanel();
+		add(lottery);
+		lottery.setVisible(false);
 		
 		JPanel main_panel = new JPanel();
 		main_panel.setLayout(null);
@@ -482,6 +493,7 @@ public class PayPanel extends JPanel {
 				emailbtn_screen.setVisible(false);
 				nobtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
+				
 			}
 		});
 		
@@ -505,6 +517,7 @@ public class PayPanel extends JPanel {
 				receipt_type_popup.setVisible(false);
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
+				LotteryChoice();
 				}
 				
 			}
@@ -531,6 +544,7 @@ public class PayPanel extends JPanel {
 				receipt_type_popup.setVisible(false);
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
+				LotteryChoice();
 				}
 				
 			}
@@ -549,13 +563,25 @@ public class PayPanel extends JPanel {
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
+				LotteryChoice();
 			}
 		});
 		screen_for_cash.setVisible(false);
 		split_pay_panel.setVisible(false);
-		
-		
 	}	
+	
+	public void LotteryChoice()
+	{
+			//kinda buggy
+			boolean confirm = JFrameUtils.confirmDialog("LOTTERY CHANCE", "Would you like to play a game for a chance to win a free desert?");
+        	if(!confirm) {
+        		
+        	}
+        	else {
+        		this.lottery.setVisible(true);
+        	}
+			
+	}
 	/*protected void bill_email() {
 		String email = email_prompt_box.getText();
 		if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
