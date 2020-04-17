@@ -347,8 +347,8 @@ public class CustomerStartPage extends JPanel {
 		}
 		String refill = (String) JFrameUtils.inputDialog("Refill Request", 
 			"Please enter the drink you want a refill for (type coke, sprite, 7up or water):");
-		Client.session.getPacketEncoder().sendRefillRequest();
 		JFrameUtils.showMessage("Refill Request", "Sending a request to the waitstaff for a "+refill+" refill...");
+		Client.session.getPacketEncoder().sendRefillRequest();
 	}
 
 	/**
@@ -361,8 +361,8 @@ public class CustomerStartPage extends JPanel {
 				+ "Please wait for a member of the waitstaff to come and help you.");
 			return;
 		}
-		Client.session.getPacketEncoder().sendHelpRequest();
 		JFrameUtils.showMessage("Help Request", "Sending a request to the waitstaff for help...");
+		Client.session.getPacketEncoder().sendHelpRequest();
 	}
 	
 }

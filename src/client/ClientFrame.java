@@ -122,12 +122,6 @@ public class ClientFrame extends JFrame {
 		Client.session.getPacketEncoder().sendCustomerConnected();
 	}
 	
-	/**
-	 * Notifies any wait staff that help is needed.
-	 */
-	public void getHelp() {
-		Client.session.getPacketEncoder().sendHelpRequest();
-	}
 	
 	/**
 	 * Sets the skin for the frame.

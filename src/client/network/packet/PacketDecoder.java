@@ -288,6 +288,10 @@ public final class PacketDecoder extends Decoder {
 					(tableIDFK + 1)+".\nPlease mark it as delivered to the table once you've delivered it.");
 					break;
 					
+				// Wait Staff gets customer help or refill request
+				case 8:
+					break;
+					
 				default:
 					break;
 			}
