@@ -42,6 +42,7 @@ public class PayPanel extends JPanel {
 	public static String prevScreen="";
 	private JTextField tip_box;
 	public double tax = 0.0825;
+	public double tip=0;
 	/**
 	 * Create the panel.
 	 */
@@ -558,7 +559,9 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 15% of the tip to total
-				receipt_type_popup.setVisible(true);
+				tip=CustomerOrder.subtotal * (0.25);
+				tip_box.setText(Double.toString(tip));
+				//receipt_type_popup.setVisible(true);
 			}
 		});
 		
@@ -568,8 +571,9 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 20% of the tip to total
-				
-				receipt_type_popup.setVisible(true);
+				tip=CustomerOrder.subtotal * (0.20);
+				tip_box.setText(Double.toString(tip));
+				//receipt_type_popup.setVisible(true);
 			}
 		});
 		
@@ -579,7 +583,9 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 15% of the tip to total
-				receipt_type_popup.setVisible(true);
+				tip=CustomerOrder.subtotal * (0.25);
+				tip_box.setText(Double.toString(tip));
+				//receipt_type_popup.setVisible(true);
 			}
 		});
 		
@@ -589,6 +595,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				receipt_type_popup.setVisible(true);
+				tip_panel.setVisible(true);
 			}
 		});
 		
@@ -599,6 +606,7 @@ public class PayPanel extends JPanel {
 			{
 				//functionality to add custom amount to total 
 				receipt_type_popup.setVisible(true);
+				tip_panel.setVisible(true);
 			}
 		});
 		
