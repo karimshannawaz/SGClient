@@ -375,7 +375,7 @@ public class PayPanel extends JPanel {
 		tipbtn_1.setBounds(676, 153, 301, 207);
 		tip_panel.add(tipbtn_1);
 		
-		//if customer wants to enter custome amount
+		//if customer wants to enter custom amount
 		JLabel custom_tip = new JLabel("CUSTOM TIP:");
 		custom_tip.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		custom_tip.setBounds(51, 370, 272, 71);
