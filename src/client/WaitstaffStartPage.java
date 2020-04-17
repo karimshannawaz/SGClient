@@ -54,6 +54,10 @@ public class WaitstaffStartPage extends JPanel {
 				int col = table.getSelectedColumn();
 				if(col == 0)
 					return;
+				if(arg0.isPopupTrigger())
+					return;
+				if(!(table.getModel().getValueAt(row, col) instanceof String))
+					return;
 				String val = (String) table.getModel().getValueAt(row, col);
 				table.getModel().setValueAt(val.equals("X") ? "O" : "X", row, col);
 			}
@@ -66,17 +70,18 @@ public class WaitstaffStartPage extends JPanel {
 	
 	protected static JTable createTable() {
 		
-		Object[][] rows = new Object[20][4];
+		Object[][] rows = new Object[20][5];
 
 		for(int i = 0; i < 20; i++) {
 			rows[i][0] = new Integer(i + 1);
 			rows[i][1] = "X";
 			rows[i][2] = "X";
 			rows[i][3] = "X";
+			rows[i][4] = "X";
 		}
 		
 		Object[] cols = new Object[]{
-				"Table Number", "Refill", "Help", "Order"
+				"Table Number", "Refill", "Help", "Order", "Payment"
 		};
 		
 		JTable t = new JTable(rows, cols) {
@@ -88,7 +93,7 @@ public class WaitstaffStartPage extends JPanel {
 				int col = convertColumnIndexToModel(column);
 				if(col == 0) 
 					return Integer.class;
-				else if(col == 1 || col == 2 || col == 3)
+				else if(col >= 1)
 					return String.class;
 				return super.getColumnClass(column);
 			}
