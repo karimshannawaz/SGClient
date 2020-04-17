@@ -601,6 +601,7 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add custom amount to total 
+				
 				receipt_type_popup.setVisible(true);
 				tip_panel.setVisible(false);
 			}
