@@ -20,6 +20,8 @@ public class WaitstaffStartPage extends JPanel {
 
 	public JTable table;
 	public DefaultTableModel model;
+
+	public int orderIndex = -1;
 	
 	public WaitstaffStartPage(ClientFrame frame) {
 		super();
@@ -59,7 +61,13 @@ public class WaitstaffStartPage extends JPanel {
 				if(!(table.getModel().getValueAt(row, col) instanceof String))
 					return;
 				String val = (String) table.getModel().getValueAt(row, col);
-				table.getModel().setValueAt(val.equals("X") ? "O" : "X", row, col);
+				if(val.equals("X"))
+					return;
+				else {
+					table.getModel().setValueAt("X", row, col);
+					Client.session.getPacketEncoder().sendOrderDelivered(row, orderIndex);
+					orderIndex = -1;
+				}
 			}
 
 		});

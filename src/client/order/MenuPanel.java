@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -36,7 +35,6 @@ import client.Client;
 import client.ClientSession;
 import client.network.packet.PacketDecoder;
 import client.utils.JFrameUtils;
-import javax.swing.JTextPane;
 
 public class MenuPanel extends JPanel {
 

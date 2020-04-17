@@ -136,4 +136,18 @@ public class PacketEncoder extends Encoder {
 		session.write(stream);
 	}
 	
+	/**
+	 * The waiter marks that they have delivered the order to the table.
+	 * @param tableNum
+	 * @param row
+	 */
+	public void sendOrderDelivered(int tableNum, int orderIndex) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(11);
+		stream.writeByte(tableNum);
+		stream.writeByte(orderIndex);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
+	
 }
