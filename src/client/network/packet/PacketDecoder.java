@@ -127,6 +127,8 @@ public final class PacketDecoder extends Decoder {
 						case "waiter_delivered":
 							Client.clientFrame.customerSP.orderPanel.updateMessage(
 								"We hope you enjoy your meal, thank you!!");
+							Client.clientFrame.customerSP.payPanel.enableButtons();
+							ClientSession.canPay = true;
 							break;
 							
 						case "order_submitted":

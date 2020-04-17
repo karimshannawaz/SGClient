@@ -311,6 +311,7 @@ public class CustomerStartPage extends JPanel {
 				break;
 			case "pay":
 				this.payPanel.setVisible(true);
+				this.payPanel.refreshTxtAreas();
 				break;
 			case "rewards":
 				this.rewardsPanel.setVisible(true);

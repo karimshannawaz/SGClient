@@ -1245,6 +1245,7 @@ public class MenuPanel extends JPanel {
 				orderItem.menuType = oldItem.menuType;
 
 				CustomerOrder.addItem(orderItem);
+				CustomerOrder.subtotal = subtotal;
 				refreshOrderTxtArea();
 
 				add.clear();
@@ -1946,7 +1947,8 @@ public class MenuPanel extends JPanel {
 		}
 		orderSummary.setText(s.toString());
 		orderTotal.setText("Subtotal: "+decimalF(subtotal)+"\nTax: "+
-				decimalF(tax * subtotal)+"\nTotal: "+decimalF(subtotal + (subtotal * tax)));
+			decimalF(tax * subtotal)+"\nTotal: "+decimalF(subtotal + (subtotal * tax)));
+		CustomerOrder.subtotal = subtotal;
 	}
 
 	/**

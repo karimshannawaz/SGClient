@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import client.Client;
+import client.ClientSession;
 import client.games.GuessTheNumber;
 import client.games.LotteryPanel;
 import client.utils.Constants;
@@ -43,6 +44,15 @@ public class PayPanel extends JPanel {
 	private JTextField tip_box;
 	public double tax = 0.0825;
 	public double tip=0;
+	
+	public JPanel main_panel;
+	
+	public JButton SplitBtn;
+	public JButton FullBtn;
+	
+	public JTextArea orderSummary;
+	public JTextArea orderTotal;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -56,30 +66,56 @@ public class PayPanel extends JPanel {
 		lottery.setVisible(false);
 		
 		//main panel that opens after clicking on pay
-		JPanel main_panel = new JPanel();
+		main_panel = new JPanel();
 		main_panel.setLayout(null);
 		main_panel.setBounds(0, 0, 1039, 522);
 		add(main_panel);
 		
+		/*
 		//shows order total
 		JTextArea order_textfield = new JTextArea();
 		order_textfield.setWrapStyleWord(true);
 		order_textfield.setLineWrap(true);
 		order_textfield.setEditable(false);
 		order_textfield.setBounds(270, 0, 500, 450);
-		order_textfield.setText("Order: "+ getOrderToString());
+		order_textfield.setText("Order: ");//+ getOrderToString());
 		main_panel.add(order_textfield);
+		*/
+		
+		// Create our scroll pane
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(270, 0, 500, 379);
+		main_panel.add(scrollPane);
+		
+		orderSummary = new JTextArea();
+		orderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		orderSummary.setEditable(false);
+		orderSummary.setLineWrap(true);
+		orderSummary.setText("Order: ");
+		scrollPane.setViewportView(orderSummary);
+		
+		orderTotal = new JTextArea();
+		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		orderTotal.setEditable(false);
+		orderTotal.setLineWrap(true);
+		orderTotal.setBounds(270, 380, 500, 71);
+		orderTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
+		main_panel.add(orderTotal);
+		
+		
 		
 		//split button if customer wants to split the bill
-		JButton SplitBtn = new JButton("Split Bill");
+		SplitBtn = new JButton("Split Bill");
 		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		SplitBtn.setBounds(270, 451, 250, 71);
+		SplitBtn.setVisible(false);
 		main_panel.add(SplitBtn);
 		
 		//button if customer is paying full bill
-		JButton FullBtn = new JButton("Full Bill");
+		FullBtn = new JButton("Full Bill");
 		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		FullBtn.setBounds(520, 451, 250, 71);
+		FullBtn.setVisible(false);
 		main_panel.add(FullBtn);
 		
 		//a new panel pops up asking for payment type
@@ -100,7 +136,7 @@ public class PayPanel extends JPanel {
 		pay_popup_window.setWrapStyleWord(true);
 		pay_popup_window.setLineWrap(true);
 		pay_popup_window.setEditable(false);
-		pay_popup_window.setText("Order: "+ getOrderToString());
+		pay_popup_window.setText("Order: ");//+ getOrderToString());
 		pay_popup_window.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		pay_popup_window.setBounds(270, 0, 500, 450);
 		full_pay_panel.add(pay_popup_window);
@@ -770,7 +806,7 @@ public class PayPanel extends JPanel {
 	}
 	
 	public void viewOrderDetails() {
-		
+		/*
 		JPanel panel = new JPanel();
 		panel.setBounds(200, 100, 500, 400);
 		panel.setLayout(null);
@@ -787,9 +823,11 @@ public class PayPanel extends JPanel {
 		orderSummary.setLineWrap(true);
 		orderSummary.setText(getOrderToString());
 		scrollPane.setViewportView(orderSummary);
+		*/
 	}
 	
-	public String getOrderToString() {
+	public void refreshTxtAreas() {
+		/*
 		DecimalFormat df2 = new DecimalFormat("#.##");
 		StringBuilder s = new StringBuilder();
 		//s.append("Order:\n\n");
@@ -811,7 +849,55 @@ public class PayPanel extends JPanel {
 			}
 		}
 		s.append("Total: $" + df2.format(CustomerOrder.subtotal +(CustomerOrder.subtotal * tax)));
-		return s.toString();
+		return s.toString();*/
+		StringBuilder s = new StringBuilder();
+		s.append("Order:\n\n");
+
+		for(MItem i : CustomerOrder.items) {
+			s.append("x"+i.qty+" "+i.name+" - "+
+					(decimalF(i.price * i.qty))+"\n");
+
+			// Current Menu Item
+			MItem prev = Menu.getItem(i.name);
+			String[] oldIngTok = prev.ingredients.split(",");
+
+			// Order Menu Item
+			String[] newIngTok = i.ingredients.split(",");
+
+			for(int index = 0; index < newIngTok.length; index++) {
+				String[] oldIng = oldIngTok[index].split(":");
+				String[] newIng = newIngTok[index].split(":");
+				// Substituted ingredient
+				if(!oldIng[0].equals(newIng[0])) {
+					s.append("    - "+oldIng[0]+" sub for "+newIng[0]+"\n");
+				}
+				if(!oldIng[1].equals(newIng[1])) {
+					s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
+				}
+			}
+			if(!(i.specialReqs.equalsIgnoreCase("none")) 
+					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
+				s.append("    - "+i.specialReqs+"\n");
+			}
+		}
+		orderSummary.setText(s.toString());
+		orderTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
+				decimalF(tax * CustomerOrder.subtotal)+"\nTotal: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax)));
+	}
+	
+	/**
+	 * Formats a decimal to be displayed as currency.
+	 * @param num
+	 * @return
+	 */
+	public String decimalF(double num) {
+		return DecimalFormat.getCurrencyInstance().format(num);
+	}
+
+	public void enableButtons() {
+		SplitBtn.setVisible(true);
+		FullBtn.setVisible(true);
+		this.refreshTxtAreas();
 	}
 
 }
