@@ -81,19 +81,19 @@ public class LotteryPanel extends JPanel {
 		gtnPanel.setVisible(false);
 		gtnPanel.randomNum = GuessTheNumberLottery.generateNumber(1, 5);
 		
-		JPanel conf_screen_1 = new JPanel();
-		conf_screen_1.setVisible(false);
-		conf_screen_1.setBounds(0, 0, 1039, 522);
-		add(conf_screen_1);
-		conf_screen_1.setLayout(null);
+		JPanel conf_screen = new JPanel();
+		conf_screen.setVisible(false);
+		conf_screen.setBounds(0, 0, 1039, 522);
+		add(conf_screen);
+		conf_screen.setLayout(null);
 		
 		JTextArea confirmation_screen = new JTextArea();
 		confirmation_screen.setEditable(false);
 		confirmation_screen.setText("\r\r\n                           THANK YOU FOR VISITING!!\r\n           \r\t         HAVE A GOOD DAY!");
 		confirmation_screen.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
 		confirmation_screen.setBounds(169, 173, 662, 136);
-		conf_screen_1.add(confirmation_screen);
-		conf_screen_1.setVisible(false);
+		conf_screen.add(confirmation_screen);
+		conf_screen.setVisible(false);
 		
 	}
 	
