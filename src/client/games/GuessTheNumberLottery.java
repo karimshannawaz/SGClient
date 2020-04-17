@@ -22,8 +22,6 @@ import client.order.PayPanel;
 import client.utils.Constants;
 
 /**
- * Player will have 7 (because seven guys) tries to guess number, and if number is greater than number guessed,
- * it will say "too low", or "too high"
  * 
  * @author karim
  *
