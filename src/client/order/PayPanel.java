@@ -41,6 +41,7 @@ public class PayPanel extends JPanel {
 	public static DecimalFormat df2 = new DecimalFormat("#.##");
 	public static String prevScreen="";
 	private JTextField tip_box;
+	public double tax = 0.0825;
 	/**
 	 * Create the panel.
 	 */
@@ -784,7 +785,7 @@ public class PayPanel extends JPanel {
 		//s.append("Order:\n\n");
 
 		for(MItem i : CustomerOrder.items) {
-			s.append("x"+i.qty+" "+i.name+"\n");
+			s.append("x"+i.qty+" "+i.name+" - "+i.price+"\n");
 
 			// Order Menu Item
 			String[] newIngTok = i.ingredients.split(",");
@@ -799,7 +800,7 @@ public class PayPanel extends JPanel {
 				s.append("    - "+i.specialReqs+"\n");
 			}
 		}
-		s.append("Total: $" + df2.format(CustomerOrder.subtotal));
+		s.append("Total: $" + df2.format(CustomerOrder.subtotal +(CustomerOrder.subtotal + tax)));
 		return s.toString();
 	}
 
