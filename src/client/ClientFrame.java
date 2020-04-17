@@ -109,7 +109,7 @@ public class ClientFrame extends JFrame {
 
 	private void employeeLandingPage() {
 		welcomeBackground.setVisible(false);
-		employeeSP = new EmployeeStartPage(this);
+		employeeSP = new EmployeeStartPage();
 		setContentPane(employeeSP);
 	}
 

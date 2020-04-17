@@ -141,7 +141,7 @@ public class MenuPanel extends JPanel {
 		scrollPane.setViewportView(orderSummaryPostOrder);
 		
 		orderMsgLbl = new JLabel("Order Details");
-		orderMsgLbl.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		orderMsgLbl.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		orderMsgLbl.setBounds(510, 236, 490, 73);
 		postOrder.add(orderMsgLbl);
 		

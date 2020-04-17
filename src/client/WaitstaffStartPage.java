@@ -13,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import client.utils.JFrameUtils;
+
 
 public class WaitstaffStartPage extends JPanel {
 
@@ -23,7 +25,7 @@ public class WaitstaffStartPage extends JPanel {
 
 	public int orderIndex = -1;
 	
-	public WaitstaffStartPage(ClientFrame frame) {
+	public WaitstaffStartPage() {
 		super();
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
@@ -34,7 +36,7 @@ public class WaitstaffStartPage extends JPanel {
 		add(scrollPane);
 		
 
-		JTable table = createTable();
+		table = createTable();
 		table.setRowSelectionAllowed(false);
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -64,6 +66,12 @@ public class WaitstaffStartPage extends JPanel {
 				if(val.equals("X"))
 					return;
 				else {
+					boolean choice = JFrameUtils.confirmDialog("Order Completion Confirmation", 
+						"Are you sure you want to mark this order for table "+(row + 1)+" as delivered?"
+							+ "\nThis action cannot be undone.");
+					if(!choice) {
+						return;
+					}
 					table.getModel().setValueAt("X", row, col);
 					Client.session.getPacketEncoder().sendOrderDelivered(row, orderIndex);
 					orderIndex = -1;
@@ -76,7 +84,7 @@ public class WaitstaffStartPage extends JPanel {
 		
 	}
 	
-	protected static JTable createTable() {
+	public JTable createTable() {
 		
 		Object[][] rows = new Object[20][5];
 
