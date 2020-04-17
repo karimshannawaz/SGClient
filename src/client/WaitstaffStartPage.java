@@ -4,14 +4,16 @@ package client;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 
 public class WaitstaffStartPage extends JPanel {
@@ -295,6 +297,28 @@ public class WaitstaffStartPage extends JPanel {
 		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		table.setRowHeight(26);
 		
+		table.addMouseListener(new MouseListener() {
+
+			@Override public void mouseClicked(MouseEvent arg0) { }
+
+			@Override public void mouseEntered(MouseEvent arg0) { }
+
+			@Override public void mouseExited(MouseEvent arg0) { }
+
+			@Override public void mousePressed(MouseEvent arg0) { }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				int row = table.getSelectedRow();
+				int col = table.getSelectedColumn();
+				if(col == 0)
+					return;
+				String val = (String) table.getModel().getValueAt(row, col);
+				table.getModel().setValueAt(val.equals("X") ? "O" : "X", row, col);
+			}
+
+		});
+		
 		scrollPane.setViewportView(table);
 		
 	}
@@ -307,7 +331,7 @@ public class WaitstaffStartPage extends JPanel {
 			rows[i][0] = new Integer(i + 1);
 			rows[i][1] = "X";
 			rows[i][2] = "X";
-			rows[i][3] = "O";
+			rows[i][3] = "X";
 		}
 		
 		Object[] cols = new Object[]{
@@ -327,6 +351,11 @@ public class WaitstaffStartPage extends JPanel {
 					return String.class;
 				return super.getColumnClass(column);
 			}
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
 		};
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -341,10 +370,10 @@ public class WaitstaffStartPage extends JPanel {
 			public Component getTableCellRendererComponent(JTable table, Object value, 
 					boolean isSelected, boolean hasFocus, int row, int column) {
 				super.setHorizontalAlignment( JLabel.CENTER );
-				Component c = super.getTableCellRendererComponent(table, value, 
+				JLabel c = (JLabel) super.getTableCellRendererComponent(table, value, 
 						isSelected, hasFocus, row, column);
 				Color darkgreen = new Color(0, 153, 0);
-				c.setBackground(column == 3 ? darkgreen : Color.RED);
+				c.setBackground(c.getText().equals("O") ? darkgreen : Color.RED);
 				return c;
 			}
 		});
