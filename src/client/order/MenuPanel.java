@@ -1156,7 +1156,7 @@ public class MenuPanel extends JPanel {
 					System.out.println("CODE HERE TO AND SEND INFO TO KITCHEN / SERVER ");
 					JFrameUtils.showMessage("Placing an Order", 
 							"Please wait, attempting to communicate with the restaurant\n and send the order...");
-					CustomerOrder.subtotal = subtotal+(subtotal*tax);
+					
 					Client.session.getPacketEncoder().sendOrder(subtotal);
 				}
 			}
