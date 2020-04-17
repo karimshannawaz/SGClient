@@ -40,6 +40,7 @@ public class PayPanel extends JPanel {
 	public JPanel conf_screen;
 	public static DecimalFormat df2 = new DecimalFormat("#.##");
 	public static String prevScreen="";
+	private JTextField tip_box;
 	/**
 	 * Create the panel.
 	 */
@@ -342,6 +343,52 @@ public class PayPanel extends JPanel {
 		confirmation_screen.setBounds(169, 97, 662, 179);
 		conf_screen.add(confirmation_screen);
 		
+		JPanel tip_panel = new JPanel();
+		tip_panel.setBounds(0, 0, 1039, 522);
+		add(tip_panel);
+		tip_panel.setLayout(null);
+		
+		JLabel lblNewLabel_2 = new JLabel("ADD A TIP");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		lblNewLabel_2.setBounds(51, 16, 936, 105);
+		tip_panel.add(lblNewLabel_2);
+		
+		JButton tipbtn_3 = new JButton("15%");
+		tipbtn_3.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		tipbtn_3.setBounds(50, 153, 301, 202);
+		tip_panel.add(tipbtn_3);
+		
+		JButton tipbtn_2 = new JButton("20%");
+		tipbtn_2.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		tipbtn_2.setBounds(362, 153, 301, 202);
+		tip_panel.add(tipbtn_2);
+		
+		JButton tipbtn_1 = new JButton("25%");
+		tipbtn_1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		tipbtn_1.setBounds(676, 153, 301, 207);
+		tip_panel.add(tipbtn_1);
+		
+		JLabel custom_tip = new JLabel("CUSTOM TIP:");
+		custom_tip.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		custom_tip.setBounds(51, 370, 272, 71);
+		tip_panel.add(custom_tip);
+		
+		tip_box = new JTextField();
+		tip_box.setBounds(223, 373, 301, 68);
+		tip_panel.add(tip_box);
+		tip_box.setColumns(10);
+		
+		JButton tip_donebtn = new JButton("DONE");
+		tip_donebtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		tip_donebtn.setBounds(622, 371, 164, 68);
+		tip_panel.add(tip_donebtn);
+		
+		JButton no_tipbtn = new JButton("NO TIP");
+		no_tipbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		no_tipbtn.setBounds(57, 451, 235, 55);
+		tip_panel.add(no_tipbtn);
+		
 		
 		
 		//when customer clicks full pay button, a panel to pay full bill pops up 
@@ -488,14 +535,66 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				receipt_type_popup.setVisible(true);
+				tip_panel.setVisible(true);
+				receipt_type_popup.setVisible(false);
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
 				
 			}
 		});
 		
-		//when user selects print for receipt type
+
+		//when user selects 25% tip
+		tipbtn_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				
+			}
+		});
+		
+		//when user selects 20% tip
+		tipbtn_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				
+			}
+		});
+		
+		//when user selects 15% tip
+		tipbtn_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				
+			}
+		});
+		
+		//when user chooses no tip option 
+		no_tipbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				
+			}
+		});
+		
+		//if user enters custom tip
+		tip_donebtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+			
+				
+			}
+		});
+		
+
 		printbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -619,6 +718,7 @@ public class PayPanel extends JPanel {
 				LotteryChoice();
 			}
 		});
+		tip_panel.setVisible(false);
 		screen_for_cash.setVisible(false);
 		split_pay_panel.setVisible(false);
 	}	
