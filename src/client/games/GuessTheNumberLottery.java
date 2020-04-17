@@ -117,17 +117,23 @@ public class GuessTheNumberLottery extends JPanel {
 				triesLbl.setText("Tries left: "+tries);
 				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+". Exit this prompt to play again!");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
+				resetGame();
 				return;
 			}
 		}
 		tries--;
 		Client.sendMessage("Congratulations, you've guessed the number right! It was "+num+". ");
 		output.append("Congratulations, you've guessed the number right! It was "+num+".\n\n\n");
+		printCoupon();
 		
 	}
 
+	private void printCoupon() {
+		//print the coupon
+		resetGame();
+		
+	}
 	private void resetGame() {
-		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have one try, good luck!\n");
 		//speak about the 
 	}
 

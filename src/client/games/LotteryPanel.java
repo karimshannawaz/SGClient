@@ -75,7 +75,7 @@ public class LotteryPanel extends JPanel {
 			this.gtnPanel.setVisible(true);
 			break;
 		case "cancel":
-			
+			//prompt to clear the sysytem
 			break;
 			
 		}
