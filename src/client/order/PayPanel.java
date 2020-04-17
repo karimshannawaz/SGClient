@@ -335,6 +335,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//back button for split bill screen
 		backbtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				split_pay_panel.setVisible(false);
