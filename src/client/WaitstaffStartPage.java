@@ -1,64 +1,42 @@
 
 package client;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
-import client.order.MenuPanel;
-import client.order.PayPanel;
-import client.utils.JFrameUtils;
 
-//order doesnt fully function correctly 
-
-public class WaitstaffStartPage extends JPanel implements TableModelListener{
+public class WaitstaffStartPage extends JPanel {
 
 	private static final long serialVersionUID = -811294553957L;
-	
-	public static String currentScreen = "";
-	public JButton OrderBtn;
-	public JButton CompBtn;
-	public JButton backBtn;
-	public JButton PayBtn;
-	public JPanel mainPanel;
-	public JPanel utilityPanel;
-	public PayPanel payPanel;
-	public MenuPanel orderPanel;
-	private JTextField tableNum;
+
 	public JTable table;
+	public DefaultTableModel model;
 	
-
-
-	public WaitstaffStartPage(ClientFrame frame){
+	public WaitstaffStartPage(ClientFrame frame) {
 		super();
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
+	
+		// Create our scroll pane
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 1039, 552);
+		add(scrollPane);
 		
-		mainPanel = new JPanel();
-		mainPanel.setBounds(0, 0, 1039, 656);
-		add(mainPanel);
-		mainPanel.setLayout(null);
-		
+		/*
 		JPanel tablePanel = new JPanel();
 		tablePanel.setBounds(374, 31, 665, 604);
 		mainPanel.add(tablePanel);
+		*/
 		
+		/*
 		utilityPanel = new JPanel();
 		utilityPanel.setBounds(0, 523, 1039, 133);
 		add(utilityPanel);
@@ -91,7 +69,9 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 		
 		CompBtn.setBounds(0, 394, 374, 262);
 		mainPanel.add(CompBtn);
+		*/
 		
+		/*
 		JLabel tableLabel = new JLabel("Table Number");
 		tableLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		tableLabel.setBounds(374, 0, 166, 44);
@@ -112,13 +92,22 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 		lblNewLabel.setBounds(873, 0, 166, 44);
 		mainPanel.add(lblNewLabel);
 		
+		*/
 		
 		//for the waiter table, need to find some way that when there is a help or refill request
 		//the waiter can tab the icon and update the table 
 		//refill has to display the drinks requested
+
+/*
+		table = new JTable(dm);
+		table.setRowSelectionAllowed(false);
+		table.setFillsViewportHeight(true);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		table.setRowHeight(26);
+		*/
 		
 		
-		table = new JTable();
+		/*
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{new Integer(1), null, null, null},
@@ -146,9 +135,7 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 				"Table Number", "Refill", "Help", "Order"
 			}
 		) {
-			/**
-			 * 
-			 */
+			
 			private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] {
 				Integer.class, Boolean.class, Boolean.class, String.class
@@ -164,6 +151,8 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			}
 			
 		});
+		*/
+		/*
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(166);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -172,12 +161,23 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 		table.getColumnModel().getColumn(2).setPreferredWidth(166);
 		table.getColumnModel().getColumn(3).setResizable(false);
 		table.getColumnModel().getColumn(3).setPreferredWidth(166);
-		table.setBounds(0, 0, 1, 1);
-		table.setRowHeight(30);
-		tablePanel.add(table);
+		
+		
+		// Centers the text in the columns.
+//		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+//		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+//		table.setDefaultRenderer(Integer.class, centerRenderer);
+		
+		table.getColumnModel().getColumn(1).setCellRenderer(new ButtonRenderer());
+        table.getColumnModel().getColumn(1).setCellEditor(new ButtonEditor(new JCheckBox()));
+		
+		scrollPane.setViewportView(table);
+		//tablePanel.add(table);
+		
 		
 		List<Object> refill = new ArrayList<Object>(20);
 		
+		/*
 		table.getModel().addTableModelListener(new TableModelListener(){
 			
 			public void tableChanged(TableModelEvent e) {
@@ -232,7 +232,9 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			    }
 			}
 		});
+		*/
 		
+		/*
 		PayBtn.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent e) {
 				currentScreen = "pay";
@@ -261,10 +263,96 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 		this.payPanel = new PayPanel();
 		payPanel.setVisible(false);
 		add(payPanel);
+*/
+		
+		/*
+		//create table
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new String[] {
+				"Table Number", "Refill", "Help", "Order"
+			}, 0
+		));
 
+		model = (DefaultTableModel) table.getModel();
+
+		// add inventory list to rowss
+		for (int i = 0; i < 20; i++) {
+			model.addRow(new Object[] { 
+				new Integer(i + 1), "N", "N", "N" 
+			});
+		}
+		
+		// Sets the table header and row font, as well as adjusts the row height.
+		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		table.setRowHeight(26);
+		*/
+		JTable table = createTable();
+		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		table.setRowHeight(26);
+		
+		scrollPane.setViewportView(table);
+		
+	}
+	
+	protected static JTable createTable() {
+		
+		Object[][] rows = new Object[20][4];
+
+		for(int i = 0; i < 20; i++) {
+			rows[i][0] = new Integer(i + 1);
+			rows[i][1] = "X";
+			rows[i][2] = "X";
+			rows[i][3] = "X";
+		}
+		
+		Object[] cols = new Object[]{
+				"Table Number", "Refill", "Help", "Order"
+		};
+		
+		JTable t = new JTable(rows, cols) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Class<?> getColumnClass(int column) {
+				int col = convertColumnIndexToModel(column);
+				if(col == 0) 
+					return Integer.class;
+				else if(col == 1 || col == 2 || col == 3)
+					return String.class;
+				return super.getColumnClass(column);
+			}
+		};
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		t.setDefaultRenderer(Integer.class, centerRenderer);
+		
+		t.setDefaultRenderer(String.class, new DefaultTableCellRenderer() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, 
+					boolean isSelected, boolean hasFocus, int row, int column) {
+				super.setHorizontalAlignment( JLabel.CENTER );
+				Component c = super.getTableCellRendererComponent(table, value, 
+						isSelected, hasFocus, row, column);
+				Color darkgreen = new Color(0, 153, 0);
+				c.setForeground(column == 3 ? darkgreen : Color.RED);
+				return c;
+			}
+		});
+		
+		return t;
 	}
 	
 	
+	
+	/*
 	protected void showTableOption() {
 		String option = (String) JFrameUtils.inputDialog("Table Chooser", "Enter the table number:");
 		if(option == null || option.equals("null"))
@@ -295,8 +383,9 @@ public class WaitstaffStartPage extends JPanel implements TableModelListener{
 			openScreen("compensate");
 		}
 	}
+*/
 
-
+	/*
 	protected void back() {
 		switch(currentScreen) {
 			case "order":
@@ -354,8 +443,9 @@ public void openScreen(String type) {
 			break;
 		}
 	}
+*/
 
-
+	/*
 @Override
 public void tableChanged(TableModelEvent e) {
 	// TODO Auto-generated method stub
@@ -376,6 +466,6 @@ public void tableChanged(TableModelEvent e) {
     }
 
 }
-
+*/
 
 }
