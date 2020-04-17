@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 
 public class WaitstaffStartPage extends JPanel {
@@ -289,6 +290,7 @@ public class WaitstaffStartPage extends JPanel {
 		table.setRowHeight(26);
 		*/
 		JTable table = createTable();
+		table.setRowSelectionAllowed(false);
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		table.setRowHeight(26);
@@ -305,7 +307,7 @@ public class WaitstaffStartPage extends JPanel {
 			rows[i][0] = new Integer(i + 1);
 			rows[i][1] = "X";
 			rows[i][2] = "X";
-			rows[i][3] = "X";
+			rows[i][3] = "O";
 		}
 		
 		Object[] cols = new Object[]{
@@ -342,7 +344,7 @@ public class WaitstaffStartPage extends JPanel {
 				Component c = super.getTableCellRendererComponent(table, value, 
 						isSelected, hasFocus, row, column);
 				Color darkgreen = new Color(0, 153, 0);
-				c.setForeground(column == 3 ? darkgreen : Color.RED);
+				c.setBackground(column == 3 ? darkgreen : Color.RED);
 				return c;
 			}
 		});
