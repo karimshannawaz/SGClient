@@ -22,6 +22,9 @@ import client.games.GuessTheNumber;
 import client.games.LotteryPanel;
 import client.utils.Constants;
 import client.utils.JFrameUtils;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 //Manasa Nimmagadda
 
@@ -52,7 +55,8 @@ public class PayPanel extends JPanel {
 	
 	public JTextArea orderSummary;
 	public JTextArea orderTotal;
-	
+	private JTable Ordertable;
+	private JTable Splittable;
 	/**
 	 * Create the panel.
 	 */
@@ -131,49 +135,6 @@ public class PayPanel extends JPanel {
 		Cashbtn.setBounds(520, 451, 250, 71);
 		Cashbtn.setVisible(false);
 		main_panel.add(Cashbtn);
-		
-		//panel asking for payment when bill is split
-		JPanel split_pay_panel = new JPanel();
-		split_pay_panel.setBounds(0, 0, 988, 522);
-		add(split_pay_panel);
-		split_pay_panel.setLayout(null);
-				
-		//if customer, paying with split, wants to pay with card
-		JButton cardbtn1 = new JButton("CREDIT/DEBIT CARD");
-		cardbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		cardbtn1.setBounds(175, 451, 345, 71);
-		split_pay_panel.add(cardbtn1);
-		
-		//if customer, paying with split bill, wants to pay with cash
-		JButton Cashbtn1 = new JButton("CASH");
-		Cashbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		Cashbtn1.setBounds(520, 451, 372, 71);
-		split_pay_panel.add(Cashbtn1);
-		
-		//back button if on split pay screen if customer chooses to pay full bill
-		//want to rework
-		JButton backbtn1 = new JButton("BACK");
-		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		backbtn1.setBounds(0, 400, 159, 122);
-		split_pay_panel.add(backbtn1);
-		
-		//screen to select items which customer wants to pay for
-		//add a table that will hold the items to select
-		JTextArea split_selection_panel = new JTextArea();
-		split_selection_panel.setText("Select Items:");
-		split_selection_panel.setFont(new Font("Monospaced", Font.BOLD, 13));
-		split_selection_panel.setEditable(false);
-		split_selection_panel.setBounds(174, 0, 345, 450);
-		split_pay_panel.add(split_selection_panel);
-		
-		//screen showing bill for selected items
-		//hold a table that will populate items selected
-		JTextArea splititems_bill_panel = new JTextArea();
-		splititems_bill_panel.setText("Your Bill:");
-		splititems_bill_panel.setEditable(false);
-		splititems_bill_panel.setFont(new Font("Monospaced", Font.BOLD, 13));
-		splititems_bill_panel.setBounds(520, 0, 372, 451);
-		split_pay_panel.add(splititems_bill_panel);
 		
 		//screen when customer selects payment type as cash 
 		JPanel screen_for_cash = new JPanel();
@@ -416,6 +377,164 @@ public class PayPanel extends JPanel {
 		no_tipbtn.setBounds(57, 451, 235, 55);
 		tip_panel.add(no_tipbtn);
 		
+		//panel asking for payment when bill is split
+		JPanel split_pay_panel = new JPanel();
+		split_pay_panel.setBounds(0, 0, 988, 522);
+		add(split_pay_panel);
+		split_pay_panel.setLayout(null);
+		
+		//if customer, paying with split, wants to pay with card
+		JButton cardbtn1 = new JButton("CREDIT/DEBIT CARD");
+		cardbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		cardbtn1.setBounds(175, 451, 345, 71);
+		split_pay_panel.add(cardbtn1);
+		
+		//if customer, paying with split bill, wants to pay with cash
+		JButton Cashbtn1 = new JButton("CASH");
+		Cashbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		Cashbtn1.setBounds(520, 451, 372, 71);
+		split_pay_panel.add(Cashbtn1);
+		
+		//back button if on split pay screen if customer chooses to pay full bill
+		//want to rework
+		JButton backbtn1 = new JButton("BACK");
+		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		backbtn1.setBounds(0, 471, 159, 51);
+		split_pay_panel.add(backbtn1);
+		
+		Ordertable = new JTable();
+		Ordertable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Order"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		Ordertable.setBounds(43, 0, 381, 450);
+		split_pay_panel.add(Ordertable);
+		
+		Splittable = new JTable();
+		Splittable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Order"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		Splittable.setBounds(567, 0, 381, 450);
+		split_pay_panel.add(Splittable);
+		
+		JButton toSplit = new JButton(">");
+		toSplit.setBounds(445, 103, 101, 35);
+		split_pay_panel.add(toSplit);
+		
+		toSplit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel orig = (DefaultTableModel) Ordertable.getModel();
+				DefaultTableModel newtable =(DefaultTableModel) Splittable.getModel();
+				int[] sel = Ordertable.getSelectedRows();
+				Object[] row = new Object[1];
+				for(int i=0; i<sel.length; i++)
+				{
+					row[0]=orig.getValueAt(sel[i], 0);
+					newtable.addRow(row);
+				}
+				
+			}
+		});
+		
+		JButton undoSplit = new JButton("<");
+		undoSplit.setBounds(445, 150, 101, 35);
+		split_pay_panel.add(undoSplit);
+		
+		JButton confirmSplit = new JButton("confirm");
+		confirmSplit.setBounds(425, 384, 141, 35);
+		split_pay_panel.add(confirmSplit);
+		
+		undoSplit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel orig = (DefaultTableModel) Splittable.getModel();
+				DefaultTableModel newtable =(DefaultTableModel) Ordertable.getModel();
+				int[] sel = Splittable.getSelectedRows();
+				Object[] row = new Object[1];
+				for(int i=0; i<sel.length; i++)
+				{
+					row[0]=orig.getValueAt(sel[i], 0);
+					newtable.addRow(row);
+				}
+				
+			}
+		});
+		
+		
+		//back button for split bill screen
+		backbtn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				split_pay_panel.setVisible(false);
+				main_panel.setVisible(true);
+				receipt_type_popup.setVisible(false);
+				
+			}
+		});
+		
+		
+		//code to send card payment verification to server
+		
+		//actions after clicking cash button in split pay screen
+		Cashbtn1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+				if(!confirmPayment) {
+					return;
+				}
+				else {
+					main_panel.setVisible(false);
+					screen_for_cash.setVisible(true);
+					split_pay_panel.setVisible(false);
+					receipt_type_popup.setVisible(false);				
+					Donebtn.setVisible(true);
+				}
+			}
+		});
+		
+		
+		//code here goes to make them pay with cash and give bill
+		
+		//actions after clicking card button in split pay screen
+		cardbtn1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+				if(!confirmPayment) {
+					return;
+				}
+				else {
+				screen_for_card.setVisible(true);
+				split_pay_panel.setVisible(false);
+				screen_for_cash.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				}
+			}
+		});
+		split_pay_panel.setVisible(false);
+		
 		
 		
 		//when customer clicks full pay button, a panel to pay full bill pops up 
@@ -434,19 +553,9 @@ public class PayPanel extends JPanel {
 		//when customer clicks split pay button, a panel to select items pops up
 		SplitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SplitMenuTable();
 				split_pay_panel.setVisible(true);
 				main_panel.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				
-			}
-		});
-		
-		
-		//back button for split bill screen
-		backbtn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				split_pay_panel.setVisible(false);
-				main_panel.setVisible(true);
 				receipt_type_popup.setVisible(false);
 				
 			}
@@ -486,51 +595,9 @@ public class PayPanel extends JPanel {
 				}
 				else {
 					main_panel.setVisible(false);
-				screen_for_card.setVisible(true);
-				screen_for_cash.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				}
-			}
-		});
-		
-		
-		//code to send card payment verification to server
-		
-		//actions after clicking cash button in split pay screen
-		Cashbtn1.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
-				if(!confirmPayment) {
-					return;
-				}
-				else {
-				screen_for_cash.setVisible(true);
-				split_pay_panel.setVisible(false);
-				receipt_type_popup.setVisible(false);				
-				Donebtn.setVisible(true);
-				}
-			}
-		});
-		
-		
-		//code here goes to make them pay with cash and give bill
-		
-		//actions after clicking card button in split pay screen
-		cardbtn1.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
-				if(!confirmPayment) {
-					return;
-				}
-				else {
-				screen_for_card.setVisible(true);
-				split_pay_panel.setVisible(false);
-				screen_for_cash.setVisible(false);
-				receipt_type_popup.setVisible(false);
+					screen_for_card.setVisible(true);
+					screen_for_cash.setVisible(false);
+					receipt_type_popup.setVisible(false);
 				}
 			}
 		});
@@ -746,7 +813,6 @@ public class PayPanel extends JPanel {
 		});
 		tip_panel.setVisible(false);
 		screen_for_cash.setVisible(false);
-		split_pay_panel.setVisible(false);
 	}	
 	
 	public void LotteryChoice()
@@ -777,7 +843,43 @@ public class PayPanel extends JPanel {
 			
 		}	
 	}
+	
+	public void SplitMenuTable() {
+		DefaultTableModel orig = (DefaultTableModel) Ordertable.getModel();
+		StringBuilder s = new StringBuilder();
 
+		for(MItem i : CustomerOrder.items) {
+			s.append("x"+i.qty+" "+i.name+" - "+
+					(decimalF(i.price * i.qty))+"\n");
+
+			// Current Menu Item
+			MItem prev = Menu.getItem(i.name);
+			String[] oldIngTok = prev.ingredients.split(",");
+
+			// Order Menu Item
+			String[] newIngTok = i.ingredients.split(",");
+
+			for(int index = 0; index < newIngTok.length; index++) {
+				String[] oldIng = oldIngTok[index].split(":");
+				String[] newIng = newIngTok[index].split(":");
+				// Substituted ingredient
+				if(!oldIng[0].equals(newIng[0])) {
+					s.append("    - "+oldIng[0]+" sub for "+newIng[0]+"\n");
+				}
+				if(!oldIng[1].equals(newIng[1])) {
+					s.append("    - x"+newIng[1]+" "+newIng[0]+"\n");
+				}
+			}
+			if(!(i.specialReqs.equalsIgnoreCase("none")) 
+					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
+				s.append("    - "+i.specialReqs+"\n");
+			}
+			orig.addRow(new Object[] {s.toString()});
+			s.setLength(0);
+		}
+		
+	}
+	
 	public void refreshTxtAreas() {
 		
 		StringBuilder s = new StringBuilder();
@@ -829,5 +931,4 @@ public class PayPanel extends JPanel {
 		FullBtn.setVisible(true);
 		this.refreshTxtAreas();
 	}
-
 }
