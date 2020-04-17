@@ -585,8 +585,6 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 15% of the tip to total
-				
-
 				tip=CustomerOrder.subtotal * (0.25);
 				tip_box.setText(Double.toString(tip));
 				
