@@ -65,7 +65,7 @@ public class CustomerStartPage extends JPanel {
 	public static String currentScreen = "";
 	
 
-	public CustomerStartPage(ClientFrame frame) {
+	public CustomerStartPage() {
 		super();
 		setLayout(null);
 		setBounds(0, 0, 1039, 656);
@@ -87,7 +87,7 @@ public class CustomerStartPage extends JPanel {
 		utilityPanel.add(helpBtn);
 		helpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.getHelp();
+				sendHelpRequest();
 			}
 		});
 
@@ -104,6 +104,11 @@ public class CustomerStartPage extends JPanel {
 		refillBtn.setText("Refill");
 		refillBtn.setBounds(612, 5, 120, 74);
 		utilityPanel.add(refillBtn);
+		refillBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				sendRefillRequest();
+			}
+		});
 
 		rwdsBtn = new JButton("Rewards");
 		rwdsBtn.addActionListener(new ActionListener() {
@@ -329,8 +334,33 @@ public class CustomerStartPage extends JPanel {
 				break;
 		}
 	}
+	
+	
+	protected void sendRefillRequest() {
+		if(ClientSession.requestedRefill
+			|| ClientSession.requestedHelp) {
+			JFrameUtils.showMessage("Refill Request", "Error: You currently have another request in progress.\n"
+				+ "Please wait for a member of the waitstaff to come and help you.");
+			return;
+		}
+		String refill = (String) JFrameUtils.inputDialog("Refill Request", 
+			"Please enter the drink you want a refill for (type coke, sprite, 7up or water):");
+		Client.session.getPacketEncoder().sendRefillRequest();
+		JFrameUtils.showMessage("Refill Request", "Sending a request to the waitstaff for a "+refill+" refill...");
+	}
 
+	protected void sendHelpRequest() {
+		if(ClientSession.requestedRefill
+			|| ClientSession.requestedHelp) {
+			JFrameUtils.showMessage("Help Request", "Error: You currently have another request in progress.\n"
+				+ "Please wait for a member of the waitstaff to come and help you.");
+			return;
+		}
+		Client.session.getPacketEncoder().sendHelpRequest();
+		JFrameUtils.showMessage("Help Request", "Sending a request to the waitstaff for help...");
+	}
 
+/*
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -344,4 +374,5 @@ public class CustomerStartPage extends JPanel {
 		g2d.setPaint(gp);
 		g2d.fillRect(0, 0, w, h);
 	}
+*/
 }

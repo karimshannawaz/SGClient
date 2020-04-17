@@ -149,5 +149,17 @@ public class PacketEncoder extends Encoder {
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
+
+	/**
+	 * Sends the server a refill request with its
+	 * kiosk number.
+	 */
+	public void sendRefillRequest() {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(12);
+		stream.writeByte(ClientSession.tableID);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }

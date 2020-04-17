@@ -115,7 +115,7 @@ public class ClientFrame extends JFrame {
 
 	private void customerLandingPage() {
 		welcomeBackground.setVisible(false);
-		customerSP = new CustomerStartPage(this);
+		customerSP = new CustomerStartPage();
 		setContentPane(customerSP);
 		// This lets the server portion know that a customer has connected to the kiosk and assigns
 		// them a table/kiosk ID.
