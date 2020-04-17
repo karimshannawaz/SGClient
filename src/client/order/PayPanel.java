@@ -453,6 +453,10 @@ public class PayPanel extends JPanel {
 					row[0]=orig.getValueAt(sel[i], 0);
 					newtable.addRow(row);
 				}
+				for(int i=0; i<sel.length; i++)
+				{
+					orig.removeRow(sel[i]);
+				}
 				
 			}
 		});
