@@ -80,6 +80,18 @@ public class MenuPanel extends JPanel {
 	public double subtotal;
 	public double tax = 0.0825; // State of TX tax
 
+	private JButton next_page_button;
+
+	private JButton previous_page_button;
+
+	private JToggleButton dessert_button;
+
+	private JToggleButton entree_button;
+
+	private JToggleButton side_button;
+
+	private JToggleButton drink_button;
+
 	/**
 	 * Create the panel.
 	 */
@@ -122,14 +134,12 @@ public class MenuPanel extends JPanel {
 		mainPanel.add(MenuListFrame);
 		MenuListFrame.setLayout(null);
 
-		//creates a button to display 7 new menu items
-		JButton next_page_button = new JButton("Next page");
+		next_page_button = new JButton("Next page");
 		next_page_button.setVisible(false);
 		next_page_button.setBounds(174, 490, 173, 32);
 		MenuListFrame.add(next_page_button);
 
-		//creates a button to display 7 previous menu items
-		JButton previous_page_button = new JButton("Previous page");
+		previous_page_button = new JButton("Previous page");
 		previous_page_button.setVisible(false);
 		previous_page_button.setBounds(0, 490, 173, 32);
 		MenuListFrame.add(previous_page_button);
@@ -293,22 +303,22 @@ public class MenuPanel extends JPanel {
 		mainPanel.add(OrderTypeFrame);
 		OrderTypeFrame.setLayout(null);
 
-		JToggleButton dessert_button = new JToggleButton("Desserts");
+		dessert_button = new JToggleButton("Desserts");
 		dessert_button.setBounds(0, 390, 346, 130);
 		dessert_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(dessert_button);
 
-		JToggleButton entree_button = new JToggleButton("Entrees");
+		entree_button = new JToggleButton("Entrees");
 		entree_button.setBounds(0, 0, 346, 130);
 		entree_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(entree_button);
 
-		JToggleButton side_button = new JToggleButton("Sides");
+		side_button = new JToggleButton("Sides");
 		side_button.setBounds(0, 130, 346, 130);
 		side_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(side_button);
 
-		JToggleButton drink_button = new JToggleButton("Drinks");
+		drink_button = new JToggleButton("Drinks");
 		drink_button.setBounds(0, 260, 346, 130);
 		drink_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(drink_button);
@@ -1247,7 +1257,7 @@ public class MenuPanel extends JPanel {
 				}
 
 				// COME BACK HERE
-				if (index >= (5 * (ing_page_number + 1)))
+				if (index > (5 * (ing_page_number + 1)))
 					next_ingredient_button.setVisible(true);
 
 				else
@@ -1881,6 +1891,31 @@ public class MenuPanel extends JPanel {
 	 */
 	public String decimalF(double num) {
 		return DecimalFormat.getCurrencyInstance().format(num);
+	}
+
+	/**
+	 * Returns the customer to the front page
+	 * Used for if the menu needs to be updated again
+	 */
+	public void goToFront() {
+		for(JButton b : sidesFM) 
+			b.setVisible(false);
+
+		for(JButton b : dessertsFM) 
+			b.setVisible(true);
+
+		for(JButton b : drinksFM) 
+			b.setVisible(false);
+
+		for (JButton b : entreesFM)
+			b.setVisible(false);
+
+		entree_button.setSelected(false);
+		side_button.setSelected(false);
+		drink_button.setSelected(false);
+		dessert_button.setSelected(false);
+		next_page_button.setVisible(false);
+		previous_page_button.setVisible(false);
 	}
 
 }

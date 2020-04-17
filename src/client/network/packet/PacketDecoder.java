@@ -3,6 +3,7 @@ import client.Client;
 import client.ClientFrame;
 import client.ClientSession;
 import client.network.Session;
+import client.order.CustomerOrder;
 import client.order.KOrder;
 import client.order.MItem;
 import client.order.Menu;
@@ -114,9 +115,21 @@ public final class PacketDecoder extends Decoder {
 					switch(code) {
 					
 						case "on_the_way":
+							int paramsLength = stream.readUnsignedByte();
 							String message = stream.readString();
 							JFrameUtils.showMessage("Order Update", message);
 							// Do extra stuff here
+							break;
+							
+						case "out_of_stock":
+							paramsLength = stream.readUnsignedByte();
+							String itemName = stream.readString();
+							int itemInOrder = stream.readUnsignedShort();
+							CustomerOrder.items.remove(itemInOrder);
+							Client.clientFrame.customerSP.orderPanel.refreshOrderTxtArea();
+							Client.clientFrame.customerSP.orderPanel.goToFront();
+							JFrameUtils.showMessage("Order Request", 
+								"Error: We apologize, but "+itemName+" is currently out of stock.");
 							break;
 					
 						case "cannot_process_order":
@@ -140,7 +153,7 @@ public final class PacketDecoder extends Decoder {
 							break;
 							
 						case "email_created":
-							int paramsLength = stream.readUnsignedByte();
+							paramsLength = stream.readUnsignedByte();
 							String email = stream.readString();
 							String birthdate = stream.readString();
 							String name = stream.readString();
@@ -167,6 +180,7 @@ public final class PacketDecoder extends Decoder {
 							break;
 							
 						case "waitstaff_got_order":
+							paramsLength = stream.readUnsignedByte();
 							int tableID = stream.readUnsignedByte();
 							int orderIndex = stream.readUnsignedByte();
 							Client.clientFrame.employeeSP.kitchenPage.table.remove(orderIndex);
