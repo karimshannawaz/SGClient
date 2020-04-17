@@ -543,6 +543,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//when user selects 25% tip
 		tipbtn_1.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -552,6 +553,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//when user selects 20% tip
 		tipbtn_2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -561,6 +563,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//when user selects 15% tip
 		tipbtn_3.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -570,6 +573,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//when user chooses no tip option 
 		no_tipbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -579,6 +583,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//if user enters custom tip
 		tip_donebtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
