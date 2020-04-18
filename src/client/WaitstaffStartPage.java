@@ -18,7 +18,7 @@ import client.utils.JFrameUtils;
 /**
  * Holds info for the wait staff to see including
  * marking orders as complete, taking cash payments and 
- * fulfilling help/refill requests.
+ * fulfilling help/refill requests..
  * 
  * @author Karimshan
  *
