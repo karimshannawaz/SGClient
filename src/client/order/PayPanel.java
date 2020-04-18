@@ -43,13 +43,13 @@ public class PayPanel extends JPanel {
 	public JPanel nobtn_screen;
 	public JPanel printbtn_screen;
 	public JPanel conf_screen;
-	public static DecimalFormat df2 = new DecimalFormat("#.##");
 	public static String prevScreen="";
 	private JTextField tip_box;
 	public double tax = 0.0825;
 	public double tip=0;
 	
 	public JPanel main_panel;
+	public JPanel AmountPaid;
 	
 	public JButton SplitBtn;
 	public JButton FullBtn;
@@ -442,7 +442,7 @@ public class PayPanel extends JPanel {
 		//doesnt print the value, need to update
 		JLabel AmountPaid = new JLabel();
 		AmountPaid.setBounds(376, 86, 255, 56);
-		AmountPaid.setText("Amount Paid: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax) + tip));
+		AmountPaid.setText("Amount Paid: " + decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax) + tip));
 		AmountPaid.setFont(new Font("Haettenschweiler", Font.PLAIN, 26));
 		receipt_type_popup.add(AmountPaid);
 		
