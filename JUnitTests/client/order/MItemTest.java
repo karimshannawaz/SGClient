@@ -37,7 +37,7 @@ class MItemTest {
 		newMI.sub = "n";
 		
 		boolean test = newMI.hasSub();
-		assertTrue(test);
+		assertFalse(test);
 	}
 
 }
