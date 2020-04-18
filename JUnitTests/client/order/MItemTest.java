@@ -34,10 +34,12 @@ class MItemTest {
 	@Test
 	void testHasSub() {
 		MItem newMI = new MItem();
+		
+		assertFalse(newMI.hasSub());
 		newMI.sub = "special substitution";
 		
 		boolean test = newMI.hasSub();
-		assertFalse(test);
+		assertTrue(test);
 	}
 	
 	@Test
