@@ -1,9 +1,12 @@
 package client.rewards;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -165,6 +168,19 @@ public class RewardsPanel extends JPanel {
 		exEmail.setBounds(320, 99, 426, 47);
 		loginPanel.add(exEmail);
 		exEmail.setColumns(10);
+		exEmail.addKeyListener(new KeyListener() {
+
+			@Override public void keyPressed(KeyEvent arg0) {}
+			@Override public void keyTyped(KeyEvent e) {}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(KeyEvent.getKeyText(e.getKeyCode()).toLowerCase().contains("enter")) {
+					submitLoginRequest();
+					return;
+				}
+			}
+		});
 		
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -300,26 +316,28 @@ public class RewardsPanel extends JPanel {
 		this.loginPanel.setVisible(false);
 		this.rewardsPanel.setVisible(true);
 		
+		Color darkgreen = new Color(0, 153, 0);
+		
 		welcomeLbl.setText("Welcome to Seven Guys Rewards, "+ClientSession.name+"!");
 		
 		String visitsTxt = ""+(ClientSession.visits == 5 ? "NONE! Claim your free entree!" : (5 - ClientSession.visits));
 		visitsUntilEntree.setText(visitsTxt);
-		visitsUntilEntree.setForeground((visitsTxt.startsWith("NONE") ? Color.GREEN : Color.RED));
+		visitsUntilEntree.setForeground((visitsTxt.startsWith("NONE") ? darkgreen : Color.RED));
 		
 		String signupTxt = ""+(ClientSession.hasFreeSide ? "ACTIVE! Claim your free side!" : "INACTIVE");
 		this.freeSignupSide.setText(signupTxt);
-		freeSignupSide.setForeground((signupTxt.startsWith("ACTIVE") ? Color.GREEN : Color.RED));
+		freeSignupSide.setForeground((signupTxt.startsWith("ACTIVE") ? darkgreen : Color.RED));
 		
 		String birthdayTxt = ""+(ClientSession.hasBirthdayEntree ? "ACTIVE! Claim your free entree!" : "INACTIVE");
 		this.bdayTxtEntree.setText("Free birthday ("+ClientSession.birthday+") Entree:");
 		this.freeBirthdayEntree.setText(birthdayTxt);
-		freeBirthdayEntree.setForeground((birthdayTxt.startsWith("ACTIVE") ? Color.GREEN : Color.RED));
+		freeBirthdayEntree.setForeground((birthdayTxt.startsWith("ACTIVE") ? darkgreen : Color.RED));
 		
 		String lotteryTxt = ""+(ClientSession.hasFreeDessert ? "ACTIVE! Claim your free dessert!" : "INACTIVE");
 		this.freeLotteryDessert.setText(lotteryTxt);
-		freeLotteryDessert.setForeground((lotteryTxt.startsWith("ACTIVE") ? Color.GREEN : Color.RED));
+		freeLotteryDessert.setForeground((lotteryTxt.startsWith("ACTIVE") ? darkgreen : Color.RED));
 		
-		if(showLogin)
-			JFrameUtils.showMessage("Rewards Account", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
+//		if(showLogin)
+//			JFrameUtils.showMessage("Rewards Account", "Successfully logged in. Welcome back, "+ClientSession.name+"!");
 	}
 }

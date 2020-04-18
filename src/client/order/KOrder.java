@@ -5,17 +5,21 @@ import java.util.List;
 
 /**
  * Holds information for a customer's order.
+ * GIVEN TO KITCHEN STAFF FROM SERVER.
+ * CLIENT SIDED
  * 
  * @author Karimshan
  *
  */
-public class Order {
+public class KOrder {
 	
-	public static double subtotal;
+	private int tableID;
 	
-	public static List<MItem> items = new ArrayList<MItem>();
+	public double subtotal;
 	
-	public static void addItem(String name, double price, int qty, 
+	public List<MItem> items = new ArrayList<MItem>();
+	
+	public void addItem(String name, double price, int qty, 
 			String specialRequests, String ingredients) {
 		MItem item = new MItem();
 		item.name = name;
@@ -26,11 +30,19 @@ public class Order {
 		items.add(item);
 	}
 	
-	public static void addItem(MItem item) {
+	public void addItem(MItem item) {
 		items.add(item);
 	}
 	
-	public static void clear() {
+	public void clear() {
 		items.clear();
+	}
+
+	public int getTableID() {
+		return tableID;
+	}
+
+	public void setTableID(int tableID) {
+		this.tableID = tableID;
 	}
 }

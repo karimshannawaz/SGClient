@@ -65,7 +65,7 @@ public class CustomerStartPage extends JPanel {
 	public static String currentScreen = "";
 	
 
-	public CustomerStartPage(ClientFrame frame) {
+	public CustomerStartPage() {
 		super();
 		setLayout(null);
 		setBounds(0, 0, 1039, 656);
@@ -87,7 +87,7 @@ public class CustomerStartPage extends JPanel {
 		utilityPanel.add(helpBtn);
 		helpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.getHelp();
+				sendHelpRequest();
 			}
 		});
 
@@ -104,6 +104,11 @@ public class CustomerStartPage extends JPanel {
 		refillBtn.setText("Refill");
 		refillBtn.setBounds(612, 5, 120, 74);
 		utilityPanel.add(refillBtn);
+		refillBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				sendRefillRequest();
+			}
+		});
 
 		rwdsBtn = new JButton("Rewards");
 		rwdsBtn.addActionListener(new ActionListener() {
@@ -158,6 +163,7 @@ public class CustomerStartPage extends JPanel {
 		});
 		backBtn.setBounds(37, 5, 131, 77);
 		utilityPanel.add(backBtn);
+		backBtn.setVisible(false);
 
 		btnStopMusic = new JButton();
 		btnStopMusic.addActionListener(new ActionListener() {
@@ -310,6 +316,7 @@ public class CustomerStartPage extends JPanel {
 				break;
 			case "pay":
 				this.payPanel.setVisible(true);
+				this.payPanel.refreshTxtAreas();
 				break;
 			case "rewards":
 				this.rewardsPanel.setVisible(true);
@@ -327,19 +334,35 @@ public class CustomerStartPage extends JPanel {
 				break;
 		}
 	}
-
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		int w = getWidth();
-		int h = getHeight();
-		Color color1 = Color.WHITE;
-		Color color2 = Color.lightGray;
-		GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
-		g2d.setPaint(gp);
-		g2d.fillRect(0, 0, w, h);
+	
+	/**
+	 * Sends a refill request to the server
+	 */
+	protected void sendRefillRequest() {
+		if(ClientSession.requestedRefill
+			|| ClientSession.requestedHelp) {
+			JFrameUtils.showMessage("Refill Request", "Error: You currently have another request in progress.\n"
+				+ "Please wait for a member of the waitstaff to come and help you.");
+			return;
+		}
+		String refill = (String) JFrameUtils.inputDialog("Refill Request", 
+			"Please enter the drink you want a refill for (type coke, sprite, 7up or water):");
+		JFrameUtils.showMessage("Refill Request", "Sending a request to the waitstaff for a "+refill+" refill...");
+		Client.session.getPacketEncoder().sendRefillRequest();
 	}
+
+	/**
+	 * Sends a help request to the server.
+	 */
+	protected void sendHelpRequest() {
+		if(ClientSession.requestedRefill
+			|| ClientSession.requestedHelp) {
+			JFrameUtils.showMessage("Help Request", "Error: You currently have another request in progress.\n"
+				+ "Please wait for a member of the waitstaff to come and help you.");
+			return;
+		}
+		JFrameUtils.showMessage("Help Request", "Sending a request to the waitstaff for help...");
+		Client.session.getPacketEncoder().sendHelpRequest();
+	}
+	
 }

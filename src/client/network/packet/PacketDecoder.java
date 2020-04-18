@@ -1,10 +1,15 @@
 package client.network.packet;
+import javax.swing.table.DefaultTableModel;
+
 import client.Client;
 import client.ClientFrame;
 import client.ClientSession;
 import client.network.Session;
+import client.order.CustomerOrder;
+import client.order.KOrder;
 import client.order.MItem;
 import client.order.Menu;
+import client.order.OrderQueue;
 import client.utils.JFrameUtils;
 
 public final class PacketDecoder extends Decoder {
@@ -111,6 +116,89 @@ public final class PacketDecoder extends Decoder {
 					String code = stream.readString();
 					switch(code) {
 					
+						case "waitstaff_on_way_with_request":
+							stream.readUnsignedByte();
+							String type = stream.readString();
+							if(type.equals("help")) {
+								ClientSession.requestedHelp = false;
+								JFrameUtils.showMessage("Help Request", 
+									"We appreciate your patience!\n"
+									+ "A manager or member of our waitstaff is on their way to your table!");
+							}
+							else if(type.equals("refill")) {
+								ClientSession.requestedRefill = false;
+								JFrameUtils.showMessage("Help Request", 
+									"We appreciate your patience!\n"
+									+ "A manager or member of our waitstaff is on their way with your refill to your table!");
+							}
+							break;
+					
+						case "waitstaff_received_request":
+							int paramsLength = stream.readUnsignedByte();
+							type = stream.readString();
+							if(type.equals("help")) {
+								JFrameUtils.showMessage("Help Request", 
+									"A manager or member of our waitstaff will arrive to your table shortly!");
+							}
+							else if(type.equals("refill")) {
+								JFrameUtils.showMessage("Refill Request", 
+									"A manager or member of our waitstaff will arrive to your table\n"
+									+ "shortly with the refill that you requested!");
+							}
+							break;
+					
+						case "waitstaff_not_available_for_request":
+							paramsLength = stream.readUnsignedByte();
+							type = stream.readString();
+							if(type.equals("help")) {
+								ClientSession.requestedHelp = false;
+								JFrameUtils.showMessage("Help Request", 
+									"Error: We apologize, but there isn't anyone who can fulfill your help request at this time.");
+							}
+							else if(type.equals("refill")) {
+								ClientSession.requestedRefill = false;
+								JFrameUtils.showMessage("Refill Request", 
+									"Error: We apologize, but there isn't anyone who can fulfill your refill request at this time.");
+							}
+							break;
+					
+						case "on_the_way":
+							paramsLength = stream.readUnsignedByte();
+							String message = stream.readString();
+							JFrameUtils.showMessage("Order Update", message);
+							// Do extra stuff here
+							Client.clientFrame.customerSP.orderPanel.updateMessage(message);
+							break;
+							
+						case "waiter_delivered":
+							Client.clientFrame.customerSP.orderPanel.updateMessage(
+								"We hope you enjoy your meal, thank you!!");
+							Client.clientFrame.customerSP.payPanel.enableButtons();
+							ClientSession.canPay = true;
+							break;
+							
+						case "order_submitted":
+							// Do extra stuff here
+							Client.clientFrame.customerSP.orderPanel.doPostOrder();
+							Client.clientFrame.customerSP.orderPanel.updateMessage("Your order is in the works!");
+							break;
+							
+						case "out_of_stock":
+							paramsLength = stream.readUnsignedByte();
+							String itemName = stream.readString();
+							int itemInOrder = stream.readUnsignedShort();
+							CustomerOrder.items.remove(itemInOrder);
+							Client.clientFrame.customerSP.orderPanel.refreshOrderTxtArea();
+							Client.clientFrame.customerSP.orderPanel.goToFront();
+							JFrameUtils.showMessage("Order Request", 
+								"Error: We apologize, but "+itemName+" is currently out of stock.");
+							break;
+					
+						case "cannot_process_order":
+							JFrameUtils.showMessage("Order Request", 
+									"Error: We couldn't process your order. Please try again or call for help.");
+							break;
+					
 						case "nulled_account":
 							JFrameUtils.showMessage("Seven Guys Account", 
 								"Error: This account is nulled, please try to authenticate again or ask a manager for help.");
@@ -127,7 +215,7 @@ public final class PacketDecoder extends Decoder {
 							break;
 							
 						case "email_created":
-							int paramsLength = stream.readUnsignedByte();
+							paramsLength = stream.readUnsignedByte();
 							String email = stream.readString();
 							String birthdate = stream.readString();
 							String name = stream.readString();
@@ -145,6 +233,24 @@ public final class PacketDecoder extends Decoder {
 						case "employee_id_does_not_exist":
 							JFrameUtils.showMessage("Employee Login", 
 								"Error: Invalid employee ID entered, please try again.");
+							break;
+							
+						case "no_waitstaff_available":
+							JFrameUtils.showMessage("Order Completion", 
+								"Error: There is no waitstaff available to grab the order; please try again or\n"
+								+ "ask a manager for assistance on how to proceed.");
+							break;
+							
+						case "waitstaff_got_order":
+							paramsLength = stream.readUnsignedByte();
+							int tableID = stream.readUnsignedByte();
+							int orderIndex = stream.readUnsignedByte();
+							
+							OrderQueue.unfulfilledOrders.remove(orderIndex);
+							
+							DefaultTableModel tab = (DefaultTableModel) 
+								Client.clientFrame.employeeSP.kitchenPage.table.getModel();
+							tab.removeRow(orderIndex);
 							break;
 					}
 					break;
@@ -173,6 +279,61 @@ public final class PacketDecoder extends Decoder {
 							Client.clientFrame.employeeSP.waiterLandingPage();
 						else if(ClientSession.role.equals("kitchen"))
 							Client.clientFrame.employeeSP.kitchenLandingPage();
+					}
+					break;
+					
+				// Kitchen Staff receives customer order from server.
+				case 6:
+					int tableID = stream.readUnsignedByte();
+					double subtotal = Double.parseDouble(stream.readString());
+					int orderSize = stream.readUnsignedByte();
+					KOrder order = new KOrder();
+					for(int i = 0; i < orderSize; i++) {
+						String mItem = stream.readString();
+						String[] tok = mItem.split("~");
+						String mItemName = tok[0];
+						double price = Double.parseDouble(tok[1]);
+						int qty = Integer.parseInt(tok[2]);
+						String specReq = tok[3];
+						String ing = tok[4];
+						order.addItem(mItemName, price, qty, specReq, ing);
+					}
+					order.subtotal = subtotal;
+					order.setTableID(tableID);
+					OrderQueue.unfulfilledOrders.add(order);
+					if(ClientSession.isKitchen()) {
+						Client.clientFrame.employeeSP.kitchenPage.addToTable(tableID);
+						JFrameUtils.showMessage("Order Update", "You have a new order to fulfill for table: "+(tableID + 1));
+					}
+					break;
+					
+				// Wait Staff gets customer order and walks over to it
+				case 7:
+					int tableIDFK = stream.readUnsignedByte();
+					int orderIndex = stream.readUnsignedByte();
+					Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
+					setValueAt("O", tableIDFK, 3);
+					Client.clientFrame.employeeSP.waitstaffPage.orderIndex = orderIndex;
+			
+					JFrameUtils.showMessage("Order Update", "You have a new order to take to table "+
+					(tableIDFK + 1)+".\nPlease mark it as delivered to the table once you've delivered it.");
+					break;
+					
+				// Wait Staff gets customer help or refill request
+				case 8:
+					boolean refill = stream.readUnsignedByte() == 1;
+					int tableIDFServer = stream.readUnsignedByte();
+					
+					if(refill) {
+						Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
+						setValueAt("O", tableIDFServer, 1);
+						JFrameUtils.showMessage("Refill Update", "You have a new refill to take to table "+
+							(tableIDFServer + 1)+".\nPlease tap on it when you are on your way to the table with the refill.");
+					} else {
+						Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
+						setValueAt("O", tableIDFServer, 2);
+						JFrameUtils.showMessage("Help Update", "You have a new help request from table "+
+							(tableIDFServer + 1)+".\nPlease tap on it when you are on your way to the table.");
 					}
 					break;
 					
