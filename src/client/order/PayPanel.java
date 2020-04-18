@@ -356,7 +356,7 @@ public class PayPanel extends JPanel {
 		
 		//back button if on split pay screen if customer chooses to pay full bill
 		//want to rework
-		JButton backbtn1 = new JButton("Change Methid");
+		JButton backbtn1 = new JButton("Change Method");
 		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		backbtn1.setBounds(0, 471, 159, 51);
 		split_pay_panel.add(backbtn1);
@@ -428,9 +428,37 @@ public class PayPanel extends JPanel {
 		undoSplit.setBounds(445, 150, 101, 35);
 		split_pay_panel.add(undoSplit);
 		
+		undoSplit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel orig = (DefaultTableModel) Splittable.getModel();
+				DefaultTableModel newtable =(DefaultTableModel) Ordertable.getModel();
+				int[] sel = Splittable.getSelectedRows();
+				Object[] row = new Object[1];
+				for(int i=0; i<sel.length; i++)
+				{
+					row[0]=orig.getValueAt(sel[i], 0);
+					newtable.addRow(row);
+				}
+				for(int i=0; i<sel.length; i++)
+				{
+					orig.removeRow(sel[i]);
+				}
+				
+			}
+		});
+		
 		JButton confirmSplit = new JButton("confirm");
 		confirmSplit.setBounds(425, 384, 141, 35);
 		split_pay_panel.add(confirmSplit);
+		
+		confirmSplit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//remove selected options from the main bill
+				// calculate the total
+				//prompt for card stuff similar to full pay panel
+				//need to keep track that there is still things left to pay
+			}
+		});
 		
 		//screen asking receipt type
 		JPanel receipt_type_popup = new JPanel();
@@ -551,26 +579,6 @@ public class PayPanel extends JPanel {
 				LotteryChoice();
 			}
 		});
-		
-		undoSplit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel orig = (DefaultTableModel) Splittable.getModel();
-				DefaultTableModel newtable =(DefaultTableModel) Ordertable.getModel();
-				int[] sel = Splittable.getSelectedRows();
-				Object[] row = new Object[1];
-				for(int i=0; i<sel.length; i++)
-				{
-					row[0]=orig.getValueAt(sel[i], 0);
-					newtable.addRow(row);
-				}
-				for(int i=0; i<sel.length; i++)
-				{
-					orig.removeRow(sel[i]);
-				}
-				
-			}
-		});
-		
 		
 		//back button for split bill screen
 		backbtn1.addActionListener(new ActionListener() {
