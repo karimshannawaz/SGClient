@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JSplitPane;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -42,13 +43,13 @@ public class PayPanel extends JPanel {
 	public JPanel nobtn_screen;
 	public JPanel printbtn_screen;
 	public JPanel conf_screen;
-	public static DecimalFormat df2 = new DecimalFormat("#.##");
 	public static String prevScreen="";
 	private JTextField tip_box;
 	public double tax = 0.0825;
 	public double tip=0;
 	
 	public JPanel main_panel;
+	public JPanel AmountPaid;
 	
 	public JButton SplitBtn;
 	public JButton FullBtn;
@@ -156,50 +157,6 @@ public class PayPanel extends JPanel {
 		Donebtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		Donebtn.setBounds(445, 372, 150, 150);
 		screen_for_cash.add(Donebtn);
-		
-		//screen asking receipt type
-		JPanel receipt_type_popup = new JPanel();
-		receipt_type_popup.setVisible(false);
-		receipt_type_popup.setBounds(0, 0, 1039, 522);
-		add(receipt_type_popup);
-		receipt_type_popup.setLayout(null);
-		
-		
-		JTextArea receipt_tab1 = new JTextArea();
-		receipt_tab1.setText("\r\n                 HOW WOULD YOU LIKE YOUR RECIEPT?");
-		receipt_tab1.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
-		receipt_tab1.setEditable(false);
-		receipt_tab1.setBounds(177, 133, 719, 117);
-		receipt_type_popup.add(receipt_tab1);
-		
-		JLabel receipt_tab = new JLabel("                  PAYMENT SUCCESSFUL");
-		receipt_tab.setFont(new Font("Impact", Font.BOLD, 35));
-		receipt_tab.setBounds(173, 16, 719, 101);
-		receipt_type_popup.add(receipt_tab);
-		
-		//button for user to select no receipt
-		JButton Nobtn = new JButton("NO RECEIPT");
-		Nobtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		Nobtn.setBounds(379, 471, 295, 51);
-		receipt_type_popup.add(Nobtn);
-		
-		//button for user to select both(print and email) receipts
-		JButton bothbtn = new JButton("BOTH");
-		bothbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		bothbtn.setBounds(378, 410, 295, 51);
-		receipt_type_popup.add(bothbtn);
-		
-		//button for user to select email receipt
-		JButton emailbtn = new JButton("EMAIL RECEIPT");
-		emailbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		emailbtn.setBounds(379, 345, 288, 51);
-		receipt_type_popup.add(emailbtn);
-		
-		//button for user to select print receipt
-		JButton printbtn = new JButton("PRINT RECEIPT");
-		printbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		printbtn.setBounds(378, 278, 291, 51);
-		receipt_type_popup.add(printbtn);
 		
 		//screen when user selects payment method as card
 		JPanel screen_for_card = new JPanel();
@@ -388,17 +345,19 @@ public class PayPanel extends JPanel {
 		cardbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		cardbtn1.setBounds(175, 451, 345, 71);
 		split_pay_panel.add(cardbtn1);
+		cardbtn1.setVisible(false);
 		
 		//if customer, paying with split bill, wants to pay with cash
 		JButton Cashbtn1 = new JButton("CASH");
 		Cashbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		Cashbtn1.setBounds(520, 451, 372, 71);
 		split_pay_panel.add(Cashbtn1);
+		Cashbtn1.setVisible(false);
 		
 		//back button if on split pay screen if customer chooses to pay full bill
 		//want to rework
-		JButton backbtn1 = new JButton("BACK");
-		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		JButton backbtn1 = new JButton("Change Method");
+		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		backbtn1.setBounds(0, 471, 159, 51);
 		split_pay_panel.add(backbtn1);
 		
@@ -418,6 +377,8 @@ public class PayPanel extends JPanel {
 			}
 		});
 		Ordertable.setBounds(43, 0, 381, 450);
+		Ordertable.setRowSelectionAllowed(true);
+		Ordertable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		split_pay_panel.add(Ordertable);
 		
 		Splittable = new JTable();
@@ -436,6 +397,8 @@ public class PayPanel extends JPanel {
 			}
 		});
 		Splittable.setBounds(567, 0, 381, 450);
+		Splittable.setRowSelectionAllowed(true);
+		Splittable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		split_pay_panel.add(Splittable);
 		
 		JButton toSplit = new JButton(">");
@@ -465,10 +428,6 @@ public class PayPanel extends JPanel {
 		undoSplit.setBounds(445, 150, 101, 35);
 		split_pay_panel.add(undoSplit);
 		
-		JButton confirmSplit = new JButton("confirm");
-		confirmSplit.setBounds(425, 384, 141, 35);
-		split_pay_panel.add(confirmSplit);
-		
 		undoSplit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel orig = (DefaultTableModel) Splittable.getModel();
@@ -488,10 +447,146 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		JButton confirmSplit = new JButton("confirm");
+		confirmSplit.setBounds(425, 384, 141, 35);
+		split_pay_panel.add(confirmSplit);
+		
+		confirmSplit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//remove selected options from the main bill
+				// calculate the total
+				//prompt for card stuff similar to full pay panel
+				//need to keep track that there is still things left to pay
+			}
+		});
+		
+		//screen asking receipt type
+		JPanel receipt_type_popup = new JPanel();
+		receipt_type_popup.setVisible(false);
+		receipt_type_popup.setBounds(0, 0, 1039, 522);
+		add(receipt_type_popup);
+		receipt_type_popup.setLayout(null);
+		
+		//doesnt print the value, need to update
+		JLabel AmountPaid = new JLabel();
+		AmountPaid.setBounds(376, 86, 255, 56);
+		AmountPaid.setText("Amount Paid: " + decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax) + tip));
+		AmountPaid.setFont(new Font("Haettenschweiler", Font.PLAIN, 26));
+		receipt_type_popup.add(AmountPaid);
+		
+		JTextArea receipt_tab1 = new JTextArea();
+		receipt_tab1.setText("\r\n                 HOW WOULD YOU LIKE YOUR RECIEPT?");
+		receipt_tab1.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
+		receipt_tab1.setEditable(false);
+		receipt_tab1.setBounds(177, 133, 719, 117);
+		receipt_type_popup.add(receipt_tab1);
+		
+		JLabel receipt_tab = new JLabel("                  PAYMENT SUCCESSFUL");
+		receipt_tab.setFont(new Font("Impact", Font.BOLD, 35));
+		receipt_tab.setBounds(189, 11, 719, 101);
+		receipt_type_popup.add(receipt_tab);
+		
+		//button for user to select no receipt
+		JButton Nobtn = new JButton("NO RECEIPT");
+		Nobtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		Nobtn.setBounds(379, 471, 295, 51);
+		receipt_type_popup.add(Nobtn);
+		
+		//button for user to select both(print and email) receipts
+		JButton bothbtn = new JButton("BOTH");
+		bothbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		bothbtn.setBounds(378, 410, 295, 51);
+		receipt_type_popup.add(bothbtn);
+		
+		//button for user to select email receipt
+		JButton emailbtn = new JButton("EMAIL RECEIPT");
+		emailbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		emailbtn.setBounds(379, 345, 288, 51);
+		receipt_type_popup.add(emailbtn);
+		
+		//button for user to select print receipt
+		JButton printbtn = new JButton("PRINT RECEIPT");
+		printbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		printbtn.setBounds(378, 278, 291, 51);
+		receipt_type_popup.add(printbtn);
+		
+
+		printbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				prevScreen="printbtn_screen";
+				printbtn_screen.setVisible(true);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				nobtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+				//LotteryChoice();
+			}
+		});
+		
+		//when user selects email for receipt type
+		emailbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				emailbtn_screen.setVisible(true);
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				nobtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+			}
+		});
+		
+		//when user selects both for receipt type
+		bothbtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				bothbtn_screen.setVisible(true);
+
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				nobtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+				
+			}
+		});
+		
+		//when user clicks no receipt
+		Nobtn.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				//nobtn_screen.setVisible(true);
+				prevScreen="nobtn_screen";
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				bothbtn_screen.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				conf_screen.setVisible(false);
+				LotteryChoice();
+			}
+		});
 		
 		//back button for split bill screen
 		backbtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+				DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+				model1.setRowCount(0);
+				model2.setRowCount(0);
 				split_pay_panel.setVisible(false);
 				main_panel.setVisible(true);
 				receipt_type_popup.setVisible(false);
@@ -679,7 +774,7 @@ public class PayPanel extends JPanel {
 		no_tipbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
-			{
+			{	tip=0;
 				receipt_type_popup.setVisible(true);
 				tip_panel.setVisible(false);
 			}
@@ -691,60 +786,9 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add custom amount to total 
+				tip=Double.valueOf((tip_box.getText()).substring(1));
 				receipt_type_popup.setVisible(true);
 				tip_panel.setVisible(false);
-			}
-		});
-		
-
-		printbtn.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				prevScreen="printbtn_screen";
-				printbtn_screen.setVisible(true);
-				screen_for_cash.setVisible(false);
-				screen_for_card.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				emailbtn_screen.setVisible(false);
-				bothbtn_screen.setVisible(false);
-				nobtn_screen.setVisible(false);
-				conf_screen.setVisible(false);
-				//LotteryChoice();
-			}
-		});
-		
-		//when user selects email for receipt type
-		emailbtn.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				emailbtn_screen.setVisible(true);
-				printbtn_screen.setVisible(false);
-				screen_for_cash.setVisible(false);
-				screen_for_card.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				bothbtn_screen.setVisible(false);
-				nobtn_screen.setVisible(false);
-				conf_screen.setVisible(false);
-			}
-		});
-		
-		//when user selects both for receipt type
-		bothbtn.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				bothbtn_screen.setVisible(true);
-
-				printbtn_screen.setVisible(false);
-				screen_for_cash.setVisible(false);
-				screen_for_card.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				emailbtn_screen.setVisible(false);
-				nobtn_screen.setVisible(false);
-				conf_screen.setVisible(false);
-				
 			}
 		});
 		
@@ -799,24 +843,6 @@ public class PayPanel extends JPanel {
 				LotteryChoice();
 				}
 				
-			}
-		});
-		
-		//when user clicks no receipt
-		Nobtn.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				//nobtn_screen.setVisible(true);
-				prevScreen="nobtn_screen";
-				printbtn_screen.setVisible(false);
-				screen_for_cash.setVisible(false);
-				screen_for_card.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				bothbtn_screen.setVisible(false);
-				emailbtn_screen.setVisible(false);
-				conf_screen.setVisible(false);
-				LotteryChoice();
 			}
 		});
 		tip_panel.setVisible(false);
@@ -882,6 +908,8 @@ public class PayPanel extends JPanel {
 					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
 				s.append("    - "+i.specialReqs+"\n");
 			}
+			Ordertable.setRowHeight(50);
+			Splittable.setRowHeight(50);
 			orig.addRow(new Object[] {s.toString()});
 			s.setLength(0);
 		}
