@@ -22,7 +22,7 @@ class EmployeeStartPageTest {
 		String id = "waitstaff";
 		String password = "testpassword";
 		
-		Client.session.getPacketEncoder().sendLoginRequest(id, password);//fail("Not yet implemented");
+		Client.session.getPacketEncoder().sendLoginRequest(id, password);
 	
 	}
 
