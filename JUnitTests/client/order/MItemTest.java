@@ -34,10 +34,47 @@ class MItemTest {
 	@Test
 	void testHasSub() {
 		MItem newMI = new MItem();
-		newMI.sub = "n";
+		newMI.sub = "special substitution";
 		
 		boolean test = newMI.hasSub();
 		assertTrue(test);
 	}
+	
+	@Test
+	void testToString() {
+		MItem newMI = new MItem();
+		newMI.name = "Pizza";
+		newMI.price = 12.99;
+		newMI.description = "From Italy";
+		newMI.type = "default";
+		newMI.menuType = "entree";
+		newMI.allergens = "wheat, gluten";
+		newMI.calories = 655;
+		newMI.ingredients = "cheese:1";
+		newMI.sub = "vegan_patty";
+		
+		String test = newMI.toString();
+		
+		assertEquals("Pizza~12.99~From Italy~655~wheat, gluten~default~entree~cheese:1", test);
+	}
 
+	@Test
+	void testAsOrder() {
+		MItem newMI = new MItem();
+		newMI.name = "Pizza";
+		newMI.price = 12.99;
+		newMI.description = "From Italy";
+		newMI.type = "default";
+		newMI.menuType = "entree";
+		newMI.allergens = "wheat, gluten";
+		newMI.calories = 655;
+		newMI.ingredients = "cheese:1";
+		newMI.sub = "vegan_patty";
+		newMI.specialReqs = "none";
+		newMI.qty = 3;
+		
+		String test = newMI.asOrder();
+		
+		assertEquals("Pizza~12.99~3~none~cheese:1", test);
+	}
 }
