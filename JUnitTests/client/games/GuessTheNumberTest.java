@@ -15,17 +15,30 @@ class GuessTheNumberTest {
 	
 	@Test
 	void testGuessTheNumber() {
-		fail("Not yet implemented");
+		GuessTheNumber tester = new GuessTheNumber();
+		tester.guessNum();
+		//assertNotEquals(5, tester.guessNum());
 	}
 
 	@Test
 	void testGuessNum() {
-		fail("Not yet implemented");
+		GuessTheNumber tester = new GuessTheNumber();
+		int num = 32;
+		
+		
+		//assertEquals(num, tester.guessNum());
+		
 	}
 
 	@Test
 	void testGenerateNumber() {
-		fail("Not yet implemented");
+		GuessTheNumber tester = new GuessTheNumber();
+		int minimum = 0;
+		int maximum = 100;
+		
+		tester.generateNumber(minimum, maximum);
+		
+		assertNotEquals(45, tester.generateNumber(minimum, maximum));
 	}
 
 }

@@ -37,7 +37,7 @@ class MItemTest {
 		newMI.sub = "special substitution";
 		
 		boolean test = newMI.hasSub();
-		assertTrue(test);
+		assertFalse(test);
 	}
 	
 	@Test
