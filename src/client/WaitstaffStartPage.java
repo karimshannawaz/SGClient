@@ -15,7 +15,14 @@ import javax.swing.table.DefaultTableModel;
 
 import client.utils.JFrameUtils;
 
-
+/**
+ * Holds info for the wait staff to see including
+ * marking orders as complete, taking cash payments and 
+ * fulfilling help/refill requests.
+ * 
+ * @author Karimshan
+ *
+ */
 public class WaitstaffStartPage extends JPanel {
 
 	private static final long serialVersionUID = -811294553957L;
