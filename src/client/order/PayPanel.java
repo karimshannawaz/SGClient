@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JSplitPane;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -418,6 +419,8 @@ public class PayPanel extends JPanel {
 			}
 		});
 		Ordertable.setBounds(43, 0, 381, 450);
+		Ordertable.setRowSelectionAllowed(true);
+		Ordertable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		split_pay_panel.add(Ordertable);
 		
 		Splittable = new JTable();
@@ -436,6 +439,8 @@ public class PayPanel extends JPanel {
 			}
 		});
 		Splittable.setBounds(567, 0, 381, 450);
+		Splittable.setRowSelectionAllowed(true);
+		Splittable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		split_pay_panel.add(Splittable);
 		
 		JButton toSplit = new JButton(">");
@@ -492,6 +497,10 @@ public class PayPanel extends JPanel {
 		//back button for split bill screen
 		backbtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+				DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+				model1.setRowCount(0);
+				model2.setRowCount(0);
 				split_pay_panel.setVisible(false);
 				main_panel.setVisible(true);
 				receipt_type_popup.setVisible(false);
