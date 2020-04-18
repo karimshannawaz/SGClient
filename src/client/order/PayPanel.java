@@ -389,17 +389,19 @@ public class PayPanel extends JPanel {
 		cardbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		cardbtn1.setBounds(175, 451, 345, 71);
 		split_pay_panel.add(cardbtn1);
+		cardbtn1.setVisible(false);
 		
 		//if customer, paying with split bill, wants to pay with cash
 		JButton Cashbtn1 = new JButton("CASH");
 		Cashbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		Cashbtn1.setBounds(520, 451, 372, 71);
 		split_pay_panel.add(Cashbtn1);
+		Cashbtn1.setVisible(false);
 		
 		//back button if on split pay screen if customer chooses to pay full bill
 		//want to rework
-		JButton backbtn1 = new JButton("BACK");
-		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		JButton backbtn1 = new JButton("Change Methid");
+		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		backbtn1.setBounds(0, 471, 159, 51);
 		split_pay_panel.add(backbtn1);
 		
@@ -891,6 +893,8 @@ public class PayPanel extends JPanel {
 					&& !i.specialReqs.equals("") && !i.specialReqs.equals(null)) {
 				s.append("    - "+i.specialReqs+"\n");
 			}
+			Ordertable.setRowHeight(50);
+			Splittable.setRowHeight(50);
 			orig.addRow(new Object[] {s.toString()});
 			s.setLength(0);
 		}
