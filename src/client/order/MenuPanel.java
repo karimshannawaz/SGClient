@@ -1131,7 +1131,7 @@ public class MenuPanel extends JPanel {
 			}
 		});
 
-
+		// Button to allow customer to submit order
 		place_order_button.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -1160,7 +1160,8 @@ public class MenuPanel extends JPanel {
 				}
 			}
 		});
-
+		
+		// clear order button
 		cancel_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (JButton b : add)
@@ -1628,6 +1629,9 @@ public class MenuPanel extends JPanel {
 		}
 	}
 
+	/*
+	 * Display a specific items details
+	 */
 	public void seeMenuDetails(MItem mItem, JPanel OrderSpecificsFrame)
 	{
 		int index2 = 0;
