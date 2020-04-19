@@ -604,11 +604,14 @@ public class PayPanel extends JPanel {
 		Cashbtn.setBounds(520, 451, 250, 71);
 		Cashbtn.setVisible(false);
 		main_panel.add(Cashbtn);
+		
+		//button to change the mthod of payment between split and full
 		JButton backbtn3 = new JButton("Change Method");
 		backbtn3.setBounds(0, 404, 192, 47);
 		main_panel.add(backbtn3);
 		backbtn3.setVisible(false);
 		
+		//sction for back button
 		backbtn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
@@ -741,6 +744,8 @@ public class PayPanel extends JPanel {
 				
 			}
 		});
+		
+		//back button to change method actions
 		backbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
@@ -804,6 +809,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//timer for when it is still a split bill situation and needs to be brought back to the main menu
 		ActionListener action = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				timer.stop();
@@ -811,6 +817,7 @@ public class PayPanel extends JPanel {
 				main_panel.setVisible(true);
 			}
 		};
+		
 		//option to print the bill
 		printbtn.addActionListener(new ActionListener()
 		{
@@ -939,7 +946,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
-		
+		//action to confirm the splitting of the bill
 		confirmSplit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				oldOrder = orderSummary.getText();
