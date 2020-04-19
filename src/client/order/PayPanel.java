@@ -962,7 +962,7 @@ public class PayPanel extends JPanel {
 					
 				}
 				//calculate the total
-				//orderSummary.setText(oldOrder);
+
 				split_pay_panel.setVisible(false);
 				newOrderSummary.setText(splitOrder.toString());
 				Pattern pattern = Pattern.compile("\\$(.*?)\n", Pattern.DOTALL);
