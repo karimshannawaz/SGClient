@@ -242,8 +242,8 @@ public final class PacketDecoder extends Decoder {
 							break;
 							
 						case "waitstaff_got_order":
-							paramsLength = stream.readUnsignedByte();
-							int tableID = stream.readUnsignedByte();
+							stream.readUnsignedByte();
+							int tableID = stream.readUnsignedShort();
 							
 							int orderIndex = 0;
 							for(KOrder o : OrderQueue.unfulfilledOrders) {
@@ -253,13 +253,15 @@ public final class PacketDecoder extends Decoder {
 								orderIndex++;
 							}
 							
+							System.out.println("table: "+tableID+" and orderIndex: "+orderIndex+", size: "+OrderQueue.unfulfilledOrders.size());
+							
 							OrderQueue.unfulfilledOrders.remove(orderIndex);
 							
 							DefaultTableModel tab = (DefaultTableModel) 
 								Client.clientFrame.employeeSP.kitchenPage.table.getModel();
 							int row = 0;
 							for(int i = 0; i < tab.getRowCount(); i++) {
-								if(((int) tab.getValueAt(row, 0)) == tableID)
+								if(((int) tab.getValueAt(row, 0) - 1) == tableID)
 									break;
 								row++;
 							}
