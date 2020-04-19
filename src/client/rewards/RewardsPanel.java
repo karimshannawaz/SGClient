@@ -70,6 +70,11 @@ public class RewardsPanel extends JPanel {
 		this.rewardsPanel.setVisible(false);
 	}
 	
+	/*
+	 * Create reward panel after a successful log in
+	 * Displays whether you have a free entree, desert, or appetizer
+	 * and number of vists left until free entree
+	 */
 	private void showRewardsPanel() {
 		rewardsPanel = new JPanel();
 		rewardsPanel.setVisible(true);
@@ -141,7 +146,9 @@ public class RewardsPanel extends JPanel {
 		
 	}	
 	
-
+	/*
+	 * Create panel where customers can log in or sign up
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void showLoginScreen() {
 		
@@ -275,6 +282,9 @@ public class RewardsPanel extends JPanel {
 		loginPanel.add(name);
 	}
 
+	/*
+	 *  processes Sign up requests
+	 */
 	protected void signup() {
 		String email = newEmail.getText();
 		String nameTxt = name.getText();
@@ -303,6 +313,9 @@ public class RewardsPanel extends JPanel {
 					+ "free entree on your birthday, and\na chance to win a free dessert after every visit!");
 	}
 
+	/*
+	 * handles log in requests
+	 */
 	protected void submitLoginRequest() {
 		String email = exEmail.getText();
 		if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
@@ -312,6 +325,9 @@ public class RewardsPanel extends JPanel {
 		Client.session.getPacketEncoder().sendLoginRequest(email);
 	}
 	
+	/*
+	 * Display existing customer history
+	 */
 	public void loginToRewards(boolean showLogin) {
 		this.loginPanel.setVisible(false);
 		this.rewardsPanel.setVisible(true);
