@@ -15,7 +15,7 @@ public class Constants {
 	public static final String NAME = "Seven Guys";
 
 	// Indicates that the client will allow us to login as a waiter, manager, kitchen staff or customer.
-	public static final boolean DEV_MODE = false;
+	public static final boolean DEV_MODE = true;
 
 	// Indicates that the client will allow us to login as a waiter, manager or kitchen staff.
 	// If false, then client will only allow customer input.
