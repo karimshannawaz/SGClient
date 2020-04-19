@@ -59,8 +59,12 @@ public class PayPanel extends JPanel {
 	public JButton FullBtn;
 	
 	public JTextArea orderSummary;
+	public JTextArea printSummary;
+	public JTextArea bothSummary;
 	public JTextArea newOrderSummary;
 	public JTextArea orderTotal;
+	public JTextArea printTotal;
+	public JTextArea bothTotal;
 	public JTextArea newOrderTotal;
 	private JTable Ordertable;
 	private JTable Splittable;
@@ -79,6 +83,7 @@ public class PayPanel extends JPanel {
 		super();
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
+		
 		
 		this.lottery = new LotteryPanel();
 		add(lottery);
@@ -110,8 +115,7 @@ public class PayPanel extends JPanel {
 		orderTotal.setBounds(270, 380, 500, 71);
 		orderTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
 		main_panel.add(orderTotal);
-		
-		
+			
 		//split button if customer wants to split the bill
 		SplitBtn = new JButton("Split Bill");
 		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
@@ -188,9 +192,30 @@ public class PayPanel extends JPanel {
 		add(printbtn_screen);
 		printbtn_screen.setLayout(null);
 		
+		JScrollPane scrollPrint = new JScrollPane();
+		scrollPrint.setBounds(270, 0, 500, 379);
+		printbtn_screen.add(scrollPrint);
+		
+		printSummary = new JTextArea();
+		printSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		printSummary.setEditable(false);
+		printSummary.setLineWrap(true);
+		printSummary.setText("Order: ");
+		scrollPrint.setViewportView(printSummary);
+		
+		
+		printTotal = new JTextArea();
+		printTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		printTotal.setEditable(false);
+		printTotal.setLineWrap(true);
+		printTotal.setBounds(270, 380, 500, 90);
+		printTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
+		printbtn_screen.add(printTotal);
+		
 		JLabel screen_receipt = new JLabel("YOUR RECEIPT");
 		screen_receipt.setBounds(99, 87, 824, 429);
 		printbtn_screen.add(screen_receipt);
+		printbtn_screen.setVisible(false);
 		
 		//when customer selects email receipt, a screen prompting for email pops up
 		JPanel emailbtn_screen = new JPanel();
@@ -200,6 +225,10 @@ public class PayPanel extends JPanel {
 		emailbtn_screen.setLayout(null);
 		
 		JLabel lblNewLabel;
+		lblNewLabel = new JLabel("EMAIL ID:");
+		lblNewLabel.setBounds(491, 249, 197, 68);
+		
+		
 		email_box = new JLabel("EMAIL ID:");
 		email_box.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		email_box.setBounds(188, 249, 228, 68);
@@ -222,38 +251,6 @@ public class PayPanel extends JPanel {
 		submitbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		submitbtn.setBounds(693, 345, 164, 68);
 		emailbtn_screen.add(submitbtn);
-		
-		//when customer selects both, screen with email prompt and receipt pops up
-		JPanel bothbtn_screen = new JPanel();
-		bothbtn_screen.setVisible(false);
-		bothbtn_screen.setBounds(0, 0, 1039, 522);
-		add(bothbtn_screen);
-		bothbtn_screen.setLayout(null);
-		
-		lblNewLabel = new JLabel("EMAIL ID:");
-		lblNewLabel.setBounds(491, 249, 197, 68);
-		bothbtn_screen.add(lblNewLabel);
-		
-		email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
-		email_prompt.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		email_prompt.setBounds(591, 61, 340, 128);
-		bothbtn_screen.add(email_prompt);
-		
-		email_prompt_box1 = new JTextField();
-		email_prompt_box1.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
-		email_prompt_box1.setBounds(640, 249, 348, 68);
-		bothbtn_screen.add(email_prompt_box1);
-		email_prompt_box1.setColumns(10);
-		
-		//submit button after entering the email id for both type
-		JButton submitbtn1 = new JButton("SUBMIT");
-		submitbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		submitbtn1.setBounds(794, 322, 149, 57);
-		bothbtn_screen.add(submitbtn1);
-		
-		JLabel lblNewLabel_1 = new JLabel("  YOUR RECEIPT");
-		lblNewLabel_1.setBounds(0, 0, 521, 522);
-		bothbtn_screen.add(lblNewLabel_1);
 		
 		//screen when user selects no receipt
 		JPanel nobtn_screen = new JPanel();
@@ -536,6 +533,94 @@ public class PayPanel extends JPanel {
 		JButton backbtn2 = new JButton("Change Method");
 		backbtn2.setBounds(0, 410, 179, 41);
 		Splitpay.add(backbtn2);
+		
+		//when customer selects both, screen with email prompt and receipt pops up
+		JPanel bothbtn_screen_1 = new JPanel();
+		bothbtn_screen_1.setVisible(false);
+		bothbtn_screen_1.setBounds(0, 0, 1039, 522);
+		add(bothbtn_screen_1);
+		
+		bothbtn_screen_1.setLayout(null);
+		JScrollPane scrollBoth = new JScrollPane();
+		scrollBoth.setBounds(167, 0, 422, 379);
+		bothbtn_screen_1.add(scrollBoth);
+		
+		bothSummary = new JTextArea();
+		bothSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		bothSummary.setEditable(false);
+		bothSummary.setLineWrap(true);
+		bothSummary.setText("Order: ");
+		scrollBoth.setViewportView(bothSummary);
+		
+		bothTotal = new JTextArea();
+		bothTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		bothTotal.setEditable(false);
+		bothTotal.setLineWrap(true);
+		bothTotal.setBounds(167, 379, 422, 90);
+		bothTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
+		bothbtn_screen_1.add(bothTotal);
+		
+		JLabel email_promptboth = new JLabel("PLEASE ENTER YOUR EMAIL BELOW");
+		email_promptboth.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		email_promptboth.setBounds(661, 172, 327, 68);
+		bothbtn_screen_1.add(email_promptboth);
+		
+		email_prompt_box1 = new JTextField();
+		email_prompt_box1.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
+		email_prompt_box1.setBounds(640, 249, 348, 68);
+		bothbtn_screen_1.add(email_prompt_box1);
+		email_prompt_box1.setColumns(10);
+		
+		//submit button after entering the email id for both type
+		JButton submitbtn1_1 = new JButton("SUBMIT");
+		submitbtn1_1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		submitbtn1_1.setBounds(794, 322, 149, 57);
+		bothbtn_screen_1.add(submitbtn1_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("  YOUR RECEIPT");
+		lblNewLabel_1.setBounds(0, 0, 521, 522);
+		bothbtn_screen_1.add(lblNewLabel_1);
+		
+		//submit button after entering email for both types of receipt
+		submitbtn1_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				String email = email_prompt_box1.getText();
+				if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
+					JFrameUtils.showMessage("Error", "Invalid email entered, please try again.");
+					return;
+				}
+				else
+				{
+				prevScreen="conf_screen";
+				//conf_screen.setVisible(true);
+				nobtn_screen.setVisible(false);
+				printbtn_screen.setVisible(false);
+				screen_for_cash.setVisible(false);
+				screen_for_card.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				bothbtn_screen_1.setVisible(false);
+				emailbtn_screen.setVisible(false);
+				if(PrevSplit == true)
+				{
+					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+					model1.setRowCount(0);
+					model2.setRowCount(0);
+					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
+					orderSummary.setText(oldOrder);
+					main_panel.setVisible(true);
+				}
+				else
+				{
+					LotteryChoice();
+				}
+				
+				}
+				
+			}
+		});
 		backbtn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
@@ -599,7 +684,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
-
+		//option to print the bill
 		printbtn.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -610,21 +695,28 @@ public class PayPanel extends JPanel {
 				screen_for_card.setVisible(false);
 				receipt_type_popup.setVisible(false);
 				emailbtn_screen.setVisible(false);
-				bothbtn_screen.setVisible(false);
+				bothbtn_screen_1.setVisible(false);
 				nobtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
-				if(PrevSplit == true)
+				if(PrevSplit == true)//checking to see if this is a split bill situation
 				{
 					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
 					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
 					model1.setRowCount(0);
 					model2.setRowCount(0);
 					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
+					printSummary.setText(newOrderSummary.getText());
+					printTotal.setText("Subtotal: "+decimalF(splitSubTotal)+"\nTax: "+
+							decimalF(tax * splitSubTotal)+"\nTip: "+decimalF(tip)+"\nTotal: "+decimalF(splitSubTotal + (splitSubTotal * tax) + tip));
 					orderSummary.setText(oldOrder);
 					main_panel.setVisible(true);
 				}
 				else
 				{
+					printSummary.setText(orderSummary.getText());
+					printTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
+							decimalF(tax * CustomerOrder.subtotal)+"\nTip: "+decimalF(tip)+"\nTotal: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax)));
+					
 					LotteryChoice();
 				}
 			}
@@ -640,7 +732,7 @@ public class PayPanel extends JPanel {
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
 				receipt_type_popup.setVisible(false);
-				bothbtn_screen.setVisible(false);
+				bothbtn_screen_1.setVisible(false);
 				nobtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
 			}
@@ -651,7 +743,7 @@ public class PayPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				bothbtn_screen.setVisible(true);
+				bothbtn_screen_1.setVisible(true);
 
 				printbtn_screen.setVisible(false);
 				screen_for_cash.setVisible(false);
@@ -660,6 +752,27 @@ public class PayPanel extends JPanel {
 				emailbtn_screen.setVisible(false);
 				nobtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
+				if(PrevSplit == true)//checking to see if this is a split bill situation
+				{
+					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+					model1.setRowCount(0);
+					model2.setRowCount(0);
+					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
+					bothSummary.setText(newOrderSummary.getText());
+					bothTotal.setText("Subtotal: "+decimalF(splitSubTotal)+"\nTax: "+
+							decimalF(tax * splitSubTotal)+"\nTip: "+decimalF(tip)+"\nTotal: "+decimalF(splitSubTotal + (splitSubTotal * tax) + tip));
+					orderSummary.setText(oldOrder);
+
+				}
+				else
+				{
+					bothSummary.setText(orderSummary.getText());
+					bothTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
+							decimalF(tax * CustomerOrder.subtotal)+"\nTip: "+decimalF(tip)+"\nTotal: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax)));
+					
+					
+				}
 				
 			}
 		});
@@ -675,7 +788,7 @@ public class PayPanel extends JPanel {
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
 				receipt_type_popup.setVisible(false);
-				bothbtn_screen.setVisible(false);
+				bothbtn_screen_1.setVisible(false);
 				emailbtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
 				if(PrevSplit == true)
@@ -948,7 +1061,7 @@ public class PayPanel extends JPanel {
 				screen_for_cash.setVisible(false);
 				screen_for_card.setVisible(false);
 				receipt_type_popup.setVisible(false);
-				bothbtn_screen.setVisible(false);
+				bothbtn_screen_1.setVisible(false);
 				emailbtn_screen.setVisible(false);
 				if(PrevSplit == true)
 				{
@@ -964,47 +1077,6 @@ public class PayPanel extends JPanel {
 				{
 					LotteryChoice();
 				}
-				}
-				
-			}
-		});
-		
-		//submit button after entering email for both types of receipt
-		submitbtn1.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				String email = email_prompt_box1.getText();
-				if(email.equals("") || email.equals(null) || !Constants.isValidEmail(email)) {
-					JFrameUtils.showMessage("Error", "Invalid email entered, please try again.");
-					return;
-				}
-				else
-				{
-				prevScreen="conf_screen";
-				//conf_screen.setVisible(true);
-				nobtn_screen.setVisible(false);
-				printbtn_screen.setVisible(false);
-				screen_for_cash.setVisible(false);
-				screen_for_card.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				bothbtn_screen.setVisible(false);
-				emailbtn_screen.setVisible(false);
-				if(PrevSplit == true)
-				{
-					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
-					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
-					model1.setRowCount(0);
-					model2.setRowCount(0);
-					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
-					orderSummary.setText(oldOrder);
-					main_panel.setVisible(true);
-				}
-				else
-				{
-					LotteryChoice();
-				}
-				
 				}
 				
 			}
