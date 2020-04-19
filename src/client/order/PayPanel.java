@@ -581,14 +581,14 @@ public class PayPanel extends JPanel {
 		SplitBtn = new JButton("Split Bill");
 		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		SplitBtn.setBounds(270, 451, 250, 71);
-		SplitBtn.setVisible(true);
+		SplitBtn.setVisible(false);
 		main_panel.add(SplitBtn);
 		
 		//button if customer is paying full bill
 		FullBtn = new JButton("Full Bill");
 		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		FullBtn.setBounds(520, 451, 250, 71);
-		FullBtn.setVisible(true);
+		FullBtn.setVisible(false);
 		main_panel.add(FullBtn);		
 		
 		//if customer, paying fully, wants to pay with card
