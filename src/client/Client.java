@@ -17,11 +17,14 @@ import client.utils.JFrameUtils;
 import client.utils.PersistentTimer;
 import client.utils.Timers;
 
+/**
+ * Holds information for the starting point for the client.
+ * 
+ * @author Karimshan
+ *
+ */
 public class Client {
 	
-	// new change
-	// new change from website
-
 	public static Session session;
 	public static ClientFrame clientFrame;
 	
@@ -33,6 +36,9 @@ public class Client {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				/**
+				 * Submits global tasks to persistently execute in the background
+				 */
 				Timers.tasks = Executors.newScheduledThreadPool(1);
 				clientFrame = new ClientFrame();
 				clientFrame.setVisible(true);
@@ -55,6 +61,9 @@ public class Client {
 						String[] timeToks = time.split(":");
 						int hour = Integer.parseInt(timeToks[0]);
 						int mins = Integer.parseInt(timeToks[1]);
+						/**
+						 * This block of code deals with the weekly specials.
+						 */
 						if(!Constants.DEV_MODE) {
 							if(hour >= 11 && hour != 12 && !ClientSession.closingSoonNoti && meridiem.equals("PM")) {
 								ClientSession.closingSoonNoti = true;
@@ -112,6 +121,11 @@ public class Client {
 	});
 	*/
 	
+	/**
+	 * Restart application courtesy of
+	 * https://dzone.com/articles/programmatically-restart-java
+	 * @param runBeforeRestart
+	 */
 	public static void restartApplication(Runnable runBeforeRestart) {
 		try {
 			// java binary
