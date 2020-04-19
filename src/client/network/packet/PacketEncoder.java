@@ -176,5 +176,19 @@ public class PacketEncoder extends Encoder {
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
+
+	/**
+	 * Updates the server with the revenue
+	 * @param amountpaid
+	 * @param tip
+	 */
+	public void sendRevenueUpdate(Double amountpaid, double tip) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(14);
+		stream.writeString(""+amountpaid);
+		stream.writeString(""+tip);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }

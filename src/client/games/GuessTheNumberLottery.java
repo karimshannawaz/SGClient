@@ -84,8 +84,10 @@ public class GuessTheNumberLottery extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean played = guessNum();
-				if(played)
+				if(played) {
 					btnNewButton.setEnabled(false);
+					Client.restart();
+				}
 			}
 		});
 		btnNewButton.setBounds(219, 330, 97, 25);

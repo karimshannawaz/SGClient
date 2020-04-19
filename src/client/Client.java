@@ -98,7 +98,7 @@ public class Client {
 		ClientChannel.openChannel();
 	}
 	
-	public static void restart() {
+	public static void restartChannel() {
 		clientFrame.dispose();
 		ClientChannel.shutdown();
 		Client.start();
@@ -109,17 +109,6 @@ public class Client {
 		JOptionPane.showMessageDialog(frame, string, 
 				"Editor", JOptionPane.INFORMATION_MESSAGE);
 	}
-	
-	/**
-	Client.restartApplication(new Runnable() {
-
-		@Override
-		public void run() {
-			Client.session.getChannel().close();
-		}
-		
-	});
-	*/
 	
 	/**
 	 * Restart application courtesy of
@@ -187,6 +176,20 @@ public class Client {
 			// something went wrong
 			System.out.println("Error while trying to restart the application: "+e.getMessage());
 		}
+	}
+
+	/**
+	 * Restarts the client application.
+	 */
+	public static void restart() {
+		Client.restartApplication(new Runnable() {
+
+			@Override
+			public void run() {
+				Client.session.getChannel().close();
+			}
+			
+		});
 	}
 
 }

@@ -1101,6 +1101,9 @@ public class PayPanel extends JPanel {
 			{
 				//functionality to add custom amount to total 
 				tip=Double.valueOf((tip_box.getText()).substring(1));
+				Client.session.getPacketEncoder().sendRevenueUpdate(amountpaid, tip);
+				amountpaid = amountpaid + tip;
+				amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
 				receipt_type_popup.setVisible(true);
 				tip_panel.setVisible(false);
 			}
@@ -1154,10 +1157,12 @@ public class PayPanel extends JPanel {
 			//still working on getting conf_screen to open
 			boolean confirm = JFrameUtils.confirmDialog("LOTTERY CHANCE", "Would you like to play a game for a chance to win a free desert?");
         	if(!confirm) {
-        		prevOption(prevScreen);
+        		Client.restart();
+        		//prevOption(prevScreen);
         	}
         	else {
         		this.lottery.setVisible(true);
+        		main_panel.setVisible(false);
         	}
 			
 	}
