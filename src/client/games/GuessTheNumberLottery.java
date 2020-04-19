@@ -79,6 +79,7 @@ public class GuessTheNumberLottery extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guessNum();
+				btnNewButton.setEnabled(false);
 			}
 		});
 		btnNewButton.setBounds(219, 330, 97, 25);
@@ -89,13 +90,13 @@ public class GuessTheNumberLottery extends JPanel {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 
-		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5!\n");
+		//output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5!\n");
 
 
 
 		//output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5!\n");
 
-		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have 1 try, good luck!\n");
+		//output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have 1 try, good luck!\n");
 
 		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have 1 try, good luck!\n");
 
@@ -124,24 +125,30 @@ public class GuessTheNumberLottery extends JPanel {
 			Client.sendMessage("Error, number was empty, please enter a valid number between 1 and 5");
 			return;
 		}
-		if(num > randomNum) {
-			if(tries == 1) {
-				tries--;
-				triesLbl.setText("Tries left: "+tries);
-				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+".");
+		if(num != randomNum) {
+			//if(tries == 1) {
+				//tries--;
+				//triesLbl.setText("Tries left: "+tries);
+				Client.sendMessage("Unfortunately you've guessed the wrong number; the number was: "+randomNum+".");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
-				resetGame();
+				//resetGame();
 				//this.payPanel.conf_screen.setVisible(true);
 				return;
 			}
+		else {
+			Client.sendMessage("Congratulations, you've guessed the number right! It was "+num+". ");
+			output.append("Congratulations, you've guessed the number right! It was "+num+".\n\n\n");
+			printCoupon();
 		}
+		//}
+		/*
 		else if(num < randomNum) {
 			if(tries == 1) {
 				tries--;
 				triesLbl.setText("Tries left: "+tries);
 				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+".");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
-				resetGame();
+				//resetGame();
 				return;
 			}
 		}
@@ -149,6 +156,7 @@ public class GuessTheNumberLottery extends JPanel {
 		Client.sendMessage("Congratulations, you've guessed the number right! It was "+num+". ");
 		output.append("Congratulations, you've guessed the number right! It was "+num+".\n\n\n");
 		printCoupon();
+		*/
 		
 	}
 
@@ -156,7 +164,7 @@ public class GuessTheNumberLottery extends JPanel {
 		//print the coupon
 		JPanel coupon = new JPanel();
 		//
-		resetGame();
+		//resetGame();
 		
 	}
 	public void resetGame() {
