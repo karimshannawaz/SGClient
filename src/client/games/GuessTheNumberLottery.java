@@ -78,8 +78,9 @@ public class GuessTheNumberLottery extends JPanel {
 		JButton btnNewButton = new JButton("Submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				guessNum();
-				btnNewButton.setEnabled(false);
+				boolean played = guessNum();
+				if(played)
+					btnNewButton.setEnabled(false);
 			}
 		});
 		btnNewButton.setBounds(219, 330, 97, 25);
@@ -113,17 +114,17 @@ public class GuessTheNumberLottery extends JPanel {
 	}
 
 
-	protected void guessNum() {
+	protected boolean guessNum() {
 		int num;
 		try {
 			num = Integer.parseInt(guess.getText());
 		} catch(NumberFormatException e) {
 			Client.sendMessage("Error, number was empty, please enter a valid number between 1 and 5");
-			return;
+			return false;
 		}
 		if(guess.getText().equals("") || guess.getText().equals(null) || num > 5 || num < 1) {
 			Client.sendMessage("Error, number was empty, please enter a valid number between 1 and 5");
-			return;
+			return false;
 		}
 		if(num != randomNum) {
 			//if(tries == 1) {
@@ -133,12 +134,14 @@ public class GuessTheNumberLottery extends JPanel {
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
 				//resetGame();
 				//this.payPanel.conf_screen.setVisible(true);
-				return;
+				return true;
 			}
 		else {
-			Client.sendMessage("Congratulations, you've guessed the number right! It was "+num+". ");
+			Client.sendMessage("Congratulations, you've guessed the number right! It was "+num+". "
+					+ "Your free coupon is being printed!");
 			output.append("Congratulations, you've guessed the number right! It was "+num+".\n\n\n");
-			printCoupon();
+			return true;
+			//printCoupon();
 		}
 		//}
 		/*
