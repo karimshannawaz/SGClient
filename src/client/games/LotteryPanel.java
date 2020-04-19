@@ -57,6 +57,7 @@ public class LotteryPanel extends JPanel {
 		GamePrompt.setBounds(50, 90, 933, 118);
 		mainPanel.add(GamePrompt);
 		
+		//when cancel is pushed, go to confirmation screen
 		JButton CancelButton = new JButton("Cancel");
 		CancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,6 +68,7 @@ public class LotteryPanel extends JPanel {
 		CancelButton.setBounds(455, 466, 141, 35);
 		mainPanel.add(CancelButton);
 		
+		//open lottery game
 		this.gtnPanel = new GuessTheNumberLottery();
 		add(gtnPanel);
 		gtnPanel.setVisible(false);

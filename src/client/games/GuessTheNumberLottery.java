@@ -65,6 +65,7 @@ public class GuessTheNumberLottery extends JPanel {
 		conf_screen.add(confirmation_screen);
 		conf_screen.setVisible(false);
 		
+		// create scroll pane
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 11, 707, 278);
 		add(scrollPane);
@@ -75,6 +76,10 @@ public class GuessTheNumberLottery extends JPanel {
 		add(guess);
 		guess.setColumns(10);
 
+		/*
+		 *  create button to submit the customers guess
+		 *  If game was played correctly once, submit button is disabled
+		 */
 		JButton btnNewButton = new JButton("Submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,13 +96,6 @@ public class GuessTheNumberLottery extends JPanel {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 
-		//output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5!\n");
-
-
-
-		//output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5!\n");
-
-		//output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have 1 try, good luck!\n");
 
 		output.append("Welcome! Type in your guess to get started. It is a number from 1 to 5. You have 1 try, good luck!\n");
 
@@ -106,6 +104,7 @@ public class GuessTheNumberLottery extends JPanel {
 		textArea.setBounds(81, 32, 707, 278);
 		scrollPane.setViewportView(textArea);
 
+		// keeps track of tries to guess the user has
 		triesLbl = new JLabel("Tries Left: "+tries);
 		triesLbl.setBounds(698, 323, 90, 27);
 		add(triesLbl);
@@ -116,6 +115,8 @@ public class GuessTheNumberLottery extends JPanel {
 
 	protected boolean guessNum() {
 		int num;
+		
+		// If the guess is not between 1 and 5, send error to user
 		try {
 			num = Integer.parseInt(guess.getText());
 		} catch(NumberFormatException e) {
@@ -126,10 +127,8 @@ public class GuessTheNumberLottery extends JPanel {
 			Client.sendMessage("Error, number was empty, please enter a valid number between 1 and 5");
 			return false;
 		}
+		// If guess is between 1 and 5, send results to user
 		if(num != randomNum) {
-			//if(tries == 1) {
-				//tries--;
-				//triesLbl.setText("Tries left: "+tries);
 				Client.sendMessage("Unfortunately you've guessed the wrong number; the number was: "+randomNum+".");
 				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
 				//resetGame();
@@ -143,30 +142,13 @@ public class GuessTheNumberLottery extends JPanel {
 			return true;
 			//printCoupon();
 		}
-		//}
-		/*
-		else if(num < randomNum) {
-			if(tries == 1) {
-				tries--;
-				triesLbl.setText("Tries left: "+tries);
-				Client.sendMessage("Unfortunately you've run out of tries; the number was: "+randomNum+".");
-				output.append("You've run out of tries; the number was: "+randomNum+".\n\n\n");
-				//resetGame();
-				return;
-			}
-		}
-		tries--;
-		Client.sendMessage("Congratulations, you've guessed the number right! It was "+num+". ");
-		output.append("Congratulations, you've guessed the number right! It was "+num+".\n\n\n");
-		printCoupon();
-		*/
 		
 	}
 
 	public void printCoupon() {
 		//print the coupon
 		JPanel coupon = new JPanel();
-		//
+		
 		//resetGame();
 		
 	}
@@ -176,7 +158,7 @@ public class GuessTheNumberLottery extends JPanel {
 		//restart the session
 	}
 
-
+	// Generate a random number
 	public static int generateNumber(int minimum, int maximum) {
 		if (minimum > maximum) {
 			return 0;
