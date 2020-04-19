@@ -90,17 +90,6 @@ public class PayPanel extends JPanel {
 		main_panel.setBounds(0, 0, 1039, 522);
 		add(main_panel);
 		
-		/*
-		//shows order total
-		JTextArea order_textfield = new JTextArea();
-		order_textfield.setWrapStyleWord(true);
-		order_textfield.setLineWrap(true);
-		order_textfield.setEditable(false);
-		order_textfield.setBounds(270, 0, 500, 450);
-		order_textfield.setText("Order: ");//+ getOrderToString());
-		main_panel.add(order_textfield);
-		*/
-		
 		// Create our scroll pane
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(270, 0, 500, 379);
