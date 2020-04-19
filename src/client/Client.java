@@ -1,6 +1,9 @@
 package client;
+import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
@@ -45,6 +48,7 @@ public class Client {
 						Date fullDate = new Date();
 						String format = DateFormat.getInstance().format(fullDate);
 						String[] tok = format.split(" ");
+						@SuppressWarnings("unused")
 						String date = tok[0];
 						String time = tok[1];
 						String meridiem = tok[2];
@@ -95,6 +99,80 @@ public class Client {
 		JFrame frame = new JFrame();
 		JOptionPane.showMessageDialog(frame, string, 
 				"Editor", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	/**
+	Client.restartApplication(new Runnable() {
+
+		@Override
+		public void run() {
+			Client.session.getChannel().close();
+		}
+		
+	});
+	*/
+	
+	public static void restartApplication(Runnable runBeforeRestart) {
+		try {
+			// java binary
+			String java = System.getProperty("java.home") + "/bin/java";
+			// vm arguments
+			List<String> vmArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
+			StringBuffer vmArgsOneLine = new StringBuffer();
+			for (String arg : vmArguments) {
+				// if it's the agent argument : we ignore it otherwise the
+				// address of the old application and the new one will be in conflict
+				if (!arg.contains("-agentlib")) {
+					vmArgsOneLine.append(arg);
+					vmArgsOneLine.append(" ");
+				}
+			}
+			// init the command to execute, add the vm args
+			final StringBuffer cmd = new StringBuffer("\"" + java + "\" " + vmArgsOneLine);
+
+			// program main and program arguments
+			String[] mainCommand = System.getProperty("sun.java.command").split(" ");
+			// program main is a jar
+			if (mainCommand[0].endsWith(".jar")) {
+				// if it's a jar, add -jar mainJar
+				cmd.append("-jar " + new File(mainCommand[0]).getPath());
+			} else {
+				// else it's a .class, add the classpath and mainClass
+				cmd.append("-cp \"" + System.getProperty("java.class.path") + "\" " + mainCommand[0]);
+			}
+			// finally add program arguments
+			for (int i = 1; i < mainCommand.length; i++) {
+				cmd.append(" ");
+				cmd.append(mainCommand[i]);
+			}
+			new Thread() {
+				public void run() {
+					System.gc();
+				}
+			}.start();
+			System.out.println((cmd.toString()));
+			// execute the command in a shutdown hook, to be sure that all the
+			// resources have been disposed before restarting the application
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+				@Override
+				public void run() {
+					try {
+						Runtime.getRuntime().exec(cmd.toString());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			// execute some custom code before restarting
+			if (runBeforeRestart != null) {
+				runBeforeRestart.run();
+			}
+			// exit
+			System.exit(0);
+		} catch (Exception e) {
+			// something went wrong
+			System.out.println("Error while trying to restart the application: "+e.getMessage());
+		}
 	}
 
 }

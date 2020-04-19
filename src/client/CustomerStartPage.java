@@ -227,6 +227,10 @@ public class CustomerStartPage extends JPanel {
 		add(payPanel);
 		payPanel.setVisible(false);
 		
+		this.pay2 = new Payment();
+		add(pay2);
+		pay2.setVisible(false);
+		
 		this.rewardsPanel = new RewardsPanel();
 		add(rewardsPanel);
 		rewardsPanel.setVisible(false);
