@@ -34,6 +34,9 @@ public class EmployeeStartPage extends JPanel{
 	JFrame frame = new JFrame();
 
 	public EmployeeStartPage() {
+		/*
+		 * Create Panel
+		 */
 		super();
 		setBounds(0, 0, 1039, 656);
 		setLayout(null);
@@ -48,6 +51,9 @@ public class EmployeeStartPage extends JPanel{
 		lblNewLabel.setBounds(420, 64, 200, 47);
 		loginBackground.add(lblNewLabel);
 
+		/*
+		 * Create button to receive Employee Id
+		 */
 		JLabel lblEmployeeID = new JLabel("Employee ID:");
 		lblEmployeeID.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblEmployeeID.setBounds(187, 153, 143, 47);
@@ -60,6 +66,9 @@ public class EmployeeStartPage extends JPanel{
 		loginBackground.add(empID);
 		empID.setColumns(10);
 
+		/*
+		 * Create button to receive Password
+		 */
 		JLabel lblEmpPassword = new JLabel("Password:");
 		lblEmpPassword.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblEmpPassword.setBounds(187, 287, 141, 26);
@@ -84,6 +93,9 @@ public class EmployeeStartPage extends JPanel{
 			}
 		});
 
+		/*
+		 * Create button to submit credentials entered by the user
+		 */
 		JButton sendInfo = new JButton("Enter");
 		sendInfo.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		sendInfo.setBounds(449, 390, 141, 35);
@@ -103,6 +115,9 @@ public class EmployeeStartPage extends JPanel{
 		add(kitchenPage);
 	}
 
+	/*
+	 * Get Employee Username and Password
+	 */
 	protected void submitEmpInfo() {
 
 		String id = empID.getText();

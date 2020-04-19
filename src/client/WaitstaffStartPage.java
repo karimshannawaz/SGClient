@@ -40,13 +40,15 @@ public class WaitstaffStartPage extends JPanel {
 		scrollPane.setBounds(0, 0, 1039, 552);
 		add(scrollPane);
 		
-
+		// create table
 		table = createTable();
 		table.setRowSelectionAllowed(false);
 		table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
 		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		table.setRowHeight(26);
 		
+		
+		// handles events when row and column are clicked by the user
 		table.addMouseListener(new MouseListener() {
 
 			@Override public void mouseClicked(MouseEvent arg0) { }
@@ -116,6 +118,9 @@ public class WaitstaffStartPage extends JPanel {
 		
 	}
 	
+	/*
+	 * Set model for table
+	 */
 	public JTable createTable() {
 		
 		Object[][] rows = new Object[20][5];
@@ -152,6 +157,7 @@ public class WaitstaffStartPage extends JPanel {
 			}
 		};
 		
+		// centers the text in  the columns
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 		t.setDefaultRenderer(Integer.class, centerRenderer);
