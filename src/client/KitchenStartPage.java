@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import client.order.KOrder;
 import client.order.MItem;
 import client.order.OrderQueue;
 import client.utils.JFrameUtils;
@@ -119,7 +120,7 @@ public class KitchenStartPage extends JPanel {
 					DefaultTableModel tab = (DefaultTableModel) table.getModel();
 					//send information to the waiter that table order is done with table number
 					boolean checked = (boolean) tab.getValueAt(row, 2);
-					int tableNum = (int) table.getValueAt(row, 0) - 1;
+					int tableNum = ((int) tab.getValueAt(row, 0)) - 1;
 					if(checked) {
 						boolean choice = JFrameUtils.confirmDialog("Order Completion Confirmation", 
 							"Are you sure you want to mark this order for table "+(tableNum + 1)+" as fulfilled?"
@@ -129,7 +130,7 @@ public class KitchenStartPage extends JPanel {
 							return;
 						}
 						tab.setValueAt(Boolean.FALSE, row, column);
-						Client.session.getPacketEncoder().sendOrderCompleted(tableNum, row);
+						Client.session.getPacketEncoder().sendOrderCompleted(tableNum);
 					}
 				}
 

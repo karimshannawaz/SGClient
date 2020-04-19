@@ -242,15 +242,30 @@ public final class PacketDecoder extends Decoder {
 							break;
 							
 						case "waitstaff_got_order":
-							paramsLength = stream.readUnsignedByte();
-							int tableID = stream.readUnsignedByte();
-							int orderIndex = stream.readUnsignedByte();
+							stream.readUnsignedByte();
+							int tableID = stream.readUnsignedShort();
+							
+							int orderIndex = 0;
+							for(KOrder o : OrderQueue.unfulfilledOrders) {
+								if(o.getTableID() == tableID) {
+									break;
+								}
+								orderIndex++;
+							}
+							
+							System.out.println("table: "+tableID+" and orderIndex: "+orderIndex+", size: "+OrderQueue.unfulfilledOrders.size());
 							
 							OrderQueue.unfulfilledOrders.remove(orderIndex);
 							
 							DefaultTableModel tab = (DefaultTableModel) 
 								Client.clientFrame.employeeSP.kitchenPage.table.getModel();
-							tab.removeRow(orderIndex);
+							int row = 0;
+							for(int i = 0; i < tab.getRowCount(); i++) {
+								if(((int) tab.getValueAt(row, 0) - 1) == tableID)
+									break;
+								row++;
+							}
+							tab.removeRow(row);
 							break;
 					}
 					break;
@@ -310,11 +325,10 @@ public final class PacketDecoder extends Decoder {
 				// Wait Staff gets customer order and walks over to it
 				case 7:
 					int tableIDFK = stream.readUnsignedByte();
-					int orderIndex = stream.readUnsignedByte();
+					
 					Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
 					setValueAt("O", tableIDFK, 3);
-					Client.clientFrame.employeeSP.waitstaffPage.orderIndex = orderIndex;
-			
+					
 					JFrameUtils.showMessage("Order Update", "You have a new order to take to table "+
 					(tableIDFK + 1)+".\nPlease mark it as delivered to the table once you've delivered it.");
 					break;

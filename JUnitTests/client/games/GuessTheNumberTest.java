@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GuessTheNumberTest {
-	
+
 	@BeforeEach
 	void setup() throws Exception
 	{
@@ -14,19 +14,14 @@ class GuessTheNumberTest {
 	}
 	
 	@Test
-	void testGuessTheNumber() {
-		GuessTheNumber tester = new GuessTheNumber();
-		tester.guessNum();
-		//assertNotEquals(5, tester.guessNum());
-	}
-
-	@Test
 	void testGuessNum() {
 		GuessTheNumber tester = new GuessTheNumber();
 		int num = 32;
+		//tester.guessNum();
+		tester.generateNumber(0, 100);
 		
+		assertNotEquals(num, tester.generateNumber(0, 100));
 		
-		//assertEquals(num, tester.guessNum());
 		
 	}
 
@@ -38,7 +33,7 @@ class GuessTheNumberTest {
 		
 		tester.generateNumber(minimum, maximum);
 		
-		assertNotEquals(45, tester.generateNumber(minimum, maximum));
+		assertNotNull(tester.generateNumber(minimum, maximum));
 	}
 
 }
