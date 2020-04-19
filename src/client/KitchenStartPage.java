@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import client.order.KOrder;
 import client.order.MItem;
 import client.order.OrderQueue;
 import client.utils.JFrameUtils;
@@ -129,7 +130,7 @@ public class KitchenStartPage extends JPanel {
 							return;
 						}
 						tab.setValueAt(Boolean.FALSE, row, column);
-						Client.session.getPacketEncoder().sendOrderCompleted(tableNum, row);
+						Client.session.getPacketEncoder().sendOrderCompleted(tableNum);
 					}
 				}
 

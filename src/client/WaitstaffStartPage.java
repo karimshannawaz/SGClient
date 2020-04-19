@@ -30,8 +30,6 @@ public class WaitstaffStartPage extends JPanel {
 	public JTable table;
 	public DefaultTableModel model;
 
-	public int orderIndex = -1;
-	
 	public WaitstaffStartPage() {
 		super();
 		setBounds(0, 0, 1039, 656);
@@ -107,8 +105,7 @@ public class WaitstaffStartPage extends JPanel {
 							return;
 						}
 						table.getModel().setValueAt("X", row, col);
-						Client.session.getPacketEncoder().sendOrderDelivered(row, orderIndex);
-						orderIndex = -1;
+						Client.session.getPacketEncoder().sendOrderDelivered(row);
 					}
 				}
 			}

@@ -128,11 +128,10 @@ public class PacketEncoder extends Encoder {
 	 * @param tableNum
 	 * @param row
 	 */
-	public void sendOrderCompleted(int tableNum, int orderIndex) {
+	public void sendOrderCompleted(int tableNum) {
 		OutputStream stream = new OutputStream();
 		stream.writePacketVarShort(10);
 		stream.writeByte(tableNum);
-		stream.writeByte(orderIndex);
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
@@ -142,11 +141,10 @@ public class PacketEncoder extends Encoder {
 	 * @param tableNum
 	 * @param row
 	 */
-	public void sendOrderDelivered(int tableNum, int orderIndex) {
+	public void sendOrderDelivered(int tableNum) {
 		OutputStream stream = new OutputStream();
 		stream.writePacketVarShort(11);
 		stream.writeByte(tableNum);
-		stream.writeByte(orderIndex);
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
