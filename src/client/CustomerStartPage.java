@@ -69,16 +69,20 @@ public class CustomerStartPage extends JPanel {
 		add(mainPanel);
 		mainPanel.setLayout(null);
 
+		//a panel that is available regardless of what screen is open in the system
 		utilityPanel = new JPanel();
 		utilityPanel.setBounds(0, 523, 1039, 133);
 		add(utilityPanel);
 		utilityPanel.setLayout(null);
 
+		//button for help in utility panel
 		helpBtn = new JButton();
 		helpBtn.setText("Help");
 		helpBtn.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
 		helpBtn.setBounds(480, 5, 120, 74);
 		utilityPanel.add(helpBtn);
+		
+		//if button pressed, help request is sent to waitstaff
 		helpBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				sendHelpRequest();
@@ -92,18 +96,21 @@ public class CustomerStartPage extends JPanel {
 		icon = new ImageIcon( newimg );
 		helpBtn.setIcon(icon);
 		 */
-
+		
+		//button to request refill in utility panel
 		refillBtn = new JButton();
 		refillBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		refillBtn.setText("Refill");
 		refillBtn.setBounds(612, 5, 120, 74);
 		utilityPanel.add(refillBtn);
+		//if pressed, waitstaff gets request for refill
 		refillBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				sendRefillRequest();
 			}
 		});
 
+		//button to enter rewards login/signup on utility panel
 		rwdsBtn = new JButton("Rewards");
 		rwdsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -118,6 +125,7 @@ public class CustomerStartPage extends JPanel {
 		rwdsLbl.setBounds(27, 0, 441, 37);
 		utilityPanel.add(rwdsLbl);
 
+		//button to shuffle music in the system
 		shuffle = new JButton();
 		shuffle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -182,8 +190,10 @@ public class CustomerStartPage extends JPanel {
 		lblNewLabel_1.setBounds(115, 16, 835, 32);
 		mainPanel.add(lblNewLabel_1);
 
+		//when user taps on order
 		JButton orderBtn = new JButton("ORDER");
 		orderBtn.addActionListener(new ActionListener() {
+			//if they didn't receive specials notice, specials for that day are shown
 			public void actionPerformed(ActionEvent e) {
 				openScreen("order");
 				if(!ClientSession.receivedSpecialNoti) {
@@ -195,6 +205,7 @@ public class CustomerStartPage extends JPanel {
 		orderBtn.setBounds(0, 64, 346, 444);
 		mainPanel.add(orderBtn);
 
+		//when tapped on pay, screen for payment opens
 		JButton payBtn = new JButton("PAY");
 		payBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -205,6 +216,7 @@ public class CustomerStartPage extends JPanel {
 		payBtn.setBounds(347, 64, 346, 444);
 		mainPanel.add(payBtn);
 
+		//when tapped on play, screen for games opens
 		JButton gamesBtn = new JButton("PLAY");
 		gamesBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -215,6 +227,7 @@ public class CustomerStartPage extends JPanel {
 		gamesBtn.setBounds(694, 64, 328, 444);
 		mainPanel.add(gamesBtn);
 
+		
 		this.orderPanel = new MenuPanel();
 		orderPanel.setVisible(false);
 		add(orderPanel);
@@ -245,7 +258,8 @@ public class CustomerStartPage extends JPanel {
 		gtnPanel.randomNum = GuessTheNumber.generateNumber(0, 100);
 
 	}
-
+	
+	//if music is playing, stop and set to null
 	protected void stopMusic() {
 		if (music == null) {
 			return;
