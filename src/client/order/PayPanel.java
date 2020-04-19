@@ -866,7 +866,14 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 15% of the tip to total
-				tip=CustomerOrder.subtotal * (0.25);
+				if(PrevSplit == true)
+				{
+					tip = splitSubTotal * 0.25;
+				}
+				else
+				{
+					tip=CustomerOrder.subtotal * (0.25);
+				}
 				tip_box.setText(decimalF(tip));
 				//receipt_type_popup.setVisible(true);
 			}
@@ -878,7 +885,14 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 20% of the tip to total
-				tip=CustomerOrder.subtotal * (0.20);
+				if(PrevSplit == true)
+				{
+					tip = splitSubTotal * 0.20;
+				}
+				else
+				{
+					tip=CustomerOrder.subtotal * (0.20);
+				}
 				tip_box.setText(decimalF(tip));
 				//receipt_type_popup.setVisible(true);
 			}
@@ -890,7 +904,14 @@ public class PayPanel extends JPanel {
 			public void actionPerformed(ActionEvent e)
 			{
 				//functionality to add 15% of the tip to total
-				tip=CustomerOrder.subtotal * (0.15);
+				if(PrevSplit == true)
+				{
+					tip = splitSubTotal * 0.15;
+				}
+				else
+				{
+					tip=CustomerOrder.subtotal * (0.15);
+				}
 				tip_box.setText(decimalF(tip));
 				//receipt_type_popup.setVisible(true);
 			}
