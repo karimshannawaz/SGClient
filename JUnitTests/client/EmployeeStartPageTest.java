@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 /*
- * Test currently fails because of NullPointerException
+ * SubmitEmpInfo() Test currently fails because of NullPointerException
  * but Class works for implementation
  */
 class EmployeeStartPageTest {
@@ -31,7 +31,7 @@ class EmployeeStartPageTest {
 		EmployeeStartPage tester = new EmployeeStartPage();
 		tester.waitstaffPage.setVisible(true);
 		
-		//assertTrue(tester.waitstaffPage.setVisible(true));
+	
 	}
 
 	@Test
@@ -39,7 +39,7 @@ class EmployeeStartPageTest {
 		EmployeeStartPage tester = new EmployeeStartPage();
 		tester.kitchenPage.setVisible(true);
 		
-		//assertTrue(tester.kitchenPage.setVisible(true));
+		
 	}
 
 }
