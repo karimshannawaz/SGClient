@@ -85,7 +85,7 @@ public class PayPanel extends JPanel {
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
 		
-		
+		//panel for the lottery game
 		this.lottery = new LotteryPanel();
 		add(lottery);
 		lottery.setVisible(false);
@@ -118,7 +118,7 @@ public class PayPanel extends JPanel {
 		add(screen_for_card);
 		screen_for_card.setLayout(null);
 		
-		
+		//prompts the user to "insert" card into kiosk
 		JTextArea steps_popup = new JTextArea();
 		steps_popup.setEditable(false);
 		steps_popup.setFont(new Font("Haettenschweiler", Font.BOLD, 35));
@@ -138,10 +138,12 @@ public class PayPanel extends JPanel {
 		add(printbtn_screen);
 		printbtn_screen.setLayout(null);
 		
+		//setting up the scroll panel for the print reciept side
 		JScrollPane scrollPrint = new JScrollPane();
 		scrollPrint.setBounds(270, 0, 500, 379);
 		printbtn_screen.add(scrollPrint);
 		
+		//holds the summary of the printed order
 		printSummary = new JTextArea();
 		printSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		printSummary.setEditable(false);
@@ -149,7 +151,7 @@ public class PayPanel extends JPanel {
 		printSummary.setText("Order: ");
 		scrollPrint.setViewportView(printSummary);
 		
-		
+		//holds the total of the printed order
 		printTotal = new JTextArea();
 		printTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		printTotal.setEditable(false);
@@ -158,6 +160,7 @@ public class PayPanel extends JPanel {
 		printTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
 		printbtn_screen.add(printTotal);
 		
+		//lets the user know this is their receipt
 		JLabel screen_receipt = new JLabel("YOUR RECEIPT");
 		screen_receipt.setBounds(99, 87, 824, 429);
 		printbtn_screen.add(screen_receipt);
@@ -169,22 +172,20 @@ public class PayPanel extends JPanel {
 		emailbtn_screen.setBounds(0, 0, 1039, 522);
 		add(emailbtn_screen);
 		emailbtn_screen.setLayout(null);
-		
-		JLabel lblNewLabel;
-		lblNewLabel = new JLabel("EMAIL ID:");
-		lblNewLabel.setBounds(491, 249, 197, 68);
-		
-		
+				
+		//label for the email entering section
 		email_box = new JLabel("EMAIL ID:");
 		email_box.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		email_box.setBounds(188, 249, 228, 68);
 		emailbtn_screen.add(email_box);
 		
+		//label to prompt email entering
 		JLabel email_prompt = new JLabel("               PLEASE ENTER YOUR EMAIL ID");
 		email_prompt.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		email_prompt.setBounds(169, 61, 713, 128);
 		emailbtn_screen.add(email_prompt);
 		
+		//takes the user email input
 		email_prompt_box = new JTextField();
 		email_prompt_box.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
 		email_prompt_box.setBounds(312, 249, 486, 68);
@@ -205,7 +206,7 @@ public class PayPanel extends JPanel {
 		add(nobtn_screen);
 		nobtn_screen.setLayout(null);
 		
-	
+		//lets the user know their transaction is finished
 		JTextArea bye_screen = new JTextArea();
 		bye_screen.setEditable(false);
 		bye_screen.setText("\r\n\r\n\t       THANK YOU FOR VISITING!\r\n\t           HAVE A GOOD DAY!");
@@ -220,6 +221,7 @@ public class PayPanel extends JPanel {
 		add(conf_screen);
 		conf_screen.setLayout(null);
 		
+		//confirming that an email has been sent to the user
 		JTextArea confirmation_screen = new JTextArea();
 		confirmation_screen.setEditable(false);
 		confirmation_screen.setText("\n  A BILLING RECEIPT IS SENT TO THIS EMAIL SUCCESSFULLY\r\n                           THANK YOU FOR VISITING!!\n           \r\t         HAVE A GOOD DAY!");
@@ -233,6 +235,7 @@ public class PayPanel extends JPanel {
 		add(tip_panel);
 		tip_panel.setLayout(null);
 		
+		//prompts user for tip
 		JLabel lblNewLabel_2 = new JLabel("ADD A TIP");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
@@ -263,6 +266,7 @@ public class PayPanel extends JPanel {
 		custom_tip.setBounds(51, 370, 272, 71);
 		tip_panel.add(custom_tip);
 		
+		//holds the users tip amount
 		tip_box = new JTextField();
 		tip_box.setBounds(223, 373, 301, 68);
 		tip_panel.add(tip_box);
@@ -295,7 +299,7 @@ public class PayPanel extends JPanel {
 		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		backbtn1.setBounds(0, 471, 159, 51);
 		
-		
+		//for splitting the bill this table holds the current full table order
 		Ordertable = new JTable();
 		Ordertable.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -317,6 +321,7 @@ public class PayPanel extends JPanel {
 		Ordertable.setColumnSelectionAllowed(false);
 		split_pay_panel.add(Ordertable);
 		
+		//for splitting the bill this section holds the split items
 		Splittable = new JTable();
 		Splittable.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -338,10 +343,11 @@ public class PayPanel extends JPanel {
 		Splittable.setRowSelectionAllowed(true);
 		split_pay_panel.add(Splittable);
 		
+		//seperates the selected items
 		JButton toSplit = new JButton(">");
 		toSplit.setBounds(445, 103, 101, 35);
 		split_pay_panel.add(toSplit);
-		
+		//removes the items form the order side to the split side
 		toSplit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel orig = (DefaultTableModel) Ordertable.getModel();
@@ -360,7 +366,7 @@ public class PayPanel extends JPanel {
 				
 			}
 		});
-		
+		//button to re add options to the order side
 		JButton undoSplit = new JButton("<");
 		undoSplit.setBounds(445, 150, 101, 35);
 		split_pay_panel.add(undoSplit);
@@ -384,6 +390,7 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		//confirms the split
 		JButton confirmSplit = new JButton("confirm");
 		confirmSplit.setBounds(425, 384, 141, 35);
 		split_pay_panel.add(confirmSplit);
@@ -394,14 +401,15 @@ public class PayPanel extends JPanel {
 		receipt_type_popup.setBounds(0, 0, 1039, 522);
 		add(receipt_type_popup);
 		receipt_type_popup.setLayout(null);
+		
+		//label to acknowledge all of the amount paid including tips
 		amtPaid = new JLabel();
 		amtPaid.setBounds(422, 83, 252, 56);
 		amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
 		amtPaid.setFont(new Font("Haettenschweiler", Font.PLAIN, 26));
 		receipt_type_popup.add(amtPaid);
 		
-		//doesnt print the value, need to update		
-		
+		//prompts user for how to receive receipt
 		JTextArea receipt_tab1 = new JTextArea();
 		receipt_tab1.setText("\r\n                 HOW WOULD YOU LIKE YOUR RECIEPT?");
 		receipt_tab1.setFont(new Font("Haettenschweiler", Font.BOLD, 30));
@@ -409,6 +417,7 @@ public class PayPanel extends JPanel {
 		receipt_tab1.setBounds(204, 133, 670, 117);
 		receipt_type_popup.add(receipt_tab1);
 		
+		//acknowledges a comepleted payment
 		JLabel receipt_tab = new JLabel("                  PAYMENT SUCCESSFUL");
 		receipt_tab.setFont(new Font("Impact", Font.BOLD, 35));
 		receipt_tab.setBounds(207, 11, 719, 101);
@@ -438,12 +447,14 @@ public class PayPanel extends JPanel {
 		printbtn.setBounds(378, 278, 291, 51);
 		receipt_type_popup.add(printbtn);
 		
+		//for splitting the bill this holds the new order that was split
 		newOrderSummary = new JTextArea();
 		newOrderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		newOrderSummary.setEditable(false);
 		newOrderSummary.setLineWrap(true);
 		newOrderSummary.setText("Order: ");
 		
+		//holds the new total for split items
 		newOrderTotal = new JTextArea();
 		newOrderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		newOrderTotal.setEditable(false);
@@ -451,12 +462,14 @@ public class PayPanel extends JPanel {
 		newOrderTotal.setBounds(270, 380, 500, 71);
 		newOrderTotal.setText("Subtotal: $ \n"+"\nTax:\nTotal:");
 		
+		//panel after splitting that prompts the user for payment of split items
 		JPanel Splitpay = new JPanel();
 		Splitpay.setLayout(null);
 		Splitpay.setBounds(0, 0, 1039, 522);
 		add(Splitpay);
 		Splitpay.setVisible(false);
 		
+		//scrollpane to hold the split items on display
 		JScrollPane SplitscrollPane = new JScrollPane();
 		SplitscrollPane.setBounds(270, 0, 500, 379);
 		Splitpay.add(SplitscrollPane);
@@ -476,21 +489,26 @@ public class PayPanel extends JPanel {
 		Cashbtn1.setBounds(520, 451, 372, 71);
 		Splitpay.add(Cashbtn1);
 		Cashbtn1.setVisible(true);
+		
+		//button to change method between split and full
 		JButton backbtn2 = new JButton("Change Method");
 		backbtn2.setBounds(0, 410, 179, 41);
 		Splitpay.add(backbtn2);
 		backbtn2.setBounds(0, 410, 179, 41);
+		
 		//when customer selects both, screen with email prompt and receipt pops up
 		JPanel bothbtn_screen_1 = new JPanel();
 		bothbtn_screen_1.setVisible(false);
 		bothbtn_screen_1.setBounds(0, 0, 1039, 522);
 		add(bothbtn_screen_1);
 		
+		//screen for both printing and email
 		bothbtn_screen_1.setLayout(null);
 		JScrollPane scrollBoth = new JScrollPane();
 		scrollBoth.setBounds(167, 0, 422, 379);
 		bothbtn_screen_1.add(scrollBoth);
 		
+		//summary for the both section to be printed
 		bothSummary = new JTextArea();
 		bothSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		bothSummary.setEditable(false);
@@ -498,6 +516,7 @@ public class PayPanel extends JPanel {
 		bothSummary.setText("Order: ");
 		scrollBoth.setViewportView(bothSummary);
 		
+		//total to be printed on both section
 		bothTotal = new JTextArea();
 		bothTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		bothTotal.setEditable(false);
@@ -506,11 +525,13 @@ public class PayPanel extends JPanel {
 		bothTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
 		bothbtn_screen_1.add(bothTotal);
 		
+		//prompts the user for email on both options screen
 		JLabel email_promptboth = new JLabel("PLEASE ENTER YOUR EMAIL BELOW");
 		email_promptboth.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		email_promptboth.setBounds(661, 172, 327, 68);
 		bothbtn_screen_1.add(email_promptboth);
 		
+		//hods the users email when eneterd
 		email_prompt_box1 = new JTextField();
 		email_prompt_box1.setFont(new Font("Haettenschweiler", Font.PLAIN, 25));
 		email_prompt_box1.setBounds(640, 249, 348, 68);
@@ -523,6 +544,7 @@ public class PayPanel extends JPanel {
 		submitbtn1_1.setBounds(794, 322, 149, 57);
 		bothbtn_screen_1.add(submitbtn1_1);
 		
+		//labeling the receipt
 		JLabel lblNewLabel_1 = new JLabel("  YOUR RECEIPT");
 		lblNewLabel_1.setBounds(0, 0, 521, 522);
 		bothbtn_screen_1.add(lblNewLabel_1);
@@ -538,6 +560,7 @@ public class PayPanel extends JPanel {
 		scrollPane.setBounds(270, 0, 500, 379);
 		main_panel.add(scrollPane);
 		
+		//holds the inital order summary for the entire table
 		orderSummary = new JTextArea();
 		orderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		orderSummary.setEditable(false);
@@ -545,7 +568,7 @@ public class PayPanel extends JPanel {
 		orderSummary.setText("Order: ");
 		scrollPane.setViewportView(orderSummary);
 		
-		
+		//holds the order total for the entire table
 		orderTotal = new JTextArea();
 		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		orderTotal.setEditable(false);
