@@ -68,6 +68,10 @@ public class PayPanel extends JPanel {
 	public Double amountpaid = 0.0;
 	public Boolean PrevSplit=false;
 	public String oldOrder;
+	
+	public JLabel amtPaid;
+	
+	
 	/**
 	 * Create the panel.
 	 */
@@ -532,11 +536,11 @@ public class PayPanel extends JPanel {
 		receipt_type_popup.setBounds(0, 0, 1039, 522);
 		add(receipt_type_popup);
 		receipt_type_popup.setLayout(null);
-		JLabel AmountPaid = new JLabel();
-		AmountPaid.setBounds(376, 86, 255, 56);
-		AmountPaid.setText("Amount Paid: " + decimalF(amountpaid));
-		AmountPaid.setFont(new Font("Haettenschweiler", Font.PLAIN, 26));
-		receipt_type_popup.add(AmountPaid);
+		amtPaid = new JLabel();
+		amtPaid.setBounds(376, 86, 255, 56);
+		amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
+		amtPaid.setFont(new Font("Haettenschweiler", Font.PLAIN, 26));
+		receipt_type_popup.add(amtPaid);
 		
 		//doesnt print the value, need to update		
 		
@@ -709,6 +713,7 @@ public class PayPanel extends JPanel {
 					split_pay_panel.setVisible(false);
 					receipt_type_popup.setVisible(false);				
 					Donebtn.setVisible(true);
+					amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
 				}
 			}
 		});
@@ -732,6 +737,7 @@ public class PayPanel extends JPanel {
 				screen_for_card.setVisible(true);
 				split_pay_panel.setVisible(false);
 				screen_for_cash.setVisible(false);
+				amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
 				}
 			}
 		});
@@ -781,6 +787,7 @@ public class PayPanel extends JPanel {
 					screen_for_cash.setVisible(true);
 					receipt_type_popup.setVisible(false);				
 					Donebtn.setVisible(true);
+					amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
 				}
 			}
 				
@@ -804,6 +811,7 @@ public class PayPanel extends JPanel {
 					screen_for_card.setVisible(true);
 					screen_for_cash.setVisible(false);
 					receipt_type_popup.setVisible(false);
+					amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
 				}
 			}
 		});

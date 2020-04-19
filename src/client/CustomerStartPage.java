@@ -1,12 +1,7 @@
 
 package client;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -20,14 +15,12 @@ import javax.swing.JPanel;
 import client.games.GamePanel;
 import client.games.GuessTheNumber;
 import client.games.RockPaperScissors;
-import client.order.MItem;
-import client.order.Menu;
 import client.order.MenuPanel;
 import client.order.PayPanel;
+import client.order.Payment;
 import client.rewards.RewardsPanel;
 import client.utils.JFrameUtils;
 import javazoom.jl.player.Player;
-import javax.swing.JComboBox;
 
 /**
  * Credits for the music used goes to: https://www.bensound.com/
@@ -56,6 +49,7 @@ public class CustomerStartPage extends JPanel {
 	public MenuPanel orderPanel;
 	public GamePanel gamePanel;
 	public PayPanel payPanel;
+	public Payment pay2;
 	public RewardsPanel rewardsPanel;
 	public RockPaperScissors rpsPanel;
 	public GuessTheNumber gtnPanel;
