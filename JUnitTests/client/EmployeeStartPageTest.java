@@ -30,16 +30,13 @@ class EmployeeStartPageTest {
 	void testWaiterLandingPage() {
 		EmployeeStartPage tester = new EmployeeStartPage();
 		tester.waitstaffPage.setVisible(true);
-		
-	
+
 	}
 
 	@Test
 	void testKitchenLandingPage() {
 		EmployeeStartPage tester = new EmployeeStartPage();
 		tester.kitchenPage.setVisible(true);
-		
-		
 	}
 
 }
