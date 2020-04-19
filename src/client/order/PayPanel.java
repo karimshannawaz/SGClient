@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,6 +28,8 @@ import client.utils.JFrameUtils;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+
 
 //Manasa Nimmagadda
 
@@ -502,11 +506,14 @@ public class PayPanel extends JPanel {
 				orderSummary.setText(oldOrder);
 				split_pay_panel.setVisible(false);
 				newOrderSummary.setText(splitOrder.toString());
+				Pattern pattern = Pattern.compile("$(.*?)/\n", Pattern.DOTALL);
+				Matcher matcher = pattern.matcher(splitOrder.toString());
+				while (matcher.find()) {
+				    System.out.println(matcher.group(1));
+				}
 				newOrderTotal.setText(" ");
 				Splitpay.setVisible(true);
-				
-				
-				
+							
 				//prompt for card stuff similar to full pay panel
 				//need to keep track that there is still things left to pay
 			}
