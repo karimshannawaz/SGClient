@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -53,10 +54,10 @@ public class PayPanel extends JPanel {
 	public double tip=0;
 	
 	public JPanel main_panel;
-	public JPanel AmountPaid;
-	
+	private Timer timer;
 	public JButton SplitBtn;
 	public JButton FullBtn;
+	private int delay = 10000;
 	
 	public JTextArea orderSummary;
 	public JTextArea printSummary;
@@ -88,61 +89,6 @@ public class PayPanel extends JPanel {
 		this.lottery = new LotteryPanel();
 		add(lottery);
 		lottery.setVisible(false);
-		
-		//main panel that opens after clicking on pay
-		main_panel = new JPanel();
-		main_panel.setLayout(null);
-		main_panel.setBounds(0, 0, 1039, 522);
-		add(main_panel);
-		
-		// Create our scroll pane
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(270, 0, 500, 379);
-		main_panel.add(scrollPane);
-		
-		orderSummary = new JTextArea();
-		orderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		orderSummary.setEditable(false);
-		orderSummary.setLineWrap(true);
-		orderSummary.setText("Order: ");
-		scrollPane.setViewportView(orderSummary);
-		
-		
-		orderTotal = new JTextArea();
-		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		orderTotal.setEditable(false);
-		orderTotal.setLineWrap(true);
-		orderTotal.setBounds(270, 380, 500, 71);
-		orderTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
-		main_panel.add(orderTotal);
-			
-		//split button if customer wants to split the bill
-		SplitBtn = new JButton("Split Bill");
-		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		SplitBtn.setBounds(270, 451, 250, 71);
-		SplitBtn.setVisible(true);
-		main_panel.add(SplitBtn);
-		
-		//button if customer is paying full bill
-		FullBtn = new JButton("Full Bill");
-		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		FullBtn.setBounds(520, 451, 250, 71);
-		FullBtn.setVisible(true);
-		main_panel.add(FullBtn);		
-		
-		//if customer, paying fully, wants to pay with card
-		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
-		cardbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		cardbtn.setBounds(270, 451, 250, 71);
-		cardbtn.setVisible(false);
-		main_panel.add(cardbtn);
-		
-		//if customer, paying fully, wants to pay with cash
-		JButton Cashbtn = new JButton("CASH");
-		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
-		Cashbtn.setBounds(520, 451, 250, 71);
-		Cashbtn.setVisible(false);
-		main_panel.add(Cashbtn);
 		
 		//screen when customer selects payment type as cash 
 		JPanel screen_for_cash = new JPanel();
@@ -533,7 +479,7 @@ public class PayPanel extends JPanel {
 		JButton backbtn2 = new JButton("Change Method");
 		backbtn2.setBounds(0, 410, 179, 41);
 		Splitpay.add(backbtn2);
-		
+		backbtn2.setBounds(0, 410, 179, 41);
 		//when customer selects both, screen with email prompt and receipt pops up
 		JPanel bothbtn_screen_1 = new JPanel();
 		bothbtn_screen_1.setVisible(false);
@@ -580,6 +526,157 @@ public class PayPanel extends JPanel {
 		JLabel lblNewLabel_1 = new JLabel("  YOUR RECEIPT");
 		lblNewLabel_1.setBounds(0, 0, 521, 522);
 		bothbtn_screen_1.add(lblNewLabel_1);
+		
+		//main panel that opens after clicking on pay
+		main_panel = new JPanel();
+		main_panel.setLayout(null);
+		main_panel.setBounds(0, 0, 1039, 522);
+		add(main_panel);
+		
+		// Create our scroll pane
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(270, 0, 500, 379);
+		main_panel.add(scrollPane);
+		
+		orderSummary = new JTextArea();
+		orderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		orderSummary.setEditable(false);
+		orderSummary.setLineWrap(true);
+		orderSummary.setText("Order: ");
+		scrollPane.setViewportView(orderSummary);
+		
+		
+		orderTotal = new JTextArea();
+		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		orderTotal.setEditable(false);
+		orderTotal.setLineWrap(true);
+		orderTotal.setBounds(270, 380, 500, 71);
+		orderTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
+		main_panel.add(orderTotal);
+		
+		//split button if customer wants to split the bill
+		SplitBtn = new JButton("Split Bill");
+		SplitBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		SplitBtn.setBounds(270, 451, 250, 71);
+		SplitBtn.setVisible(true);
+		main_panel.add(SplitBtn);
+		
+		//button if customer is paying full bill
+		FullBtn = new JButton("Full Bill");
+		FullBtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		FullBtn.setBounds(520, 451, 250, 71);
+		FullBtn.setVisible(true);
+		main_panel.add(FullBtn);		
+		
+		//if customer, paying fully, wants to pay with card
+		JButton cardbtn = new JButton("CREDIT/DEBIT CARD");
+		cardbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		cardbtn.setBounds(270, 451, 250, 71);
+		cardbtn.setVisible(false);
+		main_panel.add(cardbtn);
+		
+		//if customer, paying fully, wants to pay with cash
+		JButton Cashbtn = new JButton("CASH");
+		Cashbtn.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
+		Cashbtn.setBounds(520, 451, 250, 71);
+		Cashbtn.setVisible(false);
+		main_panel.add(Cashbtn);
+		JButton backbtn3 = new JButton("Change Method");
+		backbtn3.setBounds(0, 404, 192, 47);
+		main_panel.add(backbtn3);
+		backbtn3.setVisible(false);
+		
+		backbtn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+				DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+				model1.setRowCount(0);
+				model2.setRowCount(0);
+				Splitpay.setVisible(false);
+				cardbtn.setVisible(false);
+				Cashbtn.setVisible(false);
+				FullBtn.setVisible(true);
+				SplitBtn.setVisible(true);
+				split_pay_panel.setVisible(false);
+				main_panel.setVisible(true);
+				receipt_type_popup.setVisible(false);
+				
+			}
+		});
+		
+		
+		
+		//when customer clicks full pay button, a panel to pay full bill pops up 
+		FullBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				//full_pay_panel.setVisible(true);
+				PrevSplit=false;
+				SplitBtn.setVisible(false);
+				FullBtn.setVisible(false);
+				backbtn3.setVisible(true);
+				cardbtn.setVisible(true);
+				Cashbtn.setVisible(true);
+				receipt_type_popup.setVisible(false);
+				split_pay_panel.setVisible(false);
+			}
+		});
+		
+		//when customer clicks split pay button, a panel to select items pops up
+		SplitBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PrevSplit = false;
+				SplitMenuTable();
+				split_pay_panel.setVisible(true);
+				main_panel.setVisible(false);
+				receipt_type_popup.setVisible(false);
+				
+			}
+		});
+		
+				
+				//actions after clicking cash button for full pay screen
+				Cashbtn.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
+						if(!confirmPayment) {
+							return;
+						}
+						else {
+							amountpaid = CustomerOrder.subtotal + (CustomerOrder.subtotal * tax);
+							main_panel.setVisible(false);
+							screen_for_cash.setVisible(true);
+							receipt_type_popup.setVisible(false);				
+							Donebtn.setVisible(true);
+							amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
+						}
+					}
+						
+				});
+				
+				
+				//code to make them pay with cash and give bill
+				
+				//actions after clicking card button in full pay screen
+				cardbtn.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						boolean confirmPayment = JFrameUtils.confirmDialog("Confirm Payment Method", "Once proceeded you can't change payment type");
+						if(!confirmPayment) {
+							return;
+						}
+						else {
+							amountpaid = CustomerOrder.subtotal + (CustomerOrder.subtotal * tax) + tip;
+							main_panel.setVisible(false);
+							screen_for_card.setVisible(true);
+							screen_for_cash.setVisible(false);
+							receipt_type_popup.setVisible(false);
+							amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
+						}
+					}
+				});
 		
 		//submit button after entering email for both types of receipt
 		submitbtn1_1.addActionListener(new ActionListener()
@@ -684,6 +781,13 @@ public class PayPanel extends JPanel {
 			}
 		});
 		
+		ActionListener action = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timer.stop();
+				printbtn_screen.setVisible(false);
+				main_panel.setVisible(true);
+			}
+		};
 		//option to print the bill
 		printbtn.addActionListener(new ActionListener()
 		{
@@ -709,7 +813,9 @@ public class PayPanel extends JPanel {
 					printTotal.setText("Subtotal: "+decimalF(splitSubTotal)+"\nTax: "+
 							decimalF(tax * splitSubTotal)+"\nTip: "+decimalF(tip)+"\nTotal: "+decimalF(splitSubTotal + (splitSubTotal * tax) + tip));
 					orderSummary.setText(oldOrder);
-					main_panel.setVisible(true);
+					timer = new Timer(delay,action);
+					timer.start();
+					
 				}
 				else
 				{
@@ -721,6 +827,7 @@ public class PayPanel extends JPanel {
 				}
 			}
 		});
+		
 		
 		//when user selects email for receipt type
 		emailbtn.addActionListener(new ActionListener()
@@ -860,79 +967,6 @@ public class PayPanel extends JPanel {
 			}
 		});
 		split_pay_panel.setVisible(false);
-		
-		
-		
-		//when customer clicks full pay button, a panel to pay full bill pops up 
-		FullBtn.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				//full_pay_panel.setVisible(true);
-				PrevSplit=false;
-				SplitBtn.setVisible(false);
-				FullBtn.setVisible(false);
-				cardbtn.setVisible(true);
-				Cashbtn.setVisible(true);
-				receipt_type_popup.setVisible(false);
-				split_pay_panel.setVisible(false);
-			}
-		});
-		
-		//when customer clicks split pay button, a panel to select items pops up
-		SplitBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PrevSplit = false;
-				SplitMenuTable();
-				split_pay_panel.setVisible(true);
-				main_panel.setVisible(false);
-				receipt_type_popup.setVisible(false);
-				
-			}
-		});
-
-		
-		//actions after clicking cash button for full pay screen
-		Cashbtn.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm payment method.", "Once proceeded you can't change payment type");
-				if(!confirmPayment) {
-					return;
-				}
-				else {
-					amountpaid = CustomerOrder.subtotal + (CustomerOrder.subtotal * tax);
-					main_panel.setVisible(false);
-					screen_for_cash.setVisible(true);
-					receipt_type_popup.setVisible(false);				
-					Donebtn.setVisible(true);
-					amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
-				}
-			}
-				
-		});
-		
-		
-		//code to make them pay with cash and give bill
-		
-		//actions after clicking card button in full pay screen
-		cardbtn.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				boolean confirmPayment = JFrameUtils.confirmDialog("Confirm Payment Method", "Once proceeded you can't change payment type");
-				if(!confirmPayment) {
-					return;
-				}
-				else {
-					amountpaid = CustomerOrder.subtotal + (CustomerOrder.subtotal * tax) + tip;
-					main_panel.setVisible(false);
-					screen_for_card.setVisible(true);
-					screen_for_cash.setVisible(false);
-					receipt_type_popup.setVisible(false);
-					amtPaid.setText("Amount Paid: " + decimalF(amountpaid));
-				}
-			}
-		});
 		
 		
 		//code here goes for server approval before proceeding to receipt type
