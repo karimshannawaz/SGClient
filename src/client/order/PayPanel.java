@@ -57,6 +57,7 @@ public class PayPanel extends JPanel {
 	public JTextArea orderSummary;
 	public JTextArea newOrderSummary;
 	public JTextArea orderTotal;
+	public JTextArea newOrderTotal;
 	private JTable Ordertable;
 	private JTable Splittable;
 	/**
@@ -105,6 +106,14 @@ public class PayPanel extends JPanel {
 		newOrderSummary.setEditable(false);
 		newOrderSummary.setLineWrap(true);
 		newOrderSummary.setText("Order: ");
+		
+		newOrderTotal = new JTextArea();
+		newOrderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		newOrderTotal.setEditable(false);
+		newOrderTotal.setLineWrap(true);
+		newOrderTotal.setBounds(270, 380, 500, 71);
+		newOrderTotal.setText("Subtotal: $ \n"+"\nTax:\nTotal:");
+		
 		
 		orderTotal = new JTextArea();
 		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
@@ -357,6 +366,7 @@ public class PayPanel extends JPanel {
 		SplitscrollPane.setBounds(270, 0, 500, 379);
 		Splitpay.add(SplitscrollPane);
 		SplitscrollPane.setViewportView(newOrderSummary);
+		Splitpay.add(newOrderTotal);
 		
 		//if customer, paying with split, wants to pay with card
 		JButton cardbtn1 = new JButton("CREDIT/DEBIT CARD");
@@ -378,6 +388,8 @@ public class PayPanel extends JPanel {
 		backbtn1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		backbtn1.setBounds(0, 471, 159, 51);
 		split_pay_panel.add(backbtn1);
+		Splitpay.add(backbtn1);
+		
 		
 		Ordertable = new JTable();
 		Ordertable.setModel(new DefaultTableModel(
@@ -487,8 +499,10 @@ public class PayPanel extends JPanel {
 					
 				}
 				//calculate the total
+				orderSummary.setText(oldOrder);
 				split_pay_panel.setVisible(false);
 				newOrderSummary.setText(splitOrder.toString());
+				newOrderTotal.setText(" ");
 				Splitpay.setVisible(true);
 				
 				
@@ -625,6 +639,7 @@ public class PayPanel extends JPanel {
 				DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
 				model1.setRowCount(0);
 				model2.setRowCount(0);
+				Splitpay.setVisible(false);
 				split_pay_panel.setVisible(false);
 				main_panel.setVisible(true);
 				receipt_type_popup.setVisible(false);
