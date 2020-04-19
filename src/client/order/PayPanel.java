@@ -55,6 +55,7 @@ public class PayPanel extends JPanel {
 	public JButton FullBtn;
 	
 	public JTextArea orderSummary;
+	public JTextArea newOrderSummary;
 	public JTextArea orderTotal;
 	private JTable Ordertable;
 	private JTable Splittable;
@@ -98,6 +99,12 @@ public class PayPanel extends JPanel {
 		orderSummary.setLineWrap(true);
 		orderSummary.setText("Order: ");
 		scrollPane.setViewportView(orderSummary);
+		
+		newOrderSummary = new JTextArea();
+		newOrderSummary.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		newOrderSummary.setEditable(false);
+		newOrderSummary.setLineWrap(true);
+		newOrderSummary.setText("Order: ");
 		
 		orderTotal = new JTextArea();
 		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
@@ -340,19 +347,30 @@ public class PayPanel extends JPanel {
 		add(split_pay_panel);
 		split_pay_panel.setLayout(null);
 		
+		JPanel Splitpay = new JPanel();
+		Splitpay.setLayout(null);
+		Splitpay.setBounds(0, 0, 1039, 522);
+		add(Splitpay);
+		Splitpay.setVisible(false);
+		
+		JScrollPane SplitscrollPane = new JScrollPane();
+		SplitscrollPane.setBounds(270, 0, 500, 379);
+		Splitpay.add(SplitscrollPane);
+		SplitscrollPane.setViewportView(newOrderSummary);
+		
 		//if customer, paying with split, wants to pay with card
 		JButton cardbtn1 = new JButton("CREDIT/DEBIT CARD");
 		cardbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		cardbtn1.setBounds(175, 451, 345, 71);
-		split_pay_panel.add(cardbtn1);
-		cardbtn1.setVisible(false);
+		Splitpay.add(cardbtn1);
+		cardbtn1.setVisible(true);
 		
 		//if customer, paying with split bill, wants to pay with cash
 		JButton Cashbtn1 = new JButton("CASH");
 		Cashbtn1.setFont(new Font("Haettenschweiler", Font.BOLD, 25));
 		Cashbtn1.setBounds(520, 451, 372, 71);
-		split_pay_panel.add(Cashbtn1);
-		Cashbtn1.setVisible(false);
+		Splitpay.add(Cashbtn1);
+		Cashbtn1.setVisible(true);
 		
 		//back button if on split pay screen if customer chooses to pay full bill
 		//want to rework
@@ -377,8 +395,9 @@ public class PayPanel extends JPanel {
 			}
 		});
 		Ordertable.setBounds(43, 0, 381, 450);
-		Ordertable.setRowSelectionAllowed(true);
 		Ordertable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		Ordertable.setRowSelectionAllowed(true);
+		Ordertable.setColumnSelectionAllowed(false);
 		split_pay_panel.add(Ordertable);
 		
 		Splittable = new JTable();
@@ -397,8 +416,9 @@ public class PayPanel extends JPanel {
 			}
 		});
 		Splittable.setBounds(567, 0, 381, 450);
-		Splittable.setRowSelectionAllowed(true);
 		Splittable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		Splittable.setColumnSelectionAllowed(false);
+		Splittable.setRowSelectionAllowed(true);
 		split_pay_panel.add(Splittable);
 		
 		JButton toSplit = new JButton(">");
@@ -451,10 +471,28 @@ public class PayPanel extends JPanel {
 		confirmSplit.setBounds(425, 384, 141, 35);
 		split_pay_panel.add(confirmSplit);
 		
+		
 		confirmSplit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String oldOrder = orderSummary.getText();
+				StringBuilder splitOrder = new StringBuilder();
+				String breaker = new String();
+				splitOrder.append("Order: \n\n");
 				//remove selected options from the main bill
-				// calculate the total
+				for(int i=0; i<Splittable.getRowCount(); i++)
+				{
+					breaker = (String) Splittable.getValueAt(i,0);
+					splitOrder.append(breaker);
+					oldOrder.replace(breaker, "");
+					
+				}
+				//calculate the total
+				split_pay_panel.setVisible(false);
+				newOrderSummary.setText(splitOrder.toString());
+				Splitpay.setVisible(true);
+				
+				
+				
 				//prompt for card stuff similar to full pay panel
 				//need to keep track that there is still things left to pay
 			}
@@ -608,6 +646,7 @@ public class PayPanel extends JPanel {
 				}
 				else {
 					main_panel.setVisible(false);
+					Splitpay.setVisible(false);
 					screen_for_cash.setVisible(true);
 					split_pay_panel.setVisible(false);
 					receipt_type_popup.setVisible(false);				
@@ -629,6 +668,7 @@ public class PayPanel extends JPanel {
 					return;
 				}
 				else {
+				Splitpay.setVisible(false);
 				screen_for_card.setVisible(true);
 				split_pay_panel.setVisible(false);
 				screen_for_cash.setVisible(false);
