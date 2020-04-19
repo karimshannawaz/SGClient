@@ -64,6 +64,10 @@ public class PayPanel extends JPanel {
 	public JTextArea newOrderTotal;
 	private JTable Ordertable;
 	private JTable Splittable;
+	public Double splitSubTotal =0.0;
+	public Double amountpaid = 0.0;
+	public Boolean PrevSplit=false;
+	public String oldOrder;
 	/**
 	 * Create the panel.
 	 */
@@ -490,7 +494,7 @@ public class PayPanel extends JPanel {
 		
 		confirmSplit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String oldOrder = orderSummary.getText();
+				oldOrder = orderSummary.getText();
 				StringBuilder splitOrder = new StringBuilder();
 				String breaker = new String();
 				splitOrder.append("Order: \n\n");
@@ -503,17 +507,20 @@ public class PayPanel extends JPanel {
 					
 				}
 				//calculate the total
-				orderSummary.setText(oldOrder);
+				//orderSummary.setText(oldOrder);
 				split_pay_panel.setVisible(false);
 				newOrderSummary.setText(splitOrder.toString());
-				Pattern pattern = Pattern.compile("$(.*?)/\n", Pattern.DOTALL);
+				Pattern pattern = Pattern.compile("\\$(.*?)\n", Pattern.DOTALL);
 				Matcher matcher = pattern.matcher(splitOrder.toString());
 				while (matcher.find()) {
-				    System.out.println(matcher.group(1));
+				    splitSubTotal = splitSubTotal + Double.valueOf(matcher.group(1));
 				}
-				newOrderTotal.setText(" ");
+				newOrderTotal.setText("Subtotal: "+decimalF(splitSubTotal)+"\nTax: "+
+						decimalF(tax*splitSubTotal)+"\nTotal: "+decimalF(splitSubTotal + (tax*splitSubTotal)));
 				Splitpay.setVisible(true);
 							
+				//orderTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
+				//		decimalF(tax * CustomerOrder.subtotal)+"\nTotal: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax)));
 				//prompt for card stuff similar to full pay panel
 				//need to keep track that there is still things left to pay
 			}
@@ -525,13 +532,13 @@ public class PayPanel extends JPanel {
 		receipt_type_popup.setBounds(0, 0, 1039, 522);
 		add(receipt_type_popup);
 		receipt_type_popup.setLayout(null);
-		
-		//doesnt print the value, need to update
 		JLabel AmountPaid = new JLabel();
 		AmountPaid.setBounds(376, 86, 255, 56);
-		AmountPaid.setText("Amount Paid: " + decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax) + tip));
+		AmountPaid.setText("Amount Paid: " + decimalF(amountpaid));
 		AmountPaid.setFont(new Font("Haettenschweiler", Font.PLAIN, 26));
 		receipt_type_popup.add(AmountPaid);
+		
+		//doesnt print the value, need to update		
 		
 		JTextArea receipt_tab1 = new JTextArea();
 		receipt_tab1.setText("\r\n                 HOW WOULD YOU LIKE YOUR RECIEPT?");
@@ -583,7 +590,20 @@ public class PayPanel extends JPanel {
 				bothbtn_screen.setVisible(false);
 				nobtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
-				//LotteryChoice();
+				if(PrevSplit == true)
+				{
+					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+					model1.setRowCount(0);
+					model2.setRowCount(0);
+					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
+					orderSummary.setText(oldOrder);
+					main_panel.setVisible(true);
+				}
+				else
+				{
+					LotteryChoice();
+				}
 			}
 		});
 		
@@ -635,7 +655,21 @@ public class PayPanel extends JPanel {
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
 				conf_screen.setVisible(false);
-				LotteryChoice();
+				if(PrevSplit == true)
+				{
+					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+					model1.setRowCount(0);
+					model2.setRowCount(0);
+					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
+					orderSummary.setText(oldOrder);
+					main_panel.setVisible(true);
+				}
+				else
+				{
+					LotteryChoice();
+				}
+				
 			}
 		});
 		
@@ -667,6 +701,8 @@ public class PayPanel extends JPanel {
 					return;
 				}
 				else {
+					PrevSplit = true;
+					amountpaid = splitSubTotal + (tax*splitSubTotal)+tip;
 					main_panel.setVisible(false);
 					Splitpay.setVisible(false);
 					screen_for_cash.setVisible(true);
@@ -690,11 +726,12 @@ public class PayPanel extends JPanel {
 					return;
 				}
 				else {
+					PrevSplit = true;
+					amountpaid = splitSubTotal + (tax*splitSubTotal)+tip;
 				Splitpay.setVisible(false);
 				screen_for_card.setVisible(true);
 				split_pay_panel.setVisible(false);
 				screen_for_cash.setVisible(false);
-				receipt_type_popup.setVisible(false);
 				}
 			}
 		});
@@ -706,6 +743,7 @@ public class PayPanel extends JPanel {
 		FullBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				//full_pay_panel.setVisible(true);
+				PrevSplit=false;
 				SplitBtn.setVisible(false);
 				FullBtn.setVisible(false);
 				cardbtn.setVisible(true);
@@ -718,6 +756,7 @@ public class PayPanel extends JPanel {
 		//when customer clicks split pay button, a panel to select items pops up
 		SplitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				PrevSplit = false;
 				SplitMenuTable();
 				split_pay_panel.setVisible(true);
 				main_panel.setVisible(false);
@@ -737,6 +776,7 @@ public class PayPanel extends JPanel {
 					return;
 				}
 				else {
+					amountpaid = CustomerOrder.subtotal + (CustomerOrder.subtotal * tax);
 					main_panel.setVisible(false);
 					screen_for_cash.setVisible(true);
 					receipt_type_popup.setVisible(false);				
@@ -759,6 +799,7 @@ public class PayPanel extends JPanel {
 					return;
 				}
 				else {
+					amountpaid = CustomerOrder.subtotal + (CustomerOrder.subtotal * tax) + tip;
 					main_panel.setVisible(false);
 					screen_for_card.setVisible(true);
 					screen_for_cash.setVisible(false);
@@ -875,7 +916,20 @@ public class PayPanel extends JPanel {
 				receipt_type_popup.setVisible(false);
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
-				LotteryChoice();
+				if(PrevSplit == true)
+				{
+					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+					model1.setRowCount(0);
+					model2.setRowCount(0);
+					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
+					orderSummary.setText(oldOrder);
+					main_panel.setVisible(true);
+				}
+				else
+				{
+					LotteryChoice();
+				}
 				}
 				
 			}
@@ -902,7 +956,21 @@ public class PayPanel extends JPanel {
 				receipt_type_popup.setVisible(false);
 				bothbtn_screen.setVisible(false);
 				emailbtn_screen.setVisible(false);
-				LotteryChoice();
+				if(PrevSplit == true)
+				{
+					DefaultTableModel model1 = (DefaultTableModel) Ordertable.getModel();
+					DefaultTableModel model2 = (DefaultTableModel) Splittable.getModel();
+					model1.setRowCount(0);
+					model2.setRowCount(0);
+					CustomerOrder.subtotal = CustomerOrder.subtotal - splitSubTotal;
+					orderSummary.setText(oldOrder);
+					main_panel.setVisible(true);
+				}
+				else
+				{
+					LotteryChoice();
+				}
+				
 				}
 				
 			}
