@@ -26,14 +26,13 @@ import client.utils.JFrameUtils;
  * Holds the information for the kitchen start page
  * CLIENT SIDED
  * 
- * @author Desere and Shan
+ * @author Karimshan
  *
  */
 public class KitchenStartPage extends JPanel {
 
 	private static final long serialVersionUID = -8112480994553957L;
 
-	public static String currentScreen = "";
 	public JTable table;
 
 	public KitchenStartPage(ClientFrame frame) {

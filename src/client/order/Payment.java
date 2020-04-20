@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
 
 import client.Client;
 import client.ClientSession;
+import client.utils.Constants;
 import client.utils.JFrameUtils;
 
 import javax.swing.JComboBox;
@@ -33,6 +34,9 @@ public class Payment extends JPanel {
 	
 	// Represents the tip that the customer can choose to give
 	public double tip = 0.0825;
+	
+	// Represents the amount that the customer paid.
+	public double amtPaid = 0;
 	
 	// Represents the selected discount that the customer chose
 	public String discount = null;
@@ -64,9 +68,23 @@ public class Payment extends JPanel {
 	
 	// Split Bill Panel Components
 	public JPanel splitBillPanel;
+	
+	// Tip Panel Components
+	public JPanel tipPanel;
+	
+	// Receipt Panel Components
+	public JPanel receiptPanel;
+	public JLabel amtPaidLbl;
+	
+	// Lottery Panel Components
+	public JPanel lotteryPanel;
+	
+	// Final Panel Components
+	public JPanel finalPanel;
+	public JLabel receiptPrefLbl;
 
 	/**
-	 * Contructor for the payment panel.
+	 * Constructor for the payment panel.
 	 */
 	public Payment() {
 		super();
@@ -81,6 +99,18 @@ public class Payment extends JPanel {
 		
 		// Adds the split bill panel.
 		addSplitBillPanel();
+		
+		// Adds the tip panel
+		addTipPanel();
+		
+		// Adds the receipt panel
+		addReceiptPanel();
+		
+		// Adds the lottery panel
+		addLotteryPanel();
+		
+		// Adds the final panel
+		addFinalPanel();
 	}
 
 	/**
@@ -236,6 +266,10 @@ public class Payment extends JPanel {
 		this.managerDiscount = discount;
 		this.tempOrder.subtotal -= this.managerDiscount;
 		CustomerOrder.subtotal -= this.managerDiscount;
+		if(this.tempOrder.subtotal < 0)
+			this.tempOrder.subtotal = 0;
+		if(CustomerOrder.subtotal < 0)
+			CustomerOrder.subtotal = 0;
 		this.refreshTxtAreas(Client.clientFrame.customerSP.orderPanel.promoIndex);
 	}
 	
@@ -330,16 +364,22 @@ public class Payment extends JPanel {
 	 * Splits the customer's bill based on items they purchased
 	 */
 	public void splitBillBtnAction() {
-		// TODO Auto-generated method stub
-		
+		// Skips straight to receipt because the whole order total
+		// was 0 anyway.
+		if(CustomerOrder.subtotal == 0) {
+			openReceiptPanel();
+		}
 	}
 
 	/**
 	 * Represents the customer paying the full bill at once.
 	 */
 	public void fullBillBtnAction() {
-		// TODO Auto-generated method stub
-		
+		// Skips straight to receipt because the whole order total
+		// was 0 anyway.
+		if(CustomerOrder.subtotal == 0) {
+			openReceiptPanel();
+		}
 	}
 
 	/**
@@ -402,7 +442,7 @@ public class Payment extends JPanel {
 	 */
 	private void addFullBillPanel() {
 		fullBillPanel = new JPanel();
-		fullBillPanel.setBounds(0, 0, 1039, 522);
+		fullBillPanel.setBounds(454, 0, 582, 522);
 		fullBillPanel.setLayout(null);
 		mainPanel.add(fullBillPanel);
 		// Setting invisible when first made.
@@ -417,11 +457,155 @@ public class Payment extends JPanel {
 	 */
 	private void addSplitBillPanel() {
 		splitBillPanel = new JPanel();
-		splitBillPanel.setBounds(0, 0, 1039, 522);
+		splitBillPanel.setBounds(454, 0, 582, 522);
 		splitBillPanel.setLayout(null);
 		mainPanel.add(splitBillPanel);
 		// Setting invisible when first made.
 		splitBillPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the tip panel.
+	 */
+	private void addTipPanel() {
+		tipPanel = new JPanel();
+		tipPanel.setBounds(454, 0, 582, 522);
+		tipPanel.setLayout(null);
+		add(tipPanel);
+		// Setting invisible when first made.
+		tipPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the receipt panel.
+	 */
+	private void addReceiptPanel() {
+		receiptPanel = new JPanel();
+		receiptPanel.setBounds(454, 0, 582, 522);
+		receiptPanel.setLayout(null);
+		add(receiptPanel);
+		
+		JLabel lblNewLabel = new JLabel("<html>Thank you for your payment!<br>How would you like your receipt?</html>");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNewLabel.setBounds(145, 0, 322, 101);
+		receiptPanel.add(lblNewLabel);
+		
+		amtPaidLbl = new JLabel("Amount paid: <dynamic>");
+		amtPaidLbl.setFont(new Font("Arial Black", Font.PLAIN, 22));
+		amtPaidLbl.setBounds(145, 103, 355, 38);
+		receiptPanel.add(amtPaidLbl);
+		
+		JButton[] preferenceBtns = new JButton[] { 
+			new JButton("Printed"), 
+			new JButton("Emailed"), 
+			new JButton("Both"), 
+			new JButton("Neither") 
+		};
+		
+		for(int i = 0; i < preferenceBtns.length; i++) {
+			preferenceBtns[i].setFont(new Font("Imprint MT Shadow", Font.PLAIN, 46));
+			preferenceBtns[i].setBounds(12, 168 + (i * 90), 558, 77);
+			receiptPanel.add(preferenceBtns[i]);
+			final int index = i;
+			preferenceBtns[i].addActionListener((e) -> {
+				switch(preferenceBtns[index].getText()) {
+					case "Printed":
+						receiptPrefLbl.setText("Your receipt has been printed!");
+						receiptPanel.setVisible(false);
+						finalPanel.setVisible(true);
+						break;
+					case "Emailed":
+						String email = (String) JFrameUtils.inputDialog("Email Receipt", 
+							"Please enter the email address that will receive your receipt:");
+						if(email == null || email.equals("") || !Constants.isValidEmail(email)) {
+							JFrameUtils.showMessage("Printed and Email Receipt", 
+								"Error: invalid email entered, please try again.");
+							return;
+						}
+						receiptPrefLbl.setText("Your receipt has been emailed!");
+						receiptPanel.setVisible(false);
+						finalPanel.setVisible(true);
+						break;
+					case "Both":
+						email = (String) JFrameUtils.inputDialog("Email Receipt", 
+							"Please enter the email address that will receive your receipt:");
+						if(email == null || email.equals("") || !Constants.isValidEmail(email)) {
+							JFrameUtils.showMessage("Printed and Email Receipt", 
+								"Error: invalid email entered, please try again.");
+							return;
+						}
+						receiptPrefLbl.setText("Your receipt has been printed and emailed!");
+						receiptPanel.setVisible(false);
+						finalPanel.setVisible(true);
+						break;
+					case "Neither":
+						receiptPrefLbl.setText("You have chosen not to receive a receipt.");
+						receiptPanel.setVisible(false);
+						finalPanel.setVisible(true);
+						break;
+				}
+			});
+		}
+
+		// Setting invisible when first made.
+		receiptPanel.setVisible(false);
+	}
+	
+
+	/**
+	 * If the customer gets so far as to get to the receipt panel,
+	 * then they 
+	 */
+	public void openReceiptPanel() {
+		// Hide any more requests from the customer once they've paid and are ready
+		// to leave.
+		Client.clientFrame.customerSP.utilityPanel.setVisible(false);
+		this.prePaymentPanel.setVisible(false);
+		this.receiptPanel.setVisible(true);
+	}
+	
+	/**
+	 * Adds the lottery panel.
+	 */
+	private void addLotteryPanel() {
+		lotteryPanel = new JPanel();
+		lotteryPanel.setBounds(454, 0, 582, 522);
+		lotteryPanel.setLayout(null);
+		add(lotteryPanel);
+		// Setting invisible when first made.
+		lotteryPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the final panel.
+	 */
+	private void addFinalPanel() {
+		finalPanel = new JPanel();
+		finalPanel.setBounds(454, 0, 582, 522);
+		finalPanel.setLayout(null);
+		add(finalPanel);
+		
+		JLabel lblNewLabel_1 = new JLabel("<html>Thank you for visiting Seven Guys!<br>We hope you have a wonderful day!<br>Please stay safe during these tough times,<br>and we are here for you if you<br>ever need any sort of help.</html>");
+		lblNewLabel_1.setFont(new Font("Lucida Bright", Font.PLAIN, 30));
+		lblNewLabel_1.setBounds(12, 91, 565, 276);
+		finalPanel.add(lblNewLabel_1);
+		
+		JButton exitBtn = new JButton("Exit");
+		exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 51));
+		exitBtn.setBounds(83, 388, 438, 121);
+		exitBtn.addActionListener((e) -> {
+			Client.restart();
+		});
+		finalPanel.add(exitBtn);
+		
+		receiptPrefLbl = new JLabel("Your receipt has been: ");
+		receiptPrefLbl.setFont(new Font("Lucida Bright", Font.PLAIN, 25));
+		receiptPrefLbl.setBounds(12, 13, 565, 82);
+		finalPanel.add(receiptPrefLbl);
+		
+		
+		// Setting invisible when first made.
+		finalPanel.setVisible(false);
 	}
 
 	/**

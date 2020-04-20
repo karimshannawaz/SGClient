@@ -182,13 +182,15 @@ public class Client {
 	 * Restarts the client application.
 	 */
 	public static void restart() {
-		Client.restartApplication(new Runnable() {
-
-			@Override
-			public void run() {
-				Client.session.getChannel().close();
-			}
-			
+		
+		// Sends the customer's details (if they used any promos, or won the lottery game) 
+		// to the server and the server saves the info for next time.
+		
+		
+		// Restarts the application after performing the action inside of
+		// runnable.run()
+		Client.restartApplication(() -> {
+			Client.session.getChannel().close();
 		});
 	}
 
