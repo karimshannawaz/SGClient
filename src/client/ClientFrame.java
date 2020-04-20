@@ -105,6 +105,7 @@ public class ClientFrame extends JFrame {
 
 		});
 		instance = this;
+		pack();
 	}
 
 	private void employeeLandingPage() {

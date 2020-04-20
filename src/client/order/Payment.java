@@ -18,14 +18,18 @@ import java.awt.event.ActionEvent;
  * @author Karimshan
  *
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class Payment extends JPanel {
 
 	private static final long serialVersionUID = 3521869431085751251L;
 
 	// Represents the State of Texas tax.
 	public double tax = 0.0825;
+	
+	// Represents the selected discount that the customer chose
+	public String discount = null;
 
-	// Main Panel components
+	// Main Panel Components
 	public JPanel mainPanel;
 	public JTextArea orderSummary;
 	public JTextArea orderTotal;
@@ -34,6 +38,12 @@ public class Payment extends JPanel {
 	public JButton applyDiscountBtn;
 	public JButton removeDiscountBtn;
 	public JComboBox discountsBox;
+	
+	// Full Bill Panel Components
+	public JPanel fullBillPanel;
+	
+	// Split Bill Panel Components
+	public JPanel splitBillPanel;
 
 	/**
 	 * Contructor for the payment panel.
@@ -43,7 +53,14 @@ public class Payment extends JPanel {
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
 
+		// Adds the main panel.
 		addMainPanel();
+		
+		// Adds the full bill panel.
+		addFullBillPanel();
+		
+		// Adds the split bill panel.
+		addSplitBillPanel();
 	}
 
 	/**
@@ -130,6 +147,8 @@ public class Payment extends JPanel {
 		discountsBox = new JComboBox();
 		discountsBox.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		discountsBox.setBounds(779, 400, 248, 50);
+		discountsBox.setSelectedItem(null);
+		System.out.println(discountsBox.getSelectedIndex());
 		mainPanel.add(discountsBox);
 
 
@@ -141,7 +160,7 @@ public class Payment extends JPanel {
 	 * account.
 	 */
 	public void applyDiscountBtnAction() {
-		
+		// TODO
 	}
 	
 	/**
@@ -149,7 +168,7 @@ public class Payment extends JPanel {
 	 * customer's order.
 	 */
 	public void removeDiscountBtnAction() {
-		
+		// TODO
 	}
 
 	/**
@@ -206,6 +225,36 @@ public class Payment extends JPanel {
 		orderSummary.setText(s.toString());
 		orderTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
 				decimalF(tax * CustomerOrder.subtotal)+"\nTotal: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax)));
+	}
+	
+	/**
+	 * Adds the full bill panel which will allow the customer to 
+	 * select if they'd like to pay the full bill or not.
+	 * Added to main panel component to keep it clean and simple to go
+	 * back to previous page.
+	 */
+	private void addFullBillPanel() {
+		fullBillPanel = new JPanel();
+		fullBillPanel.setBounds(0, 0, 1039, 522);
+		fullBillPanel.setLayout(null);
+		mainPanel.add(fullBillPanel);
+		// Setting invisible when first made.
+		fullBillPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the split bill panel which will allow the customer to 
+	 * select if they'd like to split the bill or not.
+	 * Added to main panel component to keep it clean and simple to go
+	 * back to previous page.
+	 */
+	private void addSplitBillPanel() {
+		splitBillPanel = new JPanel();
+		splitBillPanel.setBounds(0, 0, 1039, 522);
+		splitBillPanel.setLayout(null);
+		mainPanel.add(splitBillPanel);
+		// Setting invisible when first made.
+		splitBillPanel.setVisible(false);
 	}
 
 	/**

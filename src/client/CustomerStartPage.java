@@ -62,7 +62,7 @@ public class CustomerStartPage extends JPanel {
 	public CustomerStartPage() {
 		super();
 		setLayout(null);
-		setBounds(0, 0, 1039, 656);
+		setBounds(0, 0, 1039, 626);
 
 		mainPanel = new JPanel();
 		mainPanel.setBounds(0, 0, 1039, 522);
@@ -71,7 +71,7 @@ public class CustomerStartPage extends JPanel {
 
 		//a panel that is available regardless of what screen is open in the system
 		utilityPanel = new JPanel();
-		utilityPanel.setBounds(0, 523, 1039, 133);
+		utilityPanel.setBounds(0, 523, 1039, 104);
 		add(utilityPanel);
 		utilityPanel.setLayout(null);
 
@@ -277,7 +277,8 @@ public class CustomerStartPage extends JPanel {
 				this.orderPanel.setVisible(false);
 				break;
 			case "pay":
-				this.payPanel.setVisible(false);
+				//this.payPanel.setVisible(false);
+				this.pay2.setVisible(false);
 				break;
 			case "rewards":
 				this.rewardsPanel.rewardsPanel.setVisible(false);
@@ -327,8 +328,10 @@ public class CustomerStartPage extends JPanel {
 				this.orderPanel.getMenuItems();
 				break;
 			case "pay":
-				this.payPanel.setVisible(true);
-				this.payPanel.refreshTxtAreas();
+//				this.payPanel.setVisible(true);
+//				this.payPanel.refreshTxtAreas();
+				this.pay2.setVisible(true);
+				this.pay2.refreshTxtAreas();
 				break;
 			case "rewards":
 				this.rewardsPanel.setVisible(true);
@@ -359,6 +362,9 @@ public class CustomerStartPage extends JPanel {
 		}
 		String refill = (String) JFrameUtils.inputDialog("Refill Request", 
 			"Please enter the drink you want a refill for (type coke, sprite, 7up or water):");
+		if(refill == null || refill.equals("")) {
+			return;
+		}
 		JFrameUtils.showMessage("Refill Request", "Sending a request to the waitstaff for a "+refill+" refill...");
 		Client.session.getPacketEncoder().sendRefillRequest();
 	}
