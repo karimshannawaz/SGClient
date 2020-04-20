@@ -120,6 +120,19 @@ public final class PacketDecoder extends Decoder {
 						case "terminate":
 							System.exit(1);
 							break;
+							
+						// The manager can offer a compensation in the case of customer
+						// dissatisfaction.
+						case "manager_compensation":
+							stream.readUnsignedByte();
+							double compensation = Double.parseDouble(stream.readString());
+							Client.clientFrame.customerSP.pay2.addManagerDiscount(compensation);
+							JFrameUtils.showMessage("Seven Guys", 
+								"We apologize for any inconveniences that may have impacted your experience here.\n"
+								+ "Please accept a "+(Client.clientFrame.customerSP.pay2.decimalF(compensation))+""
+								+ " compensation for your meal on behalf of the manager.\nPlease let us know if"
+								+ "there is anything else we can do for you. Thank you!");
+							break;
 					
 						case "waitstaff_on_way_with_request":
 							stream.readUnsignedByte();
@@ -139,7 +152,7 @@ public final class PacketDecoder extends Decoder {
 							break;
 					
 						case "waitstaff_received_request":
-							int paramsLength = stream.readUnsignedByte();
+							stream.readUnsignedByte();
 							type = stream.readString();
 							if(type.equals("help")) {
 								JFrameUtils.showMessage("Help Request", 
@@ -153,7 +166,7 @@ public final class PacketDecoder extends Decoder {
 							break;
 					
 						case "waitstaff_not_available_for_request":
-							paramsLength = stream.readUnsignedByte();
+							int paramsLength = stream.readUnsignedByte();
 							type = stream.readString();
 							if(type.equals("help")) {
 								ClientSession.requestedHelp = false;
@@ -178,8 +191,8 @@ public final class PacketDecoder extends Decoder {
 						case "waiter_delivered":
 							Client.clientFrame.customerSP.orderPanel.updateMessage(
 								"We hope you enjoy your meal, thank you!!");
-							Client.clientFrame.customerSP.payPanel.enableButtons();
-							ClientSession.canPay = true;
+//							Client.clientFrame.customerSP.payPanel.enableButtons();
+							Client.clientFrame.customerSP.pay2.enablePrePaymentPanel();
 							break;
 							
 						case "order_submitted":
@@ -278,6 +291,8 @@ public final class PacketDecoder extends Decoder {
 				// Receiving saved user details from server
 				case 5:
 					boolean employee = stream.readUnsignedByte() == 1;
+					// Getting customer details sent from saved account
+					// on the server.
 					if(!employee) {
 						ClientSession.email = stream.readString();
 						ClientSession.birthday = stream.readString();
@@ -287,7 +302,10 @@ public final class PacketDecoder extends Decoder {
 						ClientSession.hasBirthdayEntree = stream.readUnsignedByte() == 1;
 						ClientSession.hasFreeDessert = stream.readUnsignedByte() == 1;
 						ClientSession.rwdsLoggedIn = true;
+						Client.clientFrame.customerSP.pay2.refreshDiscounts();
 						Client.clientFrame.customerSP.rewardsPanel.loginToRewards(true);
+						if(Client.clientFrame.customerSP.pay2.isVisible())
+							Client.clientFrame.customerSP.pay2.setVisible(true);
 					}
 					// Send employee details to client here.
 					else {

@@ -1964,6 +1964,8 @@ public class MenuPanel extends JPanel {
 		orderTotal.setText("Subtotal: "+decimalF(subtotal)+"\nTax: "+
 			decimalF(tax * subtotal)+"\nTotal: "+decimalF(subtotal + (subtotal * tax)));
 		CustomerOrder.subtotal = subtotal;
+		
+		Client.clientFrame.customerSP.pay2.refreshTxtAreas(promoIndex);
 	}
 
 	/**

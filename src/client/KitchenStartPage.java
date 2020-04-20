@@ -116,7 +116,6 @@ public class KitchenStartPage extends JPanel {
 				int row = e.getFirstRow();
 				int column = e.getColumn();
 				if (column == 2) {
-					TableModel model = (TableModel) e.getSource();
 					DefaultTableModel tab = (DefaultTableModel) table.getModel();
 					//send information to the waiter that table order is done with table number
 					boolean checked = (boolean) tab.getValueAt(row, 2);
