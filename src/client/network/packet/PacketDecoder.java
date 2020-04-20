@@ -116,6 +116,11 @@ public final class PacketDecoder extends Decoder {
 					String code = stream.readString();
 					switch(code) {
 					
+						// Exits the client per the server's request.
+						case "terminate":
+							System.exit(1);
+							break;
+					
 						case "waitstaff_on_way_with_request":
 							stream.readUnsignedByte();
 							String type = stream.readString();

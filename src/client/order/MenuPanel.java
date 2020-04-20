@@ -79,6 +79,7 @@ public class MenuPanel extends JPanel {
 	
 	public double subtotal;
 	public double tax = 0.0825; // State of TX tax
+	public int promoIndex = -1;
 
 	private JButton next_page_button;
 	private JButton previous_page_button;
@@ -1117,6 +1118,7 @@ public class MenuPanel extends JPanel {
 				else {
 					CustomerOrder.clear();
 					subtotal = 0;
+					promoIndex = -1;
 					refreshOrderTxtArea();
 					if(ClientSession.receivedSpecialNoti) {
 						int result = ClientSession.checkSpecialsDay();
@@ -1899,12 +1901,14 @@ public class MenuPanel extends JPanel {
 		StringBuilder s = new StringBuilder();
 		s.append("Order:\n\n");
 
+		subtotal = 0;
 		// Checks for weekly specials, free beverage or kids eat free.
 		if(ClientSession.freeDrinkWPur) {
 			for(int i = 0; i < CustomerOrder.items.size(); i++) {
 				if(ClientSession.receivedSpecialNoti && 
 						CustomerOrder.items.get(i).menuType.equals("drink") && CustomerOrder.items.size() > 1) {
-					CustomerOrder.items.get(i).price = 0;
+					subtotal -= CustomerOrder.items.get(i).price;
+					promoIndex = i;
 					ClientSession.freeDrinkWPur = false;
 				}
 			}
@@ -1913,17 +1917,22 @@ public class MenuPanel extends JPanel {
 			for(int i = 0; i < CustomerOrder.items.size(); i++) {
 				if(ClientSession.receivedSpecialNoti && 
 						CustomerOrder.items.get(i).name.toLowerCase().contains("kid") && CustomerOrder.items.size() > 1) {
-					CustomerOrder.items.get(i).price = 0;
+					subtotal -= CustomerOrder.items.get(i).price;
+					promoIndex = i;
 					ClientSession.kidsEatFree = false;
 				}
 			}
 		}
-
-		subtotal = 0;
+		
+		int mIIndex = 0;
 		for(MItem i : CustomerOrder.items) {
 			s.append("x"+i.qty+" "+i.name+" - "+
 					(decimalF(i.price * i.qty))+"\n");
-
+			
+			if(promoIndex == mIIndex) {
+				s.append("    - Weekly Specials Promo -"+decimalF(i.price)+"\n");
+			}
+			
 			// Current Menu Item
 			MItem prev = Menu.getItem(i.name);
 			String[] oldIngTok = prev.ingredients.split(",");
@@ -1948,6 +1957,8 @@ public class MenuPanel extends JPanel {
 			}
 
 			subtotal += (i.price * i.qty);
+			
+			mIIndex++;
 		}
 		orderSummary.setText(s.toString());
 		orderTotal.setText("Subtotal: "+decimalF(subtotal)+"\nTax: "+
