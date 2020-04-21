@@ -1,22 +1,24 @@
 package client.order;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import client.Client;
 import client.ClientSession;
 import client.utils.Constants;
 import client.utils.JFrameUtils;
-
-import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * Contains all of the information needed for a payment panel.
@@ -28,15 +30,12 @@ import java.awt.event.ActionEvent;
 public class Payment extends JPanel {
 
 	private static final long serialVersionUID = 3521869431085751251L;
-
-	// Represents the State of Texas tax.
-	public double tax = 0.0825;
 	
-	// Represents the tip that the customer can choose to give
-	public double tip = 0.0825;
-	
-	// Represents the amount that the customer paid.
+	// Represents the amount the customer total and the amount that they paid.
+	public double totalAfterTax = 0;
 	public double amtPaid = 0;
+	public double tip = 0; // Represents the tip that the customer can choose to give
+	public double tax = 0.0825; // Represents the State of Texas tax.
 	
 	// Represents the selected discount that the customer chose
 	public String discount = null;
@@ -63,14 +62,23 @@ public class Payment extends JPanel {
 	public JButton removeDiscountBtn;
 	public JComboBox discountsBox;
 	
-	// Full Bill Panel Components
-	public JPanel fullBillPanel;
-	
 	// Split Bill Panel Components
 	public JPanel splitBillPanel;
 	
+	// Choose Payment Panel Components
+	public JPanel choosePaymentPanel;
+	public JLabel totalDueLbl;
+	
+	// Confirm payment Panel Components
+	public JPanel confirmPaymentPanel;
+	public JLabel confirmPmtLbl;
+	public boolean isCard;
+	private JLabel lblifYouAre;
+	
 	// Tip Panel Components
 	public JPanel tipPanel;
+	private JTextField tipTxtField;
+	public JLabel totalPmtAfterTipLbl;
 	
 	// Receipt Panel Components
 	public JPanel receiptPanel;
@@ -82,6 +90,7 @@ public class Payment extends JPanel {
 	// Final Panel Components
 	public JPanel finalPanel;
 	public JLabel receiptPrefLbl;
+	public JLabel sentToLbl;
 
 	/**
 	 * Constructor for the payment panel.
@@ -91,26 +100,15 @@ public class Payment extends JPanel {
 		setBounds(0, 0, 1039, 522);
 		setLayout(null);
 
-		// Adds the main panel.
+		// Adds the main, full/split bill, tip, receipt, lottery and final panels.
 		addMainPanel();
-		
-		// Adds the full bill panel.
-		addFullBillPanel();
-		
-		// Adds the split bill panel.
 		addSplitBillPanel();
-		
-		// Adds the tip panel
+		addChoosePaymentPanel();
 		addTipPanel();
-		
-		// Adds the receipt panel
 		addReceiptPanel();
-		
-		// Adds the lottery panel
 		addLotteryPanel();
-		
-		// Adds the final panel
 		addFinalPanel();
+		addConfirmPaymentPanel();
 	}
 
 	/**
@@ -133,7 +131,7 @@ public class Payment extends JPanel {
 
 		// Creates a scroll pane for the order summary.
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 450, 450);
+		scrollPane.setBounds(0, 0, 450, 430);
 		orderSummaryPanel.add(scrollPane);
 
 		orderSummary = new JTextArea();
@@ -147,8 +145,8 @@ public class Payment extends JPanel {
 		orderTotal.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		orderTotal.setEditable(false);
 		orderTotal.setLineWrap(true);
-		orderTotal.setBounds(0, 451, 450, 71);
-		orderTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTotal:");
+		orderTotal.setBounds(0, 431, 450, 91);
+		orderTotal.setText("Subtotal: $"+(CustomerOrder.subtotal)+"\nTax:\nTip:\nTotal:");
 		orderSummaryPanel.add(orderTotal);
 		
 		// Create our pre-payment labels and buttons panel
@@ -359,22 +357,26 @@ public class Payment extends JPanel {
 		discountIndex = -1;
 		this.refreshTxtAreas(Client.clientFrame.customerSP.orderPanel.promoIndex);
 	}
-
+	
 	/**
-	 * Splits the customer's bill based on items they purchased
+	 * Represents the customer paying the full bill at once.
+	 * This is a bit easier than split bill
 	 */
-	public void splitBillBtnAction() {
+	public void fullBillBtnAction() {
 		// Skips straight to receipt because the whole order total
 		// was 0 anyway.
 		if(CustomerOrder.subtotal == 0) {
 			openReceiptPanel();
 		}
+		else {
+			openPaymentTypePanel();
+		}
 	}
 
 	/**
-	 * Represents the customer paying the full bill at once.
+	 * Splits the customer's bill based on items they purchased
 	 */
-	public void fullBillBtnAction() {
+	public void splitBillBtnAction() {
 		// Skips straight to receipt because the whole order total
 		// was 0 anyway.
 		if(CustomerOrder.subtotal == 0) {
@@ -431,22 +433,8 @@ public class Payment extends JPanel {
 		}
 		orderSummary.setText(s.toString());
 		orderTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
-				decimalF(tax * CustomerOrder.subtotal)+"\nTotal: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax)));
-	}
-	
-	/**
-	 * Adds the full bill panel which will allow the customer to 
-	 * select if they'd like to pay the full bill or not.
-	 * Added to main panel component to keep it clean and simple to go
-	 * back to previous page.
-	 */
-	private void addFullBillPanel() {
-		fullBillPanel = new JPanel();
-		fullBillPanel.setBounds(454, 0, 582, 522);
-		fullBillPanel.setLayout(null);
-		mainPanel.add(fullBillPanel);
-		// Setting invisible when first made.
-		fullBillPanel.setVisible(false);
+			decimalF(tax * CustomerOrder.subtotal)+"\nTip: "
+			+ ""+(decimalF(tip))+"\nTotal: "+decimalF(CustomerOrder.subtotal + (CustomerOrder.subtotal * tax)));
 	}
 	
 	/**
@@ -465,13 +453,220 @@ public class Payment extends JPanel {
 	}
 	
 	/**
+	 * Adds the choose payment panel
+	 */
+	private void addChoosePaymentPanel() {
+		choosePaymentPanel = new JPanel();
+		choosePaymentPanel.setBounds(454, 0, 582, 522);
+		choosePaymentPanel.setLayout(null);
+		mainPanel.add(choosePaymentPanel);
+		
+		totalDueLbl = new JLabel("<html>Subtotal: <br>Tax: <br>Total Due:</html>");
+		totalDueLbl.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 29));
+		totalDueLbl.setBounds(132, 13, 340, 102);
+		choosePaymentPanel.add(totalDueLbl);
+		
+		JLabel lblPleaseChooseYour = new JLabel("Please choose your payment method:");
+		lblPleaseChooseYour.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 29));
+		lblPleaseChooseYour.setBounds(52, 146, 492, 51);
+		choosePaymentPanel.add(lblPleaseChooseYour);
+		
+		JButton cardBtn = new JButton("Credit/Debit Card");
+		cardBtn.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		cardBtn.setBounds(62, 210, 484, 82);
+		cardBtn.addActionListener((e) -> {
+			isCard = true;
+			openConfirmPaymentPanel();
+		});
+		choosePaymentPanel.add(cardBtn);
+		
+		JButton cashBtn = new JButton("Cash");
+		cashBtn.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		cashBtn.setBounds(60, 305, 484, 82);
+		cashBtn.addActionListener((e) -> {
+			isCard = false;
+			openConfirmPaymentPanel();
+		});
+		choosePaymentPanel.add(cashBtn);
+		
+		JButton paymentTypeBackBtn = new JButton("<-- Back");
+		paymentTypeBackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Goes back to the previous screen
+				prePaymentPanel.setVisible(true);
+				choosePaymentPanel.setVisible(false);
+			}
+		});
+		paymentTypeBackBtn.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		paymentTypeBackBtn.setBounds(60, 427, 484, 82);
+		choosePaymentPanel.add(paymentTypeBackBtn);
+		
+		// Setting invisible when first made.
+		choosePaymentPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the confirm payment panel
+	 */
+	private void addConfirmPaymentPanel() {
+		confirmPaymentPanel = new JPanel();
+		confirmPaymentPanel.setBounds(454, 0, 582, 522);
+		confirmPaymentPanel.setLayout(null);
+		mainPanel.add(confirmPaymentPanel);
+		
+		confirmPmtLbl = new JLabel("<html>You are paying with: "
+			+ "<br> Is this amount: correct?"
+			+ "<br>You will not be able to go back once you"
+			+ "<br>click confirm.");
+		confirmPmtLbl.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		confirmPmtLbl.setBounds(42, 0, 489, 165);
+		confirmPaymentPanel.add(confirmPmtLbl);
+		
+		JButton backBtn = new JButton("<-- Back");
+		backBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Goes back to the previous screen
+				confirmPaymentPanel.setVisible(false);
+				choosePaymentPanel.setVisible(true);
+			}
+		});
+		backBtn.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		backBtn.setBounds(60, 427, 484, 82);
+		confirmPaymentPanel.add(backBtn);
+		
+		JButton btnConfirm = new JButton("CONFIRM");
+		btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		btnConfirm.setBounds(60, 299, 484, 82);
+		btnConfirm.addActionListener((e) -> {
+			if(isCard) {
+				openTipPanel();
+			}
+		});
+		confirmPaymentPanel.add(btnConfirm);
+		
+		lblifYouAre = new JLabel("<html>If you are paying with cash, "
+			+ "a member of our staff will come"
+			+ "<br>and take your payment and mark it completed once they process it.");
+		lblifYouAre.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblifYouAre.setBounds(42, 156, 489, 126);
+		confirmPaymentPanel.add(lblifYouAre);
+		
+		// Setting invisible when first made.
+		confirmPaymentPanel.setVisible(false);
+	}
+	
+	/**
 	 * Adds the tip panel.
 	 */
 	private void addTipPanel() {
 		tipPanel = new JPanel();
 		tipPanel.setBounds(454, 0, 582, 522);
 		tipPanel.setLayout(null);
-		add(tipPanel);
+		mainPanel.add(tipPanel);
+		
+		JLabel lblNewLabel_2 = new JLabel("<html>We appreciate your payment!"
+			+ "<br>Would you like to add a tip?"
+			+ "<br>100% of tips go to our wonderful wait staff.</html>");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel_2.setBounds(54, 13, 475, 138);
+		tipPanel.add(lblNewLabel_2);
+		
+		JButton[] percentBtns = new JButton[] { 
+			new JButton("10%"),
+			new JButton("15%"),
+			new JButton("20%"),
+			new JButton("25%"),
+			new JButton("None")
+		};
+
+		for(int i = 0; i < percentBtns.length; i++) {
+			percentBtns[i].setFont(new Font("Tahoma", Font.PLAIN, 25));
+			percentBtns[i].setBounds(12 + (i * 115), 162, 103, 102);
+			tipPanel.add(percentBtns[i]);
+			final int index = i;
+			percentBtns[i].addActionListener((e) -> {
+				tip = index == 4 ? 0 : totalAfterTax * ((0.05 * index) + 0.10);
+				tipTxtField.setText(""+(new DecimalFormat("0.00").format(tip)));
+				amtPaid = totalAfterTax + tip;
+				orderTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
+					decimalF(tax * CustomerOrder.subtotal)+"\nTip: "
+					+ ""+(decimalF(tip))+"\nTotal: "+decimalF(amtPaid));
+				totalPmtAfterTipLbl.setText("<html>Total you are paying: <b>"+(decimalF(amtPaid))+"</b></html>");
+			});
+		}
+		
+		JLabel lblNewLabel_3 = new JLabel("$");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblNewLabel_3.setBounds(221, 285, 30, 43);
+		tipPanel.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("Custom Tip:");
+		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.PLAIN, 35));
+		lblNewLabel_3_1.setBounds(12, 285, 201, 43);
+		tipPanel.add(lblNewLabel_3_1);
+		
+		tipTxtField = new JTextField();
+		tipTxtField.setBounds(253, 285, 141, 43);
+		tipTxtField.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		tipTxtField.setText("0.00");
+		tipTxtField.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent arg0) { }
+			
+			@Override 
+			public void keyReleased(KeyEvent arg0) { 
+				double tipFromTxt = 0;
+				boolean setNewTip = true;
+				try {
+					tipFromTxt = Double.parseDouble(tipTxtField.getText());
+				} catch(NumberFormatException fe) {
+					setNewTip = false;
+					tip = 0;
+				}
+				if(tipFromTxt < 0) {
+					setNewTip = false;
+					tip = 0;
+				}
+				if(setNewTip) {
+					tip = tipFromTxt;
+				}
+				amtPaid = totalAfterTax + tip;
+				orderTotal.setText("Subtotal: "+decimalF(CustomerOrder.subtotal)+"\nTax: "+
+					decimalF(tax * CustomerOrder.subtotal)+"\nTip: "
+					+ ""+(decimalF(tip))+"\nTotal: "+decimalF(amtPaid));
+				totalPmtAfterTipLbl.setText("<html>Total you are paying: <b>"+(decimalF(amtPaid))+"</b></html>");
+			}
+			
+			@Override public void keyTyped(KeyEvent arg0) { }
+			
+		});
+		tipPanel.add(tipTxtField);
+		
+		totalPmtAfterTipLbl = new JLabel("Total you are paying: ");
+		totalPmtAfterTipLbl.setFont(new Font("Segoe UI Historic", Font.PLAIN, 35));
+		totalPmtAfterTipLbl.setBounds(45, 341, 511, 60);
+		tipPanel.add(totalPmtAfterTipLbl);
+		
+		JButton tipConfirmBtn = new JButton("CONFIRM");
+		tipConfirmBtn.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		tipConfirmBtn.setBounds(91, 407, 422, 102);
+		tipConfirmBtn.addActionListener((e) -> {
+			double tipFromTxt;
+			try {
+				tipFromTxt = Double.parseDouble(tipTxtField.getText());
+			} catch(NumberFormatException fe) {
+				JFrameUtils.showMessage("Tips", "Invalid tip entered, please try again.");
+				return;
+			}
+			if(tipFromTxt < 0) {
+				JFrameUtils.showMessage("Tips", "Invalid tip entered, please try again.");
+				return;
+			}
+			openReceiptPanel();
+		});
+		tipPanel.add(tipConfirmBtn);
+		
 		// Setting invisible when first made.
 		tipPanel.setVisible(false);
 	}
@@ -483,7 +678,7 @@ public class Payment extends JPanel {
 		receiptPanel = new JPanel();
 		receiptPanel.setBounds(454, 0, 582, 522);
 		receiptPanel.setLayout(null);
-		add(receiptPanel);
+		mainPanel.add(receiptPanel);
 		
 		JLabel lblNewLabel = new JLabel("<html>Thank you for your payment!<br>How would you like your receipt?</html>");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -511,6 +706,7 @@ public class Payment extends JPanel {
 				switch(preferenceBtns[index].getText()) {
 					case "Printed":
 						receiptPrefLbl.setText("Your receipt has been printed!");
+						sentToLbl.setText("It will be available at the kiosk's printer.");
 						receiptPanel.setVisible(false);
 						finalPanel.setVisible(true);
 						break;
@@ -523,6 +719,7 @@ public class Payment extends JPanel {
 							return;
 						}
 						receiptPrefLbl.setText("Your receipt has been emailed!");
+						sentToLbl.setText("It has been sent to: "+email);
 						receiptPanel.setVisible(false);
 						finalPanel.setVisible(true);
 						break;
@@ -535,11 +732,13 @@ public class Payment extends JPanel {
 							return;
 						}
 						receiptPrefLbl.setText("Your receipt has been printed and emailed!");
+						sentToLbl.setText("It has been sent to: "+email);
 						receiptPanel.setVisible(false);
 						finalPanel.setVisible(true);
 						break;
 					case "Neither":
 						receiptPrefLbl.setText("You have chosen not to receive a receipt.");
+						sentToLbl.setText("");
 						receiptPanel.setVisible(false);
 						finalPanel.setVisible(true);
 						break;
@@ -551,6 +750,45 @@ public class Payment extends JPanel {
 		receiptPanel.setVisible(false);
 	}
 	
+	/**
+	 * If the customer chooses card payment,
+	 * then they're given the option to add a tip
+	 * after the order.
+	 */
+	public void openTipPanel() {
+		// Hide any more requests from the customer once they've paid and are ready
+		// to leave.
+		Client.clientFrame.customerSP.utilityPanel.setVisible(false);
+		this.confirmPaymentPanel.setVisible(false);
+		this.tipPanel.setVisible(true);
+		amtPaid = totalAfterTax + tip;
+		totalPmtAfterTipLbl.setText("<html>Total you are paying: <b>"+(decimalF(amtPaid))+"</b></html>");
+	}
+	
+	/**
+	 * If the customer chooses full/split bill, it will open this
+	 * page to ask them to choose payment type.
+	 */
+	public void openPaymentTypePanel() {
+		this.prePaymentPanel.setVisible(false);
+		this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(CustomerOrder.subtotal))+""
+			+ "<br>Tax: "+(decimalF(tax * CustomerOrder.subtotal))+""
+			+ "<br>Total Due: "+(decimalF(((tax * CustomerOrder.subtotal)) + CustomerOrder.subtotal))+"</html>");
+		this.totalAfterTax = (tax * CustomerOrder.subtotal) + CustomerOrder.subtotal;
+		this.choosePaymentPanel.setVisible(true);
+	}
+	
+	/**
+	 * If the customer chooses cash/card
+	 */
+	public void openConfirmPaymentPanel() {
+		this.choosePaymentPanel.setVisible(false);
+		this.confirmPmtLbl.setText("<html>You are paying with: <b>"+(isCard ? "Credit/Debit Card" : "Cash")+"</b>"
+				+ "<br> Is this amount: <b>"+(decimalF(totalAfterTax))+"</b> correct?"
+				+ "<br>You will not be able to go back once you"
+				+ "<br>click confirm.");
+		this.confirmPaymentPanel.setVisible(true);
+	}
 
 	/**
 	 * If the customer gets so far as to get to the receipt panel,
@@ -561,6 +799,8 @@ public class Payment extends JPanel {
 		// to leave.
 		Client.clientFrame.customerSP.utilityPanel.setVisible(false);
 		this.prePaymentPanel.setVisible(false);
+		this.tipPanel.setVisible(false);
+		this.amtPaidLbl.setText("Amount paid: "+(decimalF(amtPaid)));
 		this.receiptPanel.setVisible(true);
 	}
 	
@@ -571,7 +811,7 @@ public class Payment extends JPanel {
 		lotteryPanel = new JPanel();
 		lotteryPanel.setBounds(454, 0, 582, 522);
 		lotteryPanel.setLayout(null);
-		add(lotteryPanel);
+		mainPanel.add(lotteryPanel);
 		// Setting invisible when first made.
 		lotteryPanel.setVisible(false);
 	}
@@ -583,7 +823,12 @@ public class Payment extends JPanel {
 		finalPanel = new JPanel();
 		finalPanel.setBounds(454, 0, 582, 522);
 		finalPanel.setLayout(null);
-		add(finalPanel);
+		mainPanel.add(finalPanel);
+		
+		receiptPrefLbl = new JLabel("Your receipt has been: ");
+		receiptPrefLbl.setFont(new Font("Lucida Bright", Font.PLAIN, 25));
+		receiptPrefLbl.setBounds(12, 13, 565, 54);
+		finalPanel.add(receiptPrefLbl);
 		
 		JLabel lblNewLabel_1 = new JLabel("<html>Thank you for visiting Seven Guys!<br>We hope you have a wonderful day!<br>Please stay safe during these tough times,<br>and we are here for you if you<br>ever need any sort of help.</html>");
 		lblNewLabel_1.setFont(new Font("Lucida Bright", Font.PLAIN, 30));
@@ -598,10 +843,10 @@ public class Payment extends JPanel {
 		});
 		finalPanel.add(exitBtn);
 		
-		receiptPrefLbl = new JLabel("Your receipt has been: ");
-		receiptPrefLbl.setFont(new Font("Lucida Bright", Font.PLAIN, 25));
-		receiptPrefLbl.setBounds(12, 13, 565, 82);
-		finalPanel.add(receiptPrefLbl);
+		sentToLbl = new JLabel("We have sent it to: ");
+		sentToLbl.setFont(new Font("Lucida Bright", Font.PLAIN, 25));
+		sentToLbl.setBounds(12, 65, 565, 41);
+		finalPanel.add(sentToLbl);
 		
 		
 		// Setting invisible when first made.
