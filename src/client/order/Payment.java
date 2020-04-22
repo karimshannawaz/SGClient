@@ -64,10 +64,16 @@ public class Payment extends JPanel {
 	
 	// Split Bill Panel Components
 	public JPanel splitBillPanel;
+	public JLabel totalEachAfterSplitLbl;
+	public JTextField splitWayTxtField;
+	public boolean splittingBill = false;
+	public double splitByAmt = 0.0;
+	public double peopleLeftToPay = 0;
 	
 	// Choose Payment Panel Components
 	public JPanel choosePaymentPanel;
 	public JLabel totalDueLbl;
+	public JButton paymentTypeBackBtn;
 	
 	// Confirm payment Panel Components
 	public JPanel confirmPaymentPanel;
@@ -95,6 +101,7 @@ public class Payment extends JPanel {
 	public JPanel finalPanel;
 	public JLabel receiptPrefLbl;
 	public JLabel sentToLbl;
+	public JButton exitBtn;
 
 	/**
 	 * Constructor for the payment panel.
@@ -387,6 +394,9 @@ public class Payment extends JPanel {
 		if(CustomerOrder.subtotal == 0) {
 			openReceiptPanel();
 		}
+		else {
+			openSplitBillPanel();
+		}
 	}
 
 	/**
@@ -453,8 +463,131 @@ public class Payment extends JPanel {
 		splitBillPanel.setBounds(454, 0, 582, 522);
 		splitBillPanel.setLayout(null);
 		mainPanel.add(splitBillPanel);
+		
+		JLabel howToSplitBill = new JLabel("Please choose how you would like to split the bill:\r\n");
+		howToSplitBill.setFont(new Font("Segoe UI Historic", Font.PLAIN, 24));
+		howToSplitBill.setBounds(12, 13, 558, 49);
+		splitBillPanel.add(howToSplitBill);
+		
+		JButton[] percentBtns = new JButton[] { 
+			new JButton("2-way"),
+			new JButton("3-way"),
+			new JButton("4-way"),
+			new JButton("5-way"),
+			new JButton("6-way")
+		};
+
+		for(int i = 0; i < percentBtns.length; i++) {
+			percentBtns[i].setFont(new Font("Tahoma", Font.PLAIN, 25));
+			percentBtns[i].setBounds(12 + (i * 115), 70, 103, 102);
+			splitBillPanel.add(percentBtns[i]);
+			final int index = i;
+			percentBtns[i].addActionListener((e) -> {
+				splitWayTxtField.setText(""+(2 + index));
+				double newSubtotal = CustomerOrder.subtotal / (2 + index);
+				double newTotal = newSubtotal + (newSubtotal * tax);
+				totalEachAfterSplitLbl.setText("<html>Total each person pays: "
+					+ "<b>"+(decimalF(newTotal))+"</b></html>");
+			});
+		}
+
+		JLabel customSplitLbl = new JLabel("Custom Split:");
+		customSplitLbl.setFont(new Font("Segoe UI Historic", Font.PLAIN, 32));
+		customSplitLbl.setBounds(12, 186, 201, 43);
+		splitBillPanel.add(customSplitLbl);
+
+		splitWayTxtField = new JTextField();
+		splitWayTxtField.setBounds(215, 186, 71, 43);
+		splitWayTxtField.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		splitWayTxtField.setText("2");
+		splitWayTxtField.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent arg0) { }
+
+			@Override 
+			public void keyReleased(KeyEvent arg0) { 
+				double splitWay = 2;
+				try {
+					splitWay = Integer.parseInt(splitWayTxtField.getText());
+				} catch(NumberFormatException fe) {
+					splitWay = 2;
+				}
+				if(splitWay < 2 || splitWay > 12) {
+					splitWay = 2;
+				}
+				double newSubtotal = CustomerOrder.subtotal / splitWay;
+				double newTotal = newSubtotal + (newSubtotal * tax);
+				totalEachAfterSplitLbl.setText("<html>Total each person pays: "
+					+ "<b>"+(decimalF(newTotal))+"</b></html>");
+			}
+
+			@Override public void keyTyped(KeyEvent arg0) { }
+
+		});
+		splitBillPanel.add(splitWayTxtField);
+
+		totalEachAfterSplitLbl = new JLabel("<html>Total each person pays: <b></b></html>");
+		totalEachAfterSplitLbl.setFont(new Font("Segoe UI Historic", Font.PLAIN, 32));
+		totalEachAfterSplitLbl.setBounds(12, 241, 511, 60);
+		splitBillPanel.add(totalEachAfterSplitLbl);
+
+		JButton tipConfirmBtn = new JButton("CONFIRM");
+		tipConfirmBtn.setFont(new Font("Segoe UI Historic", Font.PLAIN, 25));
+		tipConfirmBtn.setBounds(332, 186, 223, 60);
+		tipConfirmBtn.addActionListener((e) -> {
+			int splitWay;
+			try {
+				splitWay = Integer.parseInt(splitWayTxtField.getText());
+			} catch(NumberFormatException fe) {
+				JFrameUtils.showMessage("Split Bill", "Invalid split amount entered, please try again.");
+				return;
+			}
+			if(splitWay < 2 || splitWay > 12) {
+				JFrameUtils.showMessage("Tips", "Invalid split amount entered, please try again.");
+				return;
+			}
+			splitByAmt = ((double) splitWay);
+			peopleLeftToPay = splitByAmt;
+			this.openPaymentTypePanel();
+			
+		});
+		splitBillPanel.add(tipConfirmBtn);
+		
+		JButton paymentTypeBackBtn = new JButton("<-- Back");
+		paymentTypeBackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Goes back to the previous screen
+				prePaymentPanel.setVisible(true);
+				splitBillPanel.setVisible(false);
+				splitWayTxtField.setText("2");
+				splitByAmt = 0.0;
+				
+			}
+		});
+		paymentTypeBackBtn.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		paymentTypeBackBtn.setBounds(60, 427, 484, 82);
+		splitBillPanel.add(paymentTypeBackBtn);
+		
+		JButton btnSplitByItem = new JButton("Split by Item(s)");
+		btnSplitByItem.setFont(new Font("Tahoma", Font.PLAIN, 50));
+		btnSplitByItem.setBounds(60, 314, 484, 82);
+		splitBillPanel.add(btnSplitByItem);
+		
 		// Setting invisible when first made.
 		splitBillPanel.setVisible(false);
+	}
+	
+	/**
+	 * Opens the split bill panel.
+	 */
+	public void openSplitBillPanel() {
+		this.prePaymentPanel.setVisible(false);
+		this.splitBillPanel.setVisible(true);
+		double newSubtotal = CustomerOrder.subtotal / (splitByAmt > 0 ? splitByAmt : 2.0);
+		double newTotal = newSubtotal + (newSubtotal * tax);
+		totalEachAfterSplitLbl.setText("<html>Total each person pays: "
+			+ "<b>"+(decimalF(newTotal))+"</b></html>");
 	}
 	
 	/**
@@ -494,12 +627,17 @@ public class Payment extends JPanel {
 		});
 		choosePaymentPanel.add(cashBtn);
 		
-		JButton paymentTypeBackBtn = new JButton("<-- Back");
+		paymentTypeBackBtn = new JButton("<-- Back");
 		paymentTypeBackBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Goes back to the previous screen
-				prePaymentPanel.setVisible(true);
-				choosePaymentPanel.setVisible(false);
+				if(splitByAmt > 0) {
+					choosePaymentPanel.setVisible(false);
+					splitBillPanel.setVisible(true);
+				} else {
+					prePaymentPanel.setVisible(true);
+					choosePaymentPanel.setVisible(false);
+				}
 			}
 		});
 		paymentTypeBackBtn.setFont(new Font("Tahoma", Font.PLAIN, 50));
@@ -533,6 +671,9 @@ public class Payment extends JPanel {
 				// Goes back to the previous screen
 				confirmPaymentPanel.setVisible(false);
 				choosePaymentPanel.setVisible(true);
+				if(splittingBill) {
+					paymentTypeBackBtn.setVisible(false);
+				}
 			}
 		});
 		backBtn.setFont(new Font("Tahoma", Font.PLAIN, 50));
@@ -752,6 +893,23 @@ public class Payment extends JPanel {
 						finalPanel.setVisible(true);
 						break;
 				}
+				if(!splittingBill) {
+					splittingBill = true;
+					// Block any further requests from customer because they are just
+					// about done.
+					Client.clientFrame.customerSP.utilityPanel.setVisible(false);
+				}
+				if(peopleLeftToPay > 0) {
+					peopleLeftToPay--;
+					if(peopleLeftToPay == 0) {
+						exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 51));
+					}
+					else {
+						exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 25));
+					}
+					exitBtn.setText(peopleLeftToPay == 0 ? "Exit" : 
+					"<html>Customer "+((int) peopleLeftToPay)+" can now pay<br>after clicking this button to continue.</html>");
+				}
 			});
 		}
 
@@ -779,11 +937,24 @@ public class Payment extends JPanel {
 	 * page to ask them to choose payment type.
 	 */
 	public void openPaymentTypePanel() {
+		this.splitBillPanel.setVisible(false);
 		this.prePaymentPanel.setVisible(false);
-		this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(CustomerOrder.subtotal))+""
-			+ "<br>Tax: "+(decimalF(tax * CustomerOrder.subtotal))+""
-			+ "<br>Total Due: "+(decimalF(((tax * CustomerOrder.subtotal)) + CustomerOrder.subtotal))+"</html>");
-		this.totalAfterTax = (tax * CustomerOrder.subtotal) + CustomerOrder.subtotal;
+		double newSubtotal = CustomerOrder.subtotal / this.splitByAmt;
+		if(splitByAmt > 0) {
+			this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(newSubtotal))+""
+				+ "<br>Tax: "+(decimalF(tax * newSubtotal))+""
+				+ "<br>Total Due: "+(decimalF(((tax * newSubtotal)) + newSubtotal))+"</html>");
+			this.totalAfterTax = (tax * newSubtotal) + newSubtotal;
+		}
+		else {
+			this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(CustomerOrder.subtotal))+""
+				+ "<br>Tax: "+(decimalF(tax * CustomerOrder.subtotal))+""
+				+ "<br>Total Due: "+(decimalF(((tax * CustomerOrder.subtotal)) + CustomerOrder.subtotal))+"</html>");
+			this.totalAfterTax = (tax * CustomerOrder.subtotal) + CustomerOrder.subtotal;
+		}
+		if(splittingBill) {
+			this.paymentTypeBackBtn.setVisible(false);
+		}
 		this.choosePaymentPanel.setVisible(true);
 	}
 	
@@ -822,6 +993,7 @@ public class Payment extends JPanel {
 		lotteryPanel.setBounds(454, 0, 582, 522);
 		lotteryPanel.setLayout(null);
 		mainPanel.add(lotteryPanel);
+		
 		// Setting invisible when first made.
 		lotteryPanel.setVisible(false);
 	}
@@ -840,15 +1012,15 @@ public class Payment extends JPanel {
 		makingCashPmtOfLbl.setBounds(12, 24, 558, 57);
 		cashPaymentPanel.add(makingCashPmtOfLbl);
 		
-		JLabel lblNewLabel_4_1 = new JLabel("<html>Our staff has been notified that you"
+		JLabel cashPmtLblReceived = new JLabel("<html>Our staff has been notified that you"
 			+ "<br>would like to pay for your order with cash."
 			+ "<br>Please wait for a member of our waitstaff or management to come "
 			+ "to your table and collect the cash payment."
 			+ "<br><br>This screen will automatically refresh with the option "
 			+ "to choose how you would like your receipt once they have marked the payment as complete.</html> ");
-		lblNewLabel_4_1.setFont(new Font("SansSerif", Font.PLAIN, 27));
-		lblNewLabel_4_1.setBounds(12, 103, 558, 390);
-		cashPaymentPanel.add(lblNewLabel_4_1);
+		cashPmtLblReceived.setFont(new Font("SansSerif", Font.PLAIN, 27));
+		cashPmtLblReceived.setBounds(12, 103, 558, 390);
+		cashPaymentPanel.add(cashPmtLblReceived);
 		
 		// Setting invisible when first made.
 		cashPaymentPanel.setVisible(false);
@@ -889,11 +1061,16 @@ public class Payment extends JPanel {
 		lblNewLabel_1.setBounds(12, 91, 565, 276);
 		finalPanel.add(lblNewLabel_1);
 		
-		JButton exitBtn = new JButton("Exit");
+		exitBtn = new JButton("Exit");
 		exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 51));
 		exitBtn.setBounds(83, 388, 438, 121);
 		exitBtn.addActionListener((e) -> {
-			Client.restart();
+			if(peopleLeftToPay == 0 && splittingBill)
+				Client.restart();
+			else {
+				this.finalPanel.setVisible(false);
+				openPaymentTypePanel();
+			}
 		});
 		finalPanel.add(exitBtn);
 		
