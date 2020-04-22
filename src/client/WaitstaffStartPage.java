@@ -109,6 +109,17 @@ public class WaitstaffStartPage extends JPanel {
 						table.getModel().setValueAt("X", row, col);
 						Client.session.getPacketEncoder().sendOrderDelivered(row);
 					}
+					// Confirming customer paid with cash.
+					else if(col == 4) {
+						boolean choice = JFrameUtils.confirmDialog("Cash Payment Confirmation", 
+							"Are you sure you want to confirm table "+(row + 1)+"'s cash payment?"
+							+ "\nThis action cannot be undone.");
+						if(!choice) {
+							return;
+						}
+						table.getModel().setValueAt("X", row, col);
+						Client.session.getPacketEncoder().sendCashPaymentCompleted(row);
+					}
 				}
 			}
 

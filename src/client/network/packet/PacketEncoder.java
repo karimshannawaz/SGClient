@@ -190,5 +190,31 @@ public class PacketEncoder extends Encoder {
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
+
+	/**
+	 * Sends a cash payment to the management or a member
+	 * of the waitstaff to process.
+	 * @param totalAfterTax
+	 */
+	public void sendCashPayment(double totalAfterTax) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(15);
+		stream.writeByte(ClientSession.tableID);
+		stream.writeString(""+totalAfterTax);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
+
+	/**
+	 * Confirms the customer's cash payment
+	 * @param row
+	 */
+	public void sendCashPaymentCompleted(int tableID) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(16);
+		stream.writeByte(tableID);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }

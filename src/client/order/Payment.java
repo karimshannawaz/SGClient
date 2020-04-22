@@ -75,6 +75,10 @@ public class Payment extends JPanel {
 	public boolean isCard;
 	private JLabel lblifYouAre;
 	
+	// Cash Payment Panel Components
+	public JPanel cashPaymentPanel;
+	public JLabel makingCashPmtOfLbl;
+	
 	// Tip Panel Components
 	public JPanel tipPanel;
 	private JTextField tipTxtField;
@@ -109,6 +113,7 @@ public class Payment extends JPanel {
 		addLotteryPanel();
 		addFinalPanel();
 		addConfirmPaymentPanel();
+		addCashPaymentPanel();
 	}
 
 	/**
@@ -538,8 +543,12 @@ public class Payment extends JPanel {
 		btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 50));
 		btnConfirm.setBounds(60, 299, 484, 82);
 		btnConfirm.addActionListener((e) -> {
+			// Opens the tip panel if the customer pays with card.
 			if(isCard) {
 				openTipPanel();
+			}
+			else if(!isCard) {
+				openCashPaymentPanel();
 			}
 		});
 		confirmPaymentPanel.add(btnConfirm);
@@ -800,6 +809,7 @@ public class Payment extends JPanel {
 		Client.clientFrame.customerSP.utilityPanel.setVisible(false);
 		this.prePaymentPanel.setVisible(false);
 		this.tipPanel.setVisible(false);
+		this.cashPaymentPanel.setVisible(false);
 		this.amtPaidLbl.setText("Amount paid: "+(decimalF(amtPaid)));
 		this.receiptPanel.setVisible(true);
 	}
@@ -814,6 +824,50 @@ public class Payment extends JPanel {
 		mainPanel.add(lotteryPanel);
 		// Setting invisible when first made.
 		lotteryPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the cash payment panel.
+	 */
+	private void addCashPaymentPanel() {
+		cashPaymentPanel = new JPanel();
+		cashPaymentPanel.setBounds(454, 0, 582, 522);
+		cashPaymentPanel.setLayout(null);
+		mainPanel.add(cashPaymentPanel);
+		
+		makingCashPmtOfLbl = new JLabel("<html>You are making a cash payment of:</html> ");
+		makingCashPmtOfLbl.setFont(new Font("SansSerif", Font.PLAIN, 27));
+		makingCashPmtOfLbl.setBounds(12, 24, 558, 57);
+		cashPaymentPanel.add(makingCashPmtOfLbl);
+		
+		JLabel lblNewLabel_4_1 = new JLabel("<html>Our staff has been notified that you"
+			+ "<br>would like to pay for your order with cash."
+			+ "<br>Please wait for a member of our waitstaff or management to come "
+			+ "to your table and collect the cash payment."
+			+ "<br><br>This screen will automatically refresh with the option "
+			+ "to choose how you would like your receipt once they have marked the payment as complete.</html> ");
+		lblNewLabel_4_1.setFont(new Font("SansSerif", Font.PLAIN, 27));
+		lblNewLabel_4_1.setBounds(12, 103, 558, 390);
+		cashPaymentPanel.add(lblNewLabel_4_1);
+		
+		// Setting invisible when first made.
+		cashPaymentPanel.setVisible(false);
+	}
+	
+	/**
+	 * Opens the cash payment "wait for waitstaff" screen
+	 * so the customer knows that they have to wait for
+	 * someone to come get their cash payment.
+	 */
+	private void openCashPaymentPanel() {
+		// Hide any more requests from the customer once they've paid and are ready
+		// to leave.
+		Client.clientFrame.customerSP.utilityPanel.setVisible(false);
+		confirmPaymentPanel.setVisible(false);
+		cashPaymentPanel.setVisible(true);
+		makingCashPmtOfLbl.setText("<html>You are making a cash payment of: <b>"+(decimalF(totalAfterTax))+"</b></html> ");
+		amtPaid = totalAfterTax;
+		Client.session.getPacketEncoder().sendCashPayment(totalAfterTax);
 	}
 	
 	/**

@@ -1,10 +1,9 @@
 package client;
 
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -105,6 +104,7 @@ public class ClientFrame extends JFrame {
 
 		});
 		instance = this;
+
 		pack();
 	}
 

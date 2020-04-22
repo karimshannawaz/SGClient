@@ -10,6 +10,7 @@ import client.order.KOrder;
 import client.order.MItem;
 import client.order.Menu;
 import client.order.OrderQueue;
+import client.utils.Constants;
 import client.utils.JFrameUtils;
 
 public final class PacketDecoder extends Decoder {
@@ -115,6 +116,11 @@ public final class PacketDecoder extends Decoder {
 				case 4:
 					String code = stream.readString();
 					switch(code) {
+						
+						// Manager or waitstaff confirms customer's payment.
+						case "cash_payment_confirmed":
+							Client.clientFrame.customerSP.pay2.openReceiptPanel();
+							break;
 					
 						// Exits the client per the server's request.
 						case "terminate":
@@ -191,7 +197,6 @@ public final class PacketDecoder extends Decoder {
 						case "waiter_delivered":
 							Client.clientFrame.customerSP.orderPanel.updateMessage(
 								"We hope you enjoy your meal, thank you!!");
-//							Client.clientFrame.customerSP.payPanel.enableButtons();
 							Client.clientFrame.customerSP.pay2.enablePrePaymentPanel();
 							break;
 							
@@ -284,6 +289,17 @@ public final class PacketDecoder extends Decoder {
 								row++;
 							}
 							tab.removeRow(row);
+							break;
+							
+						// Represents that the customer tried to make a cash payment.
+						case "cash_payment":
+							stream.readUnsignedByte();
+							tableID = stream.readUnsignedShort();
+							double totalPayment = Double.parseDouble(stream.readString());
+							JFrameUtils.showMessage("Payments", "Table "+(tableID + 1)+" has requested to make a cash payment of "
+								+ Constants.decimalF(totalPayment)+"\nPlease mark the payment as complete once you've received it.");
+							Client.clientFrame.employeeSP.waitstaffPage.table.getModel().
+							setValueAt("O", tableID, 4);
 							break;
 					}
 					break;

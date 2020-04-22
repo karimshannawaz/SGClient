@@ -1,5 +1,6 @@
 package client.utils;
 
+import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
 /**
@@ -38,5 +39,14 @@ public class Constants {
 		if (email == null) 
 			return false; 
 		return pat.matcher(email).matches(); 
+	}
+	
+	/**
+	 * Formats a decimal to be displayed as currency.
+	 * @param num
+	 * @return
+	 */
+	public static String decimalF(double num) {
+		return DecimalFormat.getCurrencyInstance().format(num);
 	}
 }
