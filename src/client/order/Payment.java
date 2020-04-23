@@ -691,6 +691,8 @@ public class Payment extends JPanel {
 			else if(!isCard) {
 				openCashPaymentPanel();
 			}
+			// Let the server know not to be able to compensate this order again.
+			Client.session.getPacketEncoder().setOrderAsPaid(ClientSession.tableID);
 		});
 		confirmPaymentPanel.add(btnConfirm);
 		
