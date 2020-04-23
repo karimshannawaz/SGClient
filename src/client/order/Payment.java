@@ -899,7 +899,7 @@ public class Payment extends JPanel {
 				if(!splittingBill) {
 					splittingBill = true;
 					// Block any further requests from customer because they are just
-					// about done.
+					// about done
 					Client.clientFrame.customerSP.utilityPanel.setVisible(false);
 				}
 				if(peopleLeftToPay > 0) {
