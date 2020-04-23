@@ -1294,6 +1294,8 @@ public class Payment extends JPanel {
 				if(qtySplitItem > newQty)
 					qtySplitItem = newQty;
 			}
+			// Calculates how much of the manager discount to put per person
+			// who chooses the items.
 			double percentageOfTotal = ((newItem.qty * newItem.price) / (CustomerOrder.subtotal + this.managerDiscount));
 			managerDiscountSplit = percentageOfTotal * this.managerDiscount;
 			this.subtotalForSplitItem -= newItem.qty * newItem.price;
