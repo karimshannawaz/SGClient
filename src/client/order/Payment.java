@@ -692,7 +692,8 @@ public class Payment extends JPanel {
 				openCashPaymentPanel();
 			}
 			// Let the server know not to be able to compensate this order again.
-			Client.session.getPacketEncoder().setOrderAsPaid(ClientSession.tableID);
+			if(!splittingBill)
+				Client.session.getPacketEncoder().setOrderAsPaid(ClientSession.tableID);
 		});
 		confirmPaymentPanel.add(btnConfirm);
 		
