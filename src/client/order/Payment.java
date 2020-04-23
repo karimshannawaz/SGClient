@@ -1255,7 +1255,10 @@ public class Payment extends JPanel {
 				if(qtySplitItem > newQty)
 					qtySplitItem = newQty;
 			}
+			double percentageOfTotal = ((newItem.qty * newItem.price) / (CustomerOrder.subtotal + this.managerDiscount));
+			managerDiscountSplit = percentageOfTotal * this.managerDiscount;
 			this.subtotalForSplitItem += newItem.qty * newItem.price;
+			this.subtotalForSplitItem -= managerDiscountSplit;
 			splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
 				+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
 		});
@@ -1291,7 +1294,11 @@ public class Payment extends JPanel {
 				if(qtySplitItem > newQty)
 					qtySplitItem = newQty;
 			}
+			double percentageOfTotal = ((newItem.qty * newItem.price) / (CustomerOrder.subtotal + this.managerDiscount));
+			managerDiscountSplit = percentageOfTotal * this.managerDiscount;
 			this.subtotalForSplitItem -= newItem.qty * newItem.price;
+			this.subtotalForSplitItem += managerDiscountSplit;
+			managerDiscountSplit = 0.0;
 			splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
 				+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
 		});
