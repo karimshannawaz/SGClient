@@ -56,6 +56,8 @@ public class MenuPanel extends JPanel {
 	public List<JButton> sidesFM = new ArrayList<JButton>();
 	public List<JButton> drinksFM = new ArrayList<JButton>();
 	public List<JButton> dessertsFM = new ArrayList<JButton>();
+	public List<JButton> comboFM = new ArrayList<JButton>();
+	
 	private List<JButton> add = new ArrayList<JButton>();
 	private List<JButton> sub = new ArrayList<JButton>();
 	private List<JButton> ingredientSubButton = new ArrayList<JButton>();
@@ -85,6 +87,7 @@ public class MenuPanel extends JPanel {
 	private JButton previous_page_button;
 	private JToggleButton dessert_button;
 	private JToggleButton entree_button;
+	private JToggleButton combo_button;
 	private JToggleButton side_button;
 	private JToggleButton drink_button;
 	
@@ -369,25 +372,30 @@ public class MenuPanel extends JPanel {
 		OrderTypeFrame.setLayout(null);
 
 		dessert_button = new JToggleButton("Desserts");
-		dessert_button.setBounds(0, 390, 346, 130);
+		dessert_button.setBounds(0, 312, 346, 104);
 		dessert_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(dessert_button);
 
 		entree_button = new JToggleButton("Entrees");
-		entree_button.setBounds(0, 0, 346, 130);
+		entree_button.setBounds(0, 0, 346, 104);
 		entree_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(entree_button);
 
 		side_button = new JToggleButton("Sides");
-		side_button.setBounds(0, 130, 346, 130);
+		side_button.setBounds(0, 104, 346, 104);
 		side_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(side_button);
 
 		drink_button = new JToggleButton("Drinks");
-		drink_button.setBounds(0, 260, 346, 130);
+		drink_button.setBounds(0, 208, 346, 104);
 		drink_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
 		OrderTypeFrame.add(drink_button);
 
+		combo_button = new JToggleButton("$5 meals");
+		combo_button.setBounds(0, 416, 346, 104);
+		combo_button.setFont(new Font("Tahoma", Font.PLAIN, 45));
+		OrderTypeFrame.add(combo_button);
+		
 		// displays first 7 entrees when entree button is clicked
 		entree_button.addActionListener(new ActionListener()
 		{
@@ -481,9 +489,13 @@ public class MenuPanel extends JPanel {
 					for(JButton b : drinksFM) 
 						b.setVisible(false);
 
+					for(JButton b : comboFM) 
+						b.setVisible(false);
+					
 					for (JButton b : entreesFM)
 						b.setVisible(true);
 
+					combo_button.setSelected(false);
 					side_button.setSelected(false);
 					drink_button.setSelected(false);
 					dessert_button.setSelected(false);
@@ -500,6 +512,120 @@ public class MenuPanel extends JPanel {
 			}
 		});
 
+		combo_button.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (combo_button.isSelected())
+				{
+					getMenuItems();
+					try
+					{
+						Thread.sleep(50);
+					}
+					catch (InterruptedException e1)
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					page_number = 0;
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
+
+					comboFM.clear();
+					int buttonIndex = 0;
+					for (MItem mItem : Menu.instance)
+					{
+						if ((mItem.menuType.equals("combo") && (buttonIndex < 7)))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							MenuListFrame.add(b);
+							comboFM.add(b);
+							b.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e)
+								{
+
+									seeMenuDetails(mItem, OrderSpecificsFrame);
+									item_name_textfield.setText(mItem.name);
+									item = mItem;
+									if (mItem.type.equals("default"))
+										vegan_textfield.setVisible(false);
+
+									else if (mItem.type.equals("vegetarian"))
+									{
+										vegan_textfield.setVisible(true);
+										vegan_textfield.setText("vegetarian");
+									}
+									else 
+									{	
+										vegan_textfield.setVisible(true);
+										vegan_textfield.setText("vegan");
+									}
+									String text = "data\\\\menu-images\\\\";
+									text = text.concat(mItem.name);
+									text = text.concat(".jpg");
+									lblNewLabel.setIcon(new ImageIcon(text));
+
+									text = "Calories: ";
+									text = text.concat(String.valueOf(mItem.calories));
+									item_calories_textfield.setText(text);
+
+									item_allergens_textfield.setText("Allergens: "+ mItem.allergens);
+									item_description_textfield.setText(mItem.description);
+									item_price_textfield.setText("$"+String.valueOf(mItem.price));
+									MenuListFrame.setVisible(false);
+									OrderListFrame.setVisible(false);
+									OrderTypeFrame.setVisible(false);
+									OrderDetails.setVisible(true);
+								}
+							});
+							buttonIndex++;
+						}
+						else if ((mItem.menuType.equals("combo") && (buttonIndex >= 7)))
+						{
+							next_page_button.setVisible(true);
+							break;
+						}						
+					}
+					for(JButton b : sidesFM) 
+						b.setVisible(false);
+
+					for(JButton b : dessertsFM) 
+						b.setVisible(false);
+
+					for(JButton b : drinksFM) 
+						b.setVisible(false);
+
+					for (JButton b : entreesFM)
+						b.setVisible(false);
+					
+					for (JButton b : comboFM)
+						b.setVisible(true);
+
+					side_button.setSelected(false);
+					drink_button.setSelected(false);
+					dessert_button.setSelected(false);
+					entree_button.setSelected(false);
+				}
+				else
+				{
+					for (JButton b : comboFM)
+						b.setVisible(false);
+
+					combo_button.setSelected(false);
+					next_page_button.setVisible(false);
+					previous_page_button.setVisible(false);
+				}
+			}
+		});
+			
 		//displays first 7 sides when side button is clicked
 		side_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -594,6 +720,10 @@ public class MenuPanel extends JPanel {
 					for (JButton b : entreesFM)
 						b.setVisible(false);
 
+					for(JButton b : comboFM) 
+						b.setVisible(false);
+					
+					combo_button.setSelected(false);
 					entree_button.setSelected(false);
 					drink_button.setSelected(false);
 					dessert_button.setSelected(false);
@@ -705,6 +835,10 @@ public class MenuPanel extends JPanel {
 					for (JButton b : entreesFM)
 						b.setVisible(false);
 
+					for (JButton b : comboFM)
+						b.setVisible(false);
+					
+					combo_button.setSelected(false);
 					entree_button.setSelected(false);
 					side_button.setSelected(false);
 					dessert_button.setSelected(false);
@@ -815,6 +949,10 @@ public class MenuPanel extends JPanel {
 					for (JButton b : entreesFM)
 						b.setVisible(false);
 
+					for (JButton b : comboFM)
+						b.setVisible(false);
+					
+					combo_button.setSelected(false);
 					entree_button.setSelected(false);
 					side_button.setSelected(false);
 					drink_button.setSelected(false);
@@ -966,7 +1104,34 @@ public class MenuPanel extends JPanel {
 							b.setVisible(true);
 					}
 				}
+				else if (combo_button.isSelected())
+				{				
+					for (JButton b : comboFM)
+						b.setVisible(false);
 
+					comboFM.clear();
+
+					for (MItem mItem : Menu.instance)
+					{
+						if ((mItem.menuType.equals("combo") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							MenuListFrame.add(b);
+							comboFM.add(b);
+							buttonIndex++;
+						}
+						else if (mItem.menuType.equals("combo"))
+							buttonIndex++;
+
+						for (JButton b : comboFM)
+							b.setVisible(true);
+					}
+				}
 				if (buttonIndex < (7 * (page_number + 1)))
 					next_page_button.setVisible(false);
 
@@ -1095,7 +1260,36 @@ public class MenuPanel extends JPanel {
 							b.setVisible(true);
 					}
 				}
+				else if (combo_button.isSelected())
+				{				
+					for (JButton b : comboFM)
+						b.setVisible(false);
 
+					comboFM.clear();
+
+					for (MItem mItem : Menu.instance)
+					{
+
+						if ((mItem.menuType.equals("combo") && ((buttonIndex >= (7 * page_number)) && (buttonIndex < (7 * (page_number + 1))))))
+						{
+							JButton b = new JButton();
+							b.setText(mItem.name);
+							b.setEnabled(true);
+							b.setVisible(false);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
+							b.setBounds(0, 70 * (buttonIndex % 7), 347, 70);
+							MenuListFrame.add(b);
+							comboFM.add(b);
+							buttonIndex++;
+
+						}
+						else if (mItem.menuType.equals("combo"))
+							buttonIndex++;
+
+						for (JButton b : comboFM)
+							b.setVisible(true);
+					}
+				}
 				if (page_number < 1)
 					previous_page_button.setVisible(false);
 
@@ -1993,7 +2187,11 @@ public class MenuPanel extends JPanel {
 
 		for (JButton b : entreesFM)
 			b.setVisible(false);
-
+		
+		for (JButton b : comboFM)
+			b.setVisible(false);
+		
+		combo_button.setSelected(false);
 		entree_button.setSelected(false);
 		side_button.setSelected(false);
 		drink_button.setSelected(false);
