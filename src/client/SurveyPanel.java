@@ -50,38 +50,47 @@ public class SurveyPanel extends JPanel {
 		add(lblNewLabel);
 		
 		JRadioButton q1bad = new JRadioButton("Bad");
+		q1bad.setBackground(Color.WHITE);
 		q1bad.setBounds(634, 123, 71, 23);
 		add(q1bad);
 		
 		JRadioButton q1okay = new JRadioButton("Okay");
+		q1okay.setBackground(Color.WHITE);
 		q1okay.setBounds(717, 123, 71, 23);
 		add(q1okay);
 		
 		JRadioButton q1excellent = new JRadioButton("Excellent");
+		q1excellent.setBackground(Color.WHITE);
 		q1excellent.setBounds(800, 123, 89, 23);
 		add(q1excellent);
 		
 		JRadioButton q2yes = new JRadioButton("Yes");
+		q2yes.setBackground(Color.WHITE);
 		q2yes.setBounds(636, 192, 69, 23);
 		add(q2yes);
 		
 		JRadioButton q2no = new JRadioButton("No");
+		q2no.setBackground(Color.WHITE);
 		q2no.setBounds(719, 192, 69, 23);
 		add(q2no);
 		
 		JRadioButton q3notLikely = new JRadioButton("Not Likely");
+		q3notLikely.setBackground(Color.WHITE);
 		q3notLikely.setBounds(634, 254, 106, 23);
 		add(q3notLikely);
 		
 		JRadioButton q3veryLikely = new JRadioButton("Very Likely");
+		q3veryLikely.setBackground(Color.WHITE);
 		q3veryLikely.setBounds(746, 254, 106, 23);
 		add(q3veryLikely);
 		
 		JRadioButton q4dissatisfied = new JRadioButton("Dissatisfied");
+		q4dissatisfied.setBackground(Color.WHITE);
 		q4dissatisfied.setBounds(634, 321, 117, 23);
 		add(q4dissatisfied);
 		
 		JRadioButton q4neutral = new JRadioButton("Neutral");
+		q4neutral.setBackground(Color.WHITE);
 		q4neutral.setBounds(763, 321, 83, 23);
 		add(q4neutral);
 		
@@ -98,6 +107,26 @@ public class SurveyPanel extends JPanel {
 		});
 		submitBtn.setBounds(448, 403, 151, 48);
 		add(submitBtn);
+		
+		JPanel p1 = new JPanel();
+		p1.setBackground(Color.WHITE);
+		p1.setBounds(49, 109, 946, 46);
+		add(p1);
+		
+		JPanel p2 = new JPanel();
+		p2.setBackground(Color.WHITE);
+		p2.setBounds(49, 177, 946, 48);
+		add(p2);
+		
+		JPanel p3 = new JPanel();
+		p3.setBackground(Color.WHITE);
+		p3.setBounds(49, 239, 946, 48);
+		add(p3);
+		
+		JPanel p4 = new JPanel();
+		p4.setBackground(Color.WHITE);
+		p4.setBounds(49, 309, 946, 48);
+		add(p4);
 		
 		//set up button group for question 1 so only one button is selected at a time
 		ButtonGroup quest1 = new ButtonGroup();
@@ -120,26 +149,6 @@ public class SurveyPanel extends JPanel {
 		quest4.add(q4dissatisfied);
 		quest4.add(q4neutral);
 		quest4.add(q4satisfied);
-		
-		JPanel p1 = new JPanel();
-		p1.setBackground(Color.WHITE);
-		p1.setBounds(49, 109, 946, 46);
-		add(p1);
-		
-		JPanel p2 = new JPanel();
-		p2.setBackground(Color.WHITE);
-		p2.setBounds(49, 177, 946, 48);
-		add(p2);
-		
-		JPanel p3 = new JPanel();
-		p3.setBackground(Color.WHITE);
-		p3.setBounds(49, 239, 946, 48);
-		add(p3);
-		
-		JPanel p4 = new JPanel();
-		p4.setBackground(Color.WHITE);
-		p4.setBounds(49, 309, 946, 48);
-		add(p4);
 		
 
 	}

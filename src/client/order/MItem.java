@@ -19,7 +19,7 @@ public class MItem {
 	public String ingredients;
 	
 	// This helps with order totals.
-	public int qty;
+	public double qty;
 	public String sub;
 	public String specialReqs;
 
@@ -62,7 +62,7 @@ public class MItem {
 	 * @return
 	 */
 	public String asOrder() {
-		return name+"~"+price+"~"+qty+"~"+specialReqs+"~"+ingredients;
+		return name+"~"+price+"~"+((int) qty)+"~"+specialReqs+"~"+ingredients;
 	}
 
 

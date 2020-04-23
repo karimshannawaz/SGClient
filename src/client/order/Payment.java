@@ -5,15 +5,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import client.Client;
 import client.ClientSession;
@@ -68,7 +76,22 @@ public class Payment extends JPanel {
 	public JTextField splitWayTxtField;
 	public boolean splittingBill = false;
 	public double splitByAmt = 0.0;
-	public double peopleLeftToPay = 0;
+	public double peopleLeftToPay = -1;
+	
+	// Split Bill by item Panel Components
+	public JPanel splitByItemsPanel;
+	public JTable splitByItemTable;
+	public JTable currentlySplittingTable;
+	public JLabel selectedItemLbl;
+	public JLabel splitTotalLbl;
+	public JButton splitItemBackBtn;
+	public DefaultTableModel beforeSplitTableModel;
+	public DefaultTableModel splittingTableModel;
+	public double managerDiscountSplit = 0.0;
+	public double subtotalForSplitItem = 0.0;
+	public double qtySplitItem = 0;
+	public List<MItem> tempBeforeSplit = new ArrayList<MItem>();
+	public List<MItem> splittingItems = new ArrayList<MItem>();
 	
 	// Choose Payment Panel Components
 	public JPanel choosePaymentPanel;
@@ -121,6 +144,7 @@ public class Payment extends JPanel {
 		addFinalPanel();
 		addConfirmPaymentPanel();
 		addCashPaymentPanel();
+		addSplitByItemsPanel();
 	}
 
 	/**
@@ -572,6 +596,9 @@ public class Payment extends JPanel {
 		JButton btnSplitByItem = new JButton("Split by Item(s)");
 		btnSplitByItem.setFont(new Font("Tahoma", Font.PLAIN, 50));
 		btnSplitByItem.setBounds(60, 314, 484, 82);
+		btnSplitByItem.addActionListener((e) -> {
+			openSplitByIPanel();
+		});
 		splitBillPanel.add(btnSplitByItem);
 		
 		// Setting invisible when first made.
@@ -634,7 +661,11 @@ public class Payment extends JPanel {
 				if(splitByAmt > 0) {
 					choosePaymentPanel.setVisible(false);
 					splitBillPanel.setVisible(true);
-				} else {
+				} else if(!splittingItems.isEmpty()) {
+					splitByItemsPanel.setVisible(true);
+					choosePaymentPanel.setVisible(false);
+				}
+				else {
 					prePaymentPanel.setVisible(true);
 					choosePaymentPanel.setVisible(false);
 				}
@@ -893,11 +924,29 @@ public class Payment extends JPanel {
 						finalPanel.setVisible(true);
 						break;
 				}
-				if(!splittingBill) {
+				if(!splittingBill && (peopleLeftToPay > 0 || !splittingItems.isEmpty())) {
 					splittingBill = true;
 					// Block any further requests from customer because they are just
 					// about done
 					Client.clientFrame.customerSP.utilityPanel.setVisible(false);
+				}
+				if(!splittingItems.isEmpty()) {
+					this.subtotalForSplitItem = 0.0;
+					this.managerDiscountSplit = 0.0;
+					this.qtySplitItem = 1;
+					this.splittingItems.clear();
+					this.splittingTableModel.setRowCount(0);
+					selectedItemLbl.setText("None");
+					splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
+						+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
+					if(tempBeforeSplit.isEmpty()) {
+						exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 51));
+					}
+					else {
+						exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 25));
+					}
+					exitBtn.setText(tempBeforeSplit.isEmpty() ? "Exit" : 
+					"<html>The next customer can now pay<br>after clicking this button to continue.</html>");
 				}
 				if(peopleLeftToPay > 0) {
 					peopleLeftToPay--;
@@ -942,12 +991,19 @@ public class Payment extends JPanel {
 	public void openPaymentTypePanel() {
 		this.splitBillPanel.setVisible(false);
 		this.prePaymentPanel.setVisible(false);
-		double newSubtotal = CustomerOrder.subtotal / this.splitByAmt;
 		if(splitByAmt > 0) {
+			double newSubtotal = CustomerOrder.subtotal / this.splitByAmt;
 			this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(newSubtotal))+""
 				+ "<br>Tax: "+(decimalF(tax * newSubtotal))+""
 				+ "<br>Total Due: "+(decimalF(((tax * newSubtotal)) + newSubtotal))+"</html>");
 			this.totalAfterTax = (tax * newSubtotal) + newSubtotal;
+		} else if(!splittingItems.isEmpty()) {
+			double newTax = subtotalForSplitItem * tax;
+			double newTotal = (tax * subtotalForSplitItem) + subtotalForSplitItem;
+			this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(subtotalForSplitItem))+""
+				+ "<br>Tax: "+(decimalF(newTax))+""
+				+ "<br>Total Due: "+(decimalF(newTotal))+"</html>");
+			this.totalAfterTax = newTotal;
 		}
 		else {
 			this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(CustomerOrder.subtotal))+""
@@ -1004,6 +1060,321 @@ public class Payment extends JPanel {
 		
 		// Setting invisible when first made.
 		lotteryPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the split by item.
+	 */
+	private void addSplitByItemsPanel() {
+		splitByItemsPanel = new JPanel();
+		splitByItemsPanel.setBounds(454, 0, 582, 522);
+		splitByItemsPanel.setLayout(null);
+		mainPanel.add(splitByItemsPanel);
+		
+		// Scroll pane for items list
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(23, 13, 547, 193);
+		splitByItemsPanel.add(scrollPane);
+
+		// Create table for order list
+		splitByItemTable = new JTable();
+		splitByItemTable.setModel(new DefaultTableModel(
+		new String[] {
+				"Item", "Price"
+			}, 0
+		));
+		scrollPane.setViewportView(splitByItemTable);
+
+		splitByItemTable.addMouseListener(new MouseListener() {
+			@Override public void mouseClicked(MouseEvent arg0) { }
+			@Override public void mouseEntered(MouseEvent arg0) { }
+			@Override public void mouseExited(MouseEvent arg0) { }
+			@Override public void mousePressed(MouseEvent arg0) { }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				int row = splitByItemTable.getSelectedRow();
+				MItem item = tempBeforeSplit.get(row);
+				if(item.qty < 1) {
+					qtySplitItem = item.qty;
+					selectedItemLbl.setText("Remove: x"+qtySplitItem+" "+item.name);
+					return;
+				}
+				if(item.qty == 1 && tempBeforeSplit.size() == 1) {
+					boolean option = JFrameUtils.confirmDialog("Choose Quantity:", 
+						"This item's quantity is 1 and it is the last item;\n"
+						+ "would you like to split this item by its price instead?");
+					if(option) {
+						qtySplitItem = 0.5;
+						selectedItemLbl.setText("Remove: x"+qtySplitItem+" "+item.name);
+						return;
+					}
+				}
+				if(item.qty > 1) {
+					String op = (String) JFrameUtils.inputDialog("Choose Quantity:", 
+						"This item's quantity is greater than 1, please choose the amount\n"
+						+ "that you would like to split:");
+					int quantityChosen;
+					try {
+						if(op == null)
+							quantityChosen = 1;
+						else
+							quantityChosen = Integer.parseInt(op);
+					} catch(NumberFormatException e) {
+						quantityChosen = 1;
+					}
+					if(quantityChosen > item.qty || quantityChosen < 1)
+						quantityChosen = 1;
+					qtySplitItem = quantityChosen;
+				}
+				else {
+					qtySplitItem = 1;
+				}
+				selectedItemLbl.setText("Add: x"+qtySplitItem+" "+item.name);
+			}
+		});
+
+		splitByItemTable.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		splitByItemTable.setRowHeight(30);
+		splitByItemTable.getColumnModel().getColumn(0).setPreferredWidth(290);
+
+		splitByItemTable.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		splitByItemTable.setDefaultRenderer(String.class, centerRenderer);
+		
+		beforeSplitTableModel = (DefaultTableModel) splitByItemTable.getModel();
+
+		JScrollPane splittingScrollPane = new JScrollPane();
+		splittingScrollPane.setBounds(26, 259, 544, 185);
+		splitByItemsPanel.add(splittingScrollPane);
+		
+		// Create table for order list
+		currentlySplittingTable = new JTable();
+		currentlySplittingTable.setModel(new DefaultTableModel(
+			new String[] {
+				"Item", "Price"
+			}, 0
+		));
+		splittingScrollPane.setViewportView(currentlySplittingTable);
+
+		currentlySplittingTable.addMouseListener(new MouseListener() {
+			@Override public void mouseClicked(MouseEvent arg0) { }
+			@Override public void mouseEntered(MouseEvent arg0) { }
+			@Override public void mouseExited(MouseEvent arg0) { }
+			@Override public void mousePressed(MouseEvent arg0) { }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				int row = currentlySplittingTable.getSelectedRow();
+				MItem item = splittingItems.get(row);
+				if(item.qty < 1) {
+					qtySplitItem = item.qty;
+					selectedItemLbl.setText("Remove: x"+qtySplitItem+" "+item.name);
+					return;
+				}
+				if(item.qty == 1 && splittingItems.size() == 1) {
+					boolean option = JFrameUtils.confirmDialog("Choose Quantity:", 
+						"This item's quantity is 1 and it is the last item;\n"
+						+ "would you like to split this item by its price instead?");
+					if(option) {
+						qtySplitItem = 0.5;
+						selectedItemLbl.setText("Remove: x"+qtySplitItem+" "+item.name);
+						return;
+					}
+				}
+				if(item.qty > 1) {
+					String op = (String) JFrameUtils.inputDialog("Choose Quantity:", 
+						"This item's quantity is greater than 1, please choose the amount\n"
+						+ "that you would like to split:");
+					int quantityChosen;
+					try {
+						if(op == null)
+							quantityChosen = 1;
+						else
+							quantityChosen = Integer.parseInt(op);
+					} catch(NumberFormatException e) {
+						quantityChosen = 1;
+					}
+					if(quantityChosen > item.qty || quantityChosen < 1)
+						quantityChosen = 1;
+					qtySplitItem = quantityChosen;
+				}
+				else {
+					qtySplitItem = 1;
+				}
+				selectedItemLbl.setText("Remove: x"+qtySplitItem+" "+item.name);
+			}
+		});
+
+		currentlySplittingTable.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		currentlySplittingTable.setRowHeight(30);
+		currentlySplittingTable.getColumnModel().getColumn(0).setPreferredWidth(290);
+
+		currentlySplittingTable.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
+		currentlySplittingTable.setDefaultRenderer(String.class, centerRenderer);
+		
+		splittingTableModel = (DefaultTableModel) currentlySplittingTable.getModel();
+
+		splitItemBackBtn = new JButton("<-- BACK");
+		splitItemBackBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		splitItemBackBtn.setBounds(23, 457, 131, 52);
+		splitItemBackBtn.addActionListener((e) -> {
+			this.splitBillPanel.setVisible(true);
+			this.splitByItemsPanel.setVisible(false);
+		});
+		splitByItemsPanel.add(splitItemBackBtn);
+
+		// Represents down arrow/adding to split queue
+		JButton addToSplitBtn = new JButton("\u2193");
+		addToSplitBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		addToSplitBtn.setBounds(23, 216, 97, 34);
+		addToSplitBtn.addActionListener((e) -> {
+			if(splitByItemTable.getRowCount() < 1)
+				return;
+			int index = splitByItemTable.getSelectedRow();
+			if(index < 0)
+				return;
+			double oldQty = tempBeforeSplit.get(index).qty;
+			MItem newItem = new MItem();
+			newItem.name = tempBeforeSplit.get(index).name;
+			newItem.price = tempBeforeSplit.get(index).price;
+			newItem.qty = qtySplitItem;
+			splittingItems.add(newItem);
+			splittingTableModel.addRow(new Object[] { "x"+newItem.qty+" "+newItem.name, decimalF(newItem.price * newItem.qty) });
+			if(qtySplitItem == oldQty) {
+				tempBeforeSplit.remove(index);
+				this.beforeSplitTableModel.removeRow(index);
+			}
+			else {
+				double newQty = (tempBeforeSplit.get(index).qty) - qtySplitItem;
+				tempBeforeSplit.get(index).qty = newQty;
+				beforeSplitTableModel.setValueAt("x"+tempBeforeSplit.get(index).qty+" "+
+						tempBeforeSplit.get(index).name, index, 0);
+				beforeSplitTableModel.setValueAt(decimalF(tempBeforeSplit.get(index).qty * tempBeforeSplit.get(index).price), index, 1);
+				if(qtySplitItem > newQty)
+					qtySplitItem = newQty;
+			}
+			double percentageOfTotal = ((newItem.qty * newItem.price) / (CustomerOrder.subtotal + this.managerDiscount));
+			managerDiscountSplit = percentageOfTotal * this.managerDiscount;
+			this.subtotalForSplitItem += newItem.qty * newItem.price;
+			this.subtotalForSplitItem -= managerDiscountSplit;
+			splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
+				+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
+		});
+		splitByItemsPanel.add(addToSplitBtn);
+		
+		// Represents the up arrow/removing split item
+		JButton removeFromSplitBtn = new JButton("\u2191");
+		removeFromSplitBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		removeFromSplitBtn.setBounds(445, 216, 97, 34);
+		removeFromSplitBtn.addActionListener((e) -> {
+			if(currentlySplittingTable.getRowCount() < 1)
+				return;
+			int index = currentlySplittingTable.getSelectedRow();
+			if(index < 0)
+				return;
+			double oldQty = splittingItems.get(index).qty;
+			MItem newItem = new MItem();
+			newItem.name = splittingItems.get(index).name;
+			newItem.price = splittingItems.get(index).price;
+			newItem.qty = qtySplitItem;
+			tempBeforeSplit.add(newItem);
+			beforeSplitTableModel.addRow(new Object[] { "x"+newItem.qty+" "+newItem.name, decimalF(newItem.price * newItem.qty) });
+			if(qtySplitItem == oldQty) {
+				splittingItems.remove(index);
+				this.splittingTableModel.removeRow(index);
+			}
+			else {
+				double newQty = (splittingItems.get(index).qty) - qtySplitItem;
+				splittingItems.get(index).qty = newQty;
+				splittingTableModel.setValueAt("x"+splittingItems.get(index).qty+" "+
+						splittingItems.get(index).name, index, 0);
+				splittingTableModel.setValueAt(decimalF(splittingItems.get(index).qty * splittingItems.get(index).price), index, 1);
+				if(qtySplitItem > newQty)
+					qtySplitItem = newQty;
+			}
+			// Calculates how much of the manager discount to put per person
+			// who chooses the items.
+			double percentageOfTotal = ((newItem.qty * newItem.price) / (CustomerOrder.subtotal + this.managerDiscount));
+			managerDiscountSplit = percentageOfTotal * this.managerDiscount;
+			this.subtotalForSplitItem -= newItem.qty * newItem.price;
+			this.subtotalForSplitItem += managerDiscountSplit;
+			managerDiscountSplit = 0.0;
+			splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
+				+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
+		});
+		splitByItemsPanel.add(removeFromSplitBtn);
+		
+		selectedItemLbl = new JLabel("x5 Seven Wonders Burger", JLabel.CENTER);
+		selectedItemLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		selectedItemLbl.setBounds(132, 219, 312, 27);
+		splitByItemsPanel.add(selectedItemLbl);
+		
+		JLabel totalsLblSplitByItem = new JLabel(
+			"<html>Discount from Manager Discount: <br>Subtotal before tax: </html>", SwingConstants.CENTER);
+		totalsLblSplitByItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		totalsLblSplitByItem.setBounds(166, 457, 226, 52);
+		splitByItemsPanel.add(totalsLblSplitByItem);
+		
+		splitTotalLbl = new JLabel("<html><b>$34.20<br>$932.00</b></html>", SwingConstants.CENTER);
+		splitTotalLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		splitTotalLbl.setBounds(383, 457, 97, 52);
+		splitByItemsPanel.add(splitTotalLbl);
+		
+		JButton splitByIDoneBtn = new JButton("Done");
+		splitByIDoneBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		splitByIDoneBtn.setBounds(475, 457, 95, 52);
+		splitByIDoneBtn.addActionListener((e) -> {
+			if(splittingItems.isEmpty()) {
+				JFrameUtils.showMessage("Splitting Bill", "No items selected to split.");
+				return;
+			}
+			this.splitByItemsPanel.setVisible(false);
+			openPaymentTypePanel();
+		});
+		splitByItemsPanel.add(splitByIDoneBtn);
+		
+		// Setting invisible when first made.
+		splitByItemsPanel.setVisible(false);
+	}
+	
+	/**
+	 * Opens the split bill by item panel.
+	 */
+	public void openSplitByIPanel() {
+		this.prePaymentPanel.setVisible(false);
+		this.splitBillPanel.setVisible(false);
+		this.splitByItemsPanel.setVisible(true);
+		this.subtotalForSplitItem = 0.0;
+		this.managerDiscountSplit = 0.0;
+		this.qtySplitItem = 1;
+		this.tempBeforeSplit.clear();
+		this.splittingItems.clear();
+		this.beforeSplitTableModel.setRowCount(0);
+		this.splittingTableModel.setRowCount(0);
+		selectedItemLbl.setText("None");
+		splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
+			+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
+		for(int index = 0; index < CustomerOrder.items.size(); index++) {
+			// Skips over any discounts.
+			if(Client.clientFrame.customerSP.orderPanel.promoIndex == index) {
+				continue;
+			}
+			// Skips over any discounts.
+			if(discountIndex == index) {
+				continue;
+			}
+			MItem item = CustomerOrder.items.get(index);
+			MItem i = new MItem();
+			i.name = item.name;
+			i.price = item.price;
+			i.qty = item.qty;
+			i.specialReqs = item.specialReqs;
+			i.ingredients = item.ingredients;
+			tempBeforeSplit.add(i);
+			beforeSplitTableModel.addRow(new Object[] { "x"+i.qty+" "+i.name, decimalF(i.price * i.qty) });
+		}
 	}
 	
 	/**
@@ -1073,8 +1444,13 @@ public class Payment extends JPanel {
 		exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 51));
 		exitBtn.setBounds(83, 388, 438, 121);
 		exitBtn.addActionListener((e) -> {
-			if(peopleLeftToPay == 0 && splittingBill)
+			if((peopleLeftToPay == 0 && splittingBill) || (splittingBill && tempBeforeSplit.isEmpty())) {
 				Client.restart();
+			} else if(!tempBeforeSplit.isEmpty() && splittingBill) {
+				this.splitByItemsPanel.setVisible(true);
+				this.finalPanel.setVisible(false);
+				this.splitItemBackBtn.setVisible(false);
+			}
 			else {
 				this.finalPanel.setVisible(false);
 				openPaymentTypePanel();
@@ -1088,7 +1464,7 @@ public class Payment extends JPanel {
 		finalPanel.add(sentToLbl);
 		
 		
-		// Setting invisible when first made.
+		// Setting invisible when first made
 		finalPanel.setVisible(false);
 	}
 
