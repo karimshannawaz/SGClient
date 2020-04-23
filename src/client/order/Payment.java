@@ -1464,7 +1464,7 @@ public class Payment extends JPanel {
 		finalPanel.add(sentToLbl);
 		
 		
-		// Setting invisible when first made.
+		// Setting invisible when first made
 		finalPanel.setVisible(false);
 	}
 
