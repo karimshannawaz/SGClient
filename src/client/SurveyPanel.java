@@ -8,6 +8,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 //Floreta
 
@@ -89,12 +90,13 @@ public class SurveyPanel extends JPanel {
 		add(q4satisfied);
 		
 		JButton submitBtn = new JButton("Submit");
+		submitBtn.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		submitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//send results to server
 			}
 		});
-		submitBtn.setBounds(458, 403, 151, 48);
+		submitBtn.setBounds(448, 403, 151, 48);
 		add(submitBtn);
 		
 		//set up button group for question 1 so only one button is selected at a time
@@ -118,6 +120,26 @@ public class SurveyPanel extends JPanel {
 		quest4.add(q4dissatisfied);
 		quest4.add(q4neutral);
 		quest4.add(q4satisfied);
+		
+		JPanel p1 = new JPanel();
+		p1.setBackground(Color.WHITE);
+		p1.setBounds(49, 109, 946, 46);
+		add(p1);
+		
+		JPanel p2 = new JPanel();
+		p2.setBackground(Color.WHITE);
+		p2.setBounds(49, 177, 946, 48);
+		add(p2);
+		
+		JPanel p3 = new JPanel();
+		p3.setBackground(Color.WHITE);
+		p3.setBounds(49, 239, 946, 48);
+		add(p3);
+		
+		JPanel p4 = new JPanel();
+		p4.setBackground(Color.WHITE);
+		p4.setBounds(49, 309, 946, 48);
+		add(p4);
 		
 
 	}
