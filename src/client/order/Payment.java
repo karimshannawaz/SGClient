@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 
 import javax.swing.JButton;
@@ -12,13 +14,17 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import client.Client;
 import client.ClientSession;
 import client.utils.Constants;
 import client.utils.JFrameUtils;
+import javax.swing.SwingConstants;
 
 /**
  * Contains all of the information needed for a payment panel.
@@ -69,6 +75,13 @@ public class Payment extends JPanel {
 	public boolean splittingBill = false;
 	public double splitByAmt = 0.0;
 	public double peopleLeftToPay = 0;
+	
+	// Split Bill by item Panel Components
+	public JPanel splitByItemsPanel;
+	public JTable splitByItemTable;
+	public JTable currentlySplittingTable;
+	public JLabel selectedItemLbl;
+	public JLabel splitTotalLbl;
 	
 	// Choose Payment Panel Components
 	public JPanel choosePaymentPanel;
@@ -121,6 +134,7 @@ public class Payment extends JPanel {
 		addFinalPanel();
 		addConfirmPaymentPanel();
 		addCashPaymentPanel();
+		addSplitByItemsPanel();
 	}
 
 	/**
@@ -572,6 +586,9 @@ public class Payment extends JPanel {
 		JButton btnSplitByItem = new JButton("Split by Item(s)");
 		btnSplitByItem.setFont(new Font("Tahoma", Font.PLAIN, 50));
 		btnSplitByItem.setBounds(60, 314, 484, 82);
+		btnSplitByItem.addActionListener((e) -> {
+			openSplitByIPanel();
+		});
 		splitBillPanel.add(btnSplitByItem);
 		
 		// Setting invisible when first made.
@@ -588,6 +605,16 @@ public class Payment extends JPanel {
 		double newTotal = newSubtotal + (newSubtotal * tax);
 		totalEachAfterSplitLbl.setText("<html>Total each person pays: "
 			+ "<b>"+(decimalF(newTotal))+"</b></html>");
+	}
+	
+	/**
+	 * Opens the split bill by item panel.
+	 */
+	public void openSplitByIPanel() {
+		this.prePaymentPanel.setVisible(false);
+		this.splitBillPanel.setVisible(false);
+		this.splitByItemsPanel.setVisible(true);
+		
 	}
 	
 	/**
@@ -1004,6 +1031,135 @@ public class Payment extends JPanel {
 		
 		// Setting invisible when first made.
 		lotteryPanel.setVisible(false);
+	}
+	
+	/**
+	 * Adds the split by item.
+	 */
+	private void addSplitByItemsPanel() {
+		splitByItemsPanel = new JPanel();
+		splitByItemsPanel.setBounds(454, 0, 582, 522);
+		splitByItemsPanel.setLayout(null);
+		mainPanel.add(splitByItemsPanel);
+		
+		// Scroll pane for items list
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(23, 13, 547, 193);
+		splitByItemsPanel.add(scrollPane);
+
+		// Create table for order list
+		splitByItemTable = new JTable();
+		splitByItemTable.setModel(new DefaultTableModel(
+		new String[] {
+				"Item", "Price"
+			}, 0
+		));
+		scrollPane.setViewportView(splitByItemTable);
+
+		splitByItemTable.addMouseListener(new MouseListener() {
+			@Override public void mouseClicked(MouseEvent arg0) { }
+			@Override public void mouseEntered(MouseEvent arg0) { }
+			@Override public void mouseExited(MouseEvent arg0) { }
+			@Override public void mousePressed(MouseEvent arg0) { }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				
+			}
+		});
+
+		splitByItemTable.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		splitByItemTable.setRowHeight(30);
+		splitByItemTable.getColumnModel().getColumn(0).setPreferredWidth(290);
+
+		splitByItemTable.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+		splitByItemTable.setDefaultRenderer(String.class, centerRenderer);
+
+		JScrollPane splittingScrollPane = new JScrollPane();
+		splittingScrollPane.setBounds(26, 259, 544, 185);
+		splitByItemsPanel.add(splittingScrollPane);
+		
+		// Create table for order list
+		currentlySplittingTable = new JTable();
+		currentlySplittingTable.setModel(new DefaultTableModel(
+			new String[] {
+				"Item", "Price"
+			}, 0
+		));
+		splittingScrollPane.setViewportView(currentlySplittingTable);
+
+		currentlySplittingTable.addMouseListener(new MouseListener() {
+			@Override public void mouseClicked(MouseEvent arg0) { }
+			@Override public void mouseEntered(MouseEvent arg0) { }
+			@Override public void mouseExited(MouseEvent arg0) { }
+			@Override public void mousePressed(MouseEvent arg0) { }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+
+			}
+		});
+
+		currentlySplittingTable.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		currentlySplittingTable.setRowHeight(30);
+		currentlySplittingTable.getColumnModel().getColumn(0).setPreferredWidth(290);
+
+		currentlySplittingTable.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 18));
+		currentlySplittingTable.setDefaultRenderer(String.class, centerRenderer);
+
+		JButton splitItemBackBtn = new JButton("<-- BACK");
+		splitItemBackBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		splitItemBackBtn.setBounds(23, 457, 131, 52);
+		splitItemBackBtn.addActionListener((e) -> {
+			this.splitBillPanel.setVisible(true);
+			this.splitByItemsPanel.setVisible(false);
+		});
+		splitByItemsPanel.add(splitItemBackBtn);
+
+		JButton removeFromSplitBtn = new JButton("\u2191");
+		removeFromSplitBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		removeFromSplitBtn.setBounds(445, 216, 97, 34);
+		removeFromSplitBtn.addActionListener((e) -> {
+			
+		});
+		splitByItemsPanel.add(removeFromSplitBtn);
+
+		JButton addToSplitBtn = new JButton("\u2193");
+		addToSplitBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		addToSplitBtn.setBounds(23, 216, 97, 34);
+		addToSplitBtn.addActionListener((e) -> {
+			
+		});
+		splitByItemsPanel.add(addToSplitBtn);
+		
+		selectedItemLbl = new JLabel("x5 Seven Wonders Burger", JLabel.CENTER);
+		selectedItemLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		selectedItemLbl.setBounds(132, 219, 312, 27);
+		splitByItemsPanel.add(selectedItemLbl);
+		
+		JLabel totalsLblSplitByItem = new JLabel(
+			"<html>Discount from Manager Discount: <br>Total: </html>", SwingConstants.CENTER);
+		totalsLblSplitByItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		totalsLblSplitByItem.setBounds(166, 457, 226, 52);
+		splitByItemsPanel.add(totalsLblSplitByItem);
+		
+		splitTotalLbl = new JLabel("<html><b>$34.20<br>$932.00</b></html>", SwingConstants.CENTER);
+		splitTotalLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		splitTotalLbl.setBounds(383, 457, 97, 52);
+		splitByItemsPanel.add(splitTotalLbl);
+		
+		JButton splitByIDoneBtn = new JButton("Done");
+		splitByIDoneBtn.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		splitByIDoneBtn.setBounds(475, 457, 95, 52);
+		splitByIDoneBtn.addActionListener((e) -> {
+			
+		});
+		splitByItemsPanel.add(splitByIDoneBtn);
+		
+		// Setting invisible when first made.
+		splitByItemsPanel.setVisible(true);
 	}
 	
 	/**
