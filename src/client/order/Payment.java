@@ -684,11 +684,6 @@ public class Payment extends JPanel {
 		btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 50));
 		btnConfirm.setBounds(60, 299, 484, 82);
 		btnConfirm.addActionListener((e) -> {
-			// Let the server know not to be able to compensate this order again.
-			if(!ClientSession.markedOrderPaid) {
-				Client.session.getPacketEncoder().setOrderAsPaid(ClientSession.tableID);
-				ClientSession.markedOrderPaid = true;
-			}
 			// Opens the tip panel if the customer pays with card.
 			if(isCard) {
 				openTipPanel();
@@ -983,6 +978,11 @@ public class Payment extends JPanel {
 	 * then they 
 	 */
 	public void openReceiptPanel() {
+		// Let the server know not to be able to compensate this order again.
+		if(!ClientSession.markedOrderPaid) {
+			Client.session.getPacketEncoder().setOrderAsPaid(ClientSession.tableID);
+			ClientSession.markedOrderPaid = true;
+		}
 		// Hide any more requests from the customer once they've paid and are ready
 		// to leave.
 		Client.clientFrame.customerSP.utilityPanel.setVisible(false);
