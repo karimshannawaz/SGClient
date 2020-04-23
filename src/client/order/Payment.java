@@ -1357,6 +1357,14 @@ public class Payment extends JPanel {
 		splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
 			+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
 		for(int index = 0; index < CustomerOrder.items.size(); index++) {
+			// Skips over any discounts.
+			if(Client.clientFrame.customerSP.orderPanel.promoIndex == index) {
+				continue;
+			}
+			// Skips over any discounts.
+			if(discountIndex == index) {
+				continue;
+			}
 			MItem item = CustomerOrder.items.get(index);
 			MItem i = new MItem();
 			i.name = item.name;
