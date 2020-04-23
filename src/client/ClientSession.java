@@ -61,6 +61,9 @@ public class ClientSession {
 	public static boolean receivedSpecialNoti = false;
 	public static boolean kidsEatFree = false;
 	public static boolean freeDrinkWPur = false;
+
+	// Returns true if the customer has paid already.
+	public static boolean markedOrderPaid = false;
 	
 	/**
 	 * Checks to see if the day of the week is monday or sunday,

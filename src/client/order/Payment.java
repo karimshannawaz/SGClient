@@ -684,6 +684,11 @@ public class Payment extends JPanel {
 		btnConfirm.setFont(new Font("Tahoma", Font.PLAIN, 50));
 		btnConfirm.setBounds(60, 299, 484, 82);
 		btnConfirm.addActionListener((e) -> {
+			// Let the server know not to be able to compensate this order again.
+			if(!ClientSession.markedOrderPaid) {
+				Client.session.getPacketEncoder().setOrderAsPaid(ClientSession.tableID);
+				ClientSession.markedOrderPaid = true;
+			}
 			// Opens the tip panel if the customer pays with card.
 			if(isCard) {
 				openTipPanel();
@@ -691,9 +696,6 @@ public class Payment extends JPanel {
 			else if(!isCard) {
 				openCashPaymentPanel();
 			}
-			// Let the server know not to be able to compensate this order again.
-			if(!splittingBill)
-				Client.session.getPacketEncoder().setOrderAsPaid(ClientSession.tableID);
 		});
 		confirmPaymentPanel.add(btnConfirm);
 		
