@@ -1356,7 +1356,8 @@ public class Payment extends JPanel {
 		selectedItemLbl.setText("None");
 		splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
 			+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
-		for(MItem item : CustomerOrder.items) {
+		for(int index = 0; index < CustomerOrder.items.size(); index++) {
+			MItem item = CustomerOrder.items.get(index);
 			MItem i = new MItem();
 			i.name = item.name;
 			i.price = item.price;
