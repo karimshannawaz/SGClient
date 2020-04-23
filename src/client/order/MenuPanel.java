@@ -65,6 +65,7 @@ public class MenuPanel extends JPanel {
 	private List<JTextField> ingredientsQuantityFM = new ArrayList<JTextField>();
 	private List<String> totalIngredientsFM = new ArrayList<String>();
 	private List<String> totalIngredientsQuantityFM = new ArrayList<String>();
+	private List<String> popularFM = new ArrayList<String>();
 
 	public JPanel MenuListFrame;
 	private JTextField item_allergens_textfield;
@@ -93,6 +94,7 @@ public class MenuPanel extends JPanel {
 	
 	public JTextArea orderSummaryPostOrder;
 	public JLabel orderMsgLbl;
+	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -211,7 +213,7 @@ public class MenuPanel extends JPanel {
 		previous_page_button.setVisible(false);
 		previous_page_button.setBounds(0, 490, 173, 32);
 		MenuListFrame.add(previous_page_button);
-
+		
 		//creates a frame to hold the order summary
 		JPanel OrderListFrame = new JPanel();
 		OrderListFrame.setBounds(693, 0, 346, 522);
@@ -264,8 +266,13 @@ public class MenuPanel extends JPanel {
 		JLabel lblNewLabel = new JLabel("No Picture Added");
 		lblNewLabel.setBounds(160, 70, 200, 200);
 		PictureFrame.add(lblNewLabel);
-
-
+		
+		JLabel fireLabel = new JLabel("No Picture Added");
+		fireLabel.setBounds(0, 0, 0, 0);
+		fireLabel.setIcon(new ImageIcon("data\\\\menu-images\\\\Fire.png"));
+		fireLabel.setVisible(false);
+		MenuListFrame.add(fireLabel);
+		
 		item_name_textfield = new JTextField();
 		item_name_textfield.setEditable(false);
 		item_name_textfield.setBounds(160, 10, 200, 50);
@@ -307,9 +314,13 @@ public class MenuPanel extends JPanel {
 		vegan_textfield.setBounds(184, 390, 150, 50);
 		PictureFrame.add(vegan_textfield);
 		vegan_textfield.setColumns(10);
-
-
-
+/*
+		popularFM.add("Cheeseburger");
+		popularFM.add("Lemonade");
+		popularFM.add("Onion Rings");
+		popularFM.add("Blended Milkshake");
+		popularFM.add("Combo Meal");
+*/
 		JPanel OrderSpecificsFrame = new JPanel();
 		OrderSpecificsFrame.setBounds(519, 0, 518, 520);
 		OrderDetails.add(OrderSpecificsFrame);
@@ -401,6 +412,8 @@ public class MenuPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				fireLabel.setVisible(false);
+				
 				if (entree_button.isSelected())
 				{
 					getMenuItems();
@@ -429,8 +442,18 @@ public class MenuPanel extends JPanel {
 							b.setText(mItem.name);
 							b.setEnabled(true);
 							b.setVisible(false);
-							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
-							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 25));
+							b.setBounds(0, 70 * buttonIndex, 292, 70);
+										
+							for (String f : popularFM)
+							{
+								if (mItem.name.equals(f))
+								{
+									fireLabel.setBounds(292, 70* buttonIndex, 50, 70);
+									fireLabel.setVisible(true);
+								}
+							}
+							
 							MenuListFrame.add(b);
 							entreesFM.add(b);
 							b.addActionListener(new ActionListener()
@@ -459,6 +482,7 @@ public class MenuPanel extends JPanel {
 									text = text.concat(".jpg");
 									lblNewLabel.setIcon(new ImageIcon(text));
 
+								//	lblNewLabel.setIcon(new ImageIcon("data\\\\menu-images\\\\Fire.png"));
 									text = "Calories: ";
 									text = text.concat(String.valueOf(mItem.calories));
 									item_calories_textfield.setText(text);
@@ -480,6 +504,7 @@ public class MenuPanel extends JPanel {
 							break;
 						}						
 					}
+					
 					for(JButton b : sidesFM) 
 						b.setVisible(false);
 
@@ -516,6 +541,8 @@ public class MenuPanel extends JPanel {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				fireLabel.setVisible(false);
+				
 				if (combo_button.isSelected())
 				{
 					getMenuItems();
@@ -543,8 +570,18 @@ public class MenuPanel extends JPanel {
 							b.setText(mItem.name);
 							b.setEnabled(true);
 							b.setVisible(false);
-							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
-							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 25));
+							b.setBounds(0, 70 * buttonIndex, 292, 70);
+							
+							for (String f : popularFM)
+							{
+								if (mItem.name.equals(f))
+								{
+									fireLabel.setBounds(292, 70* buttonIndex, 50, 70);
+									fireLabel.setVisible(true);
+								}
+							}
+							
 							MenuListFrame.add(b);
 							comboFM.add(b);
 							b.addActionListener(new ActionListener()
@@ -629,6 +666,7 @@ public class MenuPanel extends JPanel {
 		//displays first 7 sides when side button is clicked
 		side_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fireLabel.setVisible(false);
 				if (side_button.isSelected())
 				{
 					getMenuItems();
@@ -656,8 +694,18 @@ public class MenuPanel extends JPanel {
 							b.setText(mItem.name);
 							b.setEnabled(true);
 							b.setVisible(false);
-							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
-							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 25));
+							b.setBounds(0, 70 * buttonIndex, 292, 70);
+							
+							for (String f : popularFM)
+							{
+								if (mItem.name.equals(f))
+								{
+									fireLabel.setBounds(292, 70* buttonIndex, 50, 70);
+									fireLabel.setVisible(true);
+								}
+							}
+							
 							MenuListFrame.add(b);
 							sidesFM.add(b);
 							b.addActionListener(new ActionListener()
@@ -743,6 +791,7 @@ public class MenuPanel extends JPanel {
 		//displays first 7 drinks when drink button is clicked
 		drink_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fireLabel.setVisible(false);
 				if (drink_button.isSelected())
 				{
 					getMenuItems();
@@ -770,8 +819,17 @@ public class MenuPanel extends JPanel {
 							b.setText(mItem.name);
 							b.setEnabled(true);
 							b.setVisible(false);
-							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
-							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 25));
+							for (String f : popularFM)
+							{
+								if (mItem.name.equals(f))
+								{
+									fireLabel.setBounds(292, 70* buttonIndex, 50, 70);
+									fireLabel.setVisible(true);
+								}
+							}
+							
+							b.setBounds(0, 70 * buttonIndex, 292, 70);
 							MenuListFrame.add(b);
 							drinksFM.add(b);
 							b.addActionListener(new ActionListener()
@@ -858,6 +916,7 @@ public class MenuPanel extends JPanel {
 		//displays first 7 desserts when dessert button is clicked
 		dessert_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				fireLabel.setVisible(false);
 				if (dessert_button.isSelected())
 				{
 					getMenuItems();
@@ -885,8 +944,16 @@ public class MenuPanel extends JPanel {
 							b.setText(mItem.name);
 							b.setEnabled(true);
 							b.setVisible(false);
-							b.setFont(new Font("Tahoma", Font.PLAIN, 30));
-							b.setBounds(0, 70 * buttonIndex, 347, 70);
+							b.setFont(new Font("Tahoma", Font.PLAIN, 25));
+							b.setBounds(0, 70 * buttonIndex, 292, 70);
+							for (String f : popularFM)
+							{
+								if (mItem.name.equals(f))
+								{
+									fireLabel.setBounds(292, 70* buttonIndex, 50, 70);
+									fireLabel.setVisible(true);
+								}
+							}
 							MenuListFrame.add(b);
 							dessertsFM.add(b);
 							b.addActionListener(new ActionListener()
@@ -2199,5 +2266,4 @@ public class MenuPanel extends JPanel {
 		next_page_button.setVisible(false);
 		previous_page_button.setVisible(false);
 	}
-
 }
