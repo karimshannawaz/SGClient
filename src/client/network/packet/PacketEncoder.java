@@ -216,5 +216,17 @@ public class PacketEncoder extends Encoder {
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
+
+	/**
+	 * Sets this order as paid.
+	 * @param tableID
+	 */
+	public void setOrderAsPaid(int tableID) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(17);
+		stream.writeByte(tableID);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }

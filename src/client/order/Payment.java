@@ -910,6 +910,9 @@ public class Payment extends JPanel {
 					exitBtn.setText(peopleLeftToPay == 0 ? "Exit" : 
 					"<html>Customer "+((int) peopleLeftToPay)+" can now pay<br>after clicking this button to continue.</html>");
 				}
+				Client.session.getPacketEncoder().sendRevenueUpdate(totalAfterTax, tip);
+				tip = 0.0;
+				tipTxtField.setText("0.00");
 			});
 		}
 
