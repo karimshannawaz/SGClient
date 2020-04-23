@@ -50,42 +50,52 @@ public class SurveyPanel extends JPanel {
 		add(lblNewLabel);
 		
 		JRadioButton q1bad = new JRadioButton("Bad");
+		q1bad.setBackground(Color.WHITE);
 		q1bad.setBounds(634, 123, 71, 23);
 		add(q1bad);
 		
 		JRadioButton q1okay = new JRadioButton("Okay");
+		q1okay.setBackground(Color.WHITE);
 		q1okay.setBounds(717, 123, 71, 23);
 		add(q1okay);
 		
 		JRadioButton q1excellent = new JRadioButton("Excellent");
+		q1excellent.setBackground(Color.WHITE);
 		q1excellent.setBounds(800, 123, 89, 23);
 		add(q1excellent);
 		
 		JRadioButton q2yes = new JRadioButton("Yes");
+		q2yes.setBackground(Color.WHITE);
 		q2yes.setBounds(636, 192, 69, 23);
 		add(q2yes);
 		
 		JRadioButton q2no = new JRadioButton("No");
+		q2no.setBackground(Color.WHITE);
 		q2no.setBounds(719, 192, 69, 23);
 		add(q2no);
 		
 		JRadioButton q3notLikely = new JRadioButton("Not Likely");
+		q3notLikely.setBackground(Color.WHITE);
 		q3notLikely.setBounds(634, 254, 106, 23);
 		add(q3notLikely);
 		
 		JRadioButton q3veryLikely = new JRadioButton("Very Likely");
+		q3veryLikely.setBackground(Color.WHITE);
 		q3veryLikely.setBounds(746, 254, 106, 23);
 		add(q3veryLikely);
 		
 		JRadioButton q4dissatisfied = new JRadioButton("Dissatisfied");
+		q4dissatisfied.setBackground(Color.WHITE);
 		q4dissatisfied.setBounds(634, 321, 117, 23);
 		add(q4dissatisfied);
 		
 		JRadioButton q4neutral = new JRadioButton("Neutral");
+		q4neutral.setBackground(Color.WHITE);
 		q4neutral.setBounds(763, 321, 83, 23);
 		add(q4neutral);
 		
 		JRadioButton q4satisfied = new JRadioButton("Very Satisfied");
+		q4satisfied.setBackground(Color.WHITE);
 		q4satisfied.setBounds(858, 321, 117, 23);
 		add(q4satisfied);
 		
