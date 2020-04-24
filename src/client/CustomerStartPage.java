@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import client.games.GamePanel;
 import client.games.GuessTheNumber;
+import client.games.LotteryPanel;
 import client.games.RockPaperScissors;
 import client.order.MenuPanel;
 import client.order.PayPanel;
@@ -50,9 +51,11 @@ public class CustomerStartPage extends JPanel {
 	public GamePanel gamePanel;
 	public PayPanel payPanel;
 	public Payment pay2;
+	public SurveyPanel survey;
 	public RewardsPanel rewardsPanel;
 	public RockPaperScissors rpsPanel;
 	public GuessTheNumber gtnPanel;
+	public LotteryPanel lottery;
 	
 	public JLabel rwdsLbl;
 
@@ -256,6 +259,15 @@ public class CustomerStartPage extends JPanel {
 		add(gtnPanel);
 		gtnPanel.setVisible(false);
 		gtnPanel.randomNum = GuessTheNumber.generateNumber(0, 100);
+		
+		this.survey = new SurveyPanel();
+		add(survey);
+		survey.setVisible(false);
+		
+		//panel for the lottery game
+		this.lottery = new LotteryPanel();
+		add(lottery);
+		lottery.setVisible(false);
 
 	}
 	

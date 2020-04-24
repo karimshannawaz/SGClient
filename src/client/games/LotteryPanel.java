@@ -65,6 +65,7 @@ public class LotteryPanel extends JPanel {
 				openScreen("cancel");
 			}
 		});
+		CancelButton.setVisible(false);
 		CancelButton.setBounds(455, 466, 141, 35);
 		mainPanel.add(CancelButton);
 		

@@ -1155,7 +1155,8 @@ public class PayPanel extends JPanel {
 	public void LotteryChoice()
 	{
 			//still working on getting conf_screen to open
-			boolean confirm = JFrameUtils.confirmDialog("LOTTERY CHANCE", "Would you like to play a game for a chance to win a free desert?");
+			boolean confirm = JFrameUtils.confirmDialog("LOTTERY CHANCE", 
+					"Would you like to play a game for a chance to win a free desert?");
         	if(!confirm) {
         		Client.restart();
         		//prevOption(prevScreen);

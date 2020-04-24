@@ -228,5 +228,23 @@ public class PacketEncoder extends Encoder {
 		stream.endPacketVarShort();
 		session.write(stream);
 	}
+
+	/**
+	 * Sends the survey answers to the server.
+	 * @param actionCommand
+	 * @param actionCommand2
+	 * @param actionCommand3
+	 * @param actionCommand4
+	 */
+	public void sendSurveyAnswers(String q1, String q2, String q3, String q4) {
+		OutputStream stream = new OutputStream();
+		stream.writePacketVarShort(18);
+		stream.writeString(q1);
+		stream.writeString(q2);
+		stream.writeString(q3);
+		stream.writeString(q4);
+		stream.endPacketVarShort();
+		session.write(stream);
+	}
 	
 }

@@ -1448,7 +1448,28 @@ public class Payment extends JPanel {
 		exitBtn.addActionListener((e) -> {
 			if((peopleLeftToPay == 0 && splittingBill) || (splittingBill && peopleLeftToPay == -1 && tempBeforeSplit.isEmpty())
 				|| (peopleLeftToPay == -1 && !splittingBill)) {
-				Client.restart();
+				//Client.restart();
+				boolean askForSurvey = JFrameUtils.confirmDialog("Survey", 
+					"Would you like to take a quick 4 question survey?\n"
+					+ "Answers are anonymously sent to help us improve our service.");
+				if(!askForSurvey) {
+					boolean askForLottery = JFrameUtils.confirmDialog("Lottery Game", 
+						"Would you like to play a lottery game?\n"
+						+ "You will have a 20% chance to win a dessert for free!");
+					if(!askForLottery) {
+						Client.restart();
+					}
+					else {
+						this.mainPanel.setVisible(false);
+						Client.clientFrame.customerSP.pay2.setVisible(false);
+						Client.clientFrame.customerSP.lottery.setVisible(true);
+					}
+				}
+				else {
+					this.mainPanel.setVisible(false);
+					Client.clientFrame.customerSP.pay2.setVisible(false);
+					Client.clientFrame.customerSP.survey.setVisible(true);
+				}
 			}
 			if(!tempBeforeSplit.isEmpty() && splittingBill) {
 				this.splitByItemsPanel.setVisible(true);

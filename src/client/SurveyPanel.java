@@ -4,6 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JRadioButton;
+
+import client.utils.JFrameUtils;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -19,11 +22,6 @@ import java.awt.Color;
  */
 
 public class SurveyPanel extends JPanel {
-	
-	public ButtonGroup quest1;
-	public ButtonGroup quest2;
-	public ButtonGroup quest3;
-	public ButtonGroup quest4;
 	
 	private static final long serialVersionUID = 8683520609889420771L;
 
@@ -119,18 +117,54 @@ public class SurveyPanel extends JPanel {
 		q4satisfied.setBounds(858, 321, 117, 23);
 		add(q4satisfied);
 		
+		//set up button group for question 1 so only one button is selected at a time
+		ButtonGroup quest1 = new ButtonGroup();
+		quest1.add(q1bad);
+		quest1.add(q1okay);
+		quest1.add(q1excellent);
+
+		//set up button group for question 2 so only one button is selected at a time
+		ButtonGroup quest2 = new ButtonGroup();
+		quest2.add(q2yes);
+		quest2.add(q2no);
+
+		//set up button group for question 3 so only one button is selected at a time
+		ButtonGroup quest3 = new ButtonGroup();
+		quest3.add(q3notLikely);
+		quest3.add(q3veryLikely);
+
+		//set up button group for question 4 so only one button is selected at a time
+		ButtonGroup quest4 = new ButtonGroup();
+		quest4.add(q4dissatisfied);
+		quest4.add(q4neutral);
+		quest4.add(q4satisfied);
+		
 		JButton submitBtn = new JButton("Submit");
 		submitBtn.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		submitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//get selections for each question
+				// get selections for each question
 				quest1.getSelection().getActionCommand();
 				quest2.getSelection().getActionCommand();
 				quest3.getSelection().getActionCommand();
 				quest4.getSelection().getActionCommand();
 				
 				//send them to the server
-				//????
+				Client.session.getPacketEncoder().sendSurveyAnswers(quest1.getSelection().getActionCommand(),
+				quest2.getSelection().getActionCommand(),
+				quest3.getSelection().getActionCommand(),
+				quest4.getSelection().getActionCommand());
+				boolean askForLottery = JFrameUtils.confirmDialog("Lottery Game", 
+						"Would you like to play a lottery game?\n"
+								+ "You will have a 20% chance to win a dessert for free!");
+				if(!askForLottery) {
+					Client.restart();
+				}
+				else {
+					Client.clientFrame.customerSP.pay2.setVisible(false);
+					Client.clientFrame.customerSP.lottery.setVisible(true);
+					Client.clientFrame.customerSP.survey.setVisible(false);
+				}
 			}
 		});
 		submitBtn.setBounds(448, 403, 151, 48);
@@ -156,27 +190,6 @@ public class SurveyPanel extends JPanel {
 		p4.setBounds(49, 309, 946, 48);
 		add(p4);
 		
-		//set up button group for question 1 so only one button is selected at a time
-		ButtonGroup quest1 = new ButtonGroup();
-		quest1.add(q1bad);
-		quest1.add(q1okay);
-		quest1.add(q1excellent);
-		
-		//set up button group for question 2 so only one button is selected at a time
-		ButtonGroup quest2 = new ButtonGroup();
-		quest2.add(q2yes);
-		quest2.add(q2no);
-		
-		//set up button group for question 3 so only one button is selected at a time
-		ButtonGroup quest3 = new ButtonGroup();
-		quest3.add(q3notLikely);
-		quest3.add(q3veryLikely);
-		
-		//set up button group for question 4 so only one button is selected at a time
-		ButtonGroup quest4 = new ButtonGroup();
-		quest4.add(q4dissatisfied);
-		quest4.add(q4neutral);
-		quest4.add(q4satisfied);
 
 	}
 }
