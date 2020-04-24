@@ -1358,14 +1358,6 @@ public class Payment extends JPanel {
 		splitTotalLbl.setText("<html><b>-"+(decimalF(this.managerDiscountSplit))+"<br>"
 			+ ""+(decimalF(this.subtotalForSplitItem))+"</b></html>");
 		for(int index = 0; index < CustomerOrder.items.size(); index++) {
-			// Skips over any discounts.
-			if(Client.clientFrame.customerSP.orderPanel.promoIndex == index) {
-				continue;
-			}
-			// Skips over any discounts.
-			if(discountIndex == index) {
-				continue;
-			}
 			MItem item = CustomerOrder.items.get(index);
 			MItem i = new MItem();
 			i.name = item.name;
@@ -1373,6 +1365,22 @@ public class Payment extends JPanel {
 			i.qty = item.qty;
 			i.specialReqs = item.specialReqs;
 			i.ingredients = item.ingredients;
+			// Skips over any discounts.
+			if(Client.clientFrame.customerSP.orderPanel.promoIndex == index) {
+				if(i.qty == 1)
+					continue;
+				else {
+					i.qty -= 1;
+				}
+			}
+			// Skips over any discounts.
+			if(discountIndex == index) {
+				if(i.qty == 1)
+					continue;
+				else {
+					i.qty -= 1;
+				}
+			}
 			tempBeforeSplit.add(i);
 			beforeSplitTableModel.addRow(new Object[] { "x"+i.qty+" "+i.name, decimalF(i.price * i.qty) });
 		}
