@@ -161,6 +161,7 @@ public class SurveyPanel extends JPanel {
 					Client.restart();
 				}
 				else {
+					// Open lottery
 					Client.clientFrame.customerSP.pay2.setVisible(false);
 					Client.clientFrame.customerSP.lottery.setVisible(true);
 					Client.clientFrame.customerSP.survey.setVisible(false);
