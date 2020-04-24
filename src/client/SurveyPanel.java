@@ -113,6 +113,7 @@ public class SurveyPanel extends JPanel {
 		add(q4neutral);
 		
 		JRadioButton q4satisfied = new JRadioButton("Very Satisfied");
+		q4satisfied.setBackground(Color.WHITE);
 		q4satisfied.setActionCommand( q4satisfied.getText() );
 		q4satisfied.setBounds(858, 321, 117, 23);
 		add(q4satisfied);
