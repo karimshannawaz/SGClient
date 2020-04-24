@@ -12,8 +12,19 @@ import java.awt.Color;
 
 //Floreta
 
-public class SurveyPanel extends JPanel {
+/*
+ * handles customer feedback survey
+ * survey is to be implemented after payment
+ * 
+ */
 
+public class SurveyPanel extends JPanel {
+	
+	public ButtonGroup quest1;
+	public ButtonGroup quest2;
+	public ButtonGroup quest3;
+	public ButtonGroup quest4;
+	
 	private static final long serialVersionUID = 8683520609889420771L;
 
 	/**
@@ -50,51 +61,61 @@ public class SurveyPanel extends JPanel {
 		add(lblNewLabel);
 		
 		JRadioButton q1bad = new JRadioButton("Bad");
+		q1bad.setActionCommand( q1bad.getText() );
 		q1bad.setBackground(Color.WHITE);
 		q1bad.setBounds(634, 123, 71, 23);
 		add(q1bad);
 		
 		JRadioButton q1okay = new JRadioButton("Okay");
+		q1okay.setActionCommand( q1okay.getText() );
 		q1okay.setBackground(Color.WHITE);
 		q1okay.setBounds(717, 123, 71, 23);
 		add(q1okay);
 		
 		JRadioButton q1excellent = new JRadioButton("Excellent");
+		q1excellent.setActionCommand( q1excellent.getText() );
 		q1excellent.setBackground(Color.WHITE);
 		q1excellent.setBounds(800, 123, 89, 23);
 		add(q1excellent);
 		
 		JRadioButton q2yes = new JRadioButton("Yes");
+		q2yes.setActionCommand( q2yes.getText() );
 		q2yes.setBackground(Color.WHITE);
 		q2yes.setBounds(636, 192, 69, 23);
 		add(q2yes);
 		
 		JRadioButton q2no = new JRadioButton("No");
+		q2no.setActionCommand( q2no.getText() );
 		q2no.setBackground(Color.WHITE);
 		q2no.setBounds(719, 192, 69, 23);
 		add(q2no);
 		
 		JRadioButton q3notLikely = new JRadioButton("Not Likely");
+		q3notLikely.setActionCommand( q3notLikely.getText() );
 		q3notLikely.setBackground(Color.WHITE);
 		q3notLikely.setBounds(634, 254, 106, 23);
 		add(q3notLikely);
 		
 		JRadioButton q3veryLikely = new JRadioButton("Very Likely");
+		q3veryLikely.setActionCommand( q3veryLikely.getText() );
 		q3veryLikely.setBackground(Color.WHITE);
 		q3veryLikely.setBounds(746, 254, 106, 23);
 		add(q3veryLikely);
 		
 		JRadioButton q4dissatisfied = new JRadioButton("Dissatisfied");
+		q4dissatisfied.setActionCommand( q4dissatisfied.getText() );
 		q4dissatisfied.setBackground(Color.WHITE);
 		q4dissatisfied.setBounds(634, 321, 117, 23);
 		add(q4dissatisfied);
 		
 		JRadioButton q4neutral = new JRadioButton("Neutral");
+		q4neutral.setActionCommand( q4neutral.getText() );
 		q4neutral.setBackground(Color.WHITE);
 		q4neutral.setBounds(763, 321, 83, 23);
 		add(q4neutral);
 		
 		JRadioButton q4satisfied = new JRadioButton("Very Satisfied");
+		q4satisfied.setActionCommand( q4satisfied.getText() );
 		q4satisfied.setBounds(858, 321, 117, 23);
 		add(q4satisfied);
 		
@@ -102,7 +123,14 @@ public class SurveyPanel extends JPanel {
 		submitBtn.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		submitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//send results to server
+				//get selections for each question
+				quest1.getSelection().getActionCommand();
+				quest2.getSelection().getActionCommand();
+				quest3.getSelection().getActionCommand();
+				quest4.getSelection().getActionCommand();
+				
+				//send them to the server
+				//????
 			}
 		});
 		submitBtn.setBounds(448, 403, 151, 48);
@@ -149,7 +177,6 @@ public class SurveyPanel extends JPanel {
 		quest4.add(q4dissatisfied);
 		quest4.add(q4neutral);
 		quest4.add(q4satisfied);
-		
 
 	}
 }

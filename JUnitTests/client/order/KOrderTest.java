@@ -15,8 +15,8 @@ class KOrderTest {
 	@Test
 	void testAddItemStringDoubleIntStringString() {
 		KOrder tester = new KOrder();
-		tester.addItem("Cheeseburger", 6.75, 2, " no special request", "beef_patty:1,veggie_buns,vegan_cheese");
-		tester.addItem("Classic Fried Wings", 8.99, 3, "none", "wings:10,buffalo_f");
+		tester.addItem("Cheeseburger", 6.75, 2, " no special request", "entree", "beef_patty:1,veggie_buns,vegan_cheese");
+		tester.addItem("Classic Fried Wings", 8.99, 3, "none", "side", "wings:10,buffalo_f");
 		
 		assertEquals(2, tester.items.size(), "equals 2 because 2 items were added");
 	}
@@ -43,8 +43,8 @@ class KOrderTest {
 	@Test
 	void testClear() {
 		KOrder tester = new KOrder();
-		tester.addItem("Cheeseburger", 6.75, 2, "none", "beef_patty:1:t:vegan_patty,burger_buns:1:t:veggie_buns,cheese:1:t:vegan_cheese");
-		tester.addItem("Classic Fried Wings", 8.99, 3, "none", "wings:10:f:n,buffalo_f:1:t:bbq_f");
+		tester.addItem("Cheeseburger", 6.75, 2, "none", "entree", "beef_patty:1:t:vegan_patty,burger_buns:1:t:veggie_buns,cheese:1:t:vegan_cheese");
+		tester.addItem("Classic Fried Wings", 8.99, 3, "none", "side", "wings:10:f:n,buffalo_f:1:t:bbq_f");
 		
 		tester.items.clear();
 		assertEquals(0, tester.items.size(), "equals 0 because List was cleared");

@@ -65,7 +65,7 @@ public class MenuPanel extends JPanel {
 	private List<JTextField> ingredientsQuantityFM = new ArrayList<JTextField>();
 	private List<String> totalIngredientsFM = new ArrayList<String>();
 	private List<String> totalIngredientsQuantityFM = new ArrayList<String>();
-	private List<String> popularFM = new ArrayList<String>();
+	public List<String> popularFM = new ArrayList<String>();
 
 	public JPanel MenuListFrame;
 	private JTextField item_allergens_textfield;

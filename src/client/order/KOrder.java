@@ -20,12 +20,13 @@ public class KOrder {
 	public List<MItem> items = new ArrayList<MItem>();
 	
 	public void addItem(String name, double price, int qty, 
-			String specialRequests, String ingredients) {
+			String specialRequests, String menuType, String ingredients) {
 		MItem item = new MItem();
 		item.name = name;
 		item.price = price;
 		item.qty = qty;
 		item.specialReqs = specialRequests;
+		item.menuType = menuType;
 		item.ingredients = ingredients;
 		items.add(item);
 	}
