@@ -12,6 +12,12 @@ import java.awt.Color;
 
 //Floreta
 
+/*
+ * handles customer feedback survey
+ * survey is to be implemented after payment
+ * 
+ */
+
 public class SurveyPanel extends JPanel {
 	
 	public ButtonGroup quest1;
