@@ -989,7 +989,6 @@ public class Payment extends JPanel {
 	 * page to ask them to choose payment type.
 	 */
 	public void openPaymentTypePanel() {
-		System.out.println("people left: "+peopleLeftToPay);
 		this.splitBillPanel.setVisible(false);
 		this.prePaymentPanel.setVisible(false);
 		if(splitByAmt > 0) {
@@ -1007,7 +1006,7 @@ public class Payment extends JPanel {
 				+ "<br>Total Due: "+(decimalF(newTotal))+"</html>");
 			this.totalAfterTax = newTotal;
 		}
-		else {
+		else if(splitByAmt == 0 && splittingItems.isEmpty()) {
 			this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(CustomerOrder.subtotal))+""
 				+ "<br>Tax: "+(decimalF(tax * CustomerOrder.subtotal))+""
 				+ "<br>Total Due: "+(decimalF(((tax * CustomerOrder.subtotal)) + CustomerOrder.subtotal))+"</html>");
