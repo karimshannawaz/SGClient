@@ -924,7 +924,7 @@ public class Payment extends JPanel {
 						finalPanel.setVisible(true);
 						break;
 				}
-				if(!splittingBill && (peopleLeftToPay > 0 || !splittingItems.isEmpty())) {
+				if((!splittingBill && peopleLeftToPay > 0) || (!splittingBill && !splittingItems.isEmpty())) {
 					splittingBill = true;
 					// Block any further requests from customer because they are just
 					// about done
@@ -989,6 +989,7 @@ public class Payment extends JPanel {
 	 * page to ask them to choose payment type.
 	 */
 	public void openPaymentTypePanel() {
+		System.out.println("people left: "+peopleLeftToPay);
 		this.splitBillPanel.setVisible(false);
 		this.prePaymentPanel.setVisible(false);
 		if(splitByAmt > 0) {
@@ -997,7 +998,8 @@ public class Payment extends JPanel {
 				+ "<br>Tax: "+(decimalF(tax * newSubtotal))+""
 				+ "<br>Total Due: "+(decimalF(((tax * newSubtotal)) + newSubtotal))+"</html>");
 			this.totalAfterTax = (tax * newSubtotal) + newSubtotal;
-		} else if(!splittingItems.isEmpty()) {
+		}
+		if(!splittingItems.isEmpty()) {
 			double newTax = subtotalForSplitItem * tax;
 			double newTotal = (tax * subtotalForSplitItem) + subtotalForSplitItem;
 			this.totalDueLbl.setText("<html>Subtotal: "+(decimalF(subtotalForSplitItem))+""
@@ -1444,15 +1446,16 @@ public class Payment extends JPanel {
 		exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 51));
 		exitBtn.setBounds(83, 388, 438, 121);
 		exitBtn.addActionListener((e) -> {
-			if((peopleLeftToPay == 0 && splittingBill) || (splittingBill && tempBeforeSplit.isEmpty())
+			if((peopleLeftToPay == 0 && splittingBill) || (splittingBill && peopleLeftToPay == -1 && tempBeforeSplit.isEmpty())
 				|| (peopleLeftToPay == -1 && !splittingBill)) {
 				Client.restart();
-			} else if(!tempBeforeSplit.isEmpty() && splittingBill) {
+			}
+			if(!tempBeforeSplit.isEmpty() && splittingBill) {
 				this.splitByItemsPanel.setVisible(true);
 				this.finalPanel.setVisible(false);
 				this.splitItemBackBtn.setVisible(false);
 			}
-			else if(peopleLeftToPay > 0 && splittingBill) {
+			if(peopleLeftToPay > 0 && splittingBill) {
 				this.finalPanel.setVisible(false);
 				openPaymentTypePanel();
 			}
