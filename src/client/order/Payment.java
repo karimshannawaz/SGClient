@@ -1444,14 +1444,15 @@ public class Payment extends JPanel {
 		exitBtn.setFont(new Font("Lucida Bright", Font.PLAIN, 51));
 		exitBtn.setBounds(83, 388, 438, 121);
 		exitBtn.addActionListener((e) -> {
-			if((peopleLeftToPay == 0 && splittingBill) || (splittingBill && tempBeforeSplit.isEmpty())) {
+			if((peopleLeftToPay == 0 && splittingBill) || (splittingBill && tempBeforeSplit.isEmpty())
+				|| (peopleLeftToPay == -1 && !splittingBill)) {
 				Client.restart();
 			} else if(!tempBeforeSplit.isEmpty() && splittingBill) {
 				this.splitByItemsPanel.setVisible(true);
 				this.finalPanel.setVisible(false);
 				this.splitItemBackBtn.setVisible(false);
 			}
-			else {
+			else if(peopleLeftToPay > 0 && splittingBill) {
 				this.finalPanel.setVisible(false);
 				openPaymentTypePanel();
 			}
