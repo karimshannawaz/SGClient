@@ -349,8 +349,9 @@ public final class PacketDecoder extends Decoder {
 						double price = Double.parseDouble(tok[1]);
 						int qty = Integer.parseInt(tok[2]);
 						String specReq = tok[3];
-						String ing = tok[4];
-						order.addItem(mItemName, price, qty, specReq, ing);
+						String menuType = tok[4];
+						String ing = tok[5];
+						order.addItem(mItemName, price, qty, specReq, menuType, ing);
 					}
 					order.subtotal = subtotal;
 					order.setTableID(tableID);
@@ -387,6 +388,15 @@ public final class PacketDecoder extends Decoder {
 						setValueAt("O", tableIDFServer, 2);
 						JFrameUtils.showMessage("Help Update", "You have a new help request from table "+
 							(tableIDFServer + 1)+".\nPlease tap on it when you are on your way to the table.");
+					}
+					break;
+					
+				// Server sends client the most popular menu items.
+				case 9:
+					int size = stream.readUnsignedByte();
+					Client.clientFrame.customerSP.orderPanel.popularFM.clear();
+					for(int i = 0; i < size; i++) {
+						Client.clientFrame.customerSP.orderPanel.popularFM.add(stream.readString());
 					}
 					break;
 					
